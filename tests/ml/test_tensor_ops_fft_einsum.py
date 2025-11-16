@@ -1,4 +1,6 @@
-﻿import numpy as np
+﻿import pytest
+pytestmark = pytest.mark.week1
+import numpy as np
 import pytest
 
 from hpfracc.ml.tensor_ops import get_tensor_ops, switch_backend
@@ -50,3 +52,4 @@ def test_einsum_matrix_multiply(backend, set_seed):
     C = ops.to_numpy(Ct)
 
     np.testing.assert_allclose(C, A @ B, rtol=1e-5, atol=1e-5)
+

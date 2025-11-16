@@ -1,4 +1,6 @@
-﻿import os
+﻿import pytest
+pytestmark = pytest.mark.week1
+import os
 import numpy as np
 import pytest
 
@@ -45,3 +47,4 @@ def test_switch_to_torch_and_back():
     ops2 = get_tensor_ops()
     a2 = ops2.zeros((1,))
     assert ops2.to_numpy(a2).shape == (1,)
+

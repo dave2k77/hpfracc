@@ -1,4 +1,6 @@
 ﻿import pytest
+pytestmark = pytest.mark.week1
+import pytest
 
 pytest.importorskip("torch")
 
@@ -22,3 +24,4 @@ def test_neural_ode_graceful_solver_fallback(tiny_ode_data):
 def test_create_neural_ode_invalid_model_type():
     with pytest.raises(ValueError):
         create_neural_ode(model_type="does_not_exist", input_dim=2, hidden_dim=4, output_dim=2)
+

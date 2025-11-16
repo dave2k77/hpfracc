@@ -1,4 +1,6 @@
 ﻿import pytest
+pytestmark = pytest.mark.week1
+import pytest
 
 pytest.importorskip("torch")
 
@@ -39,3 +41,4 @@ def test_neural_ode_forward_shapes(tiny_ode_data, set_seed):
     assert y.shape[0] == batch
     assert y.shape[1] == t.numel()
     assert y.shape[2] == dim
+

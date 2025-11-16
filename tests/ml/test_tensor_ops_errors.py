@@ -1,4 +1,6 @@
-﻿import numpy as np
+﻿import pytest
+pytestmark = pytest.mark.week1
+import numpy as np
 import pytest
 
 from hpfracc.ml.tensor_ops import get_tensor_ops
@@ -25,3 +27,4 @@ def test_invalid_einsum_raises():
 
     with pytest.raises(Exception):
         ops.einsum("ij,jk->ik", a, b)  # incompatible inner dims
+
