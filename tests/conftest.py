@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Pytest configuration and common fixtures for fractional calculus library tests.
 """
@@ -7,6 +7,7 @@ import pytest
 import numpy as np
 import sys
 import os
+import random
 
 # Force JAX to use CPU for tests to avoid GPU/CuDNN version issues
 os.environ.setdefault("JAX_PLATFORMS", "cpu")
@@ -134,6 +135,152 @@ def analytical_solutions():
     }
 
 
+# Week 1 Test Infrastructure Fixtures
+
+@pytest.fixture
+def set_seed():
+    """Set random seeds for reproducible tests."""
+    def _set_seed(seed=1234):
+        random.seed(seed)
+        np.random.seed(seed)
+        try:
+            import torch
+            torch.manual_seed(seed)
+        except ImportError:
+            pass
+    return _set_seed
+
+
+@pytest.fixture
+def force_backend():
+    """Force a specific backend for testing."""
+    def _force_backend(backend_name):
+        """
+        Force backend by setting environment variable.
+        Args:
+            backend_name: 'numpy', 'torch', 'jax'
+        """
+        os.environ['HPFRACC_BACKEND'] = backend_name.upper()
+        # Clear any cached backend manager
+        try:
+            import hpfracc.ml.backends as backends_module
+            backends_module._backend_manager = None
+        except ImportError:
+            pass
+    return _force_backend
+
+
+@pytest.fixture
+def cpu_only():
+    """Ensure CPU-only execution for tests."""
+    original_jax_platforms = os.environ.get('JAX_PLATFORMS')
+    original_cuda_visible = os.environ.get('CUDA_VISIBLE_DEVICES')
+    
+    os.environ['JAX_PLATFORMS'] = 'cpu'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+    
+    yield
+    
+    # Restore original values
+    if original_jax_platforms is not None:
+        os.environ['JAX_PLATFORMS'] = original_jax_platforms
+    else:
+        os.environ.pop('JAX_PLATFORMS', None)
+    
+    if original_cuda_visible is not None:
+        os.environ['CUDA_VISIBLE_DEVICES'] = original_cuda_visible
+    else:
+        os.environ.pop('CUDA_VISIBLE_DEVICES', None)
+
+
+@pytest.fixture
+def disable_jax():
+    """Disable JAX imports for testing fallback paths."""
+    original_value = os.environ.get('HPFRACC_DISABLE_JAX')
+    os.environ['HPFRACC_DISABLE_JAX'] = '1'
+    
+    # Clear any cached imports
+    try:
+        import hpfracc.ml.backends as backends_module
+        backends_module._backend_manager = None
+    except ImportError:
+        pass
+    
+    yield
+    
+    # Restore
+    if original_value is not None:
+        os.environ['HPFRACC_DISABLE_JAX'] = original_value
+    else:
+        os.environ.pop('HPFRACC_DISABLE_JAX', None)
+
+
+@pytest.fixture
+def tiny_ode_data(set_seed):
+    """Provide tiny ODE test data for fast tests."""
+    set_seed(1234)
+    batch_size = 2
+    state_dim = 3
+    time_steps = 5
+    
+    t = np.linspace(0.0, 1.0, time_steps)
+    y0 = np.random.randn(batch_size, state_dim).astype(np.float32)
+    
+    return {
+        't': t,
+        'y0': y0,
+        'batch_size': batch_size,
+        'state_dim': state_dim,
+        'time_steps': time_steps
+    }
+
+
+@pytest.fixture
+def small_grid():
+    """Provide small grid for PDE solver tests."""
+    return {
+        'nx': 8,
+        'ny': 8,
+        'nt': 10,
+        'x_range': (0.0, 1.0),
+        'y_range': (0.0, 1.0),
+        't_range': (0.0, 0.5)
+    }
+
+
+@pytest.fixture
+def tiny_edge_index(set_seed):
+    """Provide tiny graph edge index for GNN tests."""
+    set_seed(1234)
+    # Simple 4-node graph with 6 edges (bidirectional)
+    edge_index = np.array([
+        [0, 1, 1, 2, 2, 3],
+        [1, 0, 2, 1, 3, 2]
+    ], dtype=np.int64)
+    return edge_index
+
+
+@pytest.fixture
+def tiny_features(set_seed):
+    """Provide tiny feature matrix for graph tests."""
+    set_seed(1234)
+    num_nodes = 4
+    num_features = 5
+    return np.random.randn(num_nodes, num_features).astype(np.float32)
+
+
+@pytest.fixture
+def tiny_graph(tiny_edge_index, tiny_features):
+    """Provide complete tiny graph for GNN tests."""
+    return {
+        'edge_index': tiny_edge_index,
+        'features': tiny_features,
+        'num_nodes': 4,
+        'num_features': 5,
+        'num_edges': 6
+    }
+
+
 # Markers for different test types
 def pytest_configure(config):
     """Configure custom pytest markers."""
@@ -143,6 +290,8 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "gpu: marks tests that require GPU")
     config.addinivalue_line("markers", "integration: marks tests as integration tests")
     config.addinivalue_line("markers", "benchmark: marks tests as benchmark tests")
+    config.addinivalue_line("markers", "jax: marks tests that require JAX backend")
+    config.addinivalue_line("markers", "torch: marks tests that require PyTorch backend")
 
 
 # Skip GPU tests if CUDA is not available
