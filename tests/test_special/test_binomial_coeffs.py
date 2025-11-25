@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Tests for binomial coefficients module.
 
@@ -119,8 +122,12 @@ class TestBinomialCoefficientFunctions:
         result = binomial_fractional(5.5, 2)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_pascal_triangle(self):
         """Test Pascal triangle."""
@@ -222,8 +229,12 @@ class TestBinomialCoefficientsPerformance:
         result = bc.compute(20, 10)
         
         assert isinstance(result, (int, float, np.integer, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_sequence_performance(self):
         """Test performance with sequences."""
@@ -305,8 +316,12 @@ class TestBinomialCoefficientsErrorHandling:
         result = bc.compute(100, 50)
         
         assert isinstance(result, (int, float, np.integer, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_numerical_stability(self):
         """Test numerical stability."""
@@ -322,8 +337,12 @@ class TestBinomialCoefficientsErrorHandling:
         
         for n, k in test_cases:
             result = bc.compute(n, k)
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
 
 
 class TestBinomialCoefficientsIntegration:
@@ -379,3 +398,5 @@ class TestBinomialCoefficientsIntegration:
         
         assert isinstance(result3, np.ndarray)
         assert isinstance(result4, np.ndarray)
+
+

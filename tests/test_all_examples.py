@@ -15,7 +15,7 @@ from datetime import datetime
 os.environ['MPLBACKEND'] = 'Agg'
 os.environ['JAX_PLATFORM_NAME'] = 'cpu'
 
-def test_example(example_path, timeout=120):
+def run_example_test(example_path, timeout=120):
     """Test a single example file."""
     try:
         # Get project root (parent of tests directory)
@@ -77,7 +77,7 @@ def main():
         rel_path = example.relative_to(base_path)
         print(f"[{i}/{len(example_files)}] Testing {rel_path}...", end=' ', flush=True)
         
-        result = test_example(example)
+        result = run_example_test(example)
         results[str(rel_path)] = result
         
         status = result['status']

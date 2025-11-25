@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for Mittag-Leffler function in hpfracc.special.mittag_leffler
 
@@ -34,8 +37,12 @@ class TestMittagLefflerFunction:
         result = self.ml.compute(z, alpha, beta)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         
     def test_compute_array_input(self):
         """Test computation with array input"""
@@ -79,8 +86,12 @@ class TestMittagLefflerFunction:
             result = self.ml.compute(z, alpha, beta)
             
             assert isinstance(result, (float, np.floating))
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
             
     def test_different_beta_values(self):
         """Test Mittag-Leffler function with different beta values"""
@@ -91,8 +102,12 @@ class TestMittagLefflerFunction:
             result = self.ml.compute(z, alpha, beta)
             
             assert isinstance(result, (float, np.floating))
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
             
     def test_zero_input(self):
         """Test Mittag-Leffler function at zero"""
@@ -158,7 +173,9 @@ class TestMittagLefflerFunction:
         
         # Just check it's finite and positive
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
         
     def test_monotonicity_properties(self):
@@ -229,7 +246,9 @@ class TestMittagLefflerFunction:
         try:
             result = self.ml.compute(z_complex, alpha, beta)
             # If complex input is supported, check it's finite
-            assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
         except (TypeError, ValueError):
             # Complex input might not be supported, which is fine
             pass
@@ -377,13 +396,17 @@ class TestMittagLefflerEdgeCases:
         # Test very small z
         z_small = 1e-10
         result = self.ml.compute(z_small, alpha, beta)
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         # Test very large z
         z_large = 1e10
         result = self.ml.compute(z_large, alpha, beta)
         # May be inf, which is acceptable
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
     def test_nan_input(self):
         """Test with NaN input"""
@@ -402,7 +425,9 @@ class TestMittagLefflerEdgeCases:
         # Test inf z
         result = self.ml.compute(np.inf, alpha, beta)
         # May be inf, which is acceptable
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
     def test_empty_array_input(self):
         """Test with empty array input"""
@@ -447,7 +472,9 @@ class TestMittagLefflerConvenienceFunctions:
         result = mittag_leffler_function(alpha, beta, z)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
     def test_mittag_leffler_function_default_beta(self):
         """Test mittag_leffler_function with default beta"""
@@ -467,3 +494,5 @@ class TestMittagLefflerConvenienceFunctions:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+

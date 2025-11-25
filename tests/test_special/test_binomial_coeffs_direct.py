@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 #!/usr/bin/env python3
 """
 Direct tests for binomial coefficients to avoid PyTorch import issues.

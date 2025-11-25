@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 #!/usr/bin/env python3
 """HIGH IMPACT tests for special/binomial_coeffs.py - 146 lines at 26% coverage!"""
 

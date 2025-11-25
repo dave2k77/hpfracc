@@ -218,93 +218,169 @@ class NeuralFractionalSDE(BaseNeuralODE):
         Returns:
             Trajectory solution
         """
-        # Convert tensors to numpy for SDE solver
-        if isinstance(x0, torch.Tensor):
-            x0_np = x0.detach().cpu().numpy()
+        # Ensure inputs are tensors
+        if not isinstance(x0, torch.Tensor):
+            x0 = torch.tensor(x0, dtype=torch.float32)
+        if not isinstance(t, torch.Tensor):
+            t = torch.tensor(t, dtype=torch.float32)
+            
+        # Handle batch dimensions
+        if x0.dim() == 1:
+            x0 = x0.unsqueeze(0)  # (1, dim)
+        
+        batch_size, dim = x0.shape
+        
+        # Get time span
+        if t.dim() > 1:
+            t_flat = t.flatten()
         else:
-            x0_np = x0
+            t_flat = t
+            
+        t_start = t_flat[0]
+        t_end = t_flat[-1]
         
-        # Flatten x0 if batched (SDE solver expects 1D)
-        if x0_np.ndim == 2:
-            if x0_np.shape[0] == 1:
-                x0_np = x0_np.flatten()
-            else:
-                raise ValueError("SDE solver only supports single trajectory, got batch size > 1")
+        # Use the PyTorch solver directly
+        return self._solve_fractional_sde_torch(
+            x0, t_start, t_end, num_steps, seed
+        )
+
+    def _solve_fractional_sde_torch(
+        self,
+        x0: torch.Tensor,
+        t_start: torch.Tensor,
+        t_end: torch.Tensor,
+        num_steps: int,
+        seed: Optional[int] = None
+    ) -> torch.Tensor:
+        """
+        PyTorch-native fractional SDE solver (Euler-Maruyama).
+        """
+        device = x0.device
+        dtype = x0.dtype
+        batch_size, dim = x0.shape
         
-        if isinstance(t, torch.Tensor):
-            t_np = t.detach().cpu().numpy()
+        dt = (t_end - t_start) / num_steps
+        alpha = self.fractional_order()
+        
+        # Gamma factor: 1 / Gamma(alpha + 1)
+        # Use torch.lgamma for stability: exp(lgamma(x)) = Gamma(x)
+        if isinstance(alpha, torch.Tensor):
+            gamma_val = torch.exp(torch.lgamma(alpha + 1))
         else:
-            t_np = t
-        
-        # Get time span - handle both 1D and 2D arrays
-        # Flatten if needed to get scalar values
-        t_flat = t_np.flatten()
-        t_start = float(t_flat[0])
-        t_end = float(t_flat[-1])
-        t_span = (t_start, t_end)
-        
-        # Wrapper functions for drift and diffusion
-        def drift_func(t_val: float, x_val: np.ndarray) -> np.ndarray:
-            # x_val is 1D array from SDE solver
-            x_t = torch.from_numpy(x_val).float().unsqueeze(0)  # Add batch dim
-            t_t = torch.tensor([[t_val]]).float()  # Shape: (1, 1)
-            drift_val = self.drift(t_t, x_t)
-            return drift_val.squeeze(0).detach().cpu().numpy()  # Remove batch dim
-        
-        def diffusion_func(t_val: float, x_val: np.ndarray) -> np.ndarray:
-            # x_val is 1D array from SDE solver
-            x_t = torch.from_numpy(x_val).float().unsqueeze(0)  # Add batch dim
-            t_t = torch.tensor([[t_val]]).float()  # Shape: (1, 1)
-            diff_val = self.diffusion(t_t, x_t)
+            gamma_val = torch.exp(torch.lgamma(torch.tensor(alpha + 1.0, device=device, dtype=dtype)))
             
-            # Handle different noise types
-            if self.noise_type == "additive":
-                return diff_val.squeeze(0).detach().cpu().numpy()
+        gamma_factor = 1.0 / gamma_val
+        
+        # Precompute weights
+        # weights[k] = (k+1)^alpha - k^alpha
+        # We need to handle alpha as tensor or float
+        k_vals = torch.arange(num_steps + 1, device=device, dtype=dtype)
+        
+        if isinstance(alpha, torch.Tensor):
+            weights = (k_vals + 1).pow(alpha) - k_vals.pow(alpha)
+        else:
+            weights = (k_vals + 1).pow(alpha) - k_vals.pow(alpha)
+            
+        # Initialize history
+        # We need to store history for convolution
+        # Shape: (num_steps, batch_size, dim)
+        drift_history = []
+        diffusion_history = []
+        
+        # Initialize trajectory
+        # Shape: (num_steps + 1, batch_size, dim)
+        trajectory = [x0]
+        
+        curr_x = x0
+        curr_t = t_start
+        
+        if seed is not None:
+            torch.manual_seed(seed)
+            
+        for i in range(num_steps):
+            # Compute drift and diffusion
+            # drift shape: (batch_size, dim)
+            drift_val = self.drift(curr_t, curr_x)
+            diffusion_val = self.diffusion(curr_t, curr_x)
+            
+            # Generate noise
+            # Shape: (batch_size, diffusion_dim)
+            dW = torch.randn(batch_size, self.diffusion_dim, device=device, dtype=dtype) * torch.sqrt(dt)
+            
+            # Store history
+            drift_history.append(drift_val)
+            
+            # Handle noise term
+            if self.noise_type == "multiplicative":
+                # diffusion_val is (batch, dim, diffusion_dim)
+                # dW is (batch, diffusion_dim)
+                # Result should be (batch, dim)
+                noise_term = torch.bmm(diffusion_val, dW.unsqueeze(-1)).squeeze(-1)
             else:
-                # For multiplicative, return as matrix
-                return diff_val.squeeze(0).detach().cpu().numpy()
-        
-        # Solve fractional SDE
-        try:
-            from ..solvers import solve_fractional_sde
-            
-            solution = solve_fractional_sde(
-                drift_func,
-                diffusion_func,
-                x0_np,
-                t_span,
-                fractional_order=self.fractional_order(),
-                method=method,
-                num_steps=num_steps,
-                seed=seed
-            )
-            
-            # Convert solution to expected shape
-            trajectory = torch.from_numpy(solution.y).float()  # Shape: (time_steps, output_dim)
-            trajectory = trajectory.unsqueeze(1)  # Add batch dimension: (time_steps, 1, output_dim)
-            return trajectory
-        
-        except Exception as e:
-            # Fallback to simple ODE-like integration
-            # This is a simplified version for testing
-            y = x0
-            dt = (t_span[1] - t_span[0]) / num_steps
-            alpha = self.fractional_order()
-            
-            # Store trajectory for proper return shape
-            trajectory = [y.clone()]
-            
-            for i in range(num_steps):
-                t_curr = t_span[0] + i * dt
-                drift_val = self.drift(torch.tensor([[t_curr]]), y)
+                # Additive or diagonal
+                # diffusion_val is (batch, diffusion_dim)
+                # dW is (batch, diffusion_dim)
+                if dim == self.diffusion_dim:
+                    # Diagonal noise
+                    noise_term = diffusion_val * dW
+                elif self.diffusion_dim == 1:
+                    # Scalar noise broadcasted
+                    noise_term = diffusion_val * dW
+                    # If result is (batch, 1), it will broadcast during addition
+                else:
+                    # Mismatched dimensions for additive noise without matrix
+                    # This might be an issue if not handled, but for now assume broadcasting or error
+                    # If diffusion_val is (batch, m) and dW is (batch, m), we get (batch, m).
+                    # If m != d, we can't add to drift (batch, d) unless m=1.
+                    if diffusion_val.shape[-1] != dim:
+                         # Try to treat as diagonal if possible or raise error?
+                         # For now, let's assume if it's not multiplicative, it's element-wise compatible
+                         noise_term = diffusion_val * dW
+                    else:
+                         noise_term = diffusion_val * dW
                 
-                # Simplified update
-                y = y + dt**alpha * drift_val
-                trajectory.append(y.clone())
+            diffusion_history.append(noise_term)
             
-            # Convert to tensor with proper shape
-            trajectory_tensor = torch.stack(trajectory, dim=0)  # (time_steps, batch_size, output_dim)
-            return trajectory_tensor
+            # Compute memory terms via convolution
+            # We need to sum weights[i-j] * history[j] for j=0..i
+            # Efficient way using torch operations
+            
+            # Stack history so far
+            # drift_hist_stack: (i+1, batch, dim)
+            drift_hist_stack = torch.stack(drift_history)
+            diff_hist_stack = torch.stack(diffusion_history)
+            
+            # Get weights for this step: w_i, w_{i-1}, ..., w_0
+            # weights is 1D: (num_steps+1,)
+            # We need weights[0]...weights[i]
+            # And we need to reverse them to match history:
+            # sum_{j=0}^i w_{i-j} h_j
+            # w_{i} * h_0 + w_{i-1} * h_1 + ... + w_0 * h_i
+            
+            current_weights = weights[:i+1].flip(0) # (i+1,)
+            
+            # Reshape weights for broadcasting: (i+1, 1, 1)
+            w_reshaped = current_weights.view(-1, 1, 1)
+            
+            # Weighted sum
+            drift_integral = (w_reshaped * drift_hist_stack).sum(dim=0)
+            diffusion_integral = (w_reshaped * diff_hist_stack).sum(dim=0)
+            
+            # Update step
+            # X_{i+1} = X_0 + h^alpha / Gamma(alpha+1) * (drift_int + diff_int)
+            
+            next_x = x0 + gamma_factor * dt.pow(alpha) * (drift_integral + diffusion_integral)
+            
+            trajectory.append(next_x)
+            curr_x = next_x
+            curr_t = curr_t + dt
+            
+        # Stack trajectory
+        # (num_steps + 1, batch_size, dim)
+        trajectory_tensor = torch.stack(trajectory)
+        
+        # Return as (time_steps, batch_size, dim)
+        return trajectory_tensor
     
     def get_fractional_order(self) -> Union[float, torch.Tensor]:
         """Get the fractional order parameter."""

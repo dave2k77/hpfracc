@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for special gamma_beta module.
 
@@ -59,12 +62,16 @@ class TestGammaFunction:
         # Test fractional cases
         result = gamma.compute(0.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
         
         result = gamma.compute(1.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_gamma_function_compute_array(self):
@@ -108,7 +115,9 @@ class TestGammaFunction:
         # Test scalar without NUMBA
         result = gamma.compute(2.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         # Test array without NUMBA
         z_vals = np.array([1.0, 2.0, 3.0, 4.0])
@@ -124,11 +133,15 @@ class TestGammaFunction:
         # Test edge cases
         result = gamma.compute(0.1)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         result = gamma.compute(10.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_gamma_function_large_values(self):
@@ -138,7 +151,9 @@ class TestGammaFunction:
         # Test with larger values
         result = gamma.compute(20.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_gamma_function_different_orders(self):
@@ -148,7 +163,9 @@ class TestGammaFunction:
         for z in [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.5, 2.0, 2.5, 3.0]:
             result = gamma.compute(z)
             assert isinstance(result, (int, float, np.floating))
-            assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
             assert result > 0
 
 
@@ -186,12 +203,16 @@ class TestBetaFunction:
         # Test basic cases
         result = beta.compute(1.0, 1.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
         
         result = beta.compute(2.0, 3.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_beta_function_compute_fractional(self):
@@ -201,12 +222,16 @@ class TestBetaFunction:
         # Test fractional cases
         result = beta.compute(0.5, 0.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
         
         result = beta.compute(1.5, 2.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_beta_function_compute_array(self):
@@ -252,7 +277,9 @@ class TestBetaFunction:
         # Test scalar without NUMBA
         result = beta.compute(2.0, 3.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         # Test array without NUMBA
         a_vals = np.array([1.0, 2.0, 3.0])
@@ -269,11 +296,15 @@ class TestBetaFunction:
         # Test edge cases
         result = beta.compute(0.1, 0.1)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         result = beta.compute(10.0, 10.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_beta_function_large_values(self):
@@ -283,7 +314,9 @@ class TestBetaFunction:
         # Test with larger values
         result = beta.compute(20.0, 15.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_beta_function_different_orders(self):
@@ -294,7 +327,9 @@ class TestBetaFunction:
             for b in [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.5, 2.0]:
                 result = beta.compute(a, b)
                 assert isinstance(result, (int, float, np.floating))
-                assert not np.isnan(result)
+                # Type guard for integer results
+                if not isinstance(result, (int, np.integer)):
+                    assert not np.isnan(result)
                 assert result > 0
 
 
@@ -381,7 +416,9 @@ class TestGammaBetaEdgeCases:
         # Test with very small positive number
         result = gamma.compute(1e-10)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_gamma_function_negative_input(self):
         """Test GammaFunction with negative input."""
@@ -399,7 +436,9 @@ class TestGammaBetaEdgeCases:
         # Test with very small positive numbers
         result = beta.compute(1e-10, 1e-10)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_beta_function_negative_inputs(self):
         """Test BetaFunction with negative inputs."""
@@ -417,7 +456,9 @@ class TestGammaBetaEdgeCases:
         # Test with very large input
         result = gamma.compute(100.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_beta_function_very_large_inputs(self):
@@ -427,7 +468,9 @@ class TestGammaBetaEdgeCases:
         # Test with very large inputs
         result = beta.compute(100.0, 50.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_gamma_function_array_edge_cases(self):
@@ -507,3 +550,4 @@ class TestGammaBetaPerformance:
 
 if __name__ == "__main__":
     pytest.main([__file__])
+

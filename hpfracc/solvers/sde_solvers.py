@@ -190,6 +190,47 @@ class FractionalSDESolver(ABC):
         pass
 
 
+class FastHistoryConvolution:
+    """
+    Helper class for efficient history convolution in fractional SDE solvers.
+    
+    Currently uses optimized dot product (O(N^2)), but structured to support
+    FFT-based block convolution (O(N log N)) in future updates.
+    """
+    def __init__(self, alpha: float, num_steps: int, dim: int):
+        self.alpha = alpha
+        self.num_steps = num_steps
+        self.dim = dim
+        self.history = []
+        
+        # Precompute weights for fractional integral
+        # b_k = (k+1)^alpha - k^alpha
+        k_vals = np.arange(num_steps + 1)
+        self.weights = (k_vals + 1)**alpha - k_vals**alpha
+        
+    def update(self, value: np.ndarray):
+        """Add new value to history."""
+        self.history.append(value)
+        
+    def convolve(self) -> np.ndarray:
+        """Compute convolution of weights with history."""
+        hist_len = len(self.history)
+        if hist_len == 0:
+            return np.zeros(self.dim)
+            
+        current_weights = self.weights[:hist_len]
+        w_flipped = current_weights[::-1]
+        
+        # Convert to array for dot product
+        # TODO: Optimize this conversion or use a pre-allocated array
+        hist_arr = np.array(self.history)
+        
+        # Compute dot product along time axis
+        # w_flipped: (hist_len,)
+        # hist_arr: (hist_len, dim)
+        return np.dot(w_flipped, hist_arr)
+
+
 class FractionalEulerMaruyama(FractionalSDESolver):
     """
     Fractional Euler-Maruyama method for solving fractional SDEs.
@@ -243,66 +284,62 @@ class FractionalEulerMaruyama(FractionalSDESolver):
         if seed is not None:
             np.random.seed(seed)
         
-        # Precompute history weights for fractional derivative
-        # Using L1 scheme for Caputo derivative
-        n = np.arange(1, num_steps + 1)
-        history_weights = n**(1 - alpha) - (n - 1)**(1 - alpha)
+        # History convolution helpers
+        drift_conv = FastHistoryConvolution(alpha, num_steps, dim)
+        diffusion_conv = FastHistoryConvolution(alpha, num_steps, dim)
+        
+        # Gamma factor
+        gamma_factor = 1.0 / gamma(alpha + 1)
         
         # Time stepping
         for i in range(num_steps):
             t_curr = t[i]
             x_curr = y[i]
             
-            # Compute drift term
+            # Compute drift and diffusion at current step
             drift_val = drift(t_curr, x_curr)
-            
-            # Generate Wiener increment
-            dW = np.random.normal(0, np.sqrt(dt), size=(dim,))
-            
-            # Compute diffusion term
             diffusion_val = diffusion(t_curr, x_curr)
             
-            # Handle scalar diffusion (additive noise)
+            # Generate Wiener increment
+            # dW shape depends on diffusion dimension
             if np.isscalar(diffusion_val):
+                noise_dim = dim
                 diffusion_val = np.full(dim, diffusion_val)
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val * dW
             elif diffusion_val.ndim == 0:
+                noise_dim = dim
                 diffusion_val = np.full(dim, float(diffusion_val))
-            elif diffusion_val.ndim == 1 and len(diffusion_val) == dim:
-                # Already correct shape
-                pass
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val * dW
+            elif diffusion_val.ndim == 1:
+                # Vector diffusion (diagonal)
+                noise_dim = dim
+                if len(diffusion_val) != dim:
+                     raise ValueError(f"Diffusion vector shape {diffusion_val.shape} does not match state dim {dim}")
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val * dW
+            elif diffusion_val.ndim == 2:
+                # Matrix diffusion (d, m)
+                d_out, m_in = diffusion_val.shape
+                if d_out != dim:
+                    raise ValueError(f"Diffusion matrix rows {d_out} does not match state dim {dim}")
+                noise_dim = m_in
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val @ dW
             else:
-                # Multiplicative noise case - diffusion_val should be (dim, dim) or (dim,)
-                if diffusion_val.ndim == 1:
-                    # Diagonal multiplicative noise
-                    diffusion_val = diffusion_val
-                else:
-                    # Full matrix case - not implemented yet
-                    raise NotImplementedError(
-                        "Full matrix diffusion (σ: R^d → R^{d×d}) is not yet implemented. "
-                        "Currently supported: scalar diffusion (additive noise) or vector diffusion "
-                        "(diagonal multiplicative noise). For matrix diffusion, consider using "
-                        "diagonal approximation or standard (non-fractional) SDE solvers."
-                    )
+                raise ValueError(f"Invalid diffusion shape: {diffusion_val.shape}")
             
-            # Compute fractional memory term (simplified)
-            # In full implementation, this would account for full history
-            memory_term = np.zeros_like(x_curr)
+            # Update history
+            drift_conv.update(drift_val)
+            diffusion_conv.update(noise_term)
             
-            # Update using Euler-Maruyama scheme
-            # For additive noise: dX = f dt + g dW
-            # For multiplicative noise: dX = f dt + g(X) dW
-            if diffusion_val.ndim == 1:
-                # Additive or diagonal multiplicative noise
-                y[i + 1] = (x_curr + 
-                           dt**alpha * drift_val / gamma(2 - alpha) +
-                           diffusion_val * dW +
-                           memory_term)
-            else:
-                # Matrix case (not implemented)
-                raise NotImplementedError(
-                    "Matrix diffusion update not yet implemented. "
-                    "This should not occur if the earlier validation is working correctly."
-                )
+            # Compute memory terms
+            drift_integral = drift_conv.convolve()
+            diffusion_integral = diffusion_conv.convolve()
+            
+            # Update X
+            y[i + 1] = x0 + gamma_factor * dt**alpha * (drift_integral + diffusion_integral)
         
         # Create solution object
         solution = SDESolution(
@@ -375,59 +412,65 @@ class FractionalMilstein(FractionalSDESolver):
         if seed is not None:
             np.random.seed(seed)
         
+        # History convolution helpers
+        drift_conv = FastHistoryConvolution(alpha, num_steps, dim)
+        diffusion_conv = FastHistoryConvolution(alpha, num_steps, dim)
+        
+        # Gamma factor
+        gamma_factor = 1.0 / gamma(alpha + 1)
+        
         # Time stepping
         for i in range(num_steps):
             t_curr = t[i]
             x_curr = y[i]
             
-            # Generate Wiener increment
-            dW = np.random.normal(0, np.sqrt(dt), size=(dim,))
-            
             # Compute drift and diffusion terms
             drift_val = drift(t_curr, x_curr)
             diffusion_val = diffusion(t_curr, x_curr)
             
-            # Handle scalar diffusion (additive noise)
+            # Generate Wiener increment
+            # dW shape depends on diffusion dimension
             if np.isscalar(diffusion_val):
+                noise_dim = dim
                 diffusion_val = np.full(dim, diffusion_val)
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val * dW
             elif diffusion_val.ndim == 0:
+                noise_dim = dim
                 diffusion_val = np.full(dim, float(diffusion_val))
-            elif diffusion_val.ndim == 1 and len(diffusion_val) == dim:
-                # Already correct shape
-                pass
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val * dW
+            elif diffusion_val.ndim == 1:
+                # Vector diffusion (diagonal)
+                noise_dim = dim
+                if len(diffusion_val) != dim:
+                     raise ValueError(f"Diffusion vector shape {diffusion_val.shape} does not match state dim {dim}")
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val * dW
+            elif diffusion_val.ndim == 2:
+                # Matrix diffusion (d, m)
+                d_out, m_in = diffusion_val.shape
+                if d_out != dim:
+                    raise ValueError(f"Diffusion matrix rows {d_out} does not match state dim {dim}")
+                noise_dim = m_in
+                dW = np.random.normal(0, np.sqrt(dt), size=(noise_dim,))
+                noise_term = diffusion_val @ dW
             else:
-                # Multiplicative noise case - diffusion_val should be (dim, dim) or (dim,)
-                if diffusion_val.ndim == 1:
-                    # Diagonal multiplicative noise
-                    diffusion_val = diffusion_val
-                else:
-                    # Full matrix case - not implemented yet
-                    raise NotImplementedError(
-                        "Full matrix diffusion (σ: R^d → R^{d×d}) is not yet implemented. "
-                        "Currently supported: scalar diffusion (additive noise) or vector diffusion "
-                        "(diagonal multiplicative noise). For matrix diffusion, consider using "
-                        "diagonal approximation or standard (non-fractional) SDE solvers."
-                    )
+                raise ValueError(f"Invalid diffusion shape: {diffusion_val.shape}")
+            
+            # Update history
+            drift_conv.update(drift_val)
+            diffusion_conv.update(noise_term)
             
             # Simplified Milstein correction term
-            # In full implementation, would include derivative of diffusion
             correction_term = np.zeros_like(x_curr)
             
+            # Compute memory terms
+            drift_integral = drift_conv.convolve()
+            diffusion_integral = diffusion_conv.convolve()
+            
             # Update using Milstein scheme
-            # For additive noise: dX = f dt + g dW + (1/2) g g' dW^2
-            # For multiplicative noise: dX = f dt + g(X) dW + (1/2) g(X) g'(X) dW^2
-            if diffusion_val.ndim == 1:
-                # Additive or diagonal multiplicative noise
-                y[i + 1] = (x_curr + 
-                           dt**alpha * drift_val / gamma(2 - alpha) +
-                           diffusion_val * dW +
-                           correction_term)
-            else:
-                # Matrix case (not implemented)
-                raise NotImplementedError(
-                    "Matrix diffusion update not yet implemented. "
-                    "This should not occur if the earlier validation is working correctly."
-                )
+            y[i + 1] = x0 + gamma_factor * dt**alpha * (drift_integral + diffusion_integral) + correction_term
         
         # Create solution object
         solution = SDESolution(

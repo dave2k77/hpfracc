@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for Gamma and Beta functions in hpfracc.special.gamma_beta
 
@@ -33,8 +36,12 @@ class TestGammaFunction:
             expected = scipy_special.gamma(x)
             
             assert isinstance(result, (float, np.floating))
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
             np.testing.assert_allclose(result, expected, rtol=1e-10)
     
     def test_compute_array_input(self):
@@ -69,8 +76,12 @@ class TestGammaFunction:
             expected = scipy_special.gamma(x)
             
             assert isinstance(result, (float, np.floating))
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
             np.testing.assert_allclose(result, expected, rtol=1e-6)
     
     def test_negative_values(self):
@@ -87,8 +98,12 @@ class TestGammaFunction:
                 assert np.isnan(expected)
             else:
                 # For non-integer negative values, should be finite
-                assert not np.isnan(result)
-                assert not np.isinf(result)
+                # Type guard for integer results
+                if not isinstance(result, (int, np.integer)):
+                    assert not np.isnan(result)
+                # Type guard for integer results
+                if not isinstance(result, (int, np.integer)):
+                    assert not np.isinf(result)
                 np.testing.assert_allclose(result, expected, rtol=1e-10)
     
     def test_zero_value(self):
@@ -144,8 +159,12 @@ class TestBetaFunction:
             expected = scipy_special.beta(a, b)
             
             assert isinstance(result, (float, np.floating))
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
             assert result > 0  # Beta function should be positive
             np.testing.assert_allclose(result, expected, rtol=1e-10)
     
@@ -395,3 +414,5 @@ class TestGammaBetaEdgeCases:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+

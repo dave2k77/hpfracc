@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for special binomial_coeffs module.
 
@@ -62,11 +65,15 @@ class TestBinomialCoefficients:
         # Test fractional cases
         result = bc.compute(0.5, 2)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         result = bc.compute(1.5, 1)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_binomial_coefficients_compute_array(self):
         """Test BinomialCoefficients compute method with array inputs."""
@@ -143,7 +150,9 @@ class TestBinomialCoefficients:
         # Test with larger values
         result = bc.compute(20, 10)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result > 0
     
     def test_binomial_coefficients_different_orders(self):
@@ -154,7 +163,9 @@ class TestBinomialCoefficients:
             for k in [0, 1, 2, 3, 4, 5]:
                 result = bc.compute(alpha, k)
                 assert isinstance(result, (int, float, np.floating))
-                assert not np.isnan(result)
+                # Type guard for integer results
+                if not isinstance(result, (int, np.integer)):
+                    assert not np.isnan(result)
 
 
 class TestGrunwaldLetnikovCoefficients:
@@ -503,3 +514,4 @@ class TestBinomialCoefficientsPerformance:
 
 if __name__ == "__main__":
     pytest.main([__file__])
+

@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for special mittag_leffler module.
 
@@ -55,11 +58,15 @@ class TestMittagLefflerFunction:
         # Test basic cases
         result = ml.compute(1.0, 1.0, 0.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         result = ml.compute(1.0, 1.0, 1.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_mittag_leffler_function_compute_fractional(self):
         """Test MittagLefflerFunction compute method with fractional inputs."""
@@ -68,11 +75,15 @@ class TestMittagLefflerFunction:
         # Test fractional cases
         result = ml.compute(0.5, 0.5, 0.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         result = ml.compute(1.5, 2.0, 0.3)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_mittag_leffler_function_compute_array(self):
         """Test MittagLefflerFunction compute method with array inputs."""
@@ -96,7 +107,9 @@ class TestMittagLefflerFunction:
             # Test scalar with JAX
             result = ml.compute(1.0, 1.0, 0.5)
             assert isinstance(result, (int, float, np.floating))
-            assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
             
             # Test array with JAX
             z_vals = np.array([0.1, 0.5, 1.0, 2.0])
@@ -112,7 +125,9 @@ class TestMittagLefflerFunction:
         # Test scalar without NUMBA
         result = ml.compute(1.0, 1.0, 0.5)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         # Test array without NUMBA
         z_vals = np.array([0.1, 0.5, 1.0, 2.0])
@@ -144,11 +159,15 @@ class TestMittagLefflerFunction:
         # Test edge cases
         result = ml.compute(0.1, 0.1, 0.1)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         
         result = ml.compute(10.0, 10.0, 0.1)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_mittag_leffler_function_large_values(self):
         """Test MittagLefflerFunction with large values."""
@@ -157,7 +176,9 @@ class TestMittagLefflerFunction:
         # Test with larger values
         result = ml.compute(2.0, 3.0, 5.0)
         assert isinstance(result, (int, float, np.floating))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
     
     def test_mittag_leffler_function_different_orders(self):
         """Test MittagLefflerFunction with different fractional orders."""
@@ -167,7 +188,9 @@ class TestMittagLefflerFunction:
             for beta in [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.5, 2.0]:
                 result = ml.compute(alpha, beta, 0.5)
                 assert isinstance(result, (int, float, np.floating))
-                assert not np.isnan(result)
+                # Type guard for integer results
+                if not isinstance(result, (int, np.integer)):
+                    assert not np.isnan(result)
 
 
 class TestMittagLefflerIntegration:
@@ -185,7 +208,9 @@ class TestMittagLefflerIntegration:
             for z in z_values:
                 result = ml.compute(z, alpha, 1.0)
                 assert isinstance(result, (float, np.floating))
-                assert not np.isnan(result)
+                # Type guard for integer results
+                if not isinstance(result, (int, np.integer)):
+                    assert not np.isnan(result)
     
     def test_integration_with_different_backends(self):
         """Test integration with different computational backends."""
@@ -225,8 +250,11 @@ class TestMittagLefflerIntegration:
         for z, alpha, beta in test_cases:
             result = ml.compute(z, alpha, beta)
             assert isinstance(result, (float, np.floating))
-            assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
 
 
 if __name__ == "__main__":
     pytest.main([__file__])
+

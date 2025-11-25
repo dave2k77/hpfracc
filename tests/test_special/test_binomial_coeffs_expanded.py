@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for binomial coefficients in hpfracc.special.binomial_coeffs
 
@@ -34,8 +37,12 @@ class TestBinomialCoefficients:
         result = self.binomial.compute(n, k)
         
         assert isinstance(result, (int, float))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         
     def test_compute_array_input(self):
         """Test computation with array input"""
@@ -99,8 +106,12 @@ class TestBinomialCoefficients:
         result = self.binomial.compute(n, k)
         
         assert isinstance(result, (int, float))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         
         # Note: Current implementation may not handle fractional values correctly
         # Just check it returns something reasonable
@@ -125,8 +136,12 @@ class TestBinomialCoefficients:
         result = self.binomial.compute(n, k)
         
         assert isinstance(result, (int, float))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         assert result > 0
         
     def test_zero_values(self):
@@ -283,7 +298,9 @@ class TestBinomialCoefficientsEdgeCases:
         result = self.binomial.compute(n, k)
         
         # Should be finite (may be negative due to overflow)
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert isinstance(result, (int, float))
         
     def test_very_small_values(self):
@@ -294,8 +311,12 @@ class TestBinomialCoefficientsEdgeCases:
         result = self.binomial.compute(n, k)
         
         # Should be finite
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         
     def test_empty_array_input(self):
         """Test with empty array input"""
@@ -334,7 +355,9 @@ class TestBinomialCoefficientsConvenienceFunctions:
         result = self.binomial.compute(n, k)
         
         assert isinstance(result, (int, float))
-        assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
         assert result == 10
         
     def test_binomial_coefficient_array(self):
@@ -391,8 +414,14 @@ class TestBinomialCoefficientsPerformance:
         
         result = self.binomial.compute(n, k)
         
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        
+        if not isinstance(result, (int, np.integer)):
+        
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         # May be negative due to overflow
         assert isinstance(result, (int, float))
         
@@ -405,8 +434,12 @@ class TestBinomialCoefficientsPerformance:
         result = self.binomial.compute(n, k)
         
         # Should be finite and positive
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         assert result > 0
         
     def test_precision_consistency(self):
@@ -423,3 +456,5 @@ class TestBinomialCoefficientsPerformance:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+

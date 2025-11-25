@@ -1,3 +1,6 @@
+import os
+os.environ['NUMBA_DISABLE_JIT'] = '1'
+
 """
 Comprehensive tests for Mittag-Leffler function implementation.
 
@@ -73,8 +76,12 @@ class TestMittagLefflerFunction:
         result = ml.compute(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_compute_array(self):
         """Test computing Mittag-Leffler function for array inputs."""
@@ -122,8 +129,12 @@ class TestMittagLefflerFunction:
         
         # Test with very small alpha
         result = ml.compute(0.1, 1.0, 1.0)
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
 
 
 class TestMittagLefflerConvenienceFunctions:
@@ -134,8 +145,12 @@ class TestMittagLefflerConvenienceFunctions:
         result = mittag_leffler(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_mittag_leffler_array(self):
         """Test mittag_leffler with array input."""
@@ -151,16 +166,24 @@ class TestMittagLefflerConvenienceFunctions:
         result = mittag_leffler_derivative(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_mittag_leffler_function(self):
         """Test mittag_leffler_function."""
         result = mittag_leffler_function(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.ndarray))
-        assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
-        assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
 
 
 class TestMittagLefflerSpecialFunctions:
@@ -171,24 +194,36 @@ class TestMittagLefflerSpecialFunctions:
         result = mittag_leffler_fast(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.ndarray))
-        assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
-        assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
     
     def test_mittag_leffler_derivative(self):
         """Test mittag_leffler_derivative function."""
         result = mittag_leffler_derivative(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.ndarray))
-        assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
-        assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
     
     def test_mittag_leffler_convenience(self):
         """Test mittag_leffler convenience function."""
         result = mittag_leffler(1.0, 1.0, 1.0)
         
         assert isinstance(result, (float, np.ndarray))
-        assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
-        assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result) if isinstance(result, float) else not np.any(np.isnan(result))
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result) if isinstance(result, float) else not np.any(np.isinf(result))
     
     def test_implementation_consistency(self):
         """Test consistency between different implementations."""
@@ -232,8 +267,12 @@ class TestMittagLefflerPerformance:
         result = ml.compute(1.5, 1.0, 1.0)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
 
 
 class TestMittagLefflerMathematicalProperties:
@@ -264,8 +303,12 @@ class TestMittagLefflerMathematicalProperties:
         result = ml.compute(z, 1.0, 1.0)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_asymptotic_behavior(self):
         """Test asymptotic behavior."""
@@ -276,8 +319,12 @@ class TestMittagLefflerMathematicalProperties:
         result = ml.compute(z, 1.0, 1.0)
         
         assert isinstance(result, (float, np.floating))
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
 
 
 class TestMittagLefflerErrorHandling:
@@ -301,13 +348,21 @@ class TestMittagLefflerErrorHandling:
         
         # Test with moderate z values
         result = ml.compute(5.0, 1.0, 1.0)
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
         
         # Test with small z
         result = ml.compute(0.01, 1.0, 1.0)
-        assert not np.isnan(result)
-        assert not np.isinf(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isnan(result)
+        # Type guard for integer results
+        if not isinstance(result, (int, np.integer)):
+            assert not np.isinf(result)
     
     def test_numerical_stability(self):
         """Test numerical stability."""
@@ -323,8 +378,12 @@ class TestMittagLefflerErrorHandling:
         
         for z, alpha, beta in test_cases:
             result = ml.compute(z, alpha, beta)
-            assert not np.isnan(result)
-            assert not np.isinf(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isnan(result)
+            # Type guard for integer results
+            if not isinstance(result, (int, np.integer)):
+                assert not np.isinf(result)
 
 
 class TestMittagLefflerIntegration:
@@ -373,3 +432,5 @@ class TestMittagLefflerIntegration:
 
 if __name__ == "__main__":
     pytest.main([__file__])
+
+

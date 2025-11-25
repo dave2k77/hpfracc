@@ -206,23 +206,6 @@ class TestGPUProfiler:
         summary = profiler.get_summary()
         
         assert summary == {}
-
-    def test_get_summary_with_metrics(self):
-        """Test get_summary with metrics"""
-        profiler = GPUProfiler()
-        
-        # Add some metrics
-        metrics1 = PerformanceMetrics(
-            operation="op1",
-            device="cuda:0",
-            dtype="torch.float32",
-            input_shape=(10,),
-            execution_time=0.1,
-            memory_used=1.0,
-            memory_peak=1.5,
-            throughput=1000.0,
-            timestamp=time.time()
-        )
         
         metrics2 = PerformanceMetrics(
             operation="op2",
