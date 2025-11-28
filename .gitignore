@@ -219,6 +219,13 @@ analytics_reports/
 # Test output files
 smoke_output.txt
 test_output*.txt
+test_outputs/
+
+# Development tools and temporary files
+dev_tools/
+
+# Release documentation (keep in separate directory)
+release_docs/
 
 # Coverage reports
 coverage.json
