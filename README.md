@@ -3,7 +3,7 @@
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/hpfracc.svg)](https://badge.fury.io/py/hpfracc)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17476041.svg)](https://doi.org/10.5281/zenodo.17476041)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17476040.svg)](https://doi.org/10.5281/zenodo.17476040)
 [![Integration Tests](https://img.shields.io/badge/Integration%20Tests-100%25-success)](https://github.com/dave2k77/hpfracc)
 [![Documentation](https://readthedocs.org/projects/hpfracc/badge/?version=latest)]([https://hpfracc.readthedocs.io/](https://fractional-calculus-library.readthedocs.io/en/latest/))
 [![Downloads](https://pepy.tech/badge/hpfracc)](https://pepy.tech/project/hpfracc)
