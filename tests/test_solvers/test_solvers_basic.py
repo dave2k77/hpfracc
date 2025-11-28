@@ -12,6 +12,7 @@ from hpfracc.solvers import (
     solve_fractional_ode,
     FractionalPDESolver,
     solve_fractional_pde,
+    AdaptiveFixedStepODESolver,
 )
 
 

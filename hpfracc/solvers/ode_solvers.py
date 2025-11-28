@@ -746,3 +746,17 @@ def solve_fractional_system(
         derivative_type,
         method,
         **kwargs)
+
+
+# Backward-compatibility aliases for tests expecting legacy class names
+FractionalODESolver = FixedStepODESolver
+
+class AdaptiveFixedStepODESolver(FixedStepODESolver):
+    """Adaptive fractional ODE solver with automatic step size control."""
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("adaptive", True)
+        super().__init__(*args, **kwargs)
+
+# Alternative name for the same class
+AdaptiveFractionalODESolver = AdaptiveFixedStepODESolver
+

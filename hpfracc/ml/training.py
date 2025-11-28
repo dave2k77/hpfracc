@@ -667,6 +667,23 @@ class FractionalTrainer:
             'validation_losses': self.validation_losses
         }
 
+    def fit(self, train_dataloader: Any, val_dataloader: Any = None, num_epochs: int = 10, **kwargs) -> Dict[str, List[float]]:
+        """
+        Alias for train() method - provides sklearn-style API.
+        
+        Args:
+            train_dataloader: Training data loader
+            val_dataloader: Validation data loader (optional, uses train_dataloader if None)
+            num_epochs: Number of training epochs
+            **kwargs: Additional arguments passed to train()
+            
+        Returns:
+            Dictionary containing training and validation losses
+        """
+        if val_dataloader is None:
+            val_dataloader = train_dataloader
+        return self.train(train_dataloader, val_dataloader, num_epochs, **kwargs)
+
     def save_checkpoint(self, filepath: str) -> None:
         """Save model checkpoint"""
         # Simplified checkpoint saving

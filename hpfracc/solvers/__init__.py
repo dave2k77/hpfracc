@@ -88,6 +88,19 @@ class AdvancedFractionalODESolver(FixedStepODESolver):
 class HighOrderFractionalSolver(FixedStepODESolver):
     pass
 
+# Main compatibility alias for FractionalODESolver (maps to FixedStepODESolver)
+FractionalODESolver = FixedStepODESolver
+
+# AdaptiveFractionalODESolver alias (maps to FixedStepODESolver with adaptive=True by default)
+class AdaptiveFractionalODESolver(FixedStepODESolver):
+    """Adaptive fractional ODE solver with automatic step size control."""
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('adaptive', True)
+        super().__init__(*args, **kwargs)
+
+# Alias for tests expecting AdaptiveFixedStepODESolver
+AdaptiveFixedStepODESolver = AdaptiveFractionalODESolver
+
 def solve_advanced_fractional_ode(*args, **kwargs):
     return solve_fractional_ode(*args, **kwargs)
 
@@ -106,6 +119,9 @@ def solve_predictor_corrector(*args, **kwargs):
 __all__ += [
     'AdvancedFractionalODESolver',
     'HighOrderFractionalSolver',
+    'FractionalODESolver',
+    'AdaptiveFractionalODESolver',
+    'AdaptiveFixedStepODESolver',
     'solve_advanced_fractional_ode',
     'solve_high_order_fractional_ode',
     'PredictorCorrectorSolver',

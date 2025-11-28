@@ -5,6 +5,7 @@ This module provides optimized implementations of binomial coefficients,
 which are fundamental in the Grünwald-Letnikov definition of fractional derivatives.
 """
 
+import math
 import numpy as np
 from typing import Union
 
@@ -252,23 +253,14 @@ class BinomialCoefficients:
         if k == 2:
             return n * (n - 1) / 2.0
         
-        # For other fractional cases, use log-gamma formula
-        # This is more accurate than simple approximations
-        # Using Stirling's approximation for log-gamma:
-        # log Γ(x) ≈ (x-0.5)*log(x) - x + 0.5*log(2π)
-        import math
+        # For other fractional cases, use recursive formula for better Numba compatibility
+        # C(n,k) = C(n,k-1) * (n-k+1) / k
+        # This avoids the need for log-gamma which requires imports
+        result = 1.0
+        for i in range(1, int(k) + 1):
+            result *= (n - i + 1) / i
         
-        def log_gamma_approx(x):
-            """Stirling's approximation for log-gamma"""
-            if x <= 0:
-                return 0.0
-            return (x - 0.5) * math.log(x) - x + 0.5 * math.log(2.0 * math.pi)
-        
-        # Compute log of binomial coefficient
-        log_result = log_gamma_approx(n + 1) - log_gamma_approx(k + 1) - log_gamma_approx(n - k + 1)
-        
-        # Return the exponential
-        return math.exp(log_result)
+        return result
 
     @staticmethod
     def _binomial_jax_impl(n: "jnp.ndarray", k: "jnp.ndarray") -> "jnp.ndarray":

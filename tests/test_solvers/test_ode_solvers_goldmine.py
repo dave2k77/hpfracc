@@ -3,7 +3,12 @@
 
 import pytest
 import numpy as np
-from hpfracc.solvers.ode_solvers import FixedStepODESolver
+from hpfracc.solvers.ode_solvers import (
+    FixedStepODESolver,
+    FractionalODESolver,
+    AdaptiveFixedStepODESolver,
+    AdaptiveFractionalODESolver,
+)
 from hpfracc.core.definitions import FractionalOrder
 
 
