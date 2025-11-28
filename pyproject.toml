@@ -14,7 +14,7 @@ maintainers = [
 ]
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["fractional-calculus", "numerical-methods", "machine-learning", "intelligent-backend-selection", "gpu-acceleration", "autograd", "spectral-methods", "stochastic-optimization", "jax", "pytorch", "numba", "scientific-computing", "mathematics", "deep-learning", "neural-networks", "fractional-neural-networks", "performance-optimization", "stochastic-differential-equations", "neural-sde", "fractional-sde", "bayesian-inference", "numpyro", "graph-neural-networks"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -22,7 +22,6 @@ classifiers = [
     "Intended Audience :: Education",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
