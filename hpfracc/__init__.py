@@ -12,7 +12,7 @@ This library provides optimized implementations of:
 - Parallel computing via NUMBA
 """
 
-__version__ = "3.0.1"
+__version__ = "3.0.2"
 __author__ = "Davian R. Chin"
 __email__ = "d.r.chin@pgr.reading.ac.uk"
 __affiliation__ = "Department of Biomedical Engineering, University of Reading"
