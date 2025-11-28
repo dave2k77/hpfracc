@@ -12,7 +12,14 @@ This library provides optimized implementations of:
 - Parallel computing via NUMBA
 """
 
-__version__ = "3.0.2"
+# Single-source versioning: prefer installed package metadata, fallback to canonical version
+try:
+    from importlib.metadata import version as _get_version, PackageNotFoundError
+
+    __version__ = _get_version("hpfracc")
+except (ImportError, PackageNotFoundError):
+    # Fallback for local source checkouts or if importlib.metadata is unavailable
+    __version__ = "3.1.0"
 __author__ = "Davian R. Chin"
 __email__ = "d.r.chin@pgr.reading.ac.uk"
 __affiliation__ = "Department of Biomedical Engineering, University of Reading"

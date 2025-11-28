@@ -41,8 +41,8 @@ copyright = '2025, Davian R. Chin'
 author = 'Davian R. Chin'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0.1'
-version = '3.0.1'
+release = '3.1.0'
+version = '3.1.0'
 
 # -- General configuration ---------------------------------------------------
 
