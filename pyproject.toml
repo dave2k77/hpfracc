@@ -42,9 +42,10 @@ dependencies = [
     # JAX ecosystem for automatic differentiation and GPU acceleration
     # Note: For CUDA 12 GPU support, install separately with: pip install "jax[cuda12]"
     # JAX CUDA 12 wheels (built with 12.3) are compatible with CUDA ≥12.1 including 12.8
-    # Recommended: JAX 0.4.35+ to resolve jaxlib version conflicts
-    "jax>=0.4.35",
-    "jaxlib>=0.4.35",
+    # JAX 0.4.30 is the highest version supporting Python 3.9
+    # For Python 3.10+, JAX 0.4.35+ is recommended to resolve jaxlib version conflicts
+    "jax>=0.4.30",
+    "jaxlib>=0.4.30",
     "optax>=0.1.0",  # JAX optimization library
     
     # PyTorch for deep learning and neural networks
@@ -111,9 +112,10 @@ gpu = [
 ml = [
     "torch>=1.12.0",  # PyTorch for deep learning (for CUDA 12.8: install with --index-url)
     # Note: For JAX GPU with CUDA 12, install separately: pip install "jax[cuda12]"
-    # Recommended: JAX 0.4.35+ to resolve jaxlib version conflicts
-    "jax>=0.4.35",     # JAX for numerical computing
-    "jaxlib>=0.4.35",  # JAX backend
+    # JAX 0.4.30 is the highest version supporting Python 3.9
+    # For Python 3.10+, JAX 0.4.35+ is recommended to resolve jaxlib version conflicts
+    "jax>=0.4.30",     # JAX for numerical computing
+    "jaxlib>=0.4.30",  # JAX backend
     "numba>=0.56.0",  # NUMBA for JIT compilation
 ]
 

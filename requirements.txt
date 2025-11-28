@@ -8,8 +8,10 @@ matplotlib>=3.5.0
 torch>=2.4.0
 
 # JAX ecosystem for automatic differentiation and GPU acceleration
-jax>=0.4.0
-jaxlib>=0.4.0
+# JAX 0.4.30 is the highest version supporting Python 3.9
+# For Python 3.10+, JAX 0.4.35+ is recommended to resolve jaxlib version conflicts
+jax>=0.4.30
+jaxlib>=0.4.30
 optax>=0.1.0
 
 # NUMBA for JIT compilation and parallel computing

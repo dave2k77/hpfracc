@@ -1,0 +1,21 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting numpyro
+  Downloading numpyro-0.19.0-py3-none-any.whl.metadata (37 kB)
+Requirement already satisfied: jax>=0.4.25 in /home/runner/.local/lib/python3.12/site-packages (from numpyro) (0.8.1)
+Requirement already satisfied: jaxlib>=0.4.25 in /home/runner/.local/lib/python3.12/site-packages (from numpyro) (0.8.1)
+Collecting multipledispatch (from numpyro)
+  Downloading multipledispatch-1.0.0-py3-none-any.whl.metadata (3.8 kB)
+Requirement already satisfied: numpy in /home/runner/.local/lib/python3.12/site-packages (from numpyro) (2.3.5)
+Collecting tqdm (from numpyro)
+  Downloading tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.7/57.7 kB 22.8 MB/s eta 0:00:00
+Requirement already satisfied: ml_dtypes>=0.5.0 in /home/runner/.local/lib/python3.12/site-packages (from jax>=0.4.25->numpyro) (0.5.4)
+Requirement already satisfied: opt_einsum in /home/runner/.local/lib/python3.12/site-packages (from jax>=0.4.25->numpyro) (3.4.0)
+Requirement already satisfied: scipy>=1.13 in /home/runner/.local/lib/python3.12/site-packages (from jax>=0.4.25->numpyro) (1.16.3)
+Downloading numpyro-0.19.0-py3-none-any.whl (370 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 370.9/370.9 kB 89.0 MB/s eta 0:00:00
+Downloading multipledispatch-1.0.0-py3-none-any.whl (12 kB)
+Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.5/78.5 kB 31.3 MB/s eta 0:00:00
+Installing collected packages: multipledispatch, tqdm, numpyro
+Successfully installed multipledispatch-1.0.0 numpyro-0.19.0 tqdm-4.67.1

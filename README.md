@@ -118,7 +118,11 @@ pip install hpfracc[gpu]
 
 **Note:** JAX's CUDA 12 wheels are built with CUDA 12.3 but are compatible with CUDA ≥12.1, which includes CUDA 12.8. CUDA libraries are backward compatible, so JAX will work with PyTorch's CUDA 12.8 installation.
 
-**Important:** Use JAX 0.4.35 or later to resolve jaxlib version conflicts. If you encounter version conflicts, upgrade JAX:
+**JAX Version Compatibility:**
+- **Python 3.9**: Use JAX 0.4.30 (maximum available version for Python 3.9)
+- **Python 3.10+**: JAX 0.4.35 or later is recommended to resolve jaxlib version conflicts
+
+If you encounter version conflicts on Python 3.10+, upgrade JAX:
 ```bash
 pip install --upgrade "jax>=0.4.35" "jaxlib>=0.4.35"
 ```
