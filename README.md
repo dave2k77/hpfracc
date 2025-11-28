@@ -5,7 +5,7 @@
 [![PyPI version](https://badge.fury.io/py/hpfracc.svg)](https://badge.fury.io/py/hpfracc)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17476040.svg)](https://doi.org/10.5281/zenodo.17476040)
 [![Integration Tests](https://img.shields.io/badge/Integration%20Tests-100%25-success)](https://github.com/dave2k77/hpfracc)
-[![Documentation](https://readthedocs.org/projects/hpfracc/badge/?version=latest)]([https://hpfracc.readthedocs.io/](https://fractional-calculus-library.readthedocs.io/en/latest/))
+[![Documentation](https://readthedocs.org/projects/hpfracc/badge/?version=latest)](https://fractional-calculus-library.readthedocs.io/en/latest/)
 [![Downloads](https://pepy.tech/badge/hpfracc)](https://pepy.tech/project/hpfracc)
 
 **HPFRACC** is a cutting-edge Python library that provides high-performance implementations of fractional calculus operations with seamless machine learning integration, GPU acceleration, and state-of-the-art neural network architectures.
