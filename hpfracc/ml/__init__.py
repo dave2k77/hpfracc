@@ -202,7 +202,7 @@ __all__ = [
     'create_uniform_alpha_layer',
     'create_beta_alpha_layer',
 ]
-__version__ = "0.1.0"
+__version__ = "3.1.0"
 __author__ = "Davian R. Chin"
 __email__ = "d.r.chin@pgr.reading.ac.uk"
 __institution__ = "Department of Biomedical Engineering, University of Reading"
