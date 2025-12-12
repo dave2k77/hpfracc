@@ -176,16 +176,27 @@ class FractionalDerivativeOperator:
         Compute the fractional derivative.
 
         Args:
-            f: Function to differentiate
+            f: Function to differentiate (can be callable or array)
             x: Point(s) at which to compute the derivative
             **kwargs: Additional parameters
 
         Returns:
             Fractional derivative value(s)
         """
+        # If no implementation is set, try to auto-create a default one
         if self._implementation is None:
-            raise NotImplementedError("No implementation available")
-
+            # Auto-create a default implementation using Riemann-Liouville
+            from .fractional_implementations import RiemannLiouvilleDerivative
+            self._implementation = RiemannLiouvilleDerivative(self.alpha)
+        
+        # If f is an array (not callable), use compute_numerical instead
+        if not callable(f) and isinstance(f, (np.ndarray, list)):
+            if isinstance(x, (np.ndarray, list)):
+                return self.compute_numerical(np.asarray(f), np.asarray(x), **kwargs)
+            else:
+                # For scalar x with array f, we need to interpolate or use array x
+                raise ValueError("Cannot compute derivative: array f requires array x")
+        
         return self._implementation.compute(f, x, **kwargs)
 
     def compute_numerical(

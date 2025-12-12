@@ -75,6 +75,10 @@ class RiemannLiouvilleDerivative(BaseFractionalDerivative):
         # Check for empty arrays
         if hasattr(x, '__len__') and len(x) == 0:
             raise ValueError("zero-size array")
+        
+        # Check for single-point arrays
+        if hasattr(x, '__len__') and len(x) == 1:
+            raise ValueError("Time array must have at least 2 points for numerical computation")
 
         if h is not None:
             kwargs['h'] = h
@@ -114,6 +118,10 @@ class CaputoDerivative(BaseFractionalDerivative):
         # Check for empty arrays
         if hasattr(x, '__len__') and len(x) == 0:
             raise ValueError("zero-size array")
+        
+        # Check for single-point arrays
+        if hasattr(x, '__len__') and len(x) == 1:
+            raise ValueError("Time array must have at least 2 points for numerical computation")
 
         if h is not None:
             kwargs['h'] = h

@@ -63,7 +63,7 @@ class FractionalIntegral:
             raise ValueError(
                 f"Fractional order must be non-negative, got {self.alpha.alpha}")
 
-        if self.method not in ["RL", "Caputo", "Weyl", "Hadamard", "MillerRoss"]:
+        if self.method not in ["RL", "Caputo", "Weyl", "Hadamard", "MillerRoss", "Marchaud"]:
             raise ValueError(f"Unknown method: {self.method}")
 
     def __call__(self,
@@ -353,12 +353,14 @@ class WeylIntegral(FractionalIntegral):
         The Weyl integral is defined as:
         I^α_W f(t) = (1/Γ(α)) ∫_{-∞}^t (t-τ)^(α-1) f(τ) dτ
         """
+        # Coerce array inputs for f into a callable via interpolation
+        f_callable = self._coerce_function(f, x)
         if isinstance(x, (int, float)):
-            return self._compute_scalar(f, x)
+            return self._compute_scalar(f_callable, x)
         elif isinstance(x, np.ndarray):
-            return self._compute_array_numpy(f, x)
+            return self._compute_array_numpy(f_callable, x)
         elif TORCH_AVAILABLE and hasattr(torch, 'Tensor') and isinstance(x, torch.Tensor):
-            return self._compute_array_torch(f, x)
+            return self._compute_array_torch(f_callable, x)
         else:
             raise TypeError(f"Unsupported type for x: {type(x)}")
 
@@ -371,6 +373,23 @@ class WeylIntegral(FractionalIntegral):
         lower_limit = max(-100, x - 10)  # Adjust based on function behavior
         result, _ = quad(integrand, lower_limit, x)
         return result / gamma(self.alpha.alpha)
+
+    def _coerce_function(self, f: Union[Callable, np.ndarray], x_arg: Union[float, np.ndarray, "torch.Tensor"]) -> Callable:
+        """If f is an array, create an interpolating callable over x grid."""
+        if callable(f):
+            return f
+        if isinstance(f, np.ndarray):
+            if isinstance(x_arg, np.ndarray):
+                grid = x_arg
+            else:
+                # For scalar x, build a linspace grid matching f length
+                grid = np.linspace(0.0, float(x_arg), num=len(f))
+
+            def interp_fn(tau):
+                return np.interp(tau, grid, f)
+            return interp_fn
+        # Fallback: treat as constant
+        return lambda tau: float(f)
 
     def _compute_array_numpy(self, f: Callable, x: np.ndarray) -> np.ndarray:
         """Compute Weyl fractional integral for numpy array."""
@@ -710,14 +729,33 @@ class MillerRossIntegral(FractionalIntegral):
                                                     np.ndarray,
                                                     "torch.Tensor"]:
         """Compute Miller-Ross fractional integral."""
+        # Coerce array inputs for f into a callable via interpolation
+        f_callable = self._coerce_function(f, x)
         if isinstance(x, (int, float)):
-            return self._compute_scalar(f, x)
+            return self._compute_scalar(f_callable, x)
         elif isinstance(x, np.ndarray):
-            return self._compute_array_numpy(f, x)
+            return self._compute_array_numpy(f_callable, x)
         elif TORCH_AVAILABLE and hasattr(torch, 'Tensor') and isinstance(x, torch.Tensor):
-            return self._compute_array_torch(f, x)
+            return self._compute_array_torch(f_callable, x)
         else:
             raise TypeError(f"Unsupported type for x: {type(x)}")
+
+    def _coerce_function(self, f: Union[Callable, np.ndarray], x_arg: Union[float, np.ndarray, "torch.Tensor"]) -> Callable:
+        """If f is an array, create an interpolating callable over x grid."""
+        if callable(f):
+            return f
+        if isinstance(f, np.ndarray):
+            if isinstance(x_arg, np.ndarray):
+                grid = x_arg
+            else:
+                # For scalar x, build a linspace grid matching f length
+                grid = np.linspace(0.0, float(x_arg), num=len(f))
+
+            def interp_fn(tau):
+                return np.interp(tau, grid, f)
+            return interp_fn
+        # Fallback: treat as constant
+        return lambda tau: float(f)
 
     def _compute_scalar(self, f: Callable, x: float) -> float:
         """Compute Miller-Ross fractional integral at a scalar point."""
