@@ -359,16 +359,18 @@ def setup_plotting_style(style: str = "default") -> None:
 def create_comparison_plot(
     data_dict_or_x, data=None, title: str = "Comparison Plot",
     xlabel: str = "x", ylabel: str = "y", save_path: Optional[str] = None,
+    labels: Optional[List[str]] = None,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """Create a comparison plot of multiple datasets.
 
     Args:
         data_dict_or_x: Either a dict of {label: (x_data, y_data)} or x-axis data
-        data: If first arg is x-axis data, this should be y-axis data
+        data: If first arg is x-axis data, this should be y-axis data (list of arrays or single array)
         title: Plot title
         xlabel: x-axis label
         ylabel: y-axis label
         save_path: Path to save the plot
+        labels: Labels for datasets (when data is a list of arrays)
     """
     manager = PlotManager()
 
@@ -387,13 +389,23 @@ def create_comparison_plot(
                 "When x data is provided, y data must be provided as second argument")
 
         # Handle different formats for y_data
-        if isinstance(y_data, dict):
+        if isinstance(y_data, list):
+            # List of y arrays - use labels if provided
+            if labels is None:
+                labels = [f"Method {i+1}" for i in range(len(y_data))]
+            elif len(labels) != len(y_data):
+                raise ValueError("Number of labels must match number of datasets")
+            
+            data_dict = {label: (x_data, y_values)
+                         for label, y_values in zip(labels, y_data)}
+        elif isinstance(y_data, dict):
             # Convert dict of {label: y_values} to dict of {label: (x, y)}
             data_dict = {label: (x_data, y_values)
                          for label, y_values in y_data.items()}
         else:
             # Single y array
-            data_dict = {"data": (x_data, y_data)}
+            label = labels[0] if labels and len(labels) > 0 else "data"
+            data_dict = {label: (x_data, y_data)}
         return manager.create_comparison_plot(
             data_dict, title, xlabel, ylabel, save_path
         )
@@ -406,9 +418,9 @@ def plot_convergence(
     """Plot convergence analysis.
 
     Args:
-        methods_or_grid_sizes: Either list of method names or grid sizes
+        methods_or_grid_sizes: Either list of method names or grid sizes (h_values)
         h_values_or_errors: Either h_values array or errors dict
-        errors: Errors dict (only if first arg is methods)
+        errors: Errors dict (only if first arg is methods) or errors array if first arg is h_values
         title: Plot title
         save_path: Path to save the plot
     """
@@ -436,8 +448,26 @@ def plot_convergence(
             raise ValueError("Invalid arguments provided")
     else:
         if errors is None:
+            # Check if called with (h_values, errors) pattern where both are arrays
+            if isinstance(methods_or_grid_sizes, (list, tuple, np.ndarray)) and isinstance(h_values_or_errors, (list, tuple, np.ndarray)):
+                # Both are arrays - this is the (h_values, errors) pattern
+                h_values = np.array(methods_or_grid_sizes)
+                errors_array = np.array(h_values_or_errors)
+                
+                # Create a simple convergence plot
+                fig, ax = plt.subplots(figsize=manager.figsize)
+                ax.loglog(h_values, errors_array, 'o-', linewidth=2, markersize=6)
+                ax.set_xlabel("Step Size (h)")
+                ax.set_ylabel("Error")
+                ax.set_title(title)
+                ax.grid(True, alpha=0.3)
+                
+                if save_path:
+                    manager.save_plot(fig, save_path)
+                
+                return fig, ax
             # Called with methods, h_values, errors
-            if isinstance(methods_or_grid_sizes, (list, tuple)) and all(isinstance(x, str) for x in methods_or_grid_sizes):
+            elif isinstance(methods_or_grid_sizes, (list, tuple)) and all(isinstance(x, str) for x in methods_or_grid_sizes):
                 methods = methods_or_grid_sizes
                 h_values = np.array(h_values_or_errors)
                 # errors should be the third argument but it's None, this is an error
@@ -447,11 +477,14 @@ def plot_convergence(
                 # Called with grid_sizes, errors
                 grid_sizes = list(methods_or_grid_sizes)
                 errors_dict = h_values_or_errors
-                errors_dict = {method: list(
-                    errors_dict[method]) for method in errors_dict.keys()}
-                fig = manager.plot_convergence(
-                    grid_sizes, errors_dict, title, save_path)
-                return fig, fig.axes if fig.axes else None
+                if isinstance(errors_dict, dict):
+                    errors_dict = {method: list(
+                        errors_dict[method]) for method in errors_dict.keys()}
+                    fig = manager.plot_convergence(
+                        grid_sizes, errors_dict, title, save_path)
+                    return fig, fig.axes if fig.axes else None
+                else:
+                    raise ValueError("When grid_sizes provided, errors must be a dict")
         else:
             # Called with methods, h_values, errors
             methods = methods_or_grid_sizes
@@ -465,18 +498,37 @@ def plot_convergence(
 
 
 def plot_error_analysis(
-    numerical: np.ndarray,
-    analytical: np.ndarray,
-    title: str = "Error Analysis",
-    save_path: Optional[str] = None,
-) -> plt.Figure:
-    """Plot error analysis between numerical and analytical solutions."""
+    *args, title: str = "Error Analysis", save_path: Optional[str] = None,
+) -> Tuple[plt.Figure, plt.Axes]:
+    """Plot error analysis between numerical and analytical solutions.
+    
+    Args:
+        *args: Either (numerical, analytical) or (x, analytical, numerical)
+        title: Plot title
+        save_path: Path to save the plot
+    
+    Returns:
+        Tuple of (figure, axes)
+    """
     manager = PlotManager()
-    # Create x-axis data
-    x = np.arange(len(numerical))
+    
+    if len(args) == 2:
+        # Called with (numerical, analytical)
+        numerical, analytical = args
+        x = np.arange(len(numerical))
+    elif len(args) == 3:
+        # Called with (x, analytical, numerical)
+        x, analytical, numerical = args
+    else:
+        raise ValueError(
+            "plot_error_analysis expects either 2 arguments (numerical, analytical) "
+            "or 3 arguments (x, analytical, numerical)"
+        )
+    
     fig = manager.plot_error_analysis(
         x, numerical, analytical, title, save_path)
-    return fig, fig.axes if fig.axes else None
+    axes = fig.axes if hasattr(fig, 'axes') and fig.axes else None
+    return fig, axes
 
 
 def save_plot(

@@ -638,7 +638,7 @@ class TestProductionWorkflow:
             mock_get.return_value = {
                 'model': mock_model,
                 'metadata': {'version': '1.0'},
-                'status': DeploymentStatus.VALIDATED
+                'status': DeploymentStatus.VALIDATION
             }
             
             # Mock deployment manager
@@ -825,7 +825,7 @@ class TestWorkflowIntegration:
             mock_get.return_value = {
                 'model': model,
                 'metadata': {'version': '1.0'},
-                'status': DeploymentStatus.VALIDATED
+                'status': DeploymentStatus.VALIDATION
             }
             
             with patch.object(prod_workflow.deployment_manager, 'deploy') as mock_deploy:

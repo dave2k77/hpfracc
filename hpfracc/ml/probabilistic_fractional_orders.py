@@ -63,9 +63,11 @@ class ProbabilisticFractionalOrder(nn.Module):
             # If learnable, register parameters where possible
             if learnable:
                 if hasattr(distribution, 'loc') and hasattr(distribution, 'scale'):
+                    # Register as parameters so they move with .to(device)
                     self.loc = nn.Parameter(torch.as_tensor(distribution.loc))
                     self.scale = nn.Parameter(torch.as_tensor(distribution.scale))
                 elif hasattr(distribution, 'concentration1') and hasattr(distribution, 'concentration0'):
+                    # Register as parameters so they move with .to(device)
                     self.concentration1 = nn.Parameter(torch.as_tensor(distribution.concentration1))
                     self.concentration0 = nn.Parameter(torch.as_tensor(distribution.concentration0))
             return
@@ -248,6 +250,23 @@ class ProbabilisticFractionalLayer(nn.Module):
             'mean': torch.tensor(float(mean)),
             'std': torch.tensor(float(std))
         }
+
+    def to(self, device):
+        """Move layer parameters to specified device (PyTorch compatibility)"""
+        # Call super().to(device) which will recursively move all submodules (including probabilistic_order)
+        # and all registered parameters
+        result = super().to(device)
+        # The probabilistic_order is an nn.Module, so its parameters should be moved by super().to(device)
+        # But we need to ensure the underlying distribution is recreated on the new device
+        if hasattr(self, 'probabilistic_order') and hasattr(self.probabilistic_order, '_learnable') and self.probabilistic_order._learnable:
+            # Recreate distribution on new device with updated parameters
+            if hasattr(self.probabilistic_order, 'loc') and hasattr(self.probabilistic_order, 'scale'):
+                self.probabilistic_order._torch_dist = torch.distributions.Normal(
+                    self.probabilistic_order.loc, self.probabilistic_order.scale)
+            elif hasattr(self.probabilistic_order, 'concentration1') and hasattr(self.probabilistic_order, 'concentration0'):
+                self.probabilistic_order._torch_dist = torch.distributions.Beta(
+                    self.probabilistic_order.concentration1, self.probabilistic_order.concentration0)
+        return result
 
     def extra_repr(self) -> str:
         return 'method=NumPyro SVI'

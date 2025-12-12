@@ -14,7 +14,7 @@ def test_basic_imports():
     
 def test_solver_imports():
     """Test solver imports."""
-    from hpfracc.solvers.ode_solvers import FractionalODESolver
+    from hpfracc.solvers import FractionalODESolver
     from hpfracc.core.definitions import FractionalOrder
     
     # Create instances
@@ -27,7 +27,7 @@ def test_solver_imports():
 
 def test_solver_basic_functionality():
     """Test basic solver functionality."""
-    from hpfracc.solvers.ode_solvers import FractionalODESolver
+    from hpfracc.solvers import FractionalODESolver
     from hpfracc.core.definitions import FractionalOrder
     
     # Simple test
@@ -39,10 +39,11 @@ def test_solver_basic_functionality():
         
     t_span = (0, 1)
     y0 = 1.0
-    t_eval = np.linspace(0, 1, 11)
+    alpha = 0.5
+    h = 0.1
     
     try:
-        result = solver.solve(ode_func, t_span, y0, t_eval=t_eval)
+        result = solver.solve(ode_func, t_span, y0, alpha, h=h)
         # If it works, great! If not, that's also fine for now
         assert result is not None or result is None  # Either outcome is acceptable
     except Exception:

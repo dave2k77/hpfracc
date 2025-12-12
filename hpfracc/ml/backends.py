@@ -68,10 +68,17 @@ class BackendManager:
         # Backend-specific configurations
         self.backend_configs = self._initialize_backend_configs()
 
-        print(
-            f"🎯 Backend Manager initialized with {self.active_backend.value}")
-        print(
-            f"📊 Available backends: {[b.value for b in self.available_backends]}")
+        try:
+            print(
+                f"Backend Manager initialized with {self.active_backend.value}")
+            print(
+                f"Available backends: {[b.value for b in self.available_backends]}")
+        except UnicodeEncodeError:
+            # Fallback for systems with encoding issues
+            print(
+                f"Backend Manager initialized with {self.active_backend.value}")
+            print(
+                f"Available backends: {[b.value for b in self.available_backends]}")
 
     def _detect_available_backends(self) -> List[BackendType]:
         """Detect which backends are available on the system"""

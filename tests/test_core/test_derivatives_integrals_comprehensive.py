@@ -82,6 +82,10 @@ class TestFractionalDerivativeOperator:
     
     def test_compute_with_function(self):
         """Test computing derivative with function input"""
+        # Set implementation before computing
+        from hpfracc.core.fractional_implementations import RiemannLiouvilleDerivative
+        self.operator.set_implementation(RiemannLiouvilleDerivative(self.alpha))
+        
         def f(t):
             return t**2
         

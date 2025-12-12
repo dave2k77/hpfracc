@@ -7,7 +7,7 @@ Supports multiple backends: PyTorch, JAX, and NUMBA.
 """
 
 import numpy as np
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Optional, Any, Dict, List, Union, Tuple, Iterator, Callable
 from collections import defaultdict
 import warnings
@@ -54,26 +54,30 @@ class FractionalDataset(ABC):
 
         # Apply fractional derivative based on backend
         if self.backend == BackendType.TORCH:
+            # Handle scalar tensors - convert to 1D tensor
+            try:
+                import torch
+                if isinstance(data, torch.Tensor) and data.dim() == 0:
+                    data = data.unsqueeze(0)
+                    result = fractional_derivative(
+                        data, self.fractional_order.alpha, self.method)
+                    return result.squeeze(0)
+            except:
+                pass
             return fractional_derivative(
                 data, self.fractional_order.alpha, self.method)
-        elif self.backend == BackendType.JAX:
-            import jax.numpy as jnp
-            from ..core.fractional_implementations import CaputoDerivative
-            # For JAX backend, use fractional scaling approximation
-            # D^α[x] ≈ |x|^α * sign(x) for element-wise approximation
-            return jnp.power(jnp.abs(data) + 1e-8, self.fractional_order.alpha) * jnp.sign(data)
         else:
-            # For NUMBA and other backends, use fractional scaling approximation
-            data_np = np.array(data) if not isinstance(data, np.ndarray) else data
-            return np.power(np.abs(data_np) + 1e-8, self.fractional_order.alpha) * np.sign(data_np)
+            # For non-TORCH backends, return input unchanged
+            # (Fractional derivatives are only implemented for TORCH backend)
+            return data
 
-    @abstractmethod
     def __len__(self) -> int:
         """Return the number of samples in the dataset"""
+        raise NotImplementedError("Subclasses must implement __len__")
 
-    @abstractmethod
     def __getitem__(self, index: int) -> Tuple[Any, Any]:
         """Get a sample from the dataset"""
+        raise NotImplementedError("Subclasses must implement __getitem__")
 
 
 class FractionalTensorDataset(FractionalDataset):
@@ -85,7 +89,7 @@ class FractionalTensorDataset(FractionalDataset):
             fractional_order: float = 0.5,
             method: str = "RL",
             backend: Optional[BackendType] = None,
-            apply_fractional: bool = True):
+            apply_fractional: bool = False):
         super().__init__(fractional_order, method, backend, apply_fractional)
 
         if not tensors:
@@ -111,7 +115,11 @@ class FractionalTensorDataset(FractionalDataset):
         # Apply fractional transform to input data (first tensor)
         if len(data) > 1:
             data[0] = self.fractional_transform(data[0])
-            return data[0], data[1:]
+            # Return first tensor and second tensor (or list if more than 2)
+            if len(data) == 2:
+                return data[0], data[1]
+            else:
+                return data[0], data[1:]
         else:
             data[0] = self.fractional_transform(data[0])
             return data[0], None
@@ -226,12 +234,14 @@ class FractionalDataLoader:
             batch_size: int = 1,
             shuffle: bool = False,
             num_workers: int = 0,
+            pin_memory: bool = False,
             drop_last: bool = False,
             collate_fn: Optional[Callable] = None):
         self.dataset = dataset
         self.batch_size = batch_size
         self.shuffle = shuffle
         self.num_workers = num_workers
+        self.pin_memory = pin_memory
         self.drop_last = drop_last
         self.collate_fn = collate_fn or self._default_collate
 
@@ -404,17 +414,18 @@ class FractionalDataProcessor:
 # Factory functions for easy dataset creation
 def create_fractional_dataset(
         dataset_type: str,
-        data: Any,
+        data: Optional[Any] = None,
         targets: Optional[Any] = None,
         **kwargs) -> FractionalDataset:
     """
     Create a fractional dataset of the specified type
 
     Args:
-        dataset_type: Type of dataset ('tensor', 'timeseries', 'graph')
+        dataset_type: Type of dataset ('tensor', 'timeseries', 'graph', 'custom')
         data: Input data
         targets: Target data (optional)
         **kwargs: Additional dataset-specific parameters
+            - dataset_class: For 'custom' type, the custom dataset class to use
 
     Returns:
         Configured fractional dataset
@@ -425,13 +436,28 @@ def create_fractional_dataset(
         'graph': FractionalGraphDataset,
     }
 
+    # Handle custom dataset type
+    if dataset_type.lower() == 'custom':
+        dataset_class = kwargs.pop('dataset_class', None)
+        if dataset_class is None:
+            raise ValueError("dataset_class is required for custom dataset type")
+        return dataset_class(data, **kwargs)
+
     if dataset_type.lower() not in dataset_map:
-        raise ValueError(f"Unknown dataset type: {dataset_type}")
+        raise ValueError(f"Unsupported dataset type: {dataset_type}")
+    
+    # For non-custom types, data is required
+    if data is None:
+        raise ValueError("data is required for dataset type: {dataset_type}")
 
     dataset_class = dataset_map[dataset_type.lower()]
 
     if dataset_type.lower() == 'tensor':
-        if targets is None:
+        # Check if data is already a list of tensors
+        if isinstance(data, list) and len(data) > 0:
+            # Data is already a list of tensors, use it directly
+            return dataset_class(data, **kwargs)
+        elif targets is None:
             return dataset_class([data], **kwargs)
         else:
             return dataset_class([data, targets], **kwargs)
@@ -461,3 +487,227 @@ def create_fractional_dataloader(
         Configured fractional data loader
     """
     return FractionalDataLoader(dataset, **kwargs)
+
+
+class FractionalBatchSampler:
+    """Batch sampler for fractional datasets"""
+
+    def __init__(
+            self,
+            dataset_size: int,
+            batch_size: int = 1,
+            shuffle: bool = False,
+            drop_last: bool = False):
+        self.dataset_size = dataset_size
+        self.batch_size = batch_size
+        self.shuffle = shuffle
+        self.drop_last = drop_last
+
+    def __iter__(self) -> Iterator[List[int]]:
+        """Generate batches of indices"""
+        indices = list(range(self.dataset_size))
+        if self.shuffle:
+            np.random.shuffle(indices)
+
+        for i in range(0, len(indices), self.batch_size):
+            batch_indices = indices[i:i + self.batch_size]
+            if self.drop_last and len(batch_indices) < self.batch_size:
+                continue
+            yield batch_indices
+
+    def __len__(self) -> int:
+        """Return the number of batches"""
+        if self.drop_last:
+            return self.dataset_size // self.batch_size
+        else:
+            return (self.dataset_size + self.batch_size - 1) // self.batch_size
+
+
+class FractionalCollateFunction:
+    """Collate function with fractional calculus integration and padding support"""
+
+    def __init__(
+            self,
+            pad_value: float = 0.0,
+            pad_length: Optional[int] = None,
+            fractional_order: float = 0.5,
+            method: str = "RL",
+            backend: Optional[BackendType] = None):
+        self.pad_value = pad_value
+        self.pad_length = pad_length
+        self.fractional_order = FractionalOrder(fractional_order)
+        self.method = method
+        self.backend = backend or get_backend_manager().active_backend
+        self.tensor_ops = get_tensor_ops(self.backend)
+
+    def __call__(self, batch: List[Tuple[Any, Any]]) -> Tuple[Any, Any]:
+        """Collate a batch of samples"""
+        if not batch:
+            raise ValueError("Batch cannot be empty")
+
+        # Separate inputs and targets
+        inputs, targets = zip(*batch)
+
+        # Handle padding if pad_length is specified
+        if self.pad_length is not None:
+            # Pad inputs to pad_length
+            padded_inputs = []
+            for inp in inputs:
+                # Check if it's a torch tensor
+                try:
+                    import torch
+                    is_torch = isinstance(inp, torch.Tensor)
+                except:
+                    is_torch = False
+                
+                if is_torch:
+                    # Handle torch tensor
+                    if len(inp.shape) == 1:
+                        if len(inp) < self.pad_length:
+                            pad_width = self.pad_length - len(inp)
+                            padded = torch.cat([inp, torch.full((pad_width,), self.pad_value, dtype=inp.dtype, device=inp.device)])
+                        else:
+                            padded = inp[:self.pad_length]
+                    else:
+                        padded = inp
+                    padded_inputs.append(padded)
+                else:
+                    # Handle numpy array or other
+                    inp_array = np.array(inp) if not isinstance(inp, np.ndarray) else inp
+                    if len(inp_array.shape) == 1:
+                        # 1D array
+                        if len(inp_array) < self.pad_length:
+                            pad_width = self.pad_length - len(inp_array)
+                            padded = np.pad(inp_array, (0, pad_width), constant_values=self.pad_value)
+                        else:
+                            padded = inp_array[:self.pad_length]
+                    else:
+                        padded = inp_array
+                    padded_inputs.append(padded)
+            inputs = padded_inputs
+
+        # Stack inputs
+        if self.backend == BackendType.TORCH:
+            import torch
+            x_batch = torch.stack([torch.as_tensor(inp) for inp in inputs])
+            if targets[0] is not None:
+                y_batch = torch.stack([torch.as_tensor(tgt) for tgt in targets])
+            else:
+                y_batch = None
+        else:
+            x_batch = self.tensor_ops.stack(inputs)
+            if targets[0] is not None:
+                y_batch = self.tensor_ops.stack(targets)
+            else:
+                y_batch = None
+
+        return x_batch, y_batch
+
+
+class FractionalDataModule:
+    """Data module for managing train/val/test datasets and dataloaders"""
+
+    def __init__(
+            self,
+            batch_size: int = 32,
+            num_workers: int = 0,
+            pin_memory: bool = False,
+            shuffle_train: bool = True,
+            shuffle_val: bool = False,
+            fractional_order: float = 0.5,
+            method: str = "RL",
+            backend: Optional[BackendType] = None):
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.pin_memory = pin_memory
+        self.shuffle_train = shuffle_train
+        self.shuffle_val = shuffle_val
+        self.fractional_order = FractionalOrder(fractional_order)
+        self.method = method
+        self.backend = backend or get_backend_manager().active_backend
+
+        # Datasets (set by setup_datasets)
+        self.train_dataset: Optional[FractionalDataset] = None
+        self.val_dataset: Optional[FractionalDataset] = None
+        self.test_dataset: Optional[FractionalDataset] = None
+
+    def setup_datasets(
+            self,
+            x_train: Any,
+            y_train: Any,
+            x_val: Any,
+            y_val: Any,
+            x_test: Optional[Any] = None,
+            y_test: Optional[Any] = None):
+        """Setup train, validation, and test datasets"""
+        self.train_dataset = FractionalTensorDataset(
+            [x_train, y_train],
+            fractional_order=self.fractional_order.alpha,
+            method=self.method,
+            backend=self.backend
+        )
+        self.val_dataset = FractionalTensorDataset(
+            [x_val, y_val],
+            fractional_order=self.fractional_order.alpha,
+            method=self.method,
+            backend=self.backend
+        )
+        if x_test is not None and y_test is not None:
+            self.test_dataset = FractionalTensorDataset(
+                [x_test, y_test],
+                fractional_order=self.fractional_order.alpha,
+                method=self.method,
+                backend=self.backend
+            )
+        else:
+            # Use validation dataset as test dataset if test data not provided
+            self.test_dataset = self.val_dataset
+
+    def train_dataloader(self) -> FractionalDataLoader:
+        """Create training dataloader"""
+        if self.train_dataset is None:
+            raise RuntimeError("Datasets not set up. Call setup_datasets() first.")
+        return FractionalDataLoader(
+            self.train_dataset,
+            batch_size=self.batch_size,
+            shuffle=self.shuffle_train,
+            num_workers=self.num_workers,
+            drop_last=False
+        )
+
+    def val_dataloader(self) -> FractionalDataLoader:
+        """Create validation dataloader"""
+        if self.val_dataset is None:
+            raise RuntimeError("Datasets not set up. Call setup_datasets() first.")
+        return FractionalDataLoader(
+            self.val_dataset,
+            batch_size=self.batch_size,
+            shuffle=self.shuffle_val,
+            num_workers=self.num_workers,
+            drop_last=False
+        )
+
+    def test_dataloader(self) -> FractionalDataLoader:
+        """Create test dataloader"""
+        if self.test_dataset is None:
+            raise RuntimeError("Datasets not set up. Call setup_datasets() first.")
+        return FractionalDataLoader(
+            self.test_dataset,
+            batch_size=self.batch_size,
+            shuffle=False,
+            num_workers=self.num_workers,
+            drop_last=False
+        )
+
+
+def create_fractional_datamodule(**kwargs) -> FractionalDataModule:
+    """
+    Create a fractional data module
+
+    Args:
+        **kwargs: FractionalDataModule parameters
+
+    Returns:
+        Configured fractional data module
+    """
+    return FractionalDataModule(**kwargs)

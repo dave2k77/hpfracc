@@ -69,8 +69,8 @@ def _ensure_alpha_tensor(alpha: _Alpha, reference: torch.Tensor) -> torch.Tensor
 
 def _validate_alpha(alpha: torch.Tensor) -> None:
     alpha_value = float(alpha.detach().cpu())
-    if not (0.0 < alpha_value < 2.0):
-        raise ValueError("Alpha must be in (0, 2)")
+    if not (0.0 < alpha_value <= 2.0):
+        raise ValueError("Alpha must be in (0, 2]")
 
 
 def _frequency_grid(length: int, device: torch.device, dtype: torch.dtype) -> torch.Tensor:
@@ -156,6 +156,20 @@ def spectral_derivative_torch(x, alpha, dim=-1, kernel_type="riesz"):
     """PyTorch implementation of spectral derivative."""
     if not isinstance(x, torch.Tensor):
         raise TypeError("Input must be a torch.Tensor for torch backend")
+
+    # Handle empty tensors
+    if x.numel() == 0:
+        return x.clone()
+
+    # Normalize dim
+    if dim < 0:
+        dim = x.ndim + dim
+    if dim < 0 or dim >= x.ndim:
+        raise ValueError(f"Invalid dimension {dim} for tensor with {x.ndim} dims")
+    
+    # Handle zero-length dimension
+    if x.shape[dim] == 0:
+        return x.clone()
 
     fft = torch.fft.fft(x, dim=dim, norm="ortho")
     kernel = _get_fractional_kernel(

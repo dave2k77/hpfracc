@@ -256,19 +256,36 @@ class BinomialCoefficients:
         # This is more accurate than simple approximations
         # Using Stirling's approximation for log-gamma:
         # log Γ(x) ≈ (x-0.5)*log(x) - x + 0.5*log(2π)
-        import math
+        # Note: Using np.log and np.exp which are Numba-compatible
+        # Numba supports np.log, np.exp, and np.pi in nopython mode
+        # Numba doesn't support nested functions, so we inline the computation
         
-        def log_gamma_approx(x):
-            """Stirling's approximation for log-gamma"""
-            if x <= 0:
-                return 0.0
-            return (x - 0.5) * math.log(x) - x + 0.5 * math.log(2.0 * math.pi)
+        # Compute log of binomial coefficient using inlined Stirling approximation
+        n1 = n + 1.0
+        k1 = k + 1.0
+        nk1 = n - k + 1.0
         
-        # Compute log of binomial coefficient
-        log_result = log_gamma_approx(n + 1) - log_gamma_approx(k + 1) - log_gamma_approx(n - k + 1)
+        # Stirling's approximation: log Γ(x) ≈ (x-0.5)*log(x) - x + 0.5*log(2π)
+        # Handle edge cases where x <= 0
+        if n1 > 0:
+            log_n1 = (n1 - 0.5) * np.log(n1) - n1 + 0.5 * np.log(2.0 * np.pi)
+        else:
+            log_n1 = 0.0
+            
+        if k1 > 0:
+            log_k1 = (k1 - 0.5) * np.log(k1) - k1 + 0.5 * np.log(2.0 * np.pi)
+        else:
+            log_k1 = 0.0
+            
+        if nk1 > 0:
+            log_nk1 = (nk1 - 0.5) * np.log(nk1) - nk1 + 0.5 * np.log(2.0 * np.pi)
+        else:
+            log_nk1 = 0.0
         
-        # Return the exponential
-        return math.exp(log_result)
+        log_result = log_n1 - log_k1 - log_nk1
+        
+        # Return the exponential using np.exp (Numba-compatible)
+        return np.exp(log_result)
 
     @staticmethod
     def _binomial_jax_impl(n: "jnp.ndarray", k: "jnp.ndarray") -> "jnp.ndarray":

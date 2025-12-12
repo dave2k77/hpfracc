@@ -286,8 +286,8 @@ class TestFractionalAdvectionSolver:
             t_span=(0, 0.1),
             initial_condition=initial_condition,
             boundary_conditions=(boundary_left, boundary_right),
-            alpha=0.8,
-            beta=1.5,  # Spatial fractional order
+            alpha=1.0,  # Advection solver only supports integer orders
+            beta=1.0,  # Spatial order must also be integer
             velocity=1.0,
             nx=10,
             nt=5,

@@ -371,8 +371,8 @@ class FractionalGraphConv(BaseFractionalGNNLayer):
         import torch
         import torch.nn.functional as F
 
-        # Ensure weight matrix matches input dtype
-        weight = self.weight.to(x.dtype)
+        # Ensure weight matrix matches input dtype and device
+        weight = self.weight.to(x.dtype).to(x.device)
 
         # Linear transformation
         out = torch.matmul(x, weight)
@@ -400,22 +400,32 @@ class FractionalGraphConv(BaseFractionalGNNLayer):
             row, col = edge_index
 
             # Aggregate neighbor features using scatter_add
+            # Ensure edge_weight is on the same device if provided
             if edge_weight is not None:
+                if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                    edge_weight = edge_weight.to(x.device)
                 # Ensure edge_weight has correct shape
                 if edge_weight.dim() == 1:
                     edge_weight = self.tensor_ops.unsqueeze(edge_weight, -1)
                 # Apply edge weights
                 weighted_features = out[col] * edge_weight
-                out = torch.scatter_add(out, 0, self.tensor_ops.unsqueeze(
-                    row, -1).expand(-1, out.shape[-1]), weighted_features)
+                # Use scatter_add (works in both old and new PyTorch)
+                index = self.tensor_ops.unsqueeze(row, -1).expand(-1, out.shape[-1])
+                if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                    # Ensure index is on same device
+                    index = index.to(out.device)
+                out = out.scatter_add(0, index, weighted_features)
             else:
                 # Simple aggregation without weights
-                out = torch.scatter_add(out, 0, self.tensor_ops.unsqueeze(
-                    row, -1).expand(-1, out.shape[-1]), out[col])
+                index = self.tensor_ops.unsqueeze(row, -1).expand(-1, out.shape[-1])
+                if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                    # Ensure index is on same device
+                    index = index.to(out.device)
+                out = out.scatter_add(0, index, out[col])
 
         # Add bias
         if self.bias is not None:
-            bias = self.bias.to(x.dtype)
+            bias = self.bias.to(x.dtype).to(x.device)
             out = out + bias
 
         # Apply activation and dropout
@@ -753,11 +763,25 @@ class FractionalGraphAttention(BaseFractionalGNNLayer):
         """
         # Apply fractional derivative to input features
         x = self.apply_fractional_derivative(x)
+        
+        # Ensure edge_weight is on the same device if provided
+        if edge_weight is not None and (self.backend == BackendType.TORCH or self.backend == BackendType.AUTO):
+            edge_weight = edge_weight.to(x.device)
 
+        # Ensure weights are on the same device as input
+        if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+            query_weight = self.query_weight.to(x.device).to(x.dtype)
+            key_weight = self.key_weight.to(x.device).to(x.dtype)
+            value_weight = self.value_weight.to(x.device).to(x.dtype)
+        else:
+            query_weight = self.query_weight
+            key_weight = self.key_weight
+            value_weight = self.value_weight
+        
         # Compute attention scores
-        query = self.tensor_ops.matmul(x, self.query_weight)
-        key = self.tensor_ops.matmul(x, self.key_weight)
-        value = self.tensor_ops.matmul(x, self.value_weight)
+        query = self.tensor_ops.matmul(x, query_weight)
+        key = self.tensor_ops.matmul(x, key_weight)
+        value = self.tensor_ops.matmul(x, value_weight)
 
         # For graph attention, we only compute attention between connected
         # nodes
@@ -772,8 +796,11 @@ class FractionalGraphAttention(BaseFractionalGNNLayer):
             elif edge_index.shape[0] > 2:
                 edge_index = edge_index[:2, :]
 
-            # Ensure edge_index has valid indices
+            # Ensure edge_index has valid indices and is on the same device as x
             num_nodes = x.shape[0]
+            if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                # Ensure edge_index is on the same device as x
+                edge_index = edge_index.to(x.device)
             edge_index = self.tensor_ops.clip(edge_index, 0, num_nodes - 1)
 
             # Get source and target indices
@@ -825,11 +852,19 @@ class FractionalGraphAttention(BaseFractionalGNNLayer):
             out = query
 
         # Output projection
-        out = self.tensor_ops.matmul(out, self.output_weight)
+        if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+            output_weight = self.output_weight.to(out.device).to(out.dtype)
+        else:
+            output_weight = self.output_weight
+        out = self.tensor_ops.matmul(out, output_weight)
 
         # Add bias
         if self.bias is not None:
-            out = out + self.bias
+            if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                bias = self.bias.to(out.device).to(out.dtype)
+            else:
+                bias = self.bias
+            out = out + bias
 
         # Apply activation and dropout
         out = self._apply_activation(out)
@@ -907,6 +942,21 @@ class FractionalGraphAttention(BaseFractionalGNNLayer):
         """Apply dropout"""
         return self.tensor_ops.dropout(
             x, p=self.dropout, training=self.training, **kwargs)
+
+    def to(self, device):
+        """Move layer parameters to specified device (PyTorch compatibility)"""
+        if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+            if hasattr(self, 'query_weight') and self.query_weight is not None:
+                self.query_weight = self.query_weight.to(device)
+            if hasattr(self, 'key_weight') and self.key_weight is not None:
+                self.key_weight = self.key_weight.to(device)
+            if hasattr(self, 'value_weight') and self.value_weight is not None:
+                self.value_weight = self.value_weight.to(device)
+            if hasattr(self, 'output_weight') and self.output_weight is not None:
+                self.output_weight = self.output_weight.to(device)
+            if hasattr(self, 'bias') and self.bias is not None:
+                self.bias = self.bias.to(device)
+        return self
 
     def train(self, mode: bool = True):
         """Set the layer in training mode."""
@@ -1074,20 +1124,27 @@ class FractionalGraphPooling(BaseFractionalGNNLayer):
         x = self.apply_fractional_derivative(x)
 
         # Compute node scores using the score network
-        # Ensure proper matrix multiplication
-        if x.shape[-1] != self.score_network.shape[0]:
+        # Ensure proper matrix multiplication and device matching
+        if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+            score_network = self.score_network.to(x.device).to(x.dtype)
+        else:
+            score_network = self.score_network
+            
+        if x.shape[-1] != score_network.shape[0]:
             # Reshape score_network to match input dimensions
-            if x.shape[-1] > self.score_network.shape[0]:
+            if x.shape[-1] > score_network.shape[0]:
                 # Pad score_network with zeros
-                padding = x.shape[-1] - self.score_network.shape[0]
+                padding = x.shape[-1] - score_network.shape[0]
                 zeros = self.tensor_ops.zeros((padding, 1))
+                if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                    zeros = zeros.to(x.device).to(x.dtype)
                 padded_score = self.tensor_ops.cat(
-                    [self.score_network, zeros], dim=0)
+                    [score_network, zeros], dim=0)
             else:
                 # Truncate score_network
-                padded_score = self.score_network[:x.shape[-1], :]
+                padded_score = score_network[:x.shape[-1], :]
         else:
-            padded_score = self.score_network
+            padded_score = score_network
 
         scores = self.tensor_ops.matmul(x, padded_score)
         scores = self.tensor_ops.squeeze(scores, -1)
@@ -1114,7 +1171,12 @@ class FractionalGraphPooling(BaseFractionalGNNLayer):
 
         # Apply linear transformation to reduce channels
         if self.backend == BackendType.TORCH:
-            pooled_features = self.linear(pooled_features)
+            # Ensure linear layer is on same device as input
+            if hasattr(self, 'linear'):
+                pooled_features = self.linear(pooled_features)
+            else:
+                # Fallback if linear is not a torch.nn.Module
+                pooled_features = torch.matmul(pooled_features, self.linear_weight.to(pooled_features.device).to(pooled_features.dtype).T) + self.linear_bias.to(pooled_features.device).to(pooled_features.dtype)
         elif self.backend == BackendType.JAX:
             import jax.numpy as jnp
             pooled_features = jnp.dot(
@@ -1127,10 +1189,36 @@ class FractionalGraphPooling(BaseFractionalGNNLayer):
         # Pool edge index and batch (simplified)
         # In practice, you'd want to filter edges to only include connections
         # between pooled nodes
-        pooled_edge_index = edge_index  # Simplified for now
-        pooled_batch = batch[indices] if batch is not None else None
+        if edge_index is not None:
+            if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                # Ensure edge_index is on the same device as x
+                pooled_edge_index = edge_index.to(x.device)
+            else:
+                pooled_edge_index = edge_index
+        else:
+            pooled_edge_index = edge_index
+        if batch is not None:
+            if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+                # Ensure batch is on the same device as x
+                batch = batch.to(x.device)
+            pooled_batch = batch[indices]
+        else:
+            pooled_batch = None
 
         return pooled_features, pooled_edge_index, pooled_batch
+
+    def to(self, device):
+        """Move layer parameters to specified device (PyTorch compatibility)"""
+        if self.backend == BackendType.TORCH or self.backend == BackendType.AUTO:
+            if hasattr(self, 'score_network') and self.score_network is not None:
+                self.score_network = self.score_network.to(device)
+            if hasattr(self, 'linear'):
+                self.linear = self.linear.to(device)
+            elif hasattr(self, 'linear_weight') and self.linear_weight is not None:
+                self.linear_weight = self.linear_weight.to(device)
+                if hasattr(self, 'linear_bias') and self.linear_bias is not None:
+                    self.linear_bias = self.linear_bias.to(device)
+        return self
 
     def train(self, mode: bool = True):
         """Set the layer in training mode."""

@@ -4,8 +4,12 @@
 import pytest
 import numpy as np
 from hpfracc.solvers.ode_solvers import FixedStepODESolver
+from hpfracc.solvers import FractionalODESolver, AdaptiveFractionalODESolver
 from hpfracc.solvers.pde_solvers import FractionalPDESolver
 from hpfracc.core.definitions import FractionalOrder
+
+# Alias for backward compatibility
+AdaptiveFixedStepODESolver = AdaptiveFractionalODESolver
 
 
 class TestSolversAPICorrect:

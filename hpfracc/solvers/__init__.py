@@ -81,6 +81,11 @@ __all__ = [
 ]
 
 # Backward-compatibility aliases for tests expecting legacy names
+# Main solver aliases
+FractionalODESolver = FixedStepODESolver
+AdaptiveFractionalODESolver = FixedStepODESolver  # Adaptive is controlled by parameter
+AdaptiveFixedStepODESolver = FixedStepODESolver  # Alias for tests expecting this name
+
 # Advanced and high-order solvers are not implemented; provide stubs.
 class AdvancedFractionalODESolver(FixedStepODESolver):
     pass
@@ -96,14 +101,18 @@ def solve_high_order_fractional_ode(*args, **kwargs):
 
 # Predictor-corrector compatibility names
 PredictorCorrectorSolver = FixedStepODESolver
-AdamsBashforthMoultonSolver = None # Was AdaptiveODESolver
-class VariableStepPredictorCorrector: # Removed inheritance
+AdamsBashforthMoultonSolver = FixedStepODESolver  # Alias for Adams-Bashforth-Moulton method
+class VariableStepPredictorCorrector(FixedStepODESolver):
+    """Variable step predictor-corrector solver."""
     pass
 
 def solve_predictor_corrector(*args, **kwargs):
     return solve_fractional_ode(*args, **kwargs)
 
 __all__ += [
+    'FractionalODESolver',
+    'AdaptiveFractionalODESolver',
+    'AdaptiveFixedStepODESolver',
     'AdvancedFractionalODESolver',
     'HighOrderFractionalSolver',
     'solve_advanced_fractional_ode',

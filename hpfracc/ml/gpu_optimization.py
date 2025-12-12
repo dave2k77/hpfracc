@@ -215,8 +215,8 @@ class GPUOptimizedSpectralEngine:
         self.chunked_fft = ChunkedFFT(chunk_size=chunk_size)
         self.profiler = GPUProfiler()
 
-        # AMP scaler
-        self.scaler = GradScaler('cuda') if use_amp else None
+        # AMP scaler - only initialize if CUDA is available
+        self.scaler = GradScaler('cuda') if (use_amp and torch.cuda.is_available()) else None
 
     def forward(self, x: torch.Tensor, alpha: float) -> torch.Tensor:
         """GPU-optimized forward pass."""

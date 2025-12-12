@@ -258,9 +258,10 @@ class TestIntegralEdgeCases:
             return x**2
         
         x_vals = np.array([1.0, 2.0, 3.0])
-        # Caputo integral for α ≥ 1 is not implemented
-        with pytest.raises(NotImplementedError, match="Caputo integral for α ≥ 1"):
-            caputo_integral(test_func, x_vals)
+        # Caputo integral for α ≥ 1 is now implemented (decomposes into integer and fractional parts)
+        result = caputo_integral(test_func, x_vals)
+        assert isinstance(result, np.ndarray)
+        assert len(result) > 0
     
     def test_weyl_integral_negative_alpha(self):
         """Test Weyl integral with negative alpha."""

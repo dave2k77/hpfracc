@@ -171,7 +171,7 @@ class FractionalPDESolver:
         
         diffusion_coeff = kwargs.get("diffusion_coeff", 1.0)
         
-        A = self._build_spatial_matrix(nx, dx, beta, diffusion_coeff)
+        A = self._build_spatial_matrix(nx, beta, diffusion_coeff, dx, dt, alpha, side='lhs')
         A_lu = splu(A)
 
         # Precompute L1 weights
@@ -758,6 +758,15 @@ class FractionalAdvectionSolver(FractionalPDESolver):
         super().__init__("advection", method, spatial_order, temporal_order)
         self.derivative_type = derivative_type.lower()
 
+    def _grunwald_letnikov_coeffs(self, order: float, n_points: int) -> np.ndarray:
+        """Compute Grünwald-Letnikov coefficients."""
+        coeffs = np.zeros(n_points, dtype=float)
+        coeffs[0] = 1.0
+        for k in range(1, n_points):
+            # c_k = (-1)^k * C(order, k) with recursive form
+            coeffs[k] = -coeffs[k - 1] * (order - (k - 1)) / k
+        return coeffs
+
     def solve(
         self,
         t_span: Tuple[float, float],
@@ -767,16 +776,22 @@ class FractionalAdvectionSolver(FractionalPDESolver):
         alpha: float,
         beta: float,
         **kwargs,
-    ) -> Dict[str, np.ndarray]:
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """Solve the fractional advection equation."""
         if not (alpha == 1.0 and beta == 1.0):
             raise NotImplementedError(
                 "FractionalAdvectionSolver currently only supports integer orders (alpha=1, beta=1)."
             )
         
-        return super().solve(
+        result = super().solve(
             t_span, x_span, initial_condition, boundary_conditions, alpha, beta, **kwargs
         )
+        
+        # Convert dictionary return to tuple format expected by tests
+        if isinstance(result, dict):
+            return result["t"], result["x"], result["u"].T
+        else:
+            return result
 
     def _build_spatial_matrix(
         self,

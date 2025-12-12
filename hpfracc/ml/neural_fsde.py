@@ -73,6 +73,23 @@ class NeuralFractionalSDE(BaseNeuralODE):
         """Build neural network for drift function."""
         if self.config.drift_net is not None:
             self.drift_net = self.config.drift_net
+            # Validate custom network input dimension
+            expected_input_dim = self.input_dim + 1  # time + state
+            actual_input_dim = None
+            
+            # Find first Linear layer in the network
+            for module in self.drift_net.modules():
+                if isinstance(module, nn.Linear):
+                    actual_input_dim = module.in_features
+                    break
+            
+            if actual_input_dim is not None and actual_input_dim != expected_input_dim:
+                raise ValueError(
+                    f"Custom drift network input dimension mismatch: "
+                    f"expected {expected_input_dim} (input_dim + 1 = {self.input_dim} + 1), "
+                    f"but network has {actual_input_dim}. "
+                    f"Ensure the first Linear layer has in_features={expected_input_dim}."
+                )
         else:
             # Default drift network
             self.drift_net = nn.Sequential(
@@ -87,6 +104,23 @@ class NeuralFractionalSDE(BaseNeuralODE):
         """Build neural network for diffusion function."""
         if self.config.diffusion_net is not None:
             self.diffusion_net = self.config.diffusion_net
+            # Validate custom network input dimension
+            expected_input_dim = self.input_dim + 1  # time + state
+            actual_input_dim = None
+            
+            # Find first Linear layer in the network
+            for module in self.diffusion_net.modules():
+                if isinstance(module, nn.Linear):
+                    actual_input_dim = module.in_features
+                    break
+            
+            if actual_input_dim is not None and actual_input_dim != expected_input_dim:
+                raise ValueError(
+                    f"Custom diffusion network input dimension mismatch: "
+                    f"expected {expected_input_dim} (input_dim + 1 = {self.input_dim} + 1), "
+                    f"but network has {actual_input_dim}. "
+                    f"Ensure the first Linear layer has in_features={expected_input_dim}."
+                )
         else:
             # Default diffusion network
             # Output shape: (batch, output_dim, diffusion_dim) for multiplicative

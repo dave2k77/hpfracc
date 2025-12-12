@@ -358,6 +358,44 @@ class ConvergenceAnalyzer:
 
         return max(N_opt, 1)  # Ensure positive grid size
 
+    def estimate_convergence_rate(
+        self, h_values: np.ndarray, errors: np.ndarray
+    ) -> float:
+        """
+        Estimate convergence rate (alias for compute_convergence_rate with swapped parameter order).
+
+        Args:
+            h_values: Array of step sizes or grid sizes
+            errors: Array of errors
+
+        Returns:
+            Convergence rate (order of accuracy)
+        """
+        return self.compute_convergence_rate(errors, h_values)
+
+    def analyze_convergence_behavior(
+        self, h_values: np.ndarray, errors: np.ndarray
+    ) -> Dict[str, Any]:
+        """
+        Analyze convergence behavior from h_values and errors.
+
+        Args:
+            h_values: Array of step sizes or grid sizes
+            errors: Array of errors
+
+        Returns:
+            Dictionary containing convergence analysis results
+        """
+        convergence_rate = self.estimate_convergence_rate(h_values, errors)
+        
+        # Check if converging (errors should decrease as h decreases)
+        is_converging = convergence_rate > 0 and np.all(np.diff(errors) < 0)
+        
+        return {
+            "convergence_rate": convergence_rate,
+            "is_converging": bool(is_converging),
+        }
+
 
 class ValidationFramework:
     """Framework for validating numerical methods against analytical solutions."""
@@ -491,6 +529,71 @@ class ValidationFramework:
             "convergence_rates": convergence_rates,
         }
 
+    def validate_against_analytical(
+        self,
+        numerical: np.ndarray,
+        analytical: np.ndarray,
+        tolerance: Optional[float] = None,
+    ) -> Dict[str, Any]:
+        """
+        Validate numerical solution against analytical solution.
+
+        Args:
+            numerical: Numerical solution array
+            analytical: Analytical solution array
+            tolerance: Error tolerance (uses self.tolerance if not provided)
+
+        Returns:
+            Dictionary containing validation results
+        """
+        if tolerance is None:
+            tolerance = self.tolerance
+
+        # Compute errors
+        errors = self.error_analyzer.compute_all_errors(numerical, analytical)
+        
+        # Check if solution is valid (all errors within tolerance)
+        is_valid = (
+            errors.get("l2", np.inf) < tolerance
+            and errors.get("linf", np.inf) < tolerance
+            and not np.any(np.isnan(numerical))
+            and not np.any(np.isinf(numerical))
+        )
+
+        return {
+            "is_valid": bool(is_valid),
+            "errors": errors,
+        }
+
+    def check_convergence(
+        self,
+        h_values: np.ndarray,
+        errors: np.ndarray,
+        min_rate: float = 1.0,
+    ) -> Dict[str, Any]:
+        """
+        Check if solution is converging based on h_values and errors.
+
+        Args:
+            h_values: Array of step sizes or grid sizes
+            errors: Array of errors
+            min_rate: Minimum convergence rate required
+
+        Returns:
+            Dictionary containing convergence check results
+        """
+        convergence_rate = self.convergence_analyzer.estimate_convergence_rate(
+            h_values, errors
+        )
+        
+        is_converging = convergence_rate >= min_rate and np.all(np.diff(errors) < 0)
+
+        return {
+            "is_converging": bool(is_converging),
+            "convergence_rate": float(convergence_rate),
+            "min_rate_required": float(min_rate),
+        }
+
     def _compute_summary(self, test_cases: List[Dict]) -> Dict:
         """Compute overall summary of validation results."""
         successful_cases = [case for case in test_cases if case["success"]]
@@ -561,9 +664,9 @@ def analyze_convergence(
     """Analyze convergence rates for given data.
 
     Args:
-        methods_or_grid_sizes: Either list of method names or grid sizes
+        methods_or_grid_sizes: Either list of method names or grid sizes (h_values)
         h_values_or_errors: Either h_values array or errors dict (depending on first arg)
-        errors: Errors dict (only if first arg is methods)
+        errors: Errors dict (only if first arg is methods) or errors array if first arg is h_values
 
     Returns:
         Dictionary containing convergence analysis results
@@ -594,8 +697,21 @@ def analyze_convergence(
             raise ValueError("Invalid arguments provided")
     else:
         if errors is None:
+            # Check if called with (h_values, errors) pattern where both are arrays
+            if isinstance(methods_or_grid_sizes, (list, tuple, np.ndarray)) and isinstance(h_values_or_errors, (list, tuple, np.ndarray)):
+                # Both are arrays - this is the (h_values, errors) pattern
+                h_values = np.array(methods_or_grid_sizes)
+                errors_array = np.array(h_values_or_errors)
+                
+                # Compute convergence rate directly
+                convergence_rate = analyzer.estimate_convergence_rate(h_values, errors_array)
+                
+                return {
+                    "convergence_rate": float(convergence_rate),
+                    "rate": float(convergence_rate),
+                }
             # Called with methods, h_values, errors
-            if isinstance(methods_or_grid_sizes, (list, tuple)) and all(isinstance(x, str) for x in methods_or_grid_sizes):
+            elif isinstance(methods_or_grid_sizes, (list, tuple)) and all(isinstance(x, str) for x in methods_or_grid_sizes):
                 methods = methods_or_grid_sizes
                 h_values = np.array(h_values_or_errors)
                 # errors should be the third argument but it's None, this is an error
@@ -605,9 +721,12 @@ def analyze_convergence(
                 # Called with grid_sizes, errors
                 grid_sizes = np.array(methods_or_grid_sizes)
                 errors_dict = h_values_or_errors
-                methods = list(errors_dict.keys())
-                h_values = grid_sizes
-                return analyzer.analyze_convergence(methods, h_values, errors_dict)
+                if isinstance(errors_dict, dict):
+                    methods = list(errors_dict.keys())
+                    h_values = grid_sizes
+                    return analyzer.analyze_convergence(methods, h_values, errors_dict)
+                else:
+                    raise ValueError("When grid_sizes provided, errors must be a dict")
         else:
             # Called with methods, h_values, errors
             methods = methods_or_grid_sizes
@@ -620,6 +739,7 @@ def validate_solution(*args) -> bool:
 
     Args:
         If one argument: solution array to validate
+        If two arguments: analytical, numerical arrays to compare
         If three arguments: method_func, analytical_func, test_cases for method validation
 
     Returns:
@@ -631,10 +751,15 @@ def validate_solution(*args) -> bool:
         # Single argument: validate solution array
         solution = args[0]
         return framework.validate_solution(solution)
+    elif len(args) == 2:
+        # Two arguments: analytical, numerical arrays
+        analytical, numerical = args
+        result = framework.validate_against_analytical(numerical, analytical)
+        return result.get("is_valid", False)
     elif len(args) == 3:
         # Three arguments: validate method
         method_func, analytical_func, test_cases = args
         return framework.validate_method(method_func, analytical_func, test_cases)
     else:
         raise ValueError(
-            "validate_solution expects either 1 argument (solution array) or 3 arguments (method_func, analytical_func, test_cases)")
+            "validate_solution expects either 1 argument (solution array), 2 arguments (analytical, numerical), or 3 arguments (method_func, analytical_func, test_cases)")

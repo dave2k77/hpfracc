@@ -18,8 +18,12 @@ from hpfracc.ml.data import (
     FractionalGraphDataset,
     FractionalDataLoader,
     FractionalDataProcessor,
+    FractionalBatchSampler,
+    FractionalCollateFunction,
+    FractionalDataModule,
     create_fractional_dataset,
-    create_fractional_dataloader
+    create_fractional_dataloader,
+    create_fractional_datamodule
 )
 from hpfracc.ml.backends import BackendType
 from hpfracc.core.definitions import FractionalOrder
@@ -42,13 +46,13 @@ class TestFractionalDataset:
         dataset = FractionalDataset(
             fractional_order=0.7,
             method="Caputo",
-            backend=BackendType.NUMPY,
+            backend=BackendType.NUMBA,
             apply_fractional=False
         )
         
         assert dataset.fractional_order.alpha == 0.7
         assert dataset.method == "Caputo"
-        assert dataset.backend == BackendType.NUMPY
+        assert dataset.backend == BackendType.NUMBA
         assert dataset.apply_fractional == False
 
     def test_fractional_transform_torch_backend(self):
@@ -64,7 +68,7 @@ class TestFractionalDataset:
 
     def test_fractional_transform_non_torch_backend(self):
         """Test fractional transform for non-PyTorch backend"""
-        dataset = FractionalDataset(backend=BackendType.NUMPY)
+        dataset = FractionalDataset(backend=BackendType.NUMBA)
         
         # Should return input unchanged
         data = np.array([1.0, 2.0, 3.0])
@@ -400,14 +404,14 @@ class TestFractionalCollateFunction:
             pad_length=10,
             fractional_order=0.7,
             method="Caputo",
-            backend=BackendType.NUMPY
+            backend=BackendType.NUMBA
         )
         
         assert collate_fn.pad_value == 1.0
         assert collate_fn.pad_length == 10
         assert collate_fn.fractional_order.alpha == 0.7
         assert collate_fn.method == "Caputo"
-        assert collate_fn.backend == BackendType.NUMPY
+        assert collate_fn.backend == BackendType.NUMBA
 
     def test_collate_tensors(self):
         """Test collating tensors"""
@@ -508,7 +512,7 @@ class TestFractionalDataModule:
             shuffle_val=True,
             fractional_order=0.7,
             method="Caputo",
-            backend=BackendType.NUMPY
+            backend=BackendType.NUMBA
         )
         
         assert datamodule.batch_size == 64
@@ -518,7 +522,7 @@ class TestFractionalDataModule:
         assert datamodule.shuffle_val == True
         assert datamodule.fractional_order.alpha == 0.7
         assert datamodule.method == "Caputo"
-        assert datamodule.backend == BackendType.NUMPY
+        assert datamodule.backend == BackendType.NUMBA
 
     def test_setup_datasets(self):
         """Test setting up datasets"""

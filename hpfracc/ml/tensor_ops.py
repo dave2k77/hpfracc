@@ -6,7 +6,7 @@ NumPy-backed "NUMBA lane" (arrays are NumPy; numba is a compiler elsewhere),
 enabling seamless switching between frameworks while maintaining the same API.
 """
 
-from typing import Optional, Union, Any, List, Tuple
+from typing import Optional, Union, Any, List, Tuple, Dict
 from contextlib import nullcontext
 import warnings
 import importlib
@@ -442,12 +442,18 @@ class TensorOps:
 
     def squeeze(self, tensor: Any, dim: Optional[int] = None) -> Any:
         if self.backend == BackendType.TORCH:
+            if dim is None:
+                return tensor.squeeze()
             return tensor.squeeze(dim)
         elif self.backend == BackendType.JAX:
             # jnp.squeeze uses 'axis'; None removes all size-1 dimensions
+            if dim is None:
+                return self.tensor_lib.squeeze(tensor)
             return self.tensor_lib.squeeze(tensor, axis=dim)
         elif self.backend == BackendType.NUMBA:
             import numpy as np
+            if dim is None:
+                return np.squeeze(tensor)
             return np.squeeze(tensor, axis=dim)
         else:
             raise RuntimeError(f"Unknown backend: {self.backend}")
@@ -527,6 +533,18 @@ class TensorOps:
         elif self.backend == BackendType.NUMBA:
             lib = self._adapter.get_lib()
             return lib.matmul(a, b)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    def inverse(self, tensor: Any) -> Any:
+        """Compute the inverse of a square matrix."""
+        if self.backend == BackendType.TORCH:
+            return self.tensor_lib.inverse(tensor)
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.linalg.inv(tensor)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.linalg.inv(tensor)
         else:
             raise ValueError(f"Unknown backend: {self.backend}")
 
@@ -848,6 +866,27 @@ class TensorOps:
         else:
             raise RuntimeError(f"Unknown backend: {self.backend}")
 
+    def random_normal(self, shape: Tuple[int, ...], **kwargs) -> Any:
+        """Alias for randn."""
+        return self.randn(shape, **kwargs)
+
+    def random_uniform(self, shape: Tuple[int, ...], low: float = 0.0, high: float = 1.0, **kwargs) -> Any:
+        """Generate random uniform values."""
+        if self.backend == BackendType.TORCH:
+            return self.tensor_lib.rand(*shape, **kwargs) * (high - low) + low
+        elif self.backend == BackendType.JAX:
+            import jax.random as random
+            key = kwargs.pop("key", None)
+            if key is None:
+                raise ValueError(
+                    "JAX random_uniform requires a PRNG key passed as key=...")
+            return random.uniform(key, shape, minval=low, maxval=high, **kwargs)
+        elif self.backend == BackendType.NUMBA:
+            lib = self._adapter.get_lib()
+            return lib.random.uniform(low, high, shape)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
     def dropout(self, tensor: Any, p: float = 0.5, training: bool = True, **kwargs) -> Any:
         if not training or p == 0:
             return tensor
@@ -910,6 +949,545 @@ class TensorOps:
 
     def concatenate(self, tensors: List[Any], dim: int = 0) -> Any:
         return self.cat(tensors, dim=dim)
+
+    # ------------------------ Gradient operations ------------------------
+
+    def backward(self, tensor: Any, **kwargs) -> None:
+        """Compute gradients via backpropagation."""
+        if self.backend == BackendType.TORCH:
+            tensor.backward(**kwargs)
+        elif self.backend == BackendType.JAX:
+            # JAX uses functional autograd, backward is not applicable
+            warnings.warn("JAX doesn't support imperative backward(); use jax.grad instead")
+        elif self.backend == BackendType.NUMBA:
+            warnings.warn("NUMBA lane doesn't support automatic differentiation")
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    def grad(self, tensor: Any) -> Any:
+        """Get gradients of a tensor."""
+        if self.backend == BackendType.TORCH:
+            if tensor.grad is None:
+                return None
+            return tensor.grad
+        elif self.backend == BackendType.JAX:
+            warnings.warn("JAX gradients are computed functionally, not stored on tensors")
+            return None
+        elif self.backend == BackendType.NUMBA:
+            warnings.warn("NUMBA lane doesn't support automatic differentiation")
+            return None
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Device operations ------------------------
+
+    def device(self, tensor: Any) -> Any:
+        """Get the device of a tensor."""
+        if self.backend == BackendType.TORCH:
+            return tensor.device
+        elif self.backend == BackendType.JAX:
+            import jax
+            return jax.devices()[0]  # Return first device
+        elif self.backend == BackendType.NUMBA:
+            return 'cpu'  # NumPy arrays are always on CPU
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    def to_device(self, tensor: Any, device: Union[str, Any]) -> Any:
+        """Move tensor to a specific device."""
+        if self.backend == BackendType.TORCH:
+            if isinstance(device, str):
+                device = self.tensor_lib.device(device)
+            return tensor.to(device)
+        elif self.backend == BackendType.JAX:
+            # JAX handles device placement automatically
+            return tensor
+        elif self.backend == BackendType.NUMBA:
+            # NumPy arrays are always on CPU
+            return tensor
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Shape operations ------------------------
+
+    def shape(self, tensor: Any) -> Tuple[int, ...]:
+        """Get the shape of a tensor."""
+        if hasattr(tensor, 'shape'):
+            return tuple(tensor.shape)
+        else:
+            raise ValueError(f"Tensor doesn't have a shape attribute: {type(tensor)}")
+
+    # ------------------------ Indexing operations ------------------------
+
+    def index(self, tensor: Any, index: Union[int, Tuple[int, ...]]) -> Any:
+        """Index into a tensor."""
+        if isinstance(index, int):
+            return tensor[index]
+        elif isinstance(index, tuple):
+            return tensor[index]
+        else:
+            raise ValueError(f"Invalid index type: {type(index)}")
+
+    def slice(self, tensor: Any, start: Optional[int] = None, end: Optional[int] = None, dim: int = 0) -> Any:
+        """Slice a tensor along a dimension."""
+        if self.backend == BackendType.TORCH:
+            slices = [slice(None)] * tensor.dim()
+            slices[dim] = slice(start, end)
+            return tensor[tuple(slices)]
+        elif self.backend == BackendType.JAX:
+            slices = [slice(None)] * tensor.ndim
+            slices[dim] = slice(start, end)
+            return tensor[tuple(slices)]
+        elif self.backend == BackendType.NUMBA:
+            slices = [slice(None)] * tensor.ndim
+            slices[dim] = slice(start, end)
+            return tensor[tuple(slices)]
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Comparison operations ------------------------
+
+    def equal(self, tensor1: Any, tensor2: Any) -> Any:
+        """Element-wise equality comparison."""
+        if self.backend == BackendType.TORCH:
+            return tensor1 == tensor2
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.equal(tensor1, tensor2)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.equal(tensor1, tensor2)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    def greater(self, tensor1: Any, tensor2: Any) -> Any:
+        """Element-wise greater than comparison."""
+        if self.backend == BackendType.TORCH:
+            return tensor1 > tensor2
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.greater(tensor1, tensor2)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.greater(tensor1, tensor2)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    def less(self, tensor1: Any, tensor2: Any) -> Any:
+        """Element-wise less than comparison."""
+        if self.backend == BackendType.TORCH:
+            return tensor1 < tensor2
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.less(tensor1, tensor2)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.less(tensor1, tensor2)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Logical operations ------------------------
+
+    def logical_and(self, tensor1: Any, tensor2: Any) -> Any:
+        """Element-wise logical AND."""
+        if self.backend == BackendType.TORCH:
+            return self.tensor_lib.logical_and(tensor1, tensor2)
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.logical_and(tensor1, tensor2)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.logical_and(tensor1, tensor2)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    def logical_or(self, tensor1: Any, tensor2: Any) -> Any:
+        """Element-wise logical OR."""
+        if self.backend == BackendType.TORCH:
+            return self.tensor_lib.logical_or(tensor1, tensor2)
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.logical_or(tensor1, tensor2)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.logical_or(tensor1, tensor2)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    def logical_not(self, tensor: Any) -> Any:
+        """Element-wise logical NOT."""
+        if self.backend == BackendType.TORCH:
+            return self.tensor_lib.logical_not(tensor)
+        elif self.backend == BackendType.JAX:
+            return self.tensor_lib.logical_not(tensor)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.logical_not(tensor)
+        else:
+            raise ValueError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Convolution operations ------------------------
+
+    def convolve(self, tensor: Any, kernel: Any, mode: str = 'valid') -> Any:
+        """1D convolution."""
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            # Convert to 3D format (batch, channels, length) for conv1d
+            if tensor.dim() == 1:
+                tensor = tensor.unsqueeze(0).unsqueeze(0)
+                kernel = kernel.unsqueeze(0).unsqueeze(0)
+                result = F.conv1d(tensor, kernel, padding=0 if mode == 'valid' else 'same')
+                return result.squeeze(0).squeeze(0)
+            else:
+                return F.conv1d(tensor, kernel, padding=0 if mode == 'valid' else 'same')
+        elif self.backend == BackendType.JAX:
+            from jax.numpy import convolve as jax_convolve
+            return jax_convolve(tensor, kernel, mode=mode)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            return np.convolve(tensor, kernel, mode=mode)
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Pooling operations ------------------------
+
+    def max_pool(self, tensor: Any, kernel_size: Union[int, Tuple[int, ...]], stride: Optional[Union[int, Tuple[int, ...]]] = None, padding: int = 0) -> Any:
+        """Max pooling operation."""
+        if stride is None:
+            stride = kernel_size
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            # Ensure tensor has batch and channel dimensions
+            if tensor.dim() == 2:
+                tensor = tensor.unsqueeze(0).unsqueeze(0)
+                result = F.max_pool2d(tensor, kernel_size, stride, padding)
+                return result.squeeze(0).squeeze(0)
+            elif tensor.dim() == 3:
+                tensor = tensor.unsqueeze(0)
+                result = F.max_pool2d(tensor, kernel_size, stride, padding)
+                return result.squeeze(0)
+            else:
+                return F.max_pool2d(tensor, kernel_size, stride, padding)
+        elif self.backend == BackendType.JAX:
+            # Simple max pooling implementation for JAX
+            import numpy as np
+            arr = np.asarray(tensor)
+            if arr.ndim == 2:
+                h, w = arr.shape
+                kh, kw = (kernel_size, kernel_size) if isinstance(kernel_size, int) else kernel_size
+                sh, sw = (stride, stride) if isinstance(stride, int) else stride
+                out_h = (h - kh) // sh + 1
+                out_w = (w - kw) // sw + 1
+                result = np.zeros((out_h, out_w))
+                for i in range(out_h):
+                    for j in range(out_w):
+                        result[i, j] = np.max(arr[i*sh:i*sh+kh, j*sw:j*sw+kw])
+                return self.tensor_lib.array(result)
+            else:
+                raise NotImplementedError("JAX max_pool only supports 2D tensors")
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            arr = np.asarray(tensor)
+            if arr.ndim == 2:
+                h, w = arr.shape
+                kh, kw = (kernel_size, kernel_size) if isinstance(kernel_size, int) else kernel_size
+                sh, sw = (stride, stride) if isinstance(stride, int) else stride
+                out_h = (h - kh) // sh + 1
+                out_w = (w - kw) // sw + 1
+                result = np.zeros((out_h, out_w))
+                for i in range(out_h):
+                    for j in range(out_w):
+                        result[i, j] = np.max(arr[i*sh:i*sh+kh, j*sw:j*sw+kw])
+                return result
+            else:
+                raise NotImplementedError("NUMBA max_pool only supports 2D tensors")
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    def avg_pool(self, tensor: Any, kernel_size: Union[int, Tuple[int, ...]], stride: Optional[Union[int, Tuple[int, ...]]] = None, padding: int = 0) -> Any:
+        """Average pooling operation."""
+        if stride is None:
+            stride = kernel_size
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            # Ensure tensor has batch and channel dimensions
+            if tensor.dim() == 2:
+                tensor = tensor.unsqueeze(0).unsqueeze(0)
+                result = F.avg_pool2d(tensor, kernel_size, stride, padding)
+                return result.squeeze(0).squeeze(0)
+            elif tensor.dim() == 3:
+                tensor = tensor.unsqueeze(0)
+                result = F.avg_pool2d(tensor, kernel_size, stride, padding)
+                return result.squeeze(0)
+            else:
+                return F.avg_pool2d(tensor, kernel_size, stride, padding)
+        elif self.backend == BackendType.JAX:
+            # Simple avg pooling implementation for JAX
+            import numpy as np
+            arr = np.asarray(tensor)
+            if arr.ndim == 2:
+                h, w = arr.shape
+                kh, kw = (kernel_size, kernel_size) if isinstance(kernel_size, int) else kernel_size
+                sh, sw = (stride, stride) if isinstance(stride, int) else stride
+                out_h = (h - kh) // sh + 1
+                out_w = (w - kw) // sw + 1
+                result = np.zeros((out_h, out_w))
+                for i in range(out_h):
+                    for j in range(out_w):
+                        result[i, j] = np.mean(arr[i*sh:i*sh+kh, j*sw:j*sw+kw])
+                return self.tensor_lib.array(result)
+            else:
+                raise NotImplementedError("JAX avg_pool only supports 2D tensors")
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            arr = np.asarray(tensor)
+            if arr.ndim == 2:
+                h, w = arr.shape
+                kh, kw = (kernel_size, kernel_size) if isinstance(kernel_size, int) else kernel_size
+                sh, sw = (stride, stride) if isinstance(stride, int) else stride
+                out_h = (h - kh) // sh + 1
+                out_w = (w - kw) // sw + 1
+                result = np.zeros((out_h, out_w))
+                for i in range(out_h):
+                    for j in range(out_w):
+                        result[i, j] = np.mean(arr[i*sh:i*sh+kh, j*sw:j*sw+kw])
+                return result
+            else:
+                raise NotImplementedError("NUMBA avg_pool only supports 2D tensors")
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Normalization operations ------------------------
+
+    def batch_norm(self, tensor: Any, running_mean: Optional[Any] = None, running_var: Optional[Any] = None, 
+                   weight: Optional[Any] = None, bias: Optional[Any] = None, 
+                   training: bool = True, momentum: float = 0.1, eps: float = 1e-5) -> Any:
+        """Batch normalization."""
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            # Ensure tensor has batch and channel dimensions
+            if tensor.dim() == 2:
+                tensor = tensor.unsqueeze(0).unsqueeze(0)
+                result = F.batch_norm(tensor, running_mean, running_var, weight, bias, training, momentum, eps)
+                return result.squeeze(0).squeeze(0)
+            elif tensor.dim() == 3:
+                tensor = tensor.unsqueeze(0)
+                result = F.batch_norm(tensor, running_mean, running_var, weight, bias, training, momentum, eps)
+                return result.squeeze(0)
+            else:
+                return F.batch_norm(tensor, running_mean, running_var, weight, bias, training, momentum, eps)
+        elif self.backend == BackendType.JAX:
+            # Simple batch norm: normalize across batch dimension
+            mean = self.tensor_lib.mean(tensor, axis=0, keepdims=True)
+            var = self.tensor_lib.var(tensor, axis=0, keepdims=True)
+            normalized = (tensor - mean) / self.tensor_lib.sqrt(var + eps)
+            if weight is not None:
+                normalized = normalized * weight
+            if bias is not None:
+                normalized = normalized + bias
+            return normalized
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            mean = np.mean(tensor, axis=0, keepdims=True)
+            var = np.var(tensor, axis=0, keepdims=True)
+            normalized = (tensor - mean) / np.sqrt(var + eps)
+            if weight is not None:
+                normalized = normalized * weight
+            if bias is not None:
+                normalized = normalized + bias
+            return normalized
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    def layer_norm(self, tensor: Any, normalized_shape: Optional[Tuple[int, ...]] = None, 
+                   weight: Optional[Any] = None, bias: Optional[Any] = None, eps: float = 1e-5) -> Any:
+        """Layer normalization."""
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            if normalized_shape is None:
+                normalized_shape = tensor.shape[-1:]
+            return F.layer_norm(tensor, normalized_shape, weight, bias, eps)
+        elif self.backend == BackendType.JAX:
+            # Simple layer norm: normalize across last dimension
+            mean = self.tensor_lib.mean(tensor, axis=-1, keepdims=True)
+            var = self.tensor_lib.var(tensor, axis=-1, keepdims=True)
+            normalized = (tensor - mean) / self.tensor_lib.sqrt(var + eps)
+            if weight is not None:
+                normalized = normalized * weight
+            if bias is not None:
+                normalized = normalized + bias
+            return normalized
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            mean = np.mean(tensor, axis=-1, keepdims=True)
+            var = np.var(tensor, axis=-1, keepdims=True)
+            normalized = (tensor - mean) / np.sqrt(var + eps)
+            if weight is not None:
+                normalized = normalized * weight
+            if bias is not None:
+                normalized = normalized + bias
+            return normalized
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Loss operations ------------------------
+
+    def mse_loss(self, pred: Any, target: Any, reduction: str = 'mean') -> Any:
+        """Mean squared error loss."""
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            return F.mse_loss(pred, target, reduction=reduction)
+        elif self.backend == BackendType.JAX:
+            loss = self.tensor_lib.mean((pred - target) ** 2)
+            if reduction == 'none':
+                return (pred - target) ** 2
+            elif reduction == 'sum':
+                return self.tensor_lib.sum((pred - target) ** 2)
+            return loss
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            loss = np.mean((pred - target) ** 2)
+            if reduction == 'none':
+                return (pred - target) ** 2
+            elif reduction == 'sum':
+                return np.sum((pred - target) ** 2)
+            return loss
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    def cross_entropy_loss(self, pred: Any, target: Any, reduction: str = 'mean') -> Any:
+        """Cross entropy loss."""
+        if self.backend == BackendType.TORCH:
+            import torch.nn.functional as F
+            return F.cross_entropy(pred, target, reduction=reduction)
+        elif self.backend == BackendType.JAX:
+            import jax.nn as jnn
+            # Apply softmax and compute cross entropy
+            log_probs = jnn.log_softmax(pred, axis=-1)
+            if target.ndim == 0:
+                # Single label
+                loss = -log_probs[target]
+            else:
+                # One-hot or class indices
+                if target.ndim > 1:
+                    # One-hot encoding
+                    loss = -self.tensor_lib.sum(log_probs * target, axis=-1)
+                else:
+                    # Class indices
+                    loss = -log_probs[self.tensor_lib.arange(len(target)), target]
+            if reduction == 'none':
+                return loss
+            elif reduction == 'sum':
+                return self.tensor_lib.sum(loss)
+            return self.tensor_lib.mean(loss)
+        elif self.backend == BackendType.NUMBA:
+            import numpy as np
+            # Apply softmax
+            exp_pred = np.exp(pred - np.max(pred, axis=-1, keepdims=True))
+            probs = exp_pred / np.sum(exp_pred, axis=-1, keepdims=True)
+            log_probs = np.log(probs + 1e-10)
+            if target.ndim == 0:
+                loss = -log_probs[target]
+            else:
+                if target.ndim > 1:
+                    loss = -np.sum(log_probs * target, axis=-1)
+                else:
+                    loss = -log_probs[np.arange(len(target)), target]
+            if reduction == 'none':
+                return loss
+            elif reduction == 'sum':
+                return np.sum(loss)
+            return np.mean(loss)
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Optimization operations ------------------------
+
+    def sgd_step(self, tensor: Any, lr: float = 0.01) -> Any:
+        """Perform one SGD step (subtract lr * grad)."""
+        if self.backend == BackendType.TORCH:
+            if tensor.grad is None:
+                return tensor
+            return tensor - lr * tensor.grad
+        elif self.backend == BackendType.JAX:
+            warnings.warn("JAX uses functional optimizers, not imperative step()")
+            return tensor
+        elif self.backend == BackendType.NUMBA:
+            warnings.warn("NUMBA lane doesn't support automatic differentiation")
+            return tensor
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    def adam_step(self, tensor: Any, lr: float = 0.01, beta1: float = 0.9, beta2: float = 0.999, eps: float = 1e-8) -> Any:
+        """Perform one Adam step (simplified, requires state tracking)."""
+        if self.backend == BackendType.TORCH:
+            if tensor.grad is None:
+                return tensor
+            # Simplified Adam without state tracking
+            warnings.warn("adam_step is simplified; use proper optimizer for production")
+            return tensor - lr * tensor.grad
+        elif self.backend == BackendType.JAX:
+            warnings.warn("JAX uses functional optimizers, not imperative step()")
+            return tensor
+        elif self.backend == BackendType.NUMBA:
+            warnings.warn("NUMBA lane doesn't support automatic differentiation")
+            return tensor
+        else:
+            raise RuntimeError(f"Unknown backend: {self.backend}")
+
+    # ------------------------ Utility methods ------------------------
+
+    def switch_backend(self, backend: BackendType) -> None:
+        """Switch to a different backend (instance method)."""
+        from .backends import switch_backend as switch_backend_manager
+        if switch_backend_manager(backend):
+            self.backend, self.tensor_lib = self._resolve_backend(backend, get_backend_manager())
+            try:
+                self._adapter = HighPerformanceAdapter(self.backend)
+                _ = self._adapter.get_lib()
+            except Exception:
+                self._adapter = HighPerformanceAdapter()
+
+    def get_backend_info(self) -> Dict[str, Any]:
+        """Get information about the current backend."""
+        info = {
+            'backend': str(self.backend),
+            'tensor_lib': str(type(self.tensor_lib)),
+            'device': 'cpu'  # Default
+        }
+        if self.backend == BackendType.TORCH:
+            info['device'] = str(self.tensor_lib.device('cpu'))
+        elif self.backend == BackendType.JAX:
+            import jax
+            info['device'] = str(jax.devices()[0])
+        return info
+
+    def enable_profiling(self, enabled: bool) -> None:
+        """Enable or disable profiling (placeholder)."""
+        self._profiling_enabled = enabled
+
+    def get_profile_results(self) -> Dict[str, Any]:
+        """Get profiling results (placeholder)."""
+        return {'profiling': getattr(self, '_profiling_enabled', False), 'results': {}}
+
+    def clear_cache(self) -> None:
+        """Clear any cached computations."""
+        if self.backend == BackendType.TORCH:
+            import torch
+            torch.cuda.empty_cache() if torch.cuda.is_available() else None
+        elif self.backend == BackendType.JAX:
+            import jax
+            jax.clear_backends()
+        # NUMBA doesn't have a cache to clear
+
+    def get_memory_usage(self) -> Dict[str, Any]:
+        """Get memory usage information."""
+        usage = {'allocated': 0, 'reserved': 0}
+        if self.backend == BackendType.TORCH:
+            import torch
+            if torch.cuda.is_available():
+                usage['allocated'] = torch.cuda.memory_allocated()
+                usage['reserved'] = torch.cuda.memory_reserved()
+        elif self.backend == BackendType.JAX:
+            # JAX memory usage is harder to query
+            usage['allocated'] = 0
+            usage['reserved'] = 0
+        return usage
 
 
 # Global tensor operations instance

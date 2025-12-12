@@ -1,0 +1,333 @@
+﻿
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\ml\spectral_autograd.py:194: UserWarning: PyTorch FFT failed (Invalid 
+number of data points (0) specified); falling back to NumPy backend.
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\ml\spectral_autograd.py:203: UserWarning: PyTorch IFFT failed (Invalid 
+number of data points (0) specified); falling back to NumPy backend.
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\validation\convergence_tests.py:110: UserWarning: Failed to compute error 
+for N=10: unsupported operand type(s) for *: 'float' and 'dict'
+    warnings.warn(f"Failed to compute error for N={N}: {e}")
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\validation\convergence_tests.py:110: UserWarning: Failed to compute error 
+for N=20: unsupported operand type(s) for *: 'float' and 'dict'
+    warnings.warn(f"Failed to compute error for N={N}: {e}")
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\validation\convergence_tests.py:110: UserWarning: Failed to compute error 
+for N=40: unsupported operand type(s) for *: 'float' and 'dict'
+    warnings.warn(f"Failed to compute error for N={N}: {e}")
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\validation\convergence_tests.py:110: UserWarning: Failed to compute error 
+for N=80: unsupported operand type(s) for *: 'float' and 'dict'
+    warnings.warn(f"Failed to compute error for N={N}: {e}")
+  C:\Users\davia\OneDrive\Desktop\PhD Bioengineering 
+Research\frameworks\hpfracc\tests\..\hpfracc\validation\convergence_tests.py:110: UserWarning: Failed to compute error 
+for N={'order': 0.5}: '>' not supported between instances of 'int' and 'dict'
+    warnings.warn(f"Failed to compute error for N={N}: {e}")
+FAILED tests/ml/test_training_smoke_week3.py::test_fractional_trainer_single_epoch_decreases_loss
+FAILED 
+tests/test_core/test_derivatives_integrals_comprehensive.py::TestFractionalDerivativeOperator::test_compute_numerical
+FAILED tests/test_core/test_derivatives_integrals_comprehensive.py::TestFractionalDerivativeOperator::test_mathematical
+_properties
+FAILED tests/test_core/test_derivatives_integrals_comprehensive.py::TestMathematicalConsistency::test_consistency_betwe
+en_integral_methods
+FAILED tests/test_core/test_derivatives_integrals_comprehensive.py::TestErrorHandling::test_invalid_time_arrays
+FAILED 
+tests/test_core/test_edge_cases_comprehensive.py::TestUtilityEdgeCases::test_validate_fractional_order_edge_cases
+FAILED 
+tests/test_core/test_edge_cases_comprehensive.py::TestUtilityEdgeCases::test_validate_fractional_order_validation
+FAILED tests/test_core/test_utilities.py::TestMathematicalUtilities::test_binomial_coefficient
+FAILED tests/test_core/test_utilities.py::TestTypeCheckingAndValidation::test_validate_fractional_order
+FAILED tests/test_integration/test_sde_workflows.py::TestOrnsteinUhlenbeckWorkflow::test_ornstein_uhlenbeck_multiple_tr
+ajectories
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestClearJaxPlugins::test_clear_jax_plugins_partial_failure
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestCheckCudnnCompatibility::test_check_cudnn_compatibility_jaxlib_no
+t_available
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestSetupJaxGpuSafe::test_setup_jax_gpu_safe_gpu_available
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestSetupJaxGpuSafe::test_setup_jax_gpu_safe_cpu_only
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestSetupJaxGpuSafe::test_setup_jax_gpu_safe_cudnn_warning
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestSetupJaxGpuSafe::test_setup_jax_gpu_safe_import_error
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestSetupJaxGpuSafe::test_setup_jax_gpu_safe_jax_error
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestGetJaxInfo::test_get_jax_info_success
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestGetJaxInfo::test_get_jax_info_cpu_only
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestGetJaxInfo::test_get_jax_info_import_error
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestGetJaxInfo::test_get_jax_info_runtime_error
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestForceCpuFallback::test_force_cpu_fallback_success
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestForceCpuFallback::test_force_cpu_fallback_no_cpu_devices
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestForceCpuFallback::test_force_cpu_fallback_jax_error
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestForceCpuFallback::test_force_cpu_fallback_import_error
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestJaxGpuSetupIntegration::test_full_gpu_setup_workflow
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestJaxGpuSetupIntegration::test_cpu_fallback_workflow
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestJaxGpuSetupIntegration::test_error_handling_workflow
+FAILED tests/test_jax_gpu_setup_comprehensive.py::TestJaxGpuSetupIntegration::test_info_retrieval_workflow
+FAILED tests/test_main_init_comprehensive.py::TestHPFRACCInit::test_package_metadata
+FAILED tests/test_main_init_comprehensive.py::TestHPFRACCInit::test_import_with_missing_modules
+FAILED tests/test_main_init_comprehensive.py::TestHPFRACCInit::test_import_with_all_missing_modules
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataset::test_initialization_default
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataset::test_initialization_custom
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataset::test_fractional_transform_torch_backend
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataset::test_fractional_transform_non_torch_backend
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataset::test_fractional_transform_disabled
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataset::test_abstract_methods
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalTensorDataset::test_getitem_valid_index
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalTensorDataset::test_getitem_negative_index
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalTensorDataset::test_fractional_transform_applied
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalTensorDataset::test_fractional_transform_disabled
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataLoader::test_initialization_default
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataLoader::test_initialization_custom
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataLoader::test_iteration
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataLoader::test_batch_sampling
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataLoader::test_shuffle
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataLoader::test_drop_last
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalBatchSampler::test_initialization_default
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalBatchSampler::test_initialization_custom
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalBatchSampler::test_iteration_no_shuffle
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalBatchSampler::test_iteration_with_shuffle
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalBatchSampler::test_drop_last
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalBatchSampler::test_length
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalCollateFunction::test_initialization_default
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalCollateFunction::test_initialization_custom
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalCollateFunction::test_collate_tensors
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalCollateFunction::test_collate_with_padding
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalCollateFunction::test_collate_empty_batch
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalCollateFunction::test_collate_single_sample
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_initialization_default
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_initialization_custom
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_setup_datasets
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_train_dataloader
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_val_dataloader
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_test_dataloader
+FAILED tests/test_ml/test_data_comprehensive.py::TestFractionalDataModule::test_setup_without_datasets
+FAILED tests/test_ml/test_data_comprehensive.py::TestCreateFractionalDataset::test_create_tensor_dataset
+FAILED tests/test_ml/test_data_comprehensive.py::TestCreateFractionalDataset::test_create_custom_dataset
+FAILED tests/test_ml/test_data_comprehensive.py::TestCreateFractionalDataset::test_invalid_dataset_type
+FAILED tests/test_ml/test_data_comprehensive.py::TestCreateFractionalDataModule::test_create_datamodule_default
+FAILED tests/test_ml/test_data_comprehensive.py::TestCreateFractionalDataModule::test_create_datamodule_custom
+FAILED tests/test_ml/test_data_comprehensive.py::TestDataIntegration::test_full_data_pipeline
+FAILED tests/test_ml/test_data_comprehensive.py::TestDataIntegration::test_datamodule_full_workflow
+FAILED tests/test_ml/test_data_comprehensive.py::TestDataIntegration::test_fractional_transform_integration
+FAILED tests/test_ml/test_data_comprehensive.py::TestDataIntegration::test_collate_function_integration
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestBaseFractionalGNNLayer::test_initialization_default
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestBaseFractionalGNNLayer::test_repr_method
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_initialization_default
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_initialization_custom
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_forward_basic
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_forward_with_edge_weights
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_forward_without_fractional
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_forward_gradient_flow
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestFractionalGraphPooling::test_batch_processing
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestGNNGradients::test_pooling_gradient
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestGNNErrorHandling::test_invalid_edge_index
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestGNNIntegration::test_gnn_with_pooling
+FAILED tests/test_ml/test_gnn_layers_comprehensive.py::TestGNNIntegration::test_end_to_end_workflow
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUProfiler::test_end_timer_cuda
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUProfiler::test_get_summary_empty
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_initialization_default
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_initialization_custom
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_forward_basic
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_forward_single_chunk
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_forward_empty_signal
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_inverse_basic
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_inverse_empty_signal
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_roundtrip_consistency
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_different_window_types
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestChunkedFFT::test_different_overlap_values
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_initialization_default
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_initialization_custom
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_forward_with_amp
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_forward_without_amp
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_forward_empty_input
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_backward_with_amp
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_backward_without_amp
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_update_scaler
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestAMPFractionalEngine::test_get_scaler_state
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_initialization_default
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_initialization_custom
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_derivative_basic
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_derivative_e
+mpty_input
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_derivative_d
+ifferent_alpha
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_integral_basic
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_integral_emp
+ty_input
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_transform_basic
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_spectral_transform_em
+pty_input
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_gpu_fallback
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedSpectralEngine::test_performance_profiling
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_initialization_default
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_initialization_custom
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_sample_basic
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_sample_empty_parameters
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_sample_different_b
+atch_sizes
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_sample_gpu_fallback
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_sample_with_seed
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizedStochasticSampler::test_sample_statistics
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationContext::test_context_default
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationContext::test_context_custom
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationContext::test_context_within_context
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestBenchmarkGPUOptimization::test_benchmark_with_gpu
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestBenchmarkGPUOptimization::test_benchmark_without_gpu
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestBenchmarkGPUOptimization::test_benchmark_results_structure
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestCreateGPUOptimizedComponents::test_create_components_default
+FAILED 
+tests/test_ml/test_gpu_optimization_comprehensive.py::TestCreateGPUOptimizedComponents::test_create_components_custom
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestCreateGPUOptimizedComponents::test_create_components_w
+ith_profiler
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestTestGPUOptimization::test_gpu_optimization_test
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestTestGPUOptimization::test_gpu_optimization_test_with_c
+ustom_params
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestTestGPUOptimization::test_gpu_optimization_test_perfor
+mance_metrics
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationIntegration::test_full_gpu_optimization
+_workflow
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationIntegration::test_gpu_fallback_workflow
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationIntegration::test_performance_profiling
+_integration
+FAILED tests/test_ml/test_gpu_optimization_comprehensive.py::TestGPUOptimizationIntegration::test_amp_integration_with_
+spectral_engine
+FAILED 
+tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticFractionalOrder::test_sample_after_init
+FAILED 
+tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticFractionalOrder::test_log_prob_after_init
+FAILED 
+tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticFractionalLayer::test_initialization_default
+FAILED tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticFractionalLayer::test_forward_empty
+FAILED tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticFractionalLayer::test_sample_alpha
+FAILED 
+tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticFractionalLayer::test_sample_alpha_default
+FAILED tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticConvenienceFunctions::test_create_nor
+mal_alpha_layer
+FAILED tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticConvenienceFunctions::test_create_uni
+form_alpha_layer
+FAILED tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticConvenienceFunctions::test_create_bet
+a_alpha_layer
+FAILED tests/test_ml/test_probabilistic_layers_comprehensive.py::TestProbabilisticErrorHandling::test_sample_with_inval
+id_n_samples
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestRobustFFT::test_robust_ifft_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestRobustFFT::test_robust_ifft_2d
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestRobustFFT::test_roundtrip_consistency
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSafeFFT::test_safe_fft_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSafeFFT::test_safe_ifft_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSafeFFT::test_safe_ifft_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSafeFFT::test_safe_ifft_2d
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSafeFFT::test_roundtrip_consistency
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivative::test_spectral_fractiona
+l_derivative_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivative::test_spectral_fractiona
+l_derivative_different_alpha
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_initializatio
+n_default
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_initializatio
+n_custom
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_2d
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_different_alpha
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_different_dims
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_with_backend
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalDerivativeClass::test_call_gradient
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_initialization_default
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_initialization_custom
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_2d
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_different_alpha
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_different_dims
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_with_backend
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalFunction::test_call_gradient
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestFractionalDerivative::test_fractional_derivative_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestFractionalDerivative::test_fractional_derivative_diff
+erent_alpha
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalLayer::test_initialization_default
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalLayer::test_initialization_custom
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalLayer::test_forward_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalLayer::test_forward_different_alpha
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_initialization_default
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_initialization_custom
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_batch
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_different_alpha
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_different_activation
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_different_hid
+den_sizes
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_gradient
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_learnable_alpha
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralFractionalNetwork::test_forward_learnable_alp
+ha_gradient
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_initialization_default
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_initialization_custom
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_empty
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_2d
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_different_alpha
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_gradient
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_learnable_alpha
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_forward_learnable_alpha_gradient
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_alpha_bounds
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBoundedAlphaParameter::test_alpha_bounds_clamping
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestCreateFractionalLayer::test_create_fractional_layer_custom
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestCreateFractionalLayer::test_create_fractional_layer_d
+ifferent_alpha
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestCreateFractionalLayer::test_create_fractional_layer_d
+ifferent_activation
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBenchmarkBackends::test_benchmark_backends_basic
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBenchmarkBackends::test_benchmark_backends_custom
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestBenchmarkBackends::test_benchmark_backends_single_backend
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestBenchmarkBackends::test_benchmark_backends_performanc
+e_metrics
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestBenchmarkBackends::test_benchmark_backends_consistency
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralAutogradIntegration::test_full_workflow
+FAILED 
+tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralAutogradIntegration::test_performance_profiling
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralAutogradIntegration::test_error_handling
+FAILED tests/test_ml/test_spectral_autograd_comprehensive.py::TestSpectralAutogradIntegration::test_edge_cases
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_linear_algebra_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_random_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_gradient_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_device_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_shape_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_indexing_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_comparison_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_logical_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_convolution_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_pooling_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_normalization_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_loss_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_optimization_operations
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_backend_switching
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_backend_info
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_performance_profiling
+FAILED tests/test_ml/test_tensor_ops_comprehensive.py::TestTensorOps::test_memory_management
+FAILED tests/test_special/test_mittag_leffler_expanded.py::TestStandaloneFunctions::test_mittag_leffler_function_array
+241 failed, 2811 passed, 61 skipped, 303 warnings in 58.90s
+
+

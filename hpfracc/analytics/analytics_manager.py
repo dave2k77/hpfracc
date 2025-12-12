@@ -218,7 +218,7 @@ class AnalyticsManager:
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         output_path = self.output_dir / f"analytics_report_{timestamp}.json"
 
-        with open(output_path, 'w') as f:
+        with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(analytics, f, indent=2)
 
         logger.info(f"JSON report generated: {output_path}")
@@ -286,7 +286,7 @@ class AnalyticsManager:
         # Generate HTML content
         html_content = self._generate_html_content(analytics)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html_content)
 
         logger.info(f"HTML report generated: {output_path}")
