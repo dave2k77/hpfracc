@@ -44,6 +44,8 @@ class PlotManager:
             plt.style.use("seaborn-v0_8-whitegrid")
             rcParams.update(
                 {
+                    "font.family": "serif",
+                    "font.serif": ["Times New Roman", "DejaVu Serif"],
                     "font.size": 12,
                     "axes.titlesize": 14,
                     "axes.labelsize": 12,
@@ -53,21 +55,27 @@ class PlotManager:
                     "figure.titlesize": 16,
                     "lines.linewidth": 2,
                     "lines.markersize": 6,
+                    "grid.alpha": 0.3,
+                    "axes.grid": True,
                 }
             )
         elif style == "presentation":
             plt.style.use("seaborn-v0_8-darkgrid")
             rcParams.update(
                 {
+                    "font.family": "sans-serif",
+                    "font.sans-serif": ["Arial", "DejaVu Sans"],
                     "font.size": 14,
-                    "axes.titlesize": 16,
-                    "axes.labelsize": 14,
-                    "xtick.labelsize": 12,
-                    "ytick.labelsize": 12,
-                    "legend.fontsize": 12,
-                    "figure.titlesize": 18,
+                    "axes.titlesize": 18,
+                    "axes.labelsize": 16,
+                    "xtick.labelsize": 14,
+                    "ytick.labelsize": 14,
+                    "legend.fontsize": 14,
+                    "figure.titlesize": 20,
                     "lines.linewidth": 3,
                     "lines.markersize": 8,
+                    "grid.alpha": 0.5,
+                    "axes.grid": True,
                 }
             )
         else:  # default

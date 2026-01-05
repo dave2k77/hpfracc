@@ -10,6 +10,7 @@ from typing import Union
 
 # Simplified JAX import
 try:
+    import math
     import jax
     import jax.numpy as jnp
     from jax.config import config
@@ -253,39 +254,18 @@ class BinomialCoefficients:
             return n * (n - 1) / 2.0
         
         # For other fractional cases, use log-gamma formula
-        # This is more accurate than simple approximations
-        # Using Stirling's approximation for log-gamma:
-        # log Γ(x) ≈ (x-0.5)*log(x) - x + 0.5*log(2π)
-        # Note: Using np.log and np.exp which are Numba-compatible
-        # Numba supports np.log, np.exp, and np.pi in nopython mode
-        # Numba doesn't support nested functions, so we inline the computation
-        
-        # Compute log of binomial coefficient using inlined Stirling approximation
+        # This is more accurate than Stirling's approximation
         n1 = n + 1.0
         k1 = k + 1.0
         nk1 = n - k + 1.0
         
-        # Stirling's approximation: log Γ(x) ≈ (x-0.5)*log(x) - x + 0.5*log(2π)
-        # Handle edge cases where x <= 0
-        if n1 > 0:
-            log_n1 = (n1 - 0.5) * np.log(n1) - n1 + 0.5 * np.log(2.0 * np.pi)
-        else:
-            log_n1 = 0.0
-            
-        if k1 > 0:
-            log_k1 = (k1 - 0.5) * np.log(k1) - k1 + 0.5 * np.log(2.0 * np.pi)
-        else:
-            log_k1 = 0.0
-            
-        if nk1 > 0:
-            log_nk1 = (nk1 - 0.5) * np.log(nk1) - nk1 + 0.5 * np.log(2.0 * np.pi)
-        else:
-            log_nk1 = 0.0
-        
-        log_result = log_n1 - log_k1 - log_nk1
-        
-        # Return the exponential using np.exp (Numba-compatible)
-        return np.exp(log_result)
+        # C(n,k) = Gamma(n+1) / (Gamma(k+1) * Gamma(n-k+1))
+        # Use math.lgamma for precision
+        try:
+            log_res = math.lgamma(n1) - (math.lgamma(k1) + math.lgamma(nk1))
+            return math.exp(log_res)
+        except:
+            return 0.0
 
     @staticmethod
     def _binomial_jax_impl(n: "jnp.ndarray", k: "jnp.ndarray") -> "jnp.ndarray":

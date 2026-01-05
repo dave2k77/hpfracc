@@ -14,6 +14,7 @@ import psutil
 import time
 from typing import Any, Callable, Dict, Optional
 from functools import wraps
+import sys
 
 
 class MemoryManager:
@@ -94,11 +95,7 @@ class MemoryManager:
         # Force garbage collection
         self.force_garbage_collection()
 
-        # Clear numpy cache if available
-        try:
-            np.core._multiarray_umath._clear_floatstatus()
-        except AttributeError:
-            pass
+
 
         after = self.get_memory_usage()
 
@@ -149,11 +146,7 @@ class MemoryManager:
         # Force garbage collection
         self.force_garbage_collection()
 
-        # Clear numpy cache if available
-        try:
-            np.core._multiarray_umath._clear_floatstatus()
-        except AttributeError:
-            pass
+
 
         after = self.get_memory_usage()
 
@@ -190,9 +183,9 @@ class CacheManager:
         elif isinstance(obj, (list, tuple)):
             return sum(self._estimate_size(item) for item in obj)
         elif isinstance(obj, dict):
-            return sum(self._estimate_size(v) for v in obj.values())
+            return sum(self._estimate_size(k) + self._estimate_size(v) for k, v in obj.items())
         else:
-            return len(str(obj))
+            return sys.getsizeof(obj)
 
     def _get_cache_size_gb(self) -> float:
         """Get current cache size in GB."""
@@ -313,11 +306,7 @@ def clear_cache() -> None:
     """Clear all caches and perform garbage collection."""
     gc.collect()
 
-    # Clear numpy cache if available
-    try:
-        np.core._multiarray_umath._clear_floatstatus()
-    except AttributeError:
-        pass
+
 
 
 def get_memory_usage() -> Dict[str, float]:

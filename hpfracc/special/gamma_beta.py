@@ -176,8 +176,7 @@ class GammaFunction:
         if self.use_jax and JAX_AVAILABLE and isinstance(z, (jnp.ndarray, float, int)):
             return self._gamma_jax(z)
         elif self.use_numba and isinstance(z, (float, int)):
-            # Temporarily disable Numba due to compilation issues
-            return self._gamma_scipy(z)
+            return _gamma_numba_scalar(float(z))
         else:
             return self._gamma_scipy(z)
 

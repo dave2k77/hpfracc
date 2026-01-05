@@ -60,6 +60,42 @@ class ErrorAnalyzer:
         )
         return np.abs(numerical - analytical) / denominator
 
+    def mean_absolute_percentage_error(
+        self, numerical: np.ndarray, analytical: np.ndarray
+    ) -> float:
+        """
+        Compute mean absolute percentage error (MAPE).
+
+        Args:
+            numerical: Numerical solution array
+            analytical: Analytical solution array
+
+        Returns:
+            MAPE (in percentage)
+        """
+        return np.mean(self.relative_error(numerical, analytical)) * 100.0
+
+    def symmetric_mean_absolute_percentage_error(
+        self, numerical: np.ndarray, analytical: np.ndarray
+    ) -> float:
+        """
+        Compute symmetric mean absolute percentage error (SMAPE).
+
+        Args:
+            numerical: Numerical solution array
+            analytical: Analytical solution array
+
+        Returns:
+            SMAPE (in percentage)
+        """
+        numerator = np.abs(numerical - analytical)
+        denominator = (np.abs(numerical) + np.abs(analytical)) / 2.0
+        # Avoid division by zero
+        denominator = np.where(
+            denominator < self.tolerance, self.tolerance, denominator
+        )
+        return np.mean(numerator / denominator) * 100.0
+
     def l1_error(self, numerical: np.ndarray, analytical: np.ndarray) -> float:
         """
         Compute L1 error norm.
@@ -174,6 +210,10 @@ class ErrorAnalyzer:
             "mse": self.mean_squared_error(numerical, analytical),
             "rmse": self.root_mean_squared_error(numerical, analytical),
             "max_error": self.maximum_error(numerical, analytical),
+            "mape": self.mean_absolute_percentage_error(numerical, analytical),
+            "smape": self.symmetric_mean_absolute_percentage_error(
+                numerical, analytical
+            ),
         }
 
     def compute_error_metrics(

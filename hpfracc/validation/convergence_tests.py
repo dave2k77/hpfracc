@@ -9,6 +9,7 @@ import numpy as np
 from typing import Callable, Dict, List
 import warnings
 from enum import Enum
+from ..utils.error_analysis import ErrorAnalyzer
 
 
 class OrderOfAccuracy(Enum):
@@ -53,7 +54,6 @@ class ConvergenceTester:
         Returns:
             Convergence test results
         """
-        from ..utils.error_analysis import ErrorAnalyzer
 
         error_analyzer = ErrorAnalyzer(tolerance=self.tolerance)
         errors = []
@@ -67,16 +67,22 @@ class ConvergenceTester:
                 # Compute numerical solution with flexible parameter passing
                 try:
                     numerical = method_func(x, **test_params)
-                except TypeError:
-                    # Try without unpacking if method doesn't accept **kwargs
-                    numerical = method_func(x, test_params)
+                except TypeError as e:
+                    # Only try fallback if the error is specifically about arguments
+                    if "unexpected keyword argument" in str(e):
+                        numerical = method_func(x, test_params)
+                    else:
+                        raise e
 
                 # Compute analytical solution with flexible parameter passing
                 try:
                     analytical = analytical_func(x, **test_params)
-                except TypeError:
-                    # Try without unpacking if method doesn't accept **kwargs
-                    analytical = analytical_func(x, test_params)
+                except TypeError as e:
+                    # Only try fallback if the error is specifically about arguments
+                    if "unexpected keyword argument" in str(e):
+                        analytical = analytical_func(x, test_params)
+                    else:
+                        raise e
 
                 # Ensure both are numpy arrays
                 numerical = np.asarray(numerical)
@@ -95,6 +101,14 @@ class ConvergenceTester:
                     error = error_analyzer.l2_error(numerical, analytical)
                 elif error_norm == "linf":
                     error = error_analyzer.linf_error(numerical, analytical)
+                elif error_norm == "mape":
+                    error = error_analyzer.mean_absolute_percentage_error(
+                        numerical, analytical
+                    )
+                elif error_norm == "smape":
+                    error = error_analyzer.symmetric_mean_absolute_percentage_error(
+                        numerical, analytical
+                    )
                 else:
                     raise ValueError(f"Unknown error norm: {error_norm}")
 
@@ -213,7 +227,7 @@ class ConvergenceTester:
         Returns:
             Convergence test results for multiple norms
         """
-        norms = ["l1", "l2", "linf"]
+        norms = ["l1", "l2", "linf", "mape", "smape"]
         results = {}
 
         for norm in norms:
