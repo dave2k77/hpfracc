@@ -302,6 +302,15 @@ pip install hpfracc numpyro>=0.13.0
 pip install hpfracc[dev]
 ```
 
+### **Development Environment**
+
+For contributors and developers working on this library, it is **strictly required** to use the provided WSL virtual environment to ensure consistency and test compatibility:
+
+```bash
+# Activate the WSL virtual environment
+source .venv_wsl/bin/activate
+```
+
 ### **Requirements**
 - **Python**: 3.9+ (tested on 3.9, 3.10, 3.11, 3.12)
 - **Required**: NumPy, SciPy, Matplotlib

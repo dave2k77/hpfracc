@@ -6,9 +6,12 @@ fractional Brownian motion, Lévy processes, and coloured noise.
 """
 
 import numpy as np
-from typing import Optional, Tuple, Union, Callable
+from typing import Optional, Tuple, Union, Callable, List
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
+
+from scipy import fft
+from scipy.stats import levy_stable
 
 try:
     import numpyro
@@ -42,6 +45,13 @@ class NoiseModel(ABC):
             
         Returns:
             Noise increment array
+        """
+        pass
+    
+    def prepare(self, num_steps: int, dt: float, size: Tuple[int, ...] = ()):
+        """
+        Optional preparation step for pre-computing noise paths.
+        Useful for non-Markovian processes like fBm.
         """
         pass
 
@@ -102,8 +112,50 @@ class FractionalBrownianMotion(NoiseModel):
         
         self.hurst = hurst
         self.scale = scale
-        self._previous_state = None
-    
+        self._precomputed_increments = None
+        self._step_counter = 0
+
+    def prepare(self, num_steps: int, dt: float, size: Tuple[int, ...] = ()):
+        """Pre-compute fBm increments using Davies-Harte method (FFT)."""
+        self._step_counter = 0
+        N = num_steps
+        H = self.hurst
+        
+        # Covariance function of fBm increments
+        # gamma(k) = 0.5 * (|k+1|^{2H} + |k-1|^{2H} - 2|k|^{2H}) * dt^{2H}
+        # We compute for k = 0, ..., N
+        k = np.arange(N + 1)
+        gamma_k = 0.5 * (np.abs(k + 1)**(2*H) + np.abs(k - 1)**(2*H) - 2*np.abs(k)**(2*H)) * dt**(2*H)
+        
+        # Construct circulant matrix first row
+        # C = [gamma_0, gamma_1, ..., gamma_{N-1}, gamma_N, gamma_{N-1}, ..., gamma_1]
+        C = np.concatenate([gamma_k, gamma_k[1:-1][::-1]])
+        
+        # Eigenvalues via FFT
+        # Note: Eigenvalues must be non-negative for valid covariance. 
+        # Davies-Harte usually gaurantees this.
+        eigenvals = fft.fft(C).real
+        
+        if np.any(eigenvals < 0):
+            # Fallback or clipping for numerical issues
+            eigenvals = np.abs(eigenvals)
+            
+        # Generate random complex Gaussian noise
+        M = len(C)
+        # Handle handling multiple dimensions if 'size' is provided
+        # Flatten size for generation
+        num_paths = np.prod(size) if size else 1
+        
+        # Generate V: Z = X + iY
+        V = np.random.normal(0, 1, size=(M, num_paths)) + 1j * np.random.normal(0, 1, size=(M, num_paths))
+        
+        # W = FFT( sqrt(eigenvals) * V ) / sqrt(M)
+        W = fft.fft(np.sqrt(eigenvals)[:, None] * V, axis=0)
+        W = W[:N, :].real / np.sqrt(M)
+        
+        # These are the increments
+        self._precomputed_increments = W if size is None else W.reshape((N,) + size)
+        
     def generate_increment(
         self,
         t: float,
@@ -114,13 +166,23 @@ class FractionalBrownianMotion(NoiseModel):
         """
         Generate fractional Brownian motion increment.
         
-        Note: This is a simplified implementation. For full fBm,
-        need to account for covariance structure.
+        Uses precomputed Davies-Harte increments if available, 
+        otherwise falls back to simplified independent increments (with warning).
         """
         if seed is not None:
             np.random.seed(seed)
+            
+        if self._precomputed_increments is not None:
+            if self._step_counter < len(self._precomputed_increments):
+                inc = self._precomputed_increments[self._step_counter]
+                self._step_counter += 1
+                return self.scale * inc
+            else:
+                # Run out of precomputed increments
+                pass
         
-        # Simplified fBm using power-law scaling
+        # Fallback: Simplified fBm with correct time-scaling variance but NO memory
+        # Warning: This is not true fBm!
         variance = dt**(2 * self.hurst)
         dW = np.random.normal(0, np.sqrt(variance), size=size)
         
@@ -178,14 +240,24 @@ class LevyNoise(NoiseModel):
         if seed is not None:
             np.random.seed(seed)
         
-        # Simplified Lévy stable noise
-        # For full implementation, use proper stable distribution
-        if abs(self.alpha - 2.0) < 1e-10:
-            # Gaussian case
-            dW = np.random.normal(self.location, self.scale * np.sqrt(dt), size=size)
-        else:
-            # Approximate stable distribution
-            dW = np.random.normal(self.location, self.scale * dt**(1/self.alpha), size=size)
+        # Use scipy.stats.levy_stable for correct distribution
+        # Parameter mapping: 
+        # scipy alpha = self.alpha
+        # scipy beta = self.beta
+        # scipy loc = 0 (increments are centered)
+        # scipy scale = scale * dt^(1/alpha)
+        
+        scale_param = self.scale * dt**(1/self.alpha)
+        
+        dW = levy_stable.rvs(
+            self.alpha, 
+            self.beta, 
+            loc=0, 
+            scale=scale_param, 
+            size=size
+        ) # + self.location * dt ? Typically noise is centered, location is drift.
+        # If self.location is drift per step:
+        dW += self.location * dt
         
         return dW
 

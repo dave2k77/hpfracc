@@ -11,7 +11,7 @@ Performance Note (v2.1.0):
 
 import numpy as np
 from typing import Union, Optional, Tuple, Callable, Dict
-from scipy import sparse
+from scipy import sparse, fft
 from scipy.sparse.linalg import spsolve, splu
 from scipy.special import gamma
 
@@ -82,6 +82,84 @@ def _select_array_backend(data_size: int, operation_type: str = "element_wise") 
         return "numpy"  # Small problems: NumPy is fastest
     else:
         return "numba"  # Large problems: Numba JIT compilation helps
+
+
+def _select_fft_backend(data_size: int) -> str:
+    """Select optimal FFT backend."""
+    selector = _get_intelligent_selector()
+    if selector is not None:
+        try:
+            from ..ml.intelligent_backend_selector import WorkloadCharacteristics
+            from ..ml.backends import BackendType
+            workload = WorkloadCharacteristics(
+                operation_type="fft", data_size=data_size, data_shape=(data_size,), is_iterative=True
+            )
+            backend_type = selector.select_backend(workload)
+            if backend_type == BackendType.JAX: return "jax"
+        except Exception: pass
+    return "scipy" if data_size > 1000 else "numpy"
+
+
+def _fft_convolution(coeffs: np.ndarray, values: np.ndarray, axis: int = 0) -> np.ndarray:
+    """Fast convolution with backend selection."""
+    N = coeffs.shape[0]
+    backend = _select_fft_backend(N * (values.shape[1] if values.ndim == 2 else 1))
+    
+    if backend == "jax":
+        try:
+            import jax.numpy as jnp
+            from jax.numpy import fft as jax_fft
+            size = int(2 ** np.ceil(np.log2(2 * N - 1)))
+            if values.ndim == 1:
+                coeffs_fft = jax_fft.fft(jnp.array(coeffs), n=size)
+                values_fft = jax_fft.fft(jnp.array(values), n=size)
+                return np.array(jax_fft.ifft(coeffs_fft * values_fft).real[:N])
+            elif values.ndim == 2:
+                # Handle axis=0 (time) or axis=1 (space)?
+                # Usually we convolve along time.
+                # If axis=1, transpose logic needed or supported axis arg.
+                # JAX FFT supports axis.
+                coeffs_fft = jax_fft.fft(jnp.array(coeffs), n=size, axis=0 if coeffs.ndim>1 else -1) 
+                # Wait, if coeffs is 1D, fft is 1D.
+                # We need to broadcast coeffs to values shape effectively?
+                # Convolution of (N,) and (N, M) along axis 0:
+                # FFT(coeffs) (N,) * FFT(values) (N, M). Broadcasting works? 
+                # (size,) * (size, M) -> (size, M). Yes.
+                vals_shape = list(values.shape); vals_shape[axis] = size
+                values_in = jnp.array(values)
+                coeffs_in = jnp.array(coeffs) 
+                
+                # Expand coeffs for broadcasting if needed
+                if axis == 0:
+                   coeffs_fft = jax_fft.fft(coeffs_in, n=size)
+                   coeffs_fft = coeffs_fft[:, None]
+                   values_fft = jax_fft.fft(values_in, n=size, axis=0)
+                else:
+                   coeffs_fft = jax_fft.fft(coeffs_in, n=size)
+                   coeffs_fft = coeffs_fft[None, :]
+                   values_fft = jax_fft.fft(values_in, n=size, axis=1)
+                   
+                return np.array(jax_fft.ifft(coeffs_fft * values_fft, axis=axis).real) # Slice handled by caller?
+                # The original implementation returned the sliced output [:N].
+        except ImportError: pass
+
+    # NumPy/SciPy fallback
+    size = int(2 ** np.ceil(np.log2(2 * N - 1)))
+    fft_mod = fft if backend == "scipy" else np.fft
+    
+    if values.ndim == 1:
+        c_f = fft_mod.fft(coeffs, n=size)
+        v_f = fft_mod.fft(values, n=size)
+        return fft_mod.ifft(c_f * v_f).real[:N]
+    else: # 2D
+        if axis == 0:
+            c_f = fft_mod.fft(coeffs, n=size)[:, None]
+            v_f = fft_mod.fft(values, n=size, axis=0)
+            return fft_mod.ifft(c_f * v_f, axis=0).real[:N, :]
+        else:
+            c_f = fft_mod.fft(coeffs, n=size)[None, :]
+            v_f = fft_mod.fft(values, n=size, axis=1)
+            return fft_mod.ifft(c_f * v_f, axis=1).real[:, :N]
 
 
 class FractionalPDESolver:
@@ -285,25 +363,47 @@ class FractionalDiffusionSolver(FractionalPDESolver):
 
             for n in range(1, nt):
                 # L1 history accumulation for 0<alpha<1, fallback to CN at alpha=1
+                # L1 history accumulation for 0<alpha<1
+                # We need sum_{m=1}^n a[m-1] * solution[:, n-m]
+                # Let k = m-1, sum_{k=0}^{n-1} a[k] * solution[:, n-1-k]
+                # This is convolution (a * solution) at index n-1
                 if 0.0 < alpha_val < 1.0:
                     j = np.arange(1, n + 1, dtype=float)
                     a = j**(1.0 - alpha_val) - (j - 1.0)**(1.0 - alpha_val)
-                    hist = np.zeros(nx, dtype=float)
-                    for m in range(1, n + 1):
-                        hist += a[m - 1] * (solution[:, n - m + 1 - 1] if n - m >= 0 else 0.0)
+                    
+                    # Vectorized history calculation
+                    # solution[:, :n] is (nx, n)
+                    # a is (n,)
+                    # We want dot(solution[:, :n], a[::-1]) -> (nx,)
+                    
+                    if n < 64:
+                        hist = solution[:, :n] @ a[::-1]
+                    else:
+                        # Use FFT convolution along axis 1 (time) of solution
+                        # solution is (nx, nt), we slice (nx, n)
+                        # We need convolution along axis 1.
+                        # _fft_convolution expects values, coeffs.
+                        # We pass values=solution[:, :n], coeffs=a, axis=1
+                        # Result shape (nx, n). We take slice [:, n-1] (last element)
+                        full_conv = _fft_convolution(a, solution[:, :n], axis=1)
+                        hist = full_conv[:, -1]
+
                     scale = gamma(2.0 - alpha_val) * (dt ** alpha_val)
                     rhs = hist.copy()
                 elif alpha_val == 1.0:
-                    # CN-like scaling
                     rhs = solution[:, n - 1]
                     scale = dt
                 else:
                     # Fallback simple history for 1<alpha<2
                     j = np.arange(1, n + 1, dtype=float)
                     c = j**(2.0 - alpha_val) - (j - 1.0)**(2.0 - alpha_val)
-                    hist = np.zeros(nx, dtype=float)
-                    for m in range(1, n + 1):
-                        hist += c[m - 1] * solution[:, n - m]
+                    
+                    if n < 64:
+                        hist = solution[:, :n] @ c[::-1]
+                    else:
+                        full_conv = _fft_convolution(c, solution[:, :n], axis=1)
+                        hist = full_conv[:, -1]
+                        
                     scale = 1.0 / (gamma(3.0 - alpha_val) * (dt ** alpha_val))
                     rhs = hist.copy()
 

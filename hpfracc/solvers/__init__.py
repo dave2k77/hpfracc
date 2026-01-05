@@ -61,6 +61,7 @@ __all__ = [
     'SDESolution',
     'solve_fractional_sde',
     'solve_fractional_sde_system',
+    'FastHistoryConvolution',
     
     # Noise Models
     'NoiseModel',
