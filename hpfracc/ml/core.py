@@ -12,14 +12,14 @@ from abc import abstractmethod
 import json
 from pathlib import Path
 
-from ..core.definitions import FractionalOrder
-from ..algorithms.optimized_methods import (
+from hpfracc.core.definitions import FractionalOrder
+from hpfracc.algorithms.optimized_methods import (
     OptimizedRiemannLiouville,
     OptimizedCaputo,
     OptimizedGrunwaldLetnikov,
 )
-from .backends import get_backend_manager, BackendType
-from .tensor_ops import get_tensor_ops
+from hpfracc.ml.backends import get_backend_manager, BackendType
+from hpfracc.ml.tensor_ops import get_tensor_ops
 
 
 @dataclass
@@ -155,20 +155,39 @@ class FractionalNeuralNetwork:
     def _initialize_weights(self):
         """Initialize network weights using Xavier initialization"""
         for i, (weight, bias) in enumerate(zip(self.weights, self.biases)):
-            if self.backend == BackendType.TORCH:
-                import torch.nn.init as init
-                init.xavier_uniform_(weight)
-                init.zeros_(bias)
-            else:
-                # Xavier-like initialization for JAX/NUMBA
-                import math
-                scale = math.sqrt(2.0 / (weight.shape[0] + weight.shape[1]))
-                if self.backend == BackendType.JAX:
-                    self.weights[i] = weight * scale
-                    self.biases[i] = bias * 0.0
-                else:  # NUMBA
-                    self.weights[i] = weight * scale
-                    self.biases[i] = bias * 0.0
+             if self.backend == BackendType.TORCH:
+                 import torch.nn.init as init
+                 init.xavier_uniform_(weight)
+                 if bias is not None:
+                     init.zeros_(bias)
+             else:
+                 # Standard Xavier initialization for JAX/Numba
+                 fan_in = weight.shape[0]
+                 fan_out = weight.shape[1]
+                 # Use tensor_ops to avoid manual math imports if desired, 
+                 # but standard numpy/math is fine for init
+                 limit = np.sqrt(6 / (fan_in + fan_out))
+                 
+                 if self.backend == BackendType.JAX:
+                     # JAX weights are immutable, but here 'weight' is likely a JAX array 
+                     # being held in a list. In JAX, we usually carry a key and init 
+                     # during build, but for this refactor we rely on the placeholder structure.
+                     # We can't mutate 'weight' in-place for JAX. 
+                     # But self.weights is a list, so we can replace.
+                     
+                     # Note: Earlier code used simple scaling. Let's stick to simple scaling 
+                     # to avoid complex RNG logic here without passing keys around.
+                     # Re-implementing the original scaling logic for consistency:
+                     import math
+                     scale = math.sqrt(2.0 / (fan_in + fan_out))
+                     self.weights[i] = weight * scale
+                     self.biases[i] = bias * 0.0
+                 else:
+                     # Numba/Numpy -> Mutable
+                     import math
+                     scale = math.sqrt(2.0 / (fan_in + fan_out))
+                     np.copyto(self.weights[i], self.weights[i] * scale)
+                     np.copyto(self.biases[i], self.biases[i] * 0.0)
 
     def fractional_forward(self, x: Any, method: str = "RL") -> Any:
         """
@@ -198,15 +217,21 @@ class FractionalNeuralNetwork:
 
         # Apply fractional derivative
         if x_np.ndim == 2:
-            # For 2D tensors (batch_size, features)
-            result = np.zeros_like(x_np, dtype=np.float32)
-            for i in range(x_np.shape[0]):
-                t = np.linspace(0, 1, x_np.shape[1], dtype=np.float32)
-                result[i] = calculator.compute(x_np[i], t, t[1] - t[0])
+            # Vectorized approach using apply_along_axis
+            # x_np is (Batch, Sequence/Features)
+            # We process along axis 1 (features/time)
+            
+            t = np.linspace(0, 1, x_np.shape[1], dtype=np.float32)
+            dt = t[1] - t[0] if len(t) > 1 else 1.0
+            
+            # Use np.apply_along_axis to push the loop to C-level
+            # calculator.compute(f, t, h)
+            result = np.apply_along_axis(calculator.compute, 1, x_np, t, dt)
         else:
             # For 1D tensors
             t = np.linspace(0, 1, x_np.shape[0], dtype=np.float32)
-            result = calculator.compute(x_np, t, t[1] - t[0])
+            dt = t[1] - t[0] if len(t) > 1 else 1.0
+            result = calculator.compute(x_np, t, dt)
 
         # Convert back to backend tensor with consistent dtype
         return self.tensor_ops.create_tensor(
@@ -216,7 +241,8 @@ class FractionalNeuralNetwork:
             self,
             x: Any,
             use_fractional: bool = True,
-            method: str = "RL") -> Any:
+            method: str = "RL",
+            params: Optional[Dict[str, List[Any]]] = None) -> Any:
         """
         Forward pass through the network
 
@@ -224,6 +250,8 @@ class FractionalNeuralNetwork:
             x: Input tensor
             use_fractional: Whether to apply fractional derivatives
             method: Fractional derivative method if use_fractional is True
+            params: Optional dictionary of parameters {'weights': [...], 'biases': [...]} 
+                    for functional execution (JAX support).
 
         Returns:
             Network output
@@ -231,9 +259,13 @@ class FractionalNeuralNetwork:
         if use_fractional:
             x = self.fractional_forward(x, method)
 
+        # Use provided params or self.params
+        weights = params['weights'] if params else self.weights
+        biases = params['biases'] if params else self.biases
+
         # Pass through network layers
         for i, (weight, bias) in enumerate(
-                zip(self.weights[:-1], self.biases[:-1])):
+                zip(weights[:-1], biases[:-1])):
             # Linear transformation
             x = self.tensor_ops.matmul(x, weight) + bias
 
@@ -244,7 +276,7 @@ class FractionalNeuralNetwork:
             x = self.tensor_ops.dropout(x, p=self.dropout_rate, training=True)
 
         # Output layer (no activation)
-        x = self.tensor_ops.matmul(x, self.weights[-1]) + self.biases[-1]
+        x = self.tensor_ops.matmul(x, weights[-1]) + biases[-1]
 
         return x
 
@@ -461,18 +493,17 @@ class FractionalAttention:
             context_np = np.array(context)
 
         # Apply fractional derivative along sequence dimension
-        result = np.zeros_like(context_np)
-        for batch in range(context_np.shape[0]):
-            for head in range(context_np.shape[1]):
-                for feature in range(context_np.shape[3]):
-                    t = np.linspace(0, 1, context_np.shape[2])
-                    if len(t) > 1:
-                        dt = t[1] - t[0]
-                    else:
-                        dt = 1.0  # Default time step for single element
-                    result[batch, head, :, feature] = calculator.compute(
-                        context_np[batch, head, :, feature], t, dt
-                    )
+        # Vectorized replacement for triple nested loop
+        # context_np shape: (batch, heads, seq, features) -> axis 2 is sequence
+        
+        t = np.linspace(0, 1, context_np.shape[2])
+        if len(t) > 1:
+            dt = t[1] - t[0]
+        else:
+            dt = 1.0
+            
+        # Use np.apply_along_axis to apply calculator.compute along the sequence dimension
+        result = np.apply_along_axis(calculator.compute, 2, context_np, t, dt)
 
         # Convert back to backend tensor
         return self.tensor_ops.create_tensor(result, requires_grad=True)
@@ -601,15 +632,15 @@ class FractionalLossFunction:
 
         if pred_np.ndim == 2:
             # For 2D tensors (batch_size, features)
-            result = np.zeros_like(pred_np)
-            for i in range(pred_np.shape[0]):
-                t = np.linspace(0, 1, pred_np.shape[1])
-                result[i] = self.rl_calculator.compute(
-                    pred_np[i], t, t[1] - t[0])
+            # Apply along axis 1 (features)
+            t = np.linspace(0, 1, pred_np.shape[1])
+            dt = t[1] - t[0] if len(t) > 1 else 1.0
+            result = np.apply_along_axis(self.rl_calculator.compute, 1, pred_np, t, dt)
         else:
             # For 1D tensors
             t = np.linspace(0, 1, pred_np.shape[0])
-            result = self.rl_calculator.compute(pred_np, t, t[1] - t[0])
+            dt = t[1] - t[0] if len(t) > 1 else 1.0
+            result = self.rl_calculator.compute(pred_np, t, dt)
 
         fractional_pred = self.tensor_ops.create_tensor(
             result, requires_grad=True)
@@ -705,25 +736,116 @@ class FractionalAutoML:
                     params[param_name] = trial.suggest_categorical(
                         param_name, param_range)
 
-            # Create and train model
-            model = model_class(**params)
+            # Create model
+            try:
+                model = model_class(**params)
+                
+                # Setup optimizer (basic SGD for demo/speed in AutoML)
+                # In a real scenario, this should be configurable or use the model's preferred optimizer
+                if model.backend == BackendType.TORCH:
+                    import torch.optim as optim
+                    import torch.nn as nn
+                    import torch
+                    
+                    optimizer = optim.Adam(model.parameters(), lr=0.01)
+                    criterion = nn.MSELoss() if metric != "accuracy" else nn.CrossEntropyLoss()
+                    
+                    X_train, y_train = train_data
+                    X_val, y_val = val_data
+                    
+                    # Ensure tensors
+                    if not isinstance(X_train, torch.Tensor):
+                         X_train = torch.tensor(X_train, dtype=torch.float32)
+                         y_train = torch.tensor(y_train, dtype=torch.float32 if metric != "accuracy" else torch.long)
+                         X_val = torch.tensor(X_val, dtype=torch.float32)
+                         y_val = torch.tensor(y_val, dtype=torch.float32 if metric != "accuracy" else torch.long)
 
-            # Training loop (simplified)
-            X_train, y_train = train_data
-            X_val, y_val = val_data
+                    # Short training loop for trial
+                    model.train()
+                    epochs = 5  # Reduced epochs for speed in AutoML loop
+                    for _ in range(epochs):
+                        optimizer.zero_grad()
+                        output = model(X_train)
+                        loss = criterion(output, y_train)
+                        loss.backward()
+                        optimizer.step()
+                        
+                    # Validation
+                    model.eval()
+                    with torch.no_grad():
+                        val_out = model(X_val)
+                        if metric == "accuracy":
+                            preds = val_out.argmax(dim=1)
+                            score = (preds == y_val).float().mean().item()
+                        else:
+                            score = criterion(val_out, y_val).item()
+                            
+                    return score
 
-            # Simple evaluation (in practice, you'd want proper training)
-            model(X_train)
-
-            # Evaluate on validation set
-            model(X_val)
-
-            if metric == "accuracy":
-                # Simplified accuracy calculation
-                return 0.5  # Placeholder
-            else:
-                # Simplified loss calculation
-                return 0.1  # Placeholder
+                elif model.backend == BackendType.JAX:
+                    import jax
+                    import jax.numpy as jnp
+                    import optax
+                    
+                    # Setup data
+                    X_train, y_train = train_data
+                    X_val, y_val = val_data
+                    
+                    X_train = jnp.asarray(X_train)
+                    y_train = jnp.asarray(y_train)
+                    X_val = jnp.asarray(X_val)
+                    y_val = jnp.asarray(y_val)
+                    
+                    # Define optimizer
+                    optimizer = optax.adam(learning_rate=0.01)
+                    
+                    # Initialize params as a PyTree
+                    params = {
+                        'weights': model.weights, # These are already JAX arrays
+                        'biases': model.biases
+                    }
+                    opt_state = optimizer.init(params)
+                    
+                    # Define loss function
+                    def loss_fn(p, x, y):
+                        preds = model.forward(x, params=p)
+                        if metric == "accuracy":
+                             # Cross Entropy
+                             # Simplified: -mean(sum(one_hot(y) * log(softmax(preds))))
+                             logits = jax.nn.log_softmax(preds)
+                             n_classes = preds.shape[-1]
+                             one_hot = jax.nn.one_hot(y, n_classes)
+                             return -jnp.mean(jnp.sum(one_hot * logits, axis=-1))
+                        else:
+                             # MSE
+                             return jnp.mean((preds - y) ** 2)
+                             
+                    # JIT compile update step
+                    @jax.jit
+                    def step(p, opt_st, x, y):
+                        loss, grads = jax.value_and_grad(loss_fn)(p, x, y)
+                        updates, new_opt_st = optimizer.update(grads, opt_st)
+                        new_params = optax.apply_updates(p, updates)
+                        return new_params, new_opt_st, loss
+                        
+                    # Training loop
+                    epochs = 5
+                    for _ in range(epochs):
+                        params, opt_state, loss = step(params, opt_state, X_train, y_train)
+                        
+                    # Validation
+                    val_preds = model.forward(X_val, params=params)
+                    if metric == "accuracy":
+                        preds_cls = jnp.argmax(val_preds, axis=1)
+                        score = jnp.mean(preds_cls == y_val).item()
+                    else:
+                        score = jnp.mean((val_preds - y_val) ** 2).item()
+                        
+                    return float(score)
+            except Exception as e:
+                # Prune failed trials
+                print(f"Trial failed: {e}")
+                raise optuna.exceptions.TrialPruned()
 
         # Create study and optimize
         study = optuna.create_study(

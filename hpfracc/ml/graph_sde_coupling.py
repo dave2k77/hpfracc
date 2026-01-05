@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from typing import Tuple, Optional, Dict, Any, Union
 import numpy as np
 
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 from .gnn_layers import FractionalGraphConv
 from .neural_fsde import NeuralFractionalSDE, NeuralFSDEConfig
 from .backends import BackendType

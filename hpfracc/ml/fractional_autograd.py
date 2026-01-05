@@ -11,7 +11,7 @@ from typing import Tuple, Union, Sequence
 
 import numpy as np
 
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 from .spectral_autograd import spectral_fractional_derivative
 
 

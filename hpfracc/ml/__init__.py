@@ -83,6 +83,7 @@ from .gnn_layers import (
     BaseFractionalGNNLayer,
     FractionalGraphConv,
     FractionalGraphAttention,
+    FractionalGraphAttention,
     FractionalGraphPooling,
 )
 
@@ -174,6 +175,7 @@ __all__ = [
     # Fractional GNN Components
     'BaseFractionalGNNLayer',
     'FractionalGraphConv',
+    'FractionalGraphAttention',
     'FractionalGraphAttention',
     'FractionalGraphPooling',
     'BaseFractionalGNN',

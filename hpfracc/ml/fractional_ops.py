@@ -13,7 +13,7 @@ try:
 except ImportError:
     JAX_AVAILABLE = False
 
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 
 _Number = Union[int, float]
 _Alpha = Union[_Number, torch.Tensor]

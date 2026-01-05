@@ -11,6 +11,7 @@ torch>=2.4.0
 jax>=0.4.0
 jaxlib>=0.4.0
 optax>=0.1.0
+equinox>=0.10.0
 
 # NUMBA for JIT compilation and parallel computing
 numba>=0.56.0

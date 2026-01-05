@@ -10,7 +10,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from typing import Optional, Any
 
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 from .fractional_autograd import fractional_derivative
 from .backends import get_backend_manager, BackendType
 from .tensor_ops import get_tensor_ops
@@ -53,7 +53,7 @@ class FractionalLossFunction(ABC):
                 x, self.fractional_order.alpha, self.method)
         elif self.backend == BackendType.JAX:
             import jax.numpy as jnp
-            from ..core.fractional_implementations import CaputoDerivative
+            from hpfracc.core.fractional_implementations import CaputoDerivative
             # For JAX backend, use Caputo derivative
             caputo = CaputoDerivative(self.fractional_order.alpha)
             # Convert to numpy, compute, then back to jax

@@ -12,8 +12,8 @@ import torch.nn.functional as F
 from typing import Tuple, List, Callable, Union
 from dataclasses import dataclass
 
-from ..core.definitions import FractionalOrder
-from ..core.fractional_implementations import _AlphaCompatibilityWrapper
+from hpfracc.core.definitions import FractionalOrder
+from hpfracc.core.fractional_implementations import _AlphaCompatibilityWrapper
 
 
 @dataclass

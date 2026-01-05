@@ -13,7 +13,7 @@ from typing import Optional, Any, Dict, List, Union, Tuple, Callable, Iterator
 from collections import defaultdict, OrderedDict
 import warnings
 
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 from .fractional_autograd import fractional_derivative
 from .backends import get_backend_manager, BackendType
 from .tensor_ops import get_tensor_ops
@@ -91,7 +91,7 @@ class FractionalScheduler:
         elif self.backend == BackendType.JAX:
             try:
                 import jax.numpy as jnp
-                from ..core.fractional_implementations import CaputoDerivative
+                from hpfracc.core.fractional_implementations import CaputoDerivative
                 # Use Caputo derivative for scalar learning rate adjustment
                 caputo = CaputoDerivative(self.fractional_order.alpha)
                 # Simple approximation: apply fractional scaling

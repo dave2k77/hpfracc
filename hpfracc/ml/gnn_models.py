@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from .backends import get_backend_manager, BackendType
 from .gnn_layers import FractionalGraphConv, FractionalGraphAttention, FractionalGraphPooling
 from .tensor_ops import get_tensor_ops
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 
 
 class BaseFractionalGNN(ABC):

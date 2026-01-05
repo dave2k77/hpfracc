@@ -29,8 +29,8 @@ import warnings
 import math
 
 # Import from relative paths
-from ..core.definitions import FractionalOrder
-from ..core.utilities import validate_fractional_order
+from hpfracc.core.definitions import FractionalOrder
+from hpfracc.core.utilities import validate_fractional_order
 
 # ============================================================================
 # TARGETED CONFIGURATION

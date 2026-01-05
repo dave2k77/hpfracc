@@ -12,7 +12,7 @@ from typing import Optional, Any, Dict, List, Union, Tuple, Iterator, Callable
 from collections import defaultdict
 import warnings
 
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 from .fractional_autograd import fractional_derivative
 from .backends import get_backend_manager, BackendType
 from .tensor_ops import get_tensor_ops

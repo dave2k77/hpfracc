@@ -12,7 +12,7 @@ from typing import Union, Optional, Tuple, Callable
 from dataclasses import dataclass
 import numpy as np
 
-from ..core.definitions import FractionalOrder, validate_fractional_order
+from hpfracc.core.definitions import FractionalOrder, validate_fractional_order
 from ..ml.neural_ode import BaseNeuralODE, NeuralODEConfig
 from ..ml.adjoint_optimization import AdjointConfig, adjoint_sde_gradient
 from ..solvers.sde_solvers import solve_fractional_sde, FractionalSDESolver

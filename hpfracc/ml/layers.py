@@ -44,7 +44,7 @@ except ImportError:
     NUMBA_AVAILABLE = False
 
 # Import from relative paths
-from ..core.definitions import FractionalOrder
+from hpfracc.core.definitions import FractionalOrder
 from .backends import get_backend_manager, BackendType
 from .tensor_ops import get_tensor_ops
 from .fractional_ops import spectral_derivative_torch, spectral_derivative_jax, JAX_AVAILABLE
