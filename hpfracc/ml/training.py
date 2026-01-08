@@ -18,6 +18,13 @@ from .fractional_autograd import fractional_derivative
 from .backends import get_backend_manager, BackendType
 from .tensor_ops import get_tensor_ops
 
+try:
+    import optuna
+    OPTUNA_AVAILABLE = True
+except ImportError:
+    OPTUNA_AVAILABLE = False
+    optuna = None
+
 
 class FractionalScheduler:
     """
@@ -576,6 +583,45 @@ class ModelCheckpointCallback(TrainingCallback):
 
     def on_batch_end(self, batch: int, logs: Optional[Dict[str, Any]] = None) -> None:
         pass
+
+
+class OptunaPruningCallback(TrainingCallback):
+    """Callback for pruning unpromising trials with Optuna."""
+
+    def __init__(self, trial: 'optuna.trial.Trial', monitor: str = 'val_loss'):
+        super().__init__()
+        if not OPTUNA_AVAILABLE:
+            raise ImportError("Optuna is required for OptunaPruningCallback")
+        self.trial = trial
+        self.monitor = monitor
+
+    def on_epoch_end(self, epoch: int, logs: Optional[Dict[str, Any]] = None) -> None:
+        logs = logs or {}
+        current_score = logs.get(self.monitor)
+        
+        if current_score is None and self.trainer:
+            # Fallback to trainer state
+            if self.monitor == 'val_loss' and self.trainer.validation_losses:
+                current_score = self.trainer.validation_losses[-1]
+            elif self.monitor == 'train_loss' and self.trainer.training_losses:
+                current_score = self.trainer.training_losses[-1]
+                
+        if current_score is None:
+            return
+
+        # Report to Optuna
+        self.trial.report(current_score, epoch)
+
+        # Handle pruning
+        if self.trial.should_prune():
+            message = "Trial pruned by Optuna."
+            if self.trainer:
+                self.trainer.should_stop = True
+            raise optuna.exceptions.TrialPruned(message)
+
+    def on_epoch_begin(self, epoch: int, logs: Optional[Dict[str, Any]] = None) -> None: pass
+    def on_batch_begin(self, batch: int, logs: Optional[Dict[str, Any]] = None) -> None: pass
+    def on_batch_end(self, batch: int, logs: Optional[Dict[str, Any]] = None) -> None: pass
 
 
 class FractionalTrainer:

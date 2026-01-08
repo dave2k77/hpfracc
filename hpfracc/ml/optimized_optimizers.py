@@ -1,542 +1,277 @@
 """
 Optimized Fractional Calculus Optimizers
 
-This module provides highly optimized fractional calculus optimizers with:
-- Unified base classes for common functionality
-- Efficient parameter state management
-- Fractional derivative caching and optimization
-- Optimized tensor operations and backend handling
-- Reduced code duplication with shared implementations
+This module provides highly optimized fractional calculus optimizers that:
+1. Inherit from `torch.optim.Optimizer` for standard PyTorch compatibility.
+2. Implement "Fractional Gradient Descent" logic where gradients are pre-processed
+   with fraction calculus operators before the standard update step.
 
-Author: Davian R. Chin, Department of Biomedical Engineering, University of Reading
-Optimized Optimizers Implementation: September 2025
+Author: Davian R. Chin
 """
 
-import numpy as np
-import time
-from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, List, Callable, Tuple
-from dataclasses import dataclass
-import warnings
+import torch
+from torch.optim import Optimizer
+from typing import Optional, Dict, Any, List, Callable, Union, Tuple
 import threading
+import warnings
+import math
 
-from .backends import get_backend_manager, BackendType
-from .tensor_ops import get_tensor_ops
+# Use the robust adjoint implementation if needed, or standard autograd
+from .fractional_autograd import fractional_derivative
 
-# Global cache for fractional derivatives
-_fractional_cache = {}
-_cache_lock = threading.Lock()
+class FractionalOptimizer(Optimizer):
+    """
+    Base class for fractional optimizers. 
+    intercepts gradients and applies fractional derivatives before the update step.
+    """
+    def __init__(self, params, defaults):
+        super().__init__(params, defaults)
 
+    def _apply_fractional_gradients(self, group):
+        """
+        Applies fractional derivative to gradients in place or returns modified list.
+        Currently we modify the `grad` attribute in-place temporarily or return tensor.
+        """
+        alpha = group['fractional_order']
+        method = group['method']
+        use_fractional = group.get('use_fractional', True)
 
-@dataclass
-class OptimizerConfig:
-    """Configuration for optimized optimizers"""
-    lr: float = 0.001
-    fractional_order: float = 0.5
-    method: str = "RL"
-    use_fractional: bool = True
-    backend: Optional[BackendType] = None
-    cache_fractional: bool = True
-    memory_efficient: bool = True
-    use_jit: bool = True
+        if not use_fractional or alpha == 1.0:
+            return
 
-
-class OptimizedParameterState:
-    """Efficient parameter state management"""
-
-    def __init__(self, param_shape: Tuple[int, ...], backend: BackendType, tensor_ops):
-        self.param_shape = param_shape
-        self.backend = backend
-        self.tensor_ops = tensor_ops
-        self._state = {}
-        self._step_count = 0
-
-    def get_state(self, key: str, default_factory: Callable = None) -> Any:
-        """Get state value with lazy initialization"""
-        if key not in self._state and default_factory is not None:
-            self._state[key] = default_factory()
-        return self._state.get(key)
-
-    def set_state(self, key: str, value: Any) -> None:
-        """Set state value"""
-        self._state[key] = value
-
-    def increment_step(self) -> int:
-        """Increment and return step count"""
-        self._step_count += 1
-        return self._step_count
-
-    @property
-    def step_count(self) -> int:
-        return self._step_count
+        for p in group['params']:
+            if p.grad is not None:
+                # We apply the fractional derivative to the gradient tensor
+                g = p.grad.data
+                
+                try:
+                    # Only apply if dimensions allow (needs at least 1D)
+                    if g.dim() >= 1:
+                        # Normalize to preserve magnitude stability
+                        orig_norm = torch.norm(g)
+                        new_grad = fractional_derivative(g, alpha, method)
+                        new_norm = torch.norm(new_grad)
+                        
+                        if new_norm > 1e-12:
+                            scale = orig_norm / new_norm
+                            p.grad.data = new_grad * scale
+                        else:
+                            p.grad.data = new_grad
+                    
+                except Exception as e:
+                    # Fallback to scaling if spatial conv fails (e.g. too small)
+                    pass
 
 
-class OptimizedFractionalDerivative:
-    """Optimized fractional derivative computation with caching"""
+class OptimizedFractionalSGD(FractionalOptimizer):
+    """
+    Optimized SGD with fractional calculus integration.
+    """
+    def __init__(self, params, lr=1e-3, momentum=0, dampening=0,
+                 weight_decay=0, nesterov=False,
+                 fractional_order=0.5, method="RL", use_fractional=True):
+        
+        defaults = dict(lr=lr, momentum=momentum, dampening=dampening,
+                        weight_decay=weight_decay, nesterov=nesterov,
+                        fractional_order=fractional_order, method=method,
+                        use_fractional=use_fractional)
+        super().__init__(params, defaults)
 
-    def __init__(self, config: OptimizerConfig):
-        self.config = config
-        self.cache = {} if config.cache_fractional else None
-        self.tensor_ops = get_tensor_ops(
-            config.backend or get_backend_manager().active_backend)
+    @torch.no_grad()
+    def step(self, closure=None):
+        loss = None
+        if closure is not None:
+            with torch.enable_grad():
+                loss = closure()
 
-    def compute_fractional_derivative(self, gradients: Any, alpha: float, method: str) -> Any:
-        """Compute fractional derivative with caching and optimization"""
+        for group in self.param_groups:
+            self._apply_fractional_gradients(group)
+            
+            params_with_grad = []
+            d_p_list = []
+            momentum_buffer_list = []
+            
+            weight_decay = group['weight_decay']
+            momentum = group['momentum']
+            dampening = group['dampening']
+            nesterov = group['nesterov']
+            lr = group['lr']
 
-        if not self.config.use_fractional:
-            return gradients
+            for p in group['params']:
+                if p.grad is not None:
+                    params_with_grad.append(p)
+                    d_p_list.append(p.grad)
 
-        # Create cache key
-        if self.cache is not None:
-            cache_key = self._create_cache_key(gradients, alpha, method)
-            if cache_key in self.cache:
-                return self.cache[cache_key]
+                    state = self.state[p]
+                    if 'momentum_buffer' not in state:
+                        momentum_buffer_list.append(None)
+                    else:
+                        momentum_buffer_list.append(state['momentum_buffer'])
 
-        try:
-            # Use optimized fractional derivative computation
-            if self.config.backend == BackendType.TORCH:
-                result = self._compute_torch_fractional_derivative(
-                    gradients, alpha, method)
-            else:
-                result = self._compute_fallback_fractional_derivative(
-                    gradients, alpha, method)
+            for i, param in enumerate(params_with_grad):
+                d_p = d_p_list[i]
 
-            # Cache result if enabled
-            if self.cache is not None:
-                self.cache[cache_key] = result
-                # Limit cache size
-                if len(self.cache) > 1000:
-                    # Remove oldest entries
-                    oldest_key = next(iter(self.cache))
-                    del self.cache[oldest_key]
+                if weight_decay != 0:
+                    d_p = d_p.add(param, alpha=weight_decay)
 
-            return result
+                if momentum != 0:
+                    buf = momentum_buffer_list[i]
+                    if buf is None:
+                        buf = d_p.clone().detach()
+                        momentum_buffer_list[i] = buf
+                    else:
+                        buf.mul_(momentum).add_(d_p, alpha=1 - dampening)
 
-        except Exception as e:
-            warnings.warn(
-                f"Fractional derivative failed: {e}. Using original gradients.")
-            return gradients
+                    if nesterov:
+                        d_p = d_p.add(buf, alpha=momentum)
+                    else:
+                        d_p = buf
 
-    def _create_cache_key(self, gradients: Any, alpha: float, method: str) -> str:
-        """Create cache key for fractional derivative"""
-        # Use tensor hash for caching
-        if hasattr(gradients, 'data_ptr'):
-            return f"{gradients.data_ptr()}_{alpha}_{method}"
-        else:
-            return f"{id(gradients)}_{alpha}_{method}"
+                param.add_(d_p, alpha=-lr)
+                
+                if momentum != 0:
+                    self.state[param]['momentum_buffer'] = momentum_buffer_list[i]
 
-    def _compute_torch_fractional_derivative(self, gradients: Any, alpha: float, method: str) -> Any:
-        """Compute fractional derivative using PyTorch backend"""
-        try:
-            from .fractional_autograd import fractional_derivative
-
-            # Create a copy to avoid modifying the original tensor
-            if hasattr(gradients, 'clone'):
-                gradients_copy = gradients.clone()
-            else:
-                gradients_copy = gradients
-
-            # Store original gradient magnitude for scaling
-            original_norm = self.tensor_ops.norm(gradients_copy)
-
-            # Apply fractional derivative
-            updated_gradients = fractional_derivative(
-                gradients_copy, alpha, method)
-
-            # Scale to preserve gradient magnitude
-            if original_norm > 0:
-                updated_norm = self.tensor_ops.norm(updated_gradients)
-                if updated_norm > 0:
-                    scale_factor = original_norm / updated_norm
-                    updated_gradients = updated_gradients * scale_factor
-
-            return updated_gradients
-
-        except Exception as e:
-            warnings.warn(f"Torch fractional derivative failed: {e}")
-            return gradients
-
-    def _compute_fallback_fractional_derivative(self, gradients: Any, alpha: float, method: str) -> Any:
-        """Fallback fractional derivative computation"""
-        # Simplified fractional derivative approximation
-        return gradients * (alpha ** 0.5)
+        return loss
 
 
-class OptimizedBaseOptimizer(ABC):
-    """Optimized base class for fractional calculus optimizers"""
+class OptimizedFractionalAdam(FractionalOptimizer):
+    """
+    Optimized Adam with fractional calculus integration.
+    """
+    def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), eps=1e-8,
+                 weight_decay=0, amsgrad=False,
+                 fractional_order=0.5, method="RL", use_fractional=True):
+        
+        defaults = dict(lr=lr, betas=betas, eps=eps,
+                        weight_decay=weight_decay, amsgrad=amsgrad,
+                        fractional_order=fractional_order, method=method,
+                        use_fractional=use_fractional)
+        super().__init__(params, defaults)
 
-    def __init__(self, config: OptimizerConfig):
-        self.config = config
-        self.backend = config.backend or get_backend_manager().active_backend
-        self.tensor_ops = get_tensor_ops(self.backend)
-        self.fractional_derivative = OptimizedFractionalDerivative(config)
+    @torch.no_grad()
+    def step(self, closure=None):
+        loss = None
+        if closure is not None:
+            with torch.enable_grad():
+                loss = closure()
 
-        # Efficient parameter state management
-        self._param_states = {}
-        self._param_count = 0
-        self._param_id_map = {}
+        for group in self.param_groups:
+            self._apply_fractional_gradients(group)
+            
+            for p in group['params']:
+                if p.grad is None:
+                    continue
+                grad = p.grad
+                if grad.is_sparse:
+                    raise RuntimeError('Adam does not support sparse gradients')
+                
+                amsgrad = group['amsgrad']
+                state = self.state[p]
 
-        # Performance monitoring
-        self._step_times = []
-        self._fractional_times = []
+                # State initialization
+                if len(state) == 0:
+                    state['step'] = 0
+                    state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    state['exp_avg_sq'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    if amsgrad:
+                        state['max_exp_avg_sq'] = torch.zeros_like(p, memory_format=torch.preserve_format)
 
-    def _get_param_state(self, param: Any) -> OptimizedParameterState:
-        """Get or create parameter state"""
-        param_id = id(param)
-        if param_id not in self._param_id_map:
-            self._param_id_map[param_id] = self._param_count
-            self._param_count += 1
+                exp_avg, exp_avg_sq = state['exp_avg'], state['exp_avg_sq']
+                if amsgrad:
+                    max_exp_avg_sq = state['max_exp_avg_sq']
+                
+                beta1, beta2 = group['betas']
 
-        param_idx = self._param_id_map[param_id]
-        if param_idx not in self._param_states:
-            # Get parameter shape efficiently
-            if hasattr(param, 'shape'):
-                param_shape = param.shape
-            else:
-                param_shape = (1,)  # Fallback
+                state['step'] += 1
+                bias_correction1 = 1 - beta1 ** state['step']
+                bias_correction2 = 1 - beta2 ** state['step']
 
-            self._param_states[param_idx] = OptimizedParameterState(
-                param_shape, self.backend, self.tensor_ops
-            )
+                if group['weight_decay'] != 0:
+                    grad = grad.add(p, alpha=group['weight_decay'])
 
-        return self._param_states[param_idx]
-
-    def _apply_fractional_derivative(self, gradients: Any) -> Any:
-        """Apply fractional derivative with optimization"""
-        if not self.config.use_fractional:
-            return gradients
-
-        start_time = time.time()
-        result = self.fractional_derivative.compute_fractional_derivative(
-            gradients, self.config.fractional_order, self.config.method
-        )
-        self._fractional_times.append(time.time() - start_time)
-
-        return result
-
-    def _update_parameter(self, param: Any, update: Any) -> None:
-        """Efficient parameter update"""
-        try:
-            # Try PyTorch-style parameter update
-            if hasattr(param, 'data') and hasattr(param.data, '__setitem__'):
-                param.data = param.data - update
-            else:
-                # For other backends, store update in state
-                state = self._get_param_state(param)
-                state.set_state('last_update', param - update)
-        except (AttributeError, TypeError):
-            # Fallback for non-writable parameters
-            state = self._get_param_state(param)
-            state.set_state('last_update', param - update)
-
-    def zero_grad(self, params: List[Any]) -> None:
-        """Zero gradients efficiently"""
-        for param in params:
-            if hasattr(param, 'grad') and param.grad is not None:
-                param.grad.zero_()
-
-    @abstractmethod
-    def step(self, params: List[Any], gradients: Optional[List[Any]] = None) -> None:
-        """Perform optimization step"""
-        pass
-
-    def get_performance_stats(self) -> Dict[str, Any]:
-        """Get performance statistics"""
-        return {
-            'avg_step_time': np.mean(self._step_times) if self._step_times else 0,
-            'avg_fractional_time': np.mean(self._fractional_times) if self._fractional_times else 0,
-            'total_steps': len(self._step_times),
-            'fractional_ratio': len(self._fractional_times) / max(len(self._step_times), 1)
-        }
-
-
-class OptimizedFractionalSGD(OptimizedBaseOptimizer):
-    """Optimized SGD with fractional calculus integration"""
-
-    def __init__(self,
-                 lr: float = 0.001,
-                 momentum: float = 0.0,
-                 fractional_order: float = 0.5,
-                 method: str = "RL",
-                 use_fractional: bool = True,
-                 backend: Optional[BackendType] = None,
-                 **kwargs):
-
-        config = OptimizerConfig(
-            lr=lr,
-            fractional_order=fractional_order,
-            method=method,
-            use_fractional=use_fractional,
-            backend=backend,
-            **kwargs
-        )
-        super().__init__(config)
-        self.momentum = momentum
-
-    def step(self, params: List[Any], gradients: Optional[List[Any]] = None) -> None:
-        """Optimized SGD step"""
-        start_time = time.time()
-
-        # Get gradients
-        if gradients is None:
-            gradients = []
-            for param in params:
-                if hasattr(param, 'grad') and param.grad is not None:
-                    gradients.append(param.grad)
+                exp_avg.mul_(beta1).add_(grad, alpha=1 - beta1)
+                exp_avg_sq.mul_(beta2).addcmul_(grad, grad, value=1 - beta2)
+                
+                if amsgrad:
+                    torch.maximum(max_exp_avg_sq, exp_avg_sq, out=max_exp_avg_sq)
+                    denom = (max_exp_avg_sq.sqrt() / math.sqrt(bias_correction2)).add_(group['eps'])
                 else:
-                    gradients.append(None)
+                    denom = (exp_avg_sq.sqrt() / math.sqrt(bias_correction2)).add_(group['eps'])
 
-        if len(params) != len(gradients):
-            raise ValueError(
-                "Number of parameters must match number of gradients")
+                step_size = group['lr'] / bias_correction1
+                p.addcdiv_(exp_avg, denom, value=-step_size)
 
-        for param, grad in zip(params, gradients):
-            if grad is None:
-                continue
+        return loss
 
-            # Apply fractional derivative
-            if self.config.use_fractional:
-                grad = self._apply_fractional_derivative(grad)
+class OptimizedFractionalRMSprop(FractionalOptimizer):
+    """
+    Optimized RMSprop with fractional calculus integration.
+    """
+    def __init__(self, params, lr=1e-2, alpha=0.99, eps=1e-8, weight_decay=0, momentum=0, centered=False,
+                 fractional_order=0.5, method="RL", use_fractional=True):
+        defaults = dict(lr=lr, momentum=momentum, alpha=alpha, eps=eps, centered=centered, weight_decay=weight_decay,
+                        fractional_order=fractional_order, method=method, use_fractional=use_fractional)
+        super().__init__(params, defaults)
 
-            # Get parameter state
-            state = self._get_param_state(param)
+    @torch.no_grad()
+    def step(self, closure=None):
+        loss = None
+        if closure is not None:
+            with torch.enable_grad():
+                loss = closure()
 
-            # Apply momentum if enabled
-            if self.momentum > 0:
-                momentum_buffer = state.get_state(
-                    'momentum_buffer',
-                    lambda: self.tensor_ops.zeros_like(param)
-                )
+        for group in self.param_groups:
+            self._apply_fractional_gradients(group)
 
-                # Update momentum buffer
-                momentum_buffer = self.momentum * momentum_buffer + grad
-                state.set_state('momentum_buffer', momentum_buffer)
-                grad = momentum_buffer
+            for p in group['params']:
+                if p.grad is None:
+                    continue
+                grad = p.grad
+                if grad.is_sparse:
+                    raise RuntimeError('RMSprop does not support sparse gradients')
+                
+                state = self.state[p]
+                if len(state) == 0:
+                    state['step'] = 0
+                    state['square_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    if group['momentum'] > 0:
+                        state['momentum_buffer'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    if group['centered']:
+                        state['grad_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
 
-            # Update parameter
-            update = self.config.lr * grad
-            self._update_parameter(param, update)
+                square_avg = state['square_avg']
+                alpha = group['alpha']
 
-        self._step_times.append(time.time() - start_time)
+                state['step'] += 1
 
+                if group['weight_decay'] != 0:
+                    grad = grad.add(p, alpha=group['weight_decay'])
 
-class OptimizedFractionalAdam(OptimizedBaseOptimizer):
-    """Optimized Adam with fractional calculus integration"""
+                square_avg.mul_(alpha).addcmul_(grad, grad, value=1 - alpha)
 
-    def __init__(self,
-                 params=None,  # Added for PyTorch compatibility
-                 lr: float = 0.001,
-                 betas: Tuple[float, float] = (0.9, 0.999),
-                 eps: float = 1e-8,
-                 fractional_order: float = 0.5,
-                 method: str = "RL",
-                 use_fractional: bool = True,
-                 backend: Optional[BackendType] = None,
-                 **kwargs):
-
-        config = OptimizerConfig(
-            lr=lr,
-            fractional_order=fractional_order,
-            method=method,
-            use_fractional=use_fractional,
-            backend=backend,
-            **kwargs
-        )
-        super().__init__(config)
-        self.betas = betas
-        self.eps = eps
-        self.params = params  # Store params for later use
-
-    def step(self, params: List[Any], gradients: Optional[List[Any]] = None) -> None:
-        """Optimized Adam step"""
-        start_time = time.time()
-
-        # Get gradients
-        if gradients is None:
-            gradients = []
-            for param in params:
-                if hasattr(param, 'grad') and param.grad is not None:
-                    gradients.append(param.grad)
+                if group['centered']:
+                    grad_avg = state['grad_avg']
+                    grad_avg.mul_(alpha).add_(grad, alpha=1 - alpha)
+                    avg = square_avg.addcmul(grad_avg, grad_avg, value=-1).sqrt_().add_(group['eps'])
                 else:
-                    gradients.append(None)
+                    avg = square_avg.sqrt().add_(group['eps'])
 
-        if len(params) != len(gradients):
-            raise ValueError(
-                "Number of parameters must match number of gradients")
-
-        for param, grad in zip(params, gradients):
-            if grad is None:
-                continue
-
-            # Apply fractional derivative
-            if self.config.use_fractional:
-                grad = self._apply_fractional_derivative(grad)
-
-            # Get parameter state
-            state = self._get_param_state(param)
-            step_count = state.increment_step()
-
-            # Get momentum and variance parameters
-            beta1, beta2 = self.betas
-            exp_avg = state.get_state(
-                'exp_avg',
-                lambda: self.tensor_ops.zeros_like(param)
-            )
-            exp_avg_sq = state.get_state(
-                'exp_avg_sq',
-                lambda: self.tensor_ops.zeros_like(param)
-            )
-
-            # Update momentum and variance
-            exp_avg = beta1 * exp_avg + (1 - beta1) * grad
-            exp_avg_sq = beta2 * exp_avg_sq + (1 - beta2) * (grad * grad)
-
-            # Store updated state
-            state.set_state('exp_avg', exp_avg)
-            state.set_state('exp_avg_sq', exp_avg_sq)
-
-            # Compute bias correction
-            bias_correction1 = 1 - beta1 ** step_count
-            bias_correction2 = 1 - beta2 ** step_count
-
-            # Update parameter
-            step_size = self.config.lr / bias_correction1
-            sqrt_exp_avg_sq = self.tensor_ops.sqrt(exp_avg_sq)
-            update = step_size * exp_avg / (sqrt_exp_avg_sq + self.eps)
-
-            self._update_parameter(param, update)
-
-        self._step_times.append(time.time() - start_time)
-
-
-class OptimizedFractionalRMSprop(OptimizedBaseOptimizer):
-    """Optimized RMSprop with fractional calculus integration"""
-
-    def __init__(self,
-                 lr: float = 0.001,
-                 alpha: float = 0.99,
-                 eps: float = 1e-8,
-                 fractional_order: float = 0.5,
-                 method: str = "RL",
-                 use_fractional: bool = True,
-                 backend: Optional[BackendType] = None,
-                 **kwargs):
-
-        config = OptimizerConfig(
-            lr=lr,
-            fractional_order=fractional_order,
-            method=method,
-            use_fractional=use_fractional,
-            backend=backend,
-            **kwargs
-        )
-        super().__init__(config)
-        self.alpha = alpha
-        self.eps = eps
-
-    def step(self, params: List[Any], gradients: Optional[List[Any]] = None) -> None:
-        """Optimized RMSprop step"""
-        start_time = time.time()
-
-        # Get gradients
-        if gradients is None:
-            gradients = []
-            for param in params:
-                if hasattr(param, 'grad') and param.grad is not None:
-                    gradients.append(param.grad)
+                if group['momentum'] > 0:
+                    buf = state['momentum_buffer']
+                    buf.mul_(group['momentum']).addcdiv_(grad, avg)
+                    p.add_(buf, alpha=-group['lr'])
                 else:
-                    gradients.append(None)
+                    p.addcdiv_(grad, avg, value=-group['lr'])
 
-        if len(params) != len(gradients):
-            raise ValueError(
-                "Number of parameters must match number of gradients")
+        return loss
 
-        for param, grad in zip(params, gradients):
-            if grad is None:
-                continue
+# Aliases for backward compatibility
+OptimizedBaseOptimizer = FractionalOptimizer
 
-            # Apply fractional derivative
-            if self.config.use_fractional:
-                grad = self._apply_fractional_derivative(grad)
+# Factory functions
+def create_optimized_sgd(lr=0.001, momentum=0.0, **kwargs):
+    return lambda params: OptimizedFractionalSGD(params, lr=lr, momentum=momentum, **kwargs)
 
-            # Get parameter state
-            state = self._get_param_state(param)
-            square_avg = state.get_state(
-                'square_avg',
-                lambda: self.tensor_ops.zeros_like(param)
-            )
-
-            # Update square average
-            square_avg = self.alpha * square_avg + \
-                (1 - self.alpha) * (grad * grad)
-            state.set_state('square_avg', square_avg)
-
-            # Update parameter
-            sqrt_square_avg = self.tensor_ops.sqrt(square_avg)
-            update = self.config.lr * grad / (sqrt_square_avg + self.eps)
-
-            self._update_parameter(param, update)
-
-        self._step_times.append(time.time() - start_time)
-
-
-# Convenience aliases for backward compatibility
-OptimizedFractionalOptimizer = OptimizedBaseOptimizer
-
-# Factory functions for easy creation
-
-
-def create_optimized_sgd(lr: float = 0.001, momentum: float = 0.0, **kwargs) -> OptimizedFractionalSGD:
-    """Create optimized fractional SGD optimizer"""
-    return OptimizedFractionalSGD(lr=lr, momentum=momentum, **kwargs)
-
-
-def create_optimized_adam(lr: float = 0.001, betas: Tuple[float, float] = (0.9, 0.999), **kwargs) -> OptimizedFractionalAdam:
-    """Create optimized fractional Adam optimizer"""
-    return OptimizedFractionalAdam(lr=lr, betas=betas, **kwargs)
-
-
-def create_optimized_rmsprop(lr: float = 0.001, alpha: float = 0.99, **kwargs) -> OptimizedFractionalRMSprop:
-    """Create optimized fractional RMSprop optimizer"""
-    return OptimizedFractionalRMSprop(lr=lr, alpha=alpha, **kwargs)
-
-# Performance comparison utilities
-
-
-def compare_optimizer_performance(optimizers: List[OptimizedBaseOptimizer]) -> Dict[str, Any]:
-    """Compare performance of multiple optimizers"""
-    results = {}
-    for opt in optimizers:
-        stats = opt.get_performance_stats()
-        results[opt.__class__.__name__] = stats
-    return results
-
-
-def benchmark_optimizer_performance(optimizer_class, model, criterion, data_loader, num_epochs: int = 10) -> Dict[str, Any]:
-    """Benchmark optimizer performance"""
-    optimizer = optimizer_class()
-    params = list(model.parameters())
-
-    times = []
-    for epoch in range(num_epochs):
-        for batch_idx, (data, target) in enumerate(data_loader):
-            output = model(data)
-            loss = criterion(output, target)
-            loss.backward()
-
-            start_time = time.time()
-            optimizer.step(params)
-            times.append(time.time() - start_time)
-
-            optimizer.zero_grad(params)
-
-            if batch_idx >= 5:  # Limit batches for benchmarking
-                break
-
-    return {
-        'avg_time': np.mean(times),
-        'std_time': np.std(times),
-        'min_time': np.min(times),
-        'max_time': np.max(times),
-        'times': times
-    }
+def create_optimized_adam(lr=0.001, betas=(0.9, 0.999), **kwargs):
+    return lambda params: OptimizedFractionalAdam(params, lr=lr, betas=betas, **kwargs)

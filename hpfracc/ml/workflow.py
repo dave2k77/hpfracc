@@ -297,48 +297,92 @@ class ModelValidator:
         test_data: Any,
         test_labels: Any
     ) -> Dict[str, float]:
-        """Calculate standard performance metrics"""
-        model.eval()
+        """Calculate standard performance metrics using FractionalTrainer"""
+        
+        # Use FractionalTrainer to perform validation step correctly
+        # This ensures we use the same loss function and logic as training
+        from .training import FractionalTrainer
+        
+        # Create a temporary trainer
+        # Note: We rely on default loss (MSE) if not specified, which matches original logic
+        trainer = FractionalTrainer(model=model, optimizer=None, device='cpu')
+        
+        start_time = datetime.now()
+        
+        # If test_data is a DataLoader, we can filter/iterate
+        # If it's a tensor, we wrap it
+        
+        # Check for Tensor first because Tensors are also iterable
+        is_tensor = False
+        try:
+            import torch
+            if isinstance(test_data, torch.Tensor):
+                is_tensor = True
+        except ImportError:
+            pass
+
+        if not is_tensor and (hasattr(test_data, 'dataset') or hasattr(test_data, '__iter__')):
+             # Assume DataLoader-like
+             # Note: FractionalTrainer.validate_epoch expects a dataloader
+             loss = trainer.validate_epoch(test_data)
+             # For accuracy/other metrics, we would need to inspect outputs
+             # Since validate_epoch only returns loss, we'll manually step for detailed metrics
+             # This is a limitation of the current Trainer API, so we might need a custom loop 
+             # using trainer components
+             model.eval()
+             predictions_list = []
+             targets_list = []
+             
+             with torch.no_grad():
+                 for data, target in test_data:
+                     # Trainer doesn't expose data moving easily without train/val loop
+                     # so we do a simple pass
+                     output = model(data)
+                     predictions_list.append(output)
+                     targets_list.append(target)
+             
+             predictions = torch.cat(predictions_list)
+             test_labels_tensor = torch.cat(targets_list)
+        else:
+            # Tensor inputs - wrap in a list for dataloader-like iteration or use validate_step
+            # FractionalTrainer.validate_step expects (data, target)
+            # We must ensure they are tensors
+            if not isinstance(test_data, torch.Tensor):
+                 test_data = torch.tensor(test_data)
+            if not isinstance(test_labels, torch.Tensor):
+                 test_labels = torch.tensor(test_labels)
+            
+            # Direct validation step
+            loss = trainer.validate_step(test_data, test_labels)
+            
+            predictions = model(test_data)
+            test_labels_tensor = test_labels
+
+        end_time = datetime.now()
+        inference_time = (end_time - start_time).total_seconds() * 1000
 
         with torch.no_grad():
-            # Measure inference time
-            start_time = datetime.now()
-            predictions = model(test_data)
-            end_time = datetime.now()
-            # Convert to ms
-            inference_time = (end_time - start_time).total_seconds() * 1000
-
             # Calculate accuracy
             if (predictions.dim() > 1 and predictions.size(1) > 1 and
-                    test_labels.dim() > 1 and test_labels.size(1) > 1):
-                # Multi-dimensional regression - calculate R² score instead of
-                # accuracy
+                    test_labels_tensor.dim() > 1 and test_labels_tensor.size(1) > 1):
+                # Multi-dimensional regression - calculate R² score
                 ss_res = torch.sum(
-                    (test_labels - predictions) ** 2, dim=1).sum()
+                    (test_labels_tensor - predictions) ** 2, dim=1).sum()
                 ss_tot = torch.sum(
-                    (test_labels - test_labels.mean(dim=0)) ** 2, dim=1).sum()
+                    (test_labels_tensor - test_labels_tensor.mean(dim=0)) ** 2, dim=1).sum()
                 r2 = 1 - (ss_res / ss_tot)
-                accuracy = r2.item()  # Use R² as accuracy for regression
+                accuracy = r2.item()
             elif hasattr(predictions, 'argmax') and predictions.dim() > 1:
                 # Classification problem
                 predicted_labels = predictions.argmax(dim=1)
                 accuracy = (predicted_labels ==
-                            test_labels).float().mean().item()
+                            test_labels_tensor).float().mean().item()
             else:
-                # Single-dimensional regression - calculate R² score instead of
-                # accuracy
-                ss_res = torch.sum((test_labels - predictions) ** 2)
-                ss_tot = torch.sum((test_labels - test_labels.mean()) ** 2)
+                # Single-dimensional regression - calculate R² score
+                ss_res = torch.sum((test_labels_tensor - predictions) ** 2)
+                ss_tot = torch.sum((test_labels_tensor - test_labels_tensor.mean()) ** 2)
                 r2 = 1 - (ss_res / ss_tot)
-                accuracy = r2.item()  # Use R² as accuracy for regression
-
-            # Calculate loss
-            if hasattr(torch.nn.functional, 'cross_entropy'):
-                loss = torch.nn.functional.cross_entropy(
-                    predictions, test_labels).item()
-            else:
-                loss = torch.nn.functional.mse_loss(
-                    predictions, test_labels).item()
+                accuracy = r2.item()
 
             # Measure memory usage
             model_size = sum(p.numel() * p.element_size()

@@ -32,17 +32,22 @@ class FractionalDataset(ABC):
             fractional_order: float = 0.5,
             method: str = "RL",
             backend: Optional[BackendType] = None,
-            apply_fractional: bool = True):
+            apply_fractional: bool = True,
+            cache_fractional: bool = False):
         self.fractional_order = FractionalOrder(fractional_order)
         self.method = method
         self.backend = backend or get_backend_manager().active_backend
         self.tensor_ops = get_tensor_ops(self.backend)
         self.apply_fractional = apply_fractional
+        self.cache_fractional = cache_fractional
+        self._cached_data = None
 
     def fractional_transform(self, data: Any) -> Any:
+        # If caching is enabled and we have cached data, this method shouldn't be called 
+        # for the whole dataset again, but it remains for on-the-fly usage.
         """
         Apply fractional derivative to input data
-
+        
         Args:
             data: Input data
 
@@ -68,8 +73,18 @@ class FractionalDataset(ABC):
                 data, self.fractional_order.alpha, self.method)
         else:
             # For non-TORCH backends, return input unchanged
-            # (Fractional derivatives are only implemented for TORCH backend)
             return data
+            
+    def _precompute_cache(self, data_source: Any) -> Any:
+        """Helper to precompute fractional transform on entire dataset."""
+        print("Pre-computing fractional derivatives for dataset cache...")
+        if isinstance(data_source, list):
+            return [self.fractional_transform(x) for x in data_source]
+        else:
+            # Assume tensor-like supports slicing/batch transform or iterate
+            # For large tensors, doing it in one go might be memory heavy but fast
+            return self.fractional_transform(data_source)
+
 
     def __len__(self) -> int:
         """Return the number of samples in the dataset"""
@@ -89,8 +104,9 @@ class FractionalTensorDataset(FractionalDataset):
             fractional_order: float = 0.5,
             method: str = "RL",
             backend: Optional[BackendType] = None,
-            apply_fractional: bool = False):
-        super().__init__(fractional_order, method, backend, apply_fractional)
+            apply_fractional: bool = False,
+            cache_fractional: bool = False):
+        super().__init__(fractional_order, method, backend, apply_fractional, cache_fractional)
 
         if not tensors:
             raise ValueError("Tensors list cannot be empty")
@@ -101,6 +117,10 @@ class FractionalTensorDataset(FractionalDataset):
             raise ValueError("All tensors must have the same first dimension")
 
         self.tensors = tensors
+        
+        if self.apply_fractional and self.cache_fractional:
+            # Precompute the first tensor (data)
+            self.tensors[0] = self._precompute_cache(self.tensors[0])
 
     def __len__(self) -> int:
         return len(self.tensors[0])
@@ -112,17 +132,16 @@ class FractionalTensorDataset(FractionalDataset):
         # Get data at index
         data = [tensor[index] for tensor in self.tensors]
 
-        # Apply fractional transform to input data (first tensor)
-        if len(data) > 1:
+        # Apply fractional transform if NOT cached
+        # If cached, data[0] is already transformed in __init__
+        if self.apply_fractional and not self.cache_fractional:
             data[0] = self.fractional_transform(data[0])
-            # Return first tensor and second tensor (or list if more than 2)
-            if len(data) == 2:
-                return data[0], data[1]
-            else:
-                return data[0], data[1:]
+
+        # Return first tensor and second tensor (or list if more than 2)
+        if len(data) == 2:
+            return data[0], data[1]
         else:
-            data[0] = self.fractional_transform(data[0])
-            return data[0], None
+            return data[0], data[1:]
 
 
 class FractionalTimeSeriesDataset(FractionalDataset):
@@ -137,8 +156,9 @@ class FractionalTimeSeriesDataset(FractionalDataset):
             fractional_order: float = 0.5,
             method: str = "RL",
             backend: Optional[BackendType] = None,
-            apply_fractional: bool = True):
-        super().__init__(fractional_order, method, backend, apply_fractional)
+            apply_fractional: bool = True,
+            cache_fractional: bool = False):
+        super().__init__(fractional_order, method, backend, apply_fractional, cache_fractional)
 
         self.data = data
         self.targets = targets
@@ -150,6 +170,11 @@ class FractionalTimeSeriesDataset(FractionalDataset):
             raise ValueError("Data length must be at least sequence_length")
 
         self.num_sequences = (len(data) - sequence_length) // stride + 1
+        
+        if self.apply_fractional and self.cache_fractional:
+            # For time series, we cache the transformed full data sequence
+            # This is more efficient than caching individual windows
+            self.data = self._precompute_cache(self.data)
 
     def __len__(self) -> int:
         return self.num_sequences
@@ -162,13 +187,14 @@ class FractionalTimeSeriesDataset(FractionalDataset):
         start_idx = index * self.stride
         end_idx = start_idx + self.sequence_length
 
-        # Extract sequence
+        # Extract sequence from (potentially already transformed) data
         sequence = self.data[start_idx:end_idx]
         target = self.targets[end_idx -
                               1] if end_idx <= len(self.targets) else self.targets[-1]
 
-        # Apply fractional transform to sequence
-        sequence = self.fractional_transform(sequence)
+        # Apply fractional transform to sequence ONLY if not cached
+        if self.apply_fractional and not self.cache_fractional:
+            sequence = self.fractional_transform(sequence)
 
         return sequence, target
 
@@ -451,6 +477,9 @@ def create_fractional_dataset(
         raise ValueError("data is required for dataset type: {dataset_type}")
 
     dataset_class = dataset_map[dataset_type.lower()]
+    
+    # Extract cache_fractional from kwargs if present, default to False
+    cache_fractional = kwargs.get('cache_fractional', False)
 
     if dataset_type.lower() == 'tensor':
         # Check if data is already a list of tensors
