@@ -82,54 +82,64 @@ class ImportanceSampler(StochasticMemorySampler):
     def estimate_derivative(self, x: torch.Tensor, indices: torch.Tensor,
                             weights: torch.Tensor) -> torch.Tensor:
         """Estimate fractional derivative using importance sampling."""
-        # Handle both 1D and 2D inputs
-        if x.dim() == 2:
-            # For 2D input (batch, features), work on the last feature dimension
-            n = x.shape[-1]
-            if len(indices) == 0:
-                return torch.zeros_like(x)
-
-            current_val = x[..., -1]  # Last feature for each batch
-            sampled_vals = x[..., n - 1 - indices]  # Shape: (batch, k)
-            # Shape: (batch, k)
-            differences = current_val.unsqueeze(-1) - sampled_vals
-
-            # Weighted sum over samples
-            weighted_sum = torch.sum(
-                weights * differences, dim=-1)  # Shape: (batch,)
-
-            # Normalize by sample size
-            result = weighted_sum / len(indices)
-
-            # Return tensor with same shape as input, properly connected for gradients
-            # This is a simplified approach - in practice, you'd want proper fractional derivative gradients
-            # We need to create a tensor that maintains the gradient connection
-            result_tensor = torch.zeros_like(x)
-            result_tensor[..., -1] = result
-            return result_tensor
+        # Ensure x is 2D: (batch, seq) or (1, seq) for uniform handling
+        is_1d = x.dim() == 1
+        if is_1d:
+            x_2d = x.unsqueeze(0)
         else:
-            # For 1D input, use original logic but return tensor with same shape
-            n = len(x)
-            if len(indices) == 0:
-                return torch.zeros_like(x)
+            x_2d = x
+            
+        batch_size, n = x_2d.shape
+        
+        if len(indices) == 0:
+            output = torch.zeros_like(x_2d)
+            return output.squeeze(0) if is_1d else output
 
-            current_val = x[-1]
-            sampled_vals = x[n - 1 - indices]
-            differences = current_val - sampled_vals
-
-            # Weighted sum
-            weighted_sum = torch.sum(weights * differences)
-
-            # Normalize by sample size
-            result = weighted_sum / len(indices)
-
-            # Return tensor with same shape as input, properly connected for gradients
-            # This is a simplified approach - in practice, you'd want proper fractional derivative gradients
-            # The key is to ensure the result is properly connected to the input for gradient computation
-            # We need to create a tensor that maintains the gradient connection
-            result_tensor = torch.zeros_like(x)
-            result_tensor[-1] = result
-            return result_tensor
+        # Current value (x_n)
+        current_val = x_2d[:, -1] # Shape: (batch,)
+        
+        # Sampled values (x_{n-k})
+        # indices are relative offsets from current position
+        # history indices = n - 1 - indices
+        history_indices = n - 1 - indices
+        
+        # Gather sampled values
+        # We use advanced indexing to ensure gradients are preserved
+        # x_2d: (batch, n)
+        # history_indices: (sampled_k,)
+        # We want sampled_vals: (batch, sampled_k)
+        sampled_vals = x_2d[:, history_indices]
+        
+        # Differences: x_n - x_{n-k}
+        # (batch, 1) - (batch, sampled_k) -> (batch, sampled_k)
+        differences = current_val.unsqueeze(1) - sampled_vals
+        
+        # Apply weights: (sampled_k,) -> (1, sampled_k)
+        weighted_diffs = differences * weights.unsqueeze(0)
+        
+        # Sum over samples and normalize
+        weighted_sum = weighted_diffs.sum(dim=1)
+        result_val = weighted_sum / len(indices)
+        
+        # Construct output tensor preserving gradient graph
+        # We create a new tensor where the last element is the computed derivative
+        # The other elements (zeros) are independent of x and won't affect grad
+        
+        # We need the output to carry gradients from result_val to x.
+        # output is currently detached zeros.
+        # We can't do in-place assignment to a leaf created by zeros_like if we want prop.
+        # Actually we want output to *be* result_val at the last index.
+        
+        # Let's return a tensor where all but last are detached zeros, and last is result_val
+        zeros_part = torch.zeros(batch_size, n - 1, device=x.device, dtype=x.dtype)
+        # result_val is (batch,) -> (batch, 1)
+        final_part = result_val.unsqueeze(1)
+        
+        output = torch.cat([zeros_part, final_part], dim=1)
+        
+        if is_1d:
+            return output.squeeze(0)
+        return output
 
 
 class StratifiedSampler(StochasticMemorySampler):
@@ -151,15 +161,23 @@ class StratifiedSampler(StochasticMemorySampler):
             return torch.arange(n, dtype=torch.long)
 
         # Determine split between recent and tail
-        k_recent = int(k * (1 - self.tail_ratio))
-        k_tail = k - k_recent
-
+        k_recent_target = int(k * (1 - self.tail_ratio))
+        recent_available = min(self.recent_window, n)
+        
+        # We can't sample more than available in recent window
+        k_recent = min(k_recent_target, recent_available)
+        
+        # Shift shortfall to tail
+        shortfall = k_recent_target - k_recent
+        k_tail = (k - k_recent_target) + shortfall
+        
         indices = []
 
         # Sample from recent window (uniform)
-        if k_recent > 0 and self.recent_window > 0:
-            recent_end = min(self.recent_window, n)
-            recent_indices = torch.randperm(recent_end)[:k_recent]
+        if k_recent > 0:
+            # We want unique indices from 0 to recent_available-1
+            # randperm ensures uniqueness
+            recent_indices = torch.randperm(recent_available)[:k_recent]
             indices.append(recent_indices)
 
         # Sample from tail (power-law)
@@ -195,6 +213,7 @@ class StratifiedSampler(StochasticMemorySampler):
         if tail_mask.any():
             tail_indices = indices[tail_mask]
             j_vals = tail_indices.float()
+            # Simple weight based on decay
             tail_weights = torch.pow(n - j_vals + 1e-8, -(1 + self.alpha))
             weights[tail_mask] = tail_weights
 
@@ -203,20 +222,8 @@ class StratifiedSampler(StochasticMemorySampler):
     def estimate_derivative(self, x: torch.Tensor, indices: torch.Tensor,
                             weights: torch.Tensor) -> torch.Tensor:
         """Estimate fractional derivative using stratified sampling."""
-        # For now, return a scalar estimate for the last point
-        n = len(x)
-        if len(indices) == 0:
-            return torch.tensor(0.0, device=x.device, dtype=x.dtype)
-
-        current_val = x[-1]
-        sampled_vals = x[n - 1 - indices]
-        differences = current_val - sampled_vals
-
-        # Weighted sum
-        weighted_sum = torch.sum(weights * differences)
-
-        # Normalize by sample size
-        return weighted_sum / len(indices)
+        # Reuse ImportanceSampler implementation
+        return ImportanceSampler.estimate_derivative(self, x, indices, weights)
 
 
 class ControlVariateSampler(StochasticMemorySampler):
@@ -234,18 +241,9 @@ class ControlVariateSampler(StochasticMemorySampler):
 
     def compute_baseline(self, x: torch.Tensor) -> torch.Tensor:
         """Compute deterministic baseline using recent window."""
-        n = len(x)
-        if n <= self.baseline_window:
-            return torch.sum(x) * 0.0  # Zero baseline for short sequences
-
-        # Use recent window for deterministic baseline
-        recent_x = x[-self.baseline_window:]
-        current_val = recent_x[-1]
-
-        # Simple finite difference baseline
-        baseline = torch.sum(
-            current_val - recent_x[:-1]) / self.baseline_window
-        return baseline
+        # Placeholder - actual baseline computed in estimate_derivative
+        # to ensure graph connectivity
+        return torch.zeros_like(x)
 
     def sample_indices(self, n: int, k: int) -> torch.Tensor:
         """Sample indices from tail only (excluding baseline window)."""
@@ -277,92 +275,83 @@ class ControlVariateSampler(StochasticMemorySampler):
     def estimate_derivative(self, x: torch.Tensor, indices: torch.Tensor,
                             weights: torch.Tensor) -> torch.Tensor:
         """Estimate derivative using control variate method."""
-        # Compute baseline
-        baseline = self.compute_baseline(x)
-
-        if len(indices) == 0:
-            return baseline
-
-        # Compute residual from tail sampling
-        n = len(x)
-        current_val = x[-1]
-        sampled_vals = x[n - 1 - indices]
-        differences = current_val - sampled_vals
-
-        # Weighted sum of residuals
-        residual = torch.sum(weights * differences) / len(indices)
-
-        # Return baseline + residual
-        return baseline + residual
-
-
-class StochasticFractionalDerivative(torch.autograd.Function):
-    """
-    PyTorch autograd function for stochastic fractional derivatives.
-    """
-
-    @staticmethod
-    def forward(ctx, x: torch.Tensor, alpha: float, k: int = 64,
-                method: str = "importance", **sampler_kwargs) -> torch.Tensor:
-        """Forward pass with stochastic memory sampling."""
-
-        # Create appropriate sampler
-        if method == "importance":
-            sampler = ImportanceSampler(alpha, **sampler_kwargs)
-        elif method == "stratified":
-            sampler = StratifiedSampler(alpha, **sampler_kwargs)
-        elif method == "control_variate":
-            sampler = ControlVariateSampler(alpha, **sampler_kwargs)
+        # Determine shape
+        is_1d = x.dim() == 1
+        if is_1d:
+            x_2d = x.unsqueeze(0)
         else:
-            raise ValueError(f"Unknown sampling method: {method}")
-
-        # Sample indices and compute weights
-        n = len(x)
-        indices = sampler.sample_indices(n, k)
-        weights = sampler.compute_weights(indices, n)
-
-        # Estimate derivative
-        result = sampler.estimate_derivative(x, indices, weights)
-
-        # Save for backward pass
-        ctx.alpha = alpha
-        ctx.k = k
-        ctx.method = method
-        ctx.sampler_kwargs = sampler_kwargs
-        ctx.save_for_backward(x, indices, weights)
-
-        return result
-
-    @staticmethod
-    def backward(ctx, grad_output: torch.Tensor) -> Tuple[torch.Tensor, None, None, None, None]:
-        """Backward pass with stochastic gradient estimation."""
-        x, indices, weights = ctx.saved_tensors
-
-        # Recreate sampler for backward pass
-        if ctx.method == "importance":
-            sampler = ImportanceSampler(ctx.alpha, **ctx.sampler_kwargs)
-        elif ctx.method == "stratified":
-            sampler = StratifiedSampler(ctx.alpha, **ctx.sampler_kwargs)
-        elif ctx.method == "control_variate":
-            sampler = ControlVariateSampler(ctx.alpha, **ctx.sampler_kwargs)
-
-        # Compute gradient using same sampling
-        n = len(x)
-
-        # For this simplified implementation, we'll compute a basic gradient
-        # In practice, you'd want proper fractional derivative gradients
-        if x.dim() == 2:
-            # 2D case: (batch, features)
-            grad_input = torch.zeros_like(x)
-            # Simple gradient: pass through the output gradient
-            grad_input[..., -1] = grad_output[..., -1]
+            x_2d = x
+            
+        batch_size, n = x_2d.shape
+        
+        # 1. Baseline
+        # Sum of (current - history) for recent window
+        window = min(n, self.baseline_window)
+        if window > 1:
+            current_val = x_2d[:, -1].unsqueeze(1)
+            recent_vals = x_2d[:, -window:-1]
+            # Simple average difference as baseline
+            baseline_val = (current_val - recent_vals).mean(dim=1)
         else:
-            # 1D case
-            grad_input = torch.zeros_like(x)
-            # Simple gradient: pass through the output gradient
-            grad_input[-1] = grad_output[-1]
+            baseline_val = torch.zeros(batch_size, device=x.device, dtype=x.dtype)
+            
+        # 2. Tail Residual
+        if len(indices) > 0:
+             # history indices = n - 1 - indices
+            history_indices = n - 1 - indices
+            sampled_vals = x_2d[:, history_indices]
+            current_val_sq = x_2d[:, -1].unsqueeze(1)
+            
+            tail_diffs = current_val_sq - sampled_vals
+            # Weighted average of residuals
+            tail_val = (tail_diffs * weights.unsqueeze(0)).sum(dim=1) / len(indices)
+        else:
+            tail_val = torch.zeros(batch_size, device=x.device, dtype=x.dtype)
+            
+        result_val = baseline_val + tail_val
+        
+        # Pack into output tensor
+        zeros_part = torch.zeros(batch_size, n - 1, device=x.device, dtype=x.dtype)
+        final_part = result_val.unsqueeze(1)
+        output = torch.cat([zeros_part, final_part], dim=1)
+        
+        if is_1d:
+            return output.squeeze(0)
+        return output
 
-        return grad_input, None, None, None, None
+
+def stochastic_fractional_derivative(x: torch.Tensor, alpha: float, k: int = 64,
+                                     method: str = "importance", **sampler_kwargs) -> torch.Tensor:
+    """
+    Public interface for stochastic fractional derivative.
+    Fully differentiable via PyTorch Autograd.
+    """
+    # Create appropriate sampler
+    if method == "importance":
+        sampler = ImportanceSampler(alpha, **sampler_kwargs)
+    elif method == "stratified":
+        sampler = StratifiedSampler(alpha, **sampler_kwargs)
+    elif method == "control_variate":
+        sampler = ControlVariateSampler(alpha, **sampler_kwargs)
+    else:
+        raise ValueError(f"Unknown sampling method: {method}")
+
+    # Sample indices and compute weights
+    n = x.dim() == 1 and len(x) or x.shape[-1]
+    indices = sampler.sample_indices(n, k)
+    
+    # ensure indices are on correct device
+    if indices.device != x.device:
+        indices = indices.to(x.device)
+        
+    weights = sampler.compute_weights(indices, n)
+    if weights.device != x.device:
+        weights = weights.to(x.device)
+        
+    # Estimate derivative
+    result = sampler.estimate_derivative(x, indices, weights)
+
+    return result
 
 
 class StochasticFractionalLayer(nn.Module):
@@ -379,19 +368,13 @@ class StochasticFractionalLayer(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass."""
-        return StochasticFractionalDerivative.apply(x, self.alpha, self.k, self.method, **self.kwargs)
+        return stochastic_fractional_derivative(x, self.alpha, self.k, self.method, **self.kwargs)
 
     def extra_repr(self) -> str:
         return f'alpha={self.alpha}, k={self.k}, method={self.method}'
 
 
 # Convenience functions
-def stochastic_fractional_derivative(x: torch.Tensor, alpha: float, k: int = 64,
-                                     method: str = "importance", **kwargs) -> torch.Tensor:
-    """Convenience function for stochastic fractional derivative."""
-    return StochasticFractionalDerivative.apply(x, alpha, k, method, **kwargs)
-
-
 def create_stochastic_fractional_layer(alpha: float, k: int = 64,
                                        method: str = "importance", **kwargs) -> StochasticFractionalLayer:
     """Convenience function for creating stochastic fractional layer."""

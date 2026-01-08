@@ -108,7 +108,6 @@ from .spectral_autograd import (
 
 # Stochastic Memory Sampling
 from .stochastic_memory_sampling import (
-    StochasticFractionalDerivative,
     StochasticFractionalLayer,
     stochastic_fractional_derivative,
     create_stochastic_fractional_layer,
@@ -192,7 +191,6 @@ __all__ = [
     'spectral_fractional_derivative',
     'create_fractional_layer',
     # Stochastic
-    'StochasticFractionalDerivative',
     'StochasticFractionalLayer',
     'stochastic_fractional_derivative',
     'create_stochastic_fractional_layer',

@@ -132,6 +132,8 @@ class ProbabilisticFractionalLayer(nn.Module):
     def __init__(self, **kwargs):
         super().__init__()
 
+        self.kwargs = kwargs
+        
         # If NumPyro is unavailable, allow construction; we'll use torch-backed order if provided later
         if not NUMPYRO_AVAILABLE:
             self._svi_initialized = False
@@ -141,7 +143,6 @@ class ProbabilisticFractionalLayer(nn.Module):
             return
 
         self.probabilistic_order = ProbabilisticFractionalOrder(model, guide)
-        self.kwargs = kwargs
         
         # Initialize the SVI state with error handling for JAX initialization issues
         if not JAX_AVAILABLE:
@@ -240,6 +241,13 @@ class ProbabilisticFractionalLayer(nn.Module):
 
     def get_alpha_statistics(self) -> Dict[str, torch.Tensor]:
         """Get statistics of the fractional order distribution."""
+        if hasattr(self.probabilistic_order, 'backend_type') and self.probabilistic_order.backend_type == 'torch':
+            d = self.probabilistic_order._current_torch_dist()
+            return {
+                'mean': d.mean if hasattr(d, 'mean') else torch.tensor(float('nan')),
+                'std': d.stddev if hasattr(d, 'stddev') else torch.tensor(float('nan'))
+            }
+
         if self.probabilistic_order.svi_state is None:
             return {'mean': torch.tensor(0.0), 'std': torch.tensor(1.0)}
         params = self.probabilistic_order.svi.get_params(

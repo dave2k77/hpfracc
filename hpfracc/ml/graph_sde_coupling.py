@@ -243,18 +243,52 @@ class GraphFractionalSDELayer(nn.Module):
         
         # Simulate SDE for a few steps
         dt = 0.1  # Time step
-        for _ in range(self.num_sde_steps):
-            # Compute drift
-            drift = self.drift(temporal_state)
+        
+        # L1 Scheme (Grünwald-Letnikov) for Fractional SDE
+        # Precompute weights: (k+1)^alpha - k^alpha
+        alpha_val = self.fractional_order.alpha
+        k_vals = torch.arange(self.num_sde_steps + 1, device=x.device, dtype=x.dtype)
+        weights = (k_vals + 1).pow(alpha_val) - k_vals.pow(alpha_val)
+        
+        # Gamma factor for scaling
+        gamma_factor = 1.0 / torch.exp(torch.lgamma(torch.tensor(alpha_val + 1.0, device=x.device)))
+        
+        # History lists required for convolution
+        drift_history = []
+        diffusion_history = []
+        
+        for i in range(self.num_sde_steps):
+            # Compute drift (batch, num_nodes, hidden)
+            drift_val = self.drift(temporal_state)
+            diffusion_val = self.diffusion(temporal_state)
             
-            # Generate noise
-            noise = torch.randn_like(temporal_state)
+            # Generate noise (batch, num_nodes, hidden)
+            # Assuming diagonal/additive noise structure for simplicity in this layer
+            noise = torch.randn_like(temporal_state) * np.sqrt(dt)
             
-            # SDE update (Euler-Maruyama)
-            alpha = self.fractional_order.alpha
-            temporal_state = (temporal_state +
-                             dt**alpha * drift +
-                             np.sqrt(dt) * self.diffusion(temporal_state) * noise)
+            # Store history
+            drift_history.append(drift_val)
+            diffusion_history.append(diffusion_val * noise) # Noise term history
+            
+            # Convolution
+            # Stack history: (i+1, batch, nodes, hidden)
+            drift_hist_stack = torch.stack(drift_history)
+            diff_hist_stack = torch.stack(diffusion_history)
+            
+            # Get current weights and flip for convolution
+            current_weights = weights[:i+1].flip(0)
+            
+            # Reshape weights for broadcasting
+            # need shape (i+1, 1, 1, 1) to match (T, B, N, H)
+            w_reshaped = current_weights.view(-1, 1, 1, 1)
+            
+            # Weighted sum
+            drift_integral = (w_reshaped * drift_hist_stack).sum(dim=0)
+            diffusion_integral = (w_reshaped * diff_hist_stack).sum(dim=0)
+            
+            # Update: X_{i+1} = X_0 + h^alpha / Gamma * Integral
+            update_term = gamma_factor * (dt ** alpha_val) * (drift_integral + diffusion_integral)
+            temporal_state = spatial_features.clone() + update_term  # Base is initial state (spatial_features)
         
         # Apply coupling
         coupled_spatial, coupled_temporal = self.coupling(spatial_features, temporal_state)

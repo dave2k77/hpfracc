@@ -329,7 +329,9 @@ class NeuralFODE(BaseNeuralODE):
             solver=solver, rtol=rtol, atol=atol
         )
         super().__init__(config)
-        self.alpha = validate_fractional_order(config.fractional_order)
+        # Validate but assign from config
+        validate_fractional_order(config.fractional_order)
+        self.alpha = config.fractional_order
         self.solver = config.solver  # Expose solver attribute
         self.solver_name = config.solver
         self.has_torchdiffeq = self._check_torchdiffeq()
@@ -351,7 +353,13 @@ class NeuralFODE(BaseNeuralODE):
         batch_size = x.shape[0]
 
         if t.dim() == 1:
+            # If t is 1D, verify it's not empty
+            if t.numel() == 0:
+                raise IndexError("Time tensor cannot be empty")
             t = t.unsqueeze(0).expand(batch_size, -1)
+        elif t.dim() == 0:
+             # Scalar time not supported for trajectory
+             raise ValueError("Time tensor must be at least 1D")
 
         # Solve fractional ODE using optimized solver
         solution = self._solve_fractional_ode_optimized(x, t)
@@ -359,7 +367,10 @@ class NeuralFODE(BaseNeuralODE):
         return solution
 
     def _solve_fractional_ode_optimized(self, x: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
-        """Optimized fractional ODE solver with proper fractional calculus"""
+        """
+        Optimized fractional ODE solver with proper fractional calculus.
+        Uses the L1 scheme (Grünwald-Letnikov weights) for correct memory handling.
+        """
         batch_size, time_steps = x.shape[0], t.shape[1]
         solution = torch.zeros(batch_size, time_steps, self.output_dim,
                                device=x.device, dtype=x.dtype)
@@ -371,46 +382,111 @@ class NeuralFODE(BaseNeuralODE):
             solution[:, 0, :x.shape[1]] = x
             solution[:, 0, x.shape[1]:] = 0.0
 
-        # Optimized fractional Euler method with proper fractional calculus
+        # Precompute weights for GL method / L1 scheme
+        # weights[k] = (k+1)^alpha - k^alpha
+        alpha_val = self.alpha.alpha
+        
+        # Ensure alpha is a float or cpu tensor for weight computation to save memory?
+        # Better to compute on device
+        device = x.device
+        dtype = x.dtype
+        
+        k_vals = torch.arange(time_steps, device=device, dtype=dtype)
+        weights = (k_vals + 1).pow(alpha_val) - k_vals.pow(alpha_val)
+        
+        # Gamma factor: 1 / Gamma(alpha + 1)
+        gamma_val = math.gamma(alpha_val + 1)
+        gamma_factor = 1.0 / gamma_val
+
+        # History storage for drifts
+        # We need to store f(x_j, t_j) for j=0..i-1
+        drift_history = []
+        
+        # Initial drift
+        t0 = t[:, 0]
+        x0_in = solution[:, 0, :] # (batch, out_dim)
+        
+        # Map to input dim if needed
+        if x0_in.shape[1] > self.input_dim:
+             ode_input0 = x0_in[:, :self.input_dim]
+        else:
+             ode_input0 = torch.zeros(batch_size, self.input_dim, device=device, dtype=dtype)
+             ode_input0[:, :x0_in.shape[1]] = x0_in
+             
+        drift0 = self.ode_func(t0, ode_input0)
+        
+        # Ensure drift shape
+        if drift0.dim() == 1:
+            drift0 = drift0.unsqueeze(0)
+        if drift0.shape[1] > self.output_dim:
+             drift0 = drift0[:, :self.output_dim]
+        elif drift0.shape[1] < self.output_dim:
+             # Pad
+             padded = torch.zeros(batch_size, self.output_dim, device=device, dtype=dtype)
+             padded[:, :drift0.shape[1]] = drift0
+             drift0 = padded
+             
+        drift_history.append(drift0)
+
+        # Optimized fractional Euler (L1 scheme implementation)
+        # x_{n+1} = x_0 + (h^alpha / Gamma(alpha+1)) * Sum_{j=0}^{n} w_{n-j} * f(x_j)
+        # Note: indices here: n goes from 0 to time_steps-2 to produce x_1 to x_{time_steps-1}
+        # loop i corresponds to calculating solution at index i (time t[i])
+        
         for i in range(1, time_steps):
             dt = t[:, i] - t[:, i-1]
-            current_state = solution[:, i-1, :]
-
-            # Map to input dimension efficiently
-            if current_state.shape[1] > self.input_dim:
-                ode_input = current_state[:, :self.input_dim]
-            else:
-                ode_input = torch.zeros(
-                    batch_size, self.input_dim, device=x.device)
-                ode_input[:, :current_state.shape[1]] = current_state
-
-            # Get derivative
-            derivative = self.ode_func(t[:, i-1], ode_input)
-
-            # Ensure derivative has correct shape
-            if derivative.dim() == 1:
-                derivative = derivative.unsqueeze(0)
-
-            # Fractional update with proper fractional calculus
-            # Use gamma function approximation for better accuracy
-            alpha = self.alpha.alpha
-            gamma_alpha = math.gamma(alpha) if alpha > 0 else 1.0
-
-            # Fractional Euler update with gamma function
-            alpha_factor = torch.pow(dt, alpha) / gamma_alpha
-            alpha_factor = alpha_factor.unsqueeze(-1)
-
-            # Update solution efficiently
-            if derivative.shape[1] == self.output_dim:
-                solution[:, i, :] = current_state + alpha_factor * derivative
-            else:
-                if derivative.shape[1] > self.output_dim:
-                    solution[:, i, :] = current_state + \
-                        alpha_factor * derivative[:, :self.output_dim]
+            # Assume uniform dt for standard GL/L1 scheme accuracy, 
+            # but usually code handles non-uniform roughly or assumes uniform.
+            # L1 scheme specifically assumes uniform grid h. 
+            # We take mean dt if not uniform (simplified) or just use current dt (local scaling).
+            # For strict correctness we need uniform grid. We use t[1]-t[0] as h.
+            h = t[0, 1] - t[0, 0] 
+            
+            # Convolution
+            # stack history: (i, batch, output_dim)
+            hist_stack = torch.stack(drift_history) 
+            
+            # weights needed: w_{i-1}, w_{i-2}, ..., w_0
+            # i.e. weights[0] ... weights[i-1] in reverse order
+            # weights has length time_steps.
+            # We need i weights.
+            current_weights = weights[:i].flip(0) # (i,)
+            
+            w_reshaped = current_weights.view(-1, 1, 1) # (i, 1, 1)
+            
+            # Weighted sum
+            integral_term = (w_reshaped * hist_stack).sum(dim=0)
+            
+            # Update
+            # x_i = x_0 + factor * integral
+            update = gamma_factor * torch.pow(h, alpha_val) * integral_term
+            
+            solution[:, i, :] = solution[:, 0, :] + update
+            
+            if i < time_steps - 1:
+                # Compute drift for next step
+                ti = t[:, i]
+                xi = solution[:, i, :]
+                
+                # Input mapping
+                if xi.shape[1] > self.input_dim:
+                     input_i = xi[:, :self.input_dim]
                 else:
-                    solution[:, i, :derivative.shape[1]] = current_state[:,
-                                                                         :derivative.shape[1]] + alpha_factor * derivative
-                    solution[:, i, derivative.shape[1]                             :] = current_state[:, derivative.shape[1]:]
+                     input_i = torch.zeros(batch_size, self.input_dim, device=device, dtype=dtype)
+                     input_i[:, :xi.shape[1]] = xi
+                
+                drift_i = self.ode_func(ti, input_i)
+                
+                # Output mapping
+                if drift_i.dim() == 1: drift_i = drift_i.unsqueeze(0)
+                if drift_i.shape[1] > self.output_dim:
+                     drift_i = drift_i[:, :self.output_dim]
+                elif drift_i.shape[1] < self.output_dim:
+                     padded = torch.zeros(batch_size, self.output_dim, device=device, dtype=dtype)
+                     padded[:, :drift_i.shape[1]] = drift_i
+                     drift_i = padded
+                
+                drift_history.append(drift_i)
 
         return solution
 

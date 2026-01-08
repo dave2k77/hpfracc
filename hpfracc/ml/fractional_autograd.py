@@ -75,6 +75,9 @@ def _conv_last_dim(x: torch.Tensor, kernel_1d: torch.Tensor) -> torch.Tensor:
     """
     K = int(kernel_1d.numel())
     pad = K - 1
+    
+    if x.numel() == 0:
+        return x
 
     orig_shape = x.shape
     L = orig_shape[-1]
