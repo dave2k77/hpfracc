@@ -187,6 +187,12 @@ class MittagLefflerFunction:
         tolerance: float = 1e-12
     ) -> Union[float, np.ndarray]:
         # Handle special cases
+        # Handle special cases
+        if alpha <= 0:
+            if np.isscalar(z):
+                return np.nan
+            return np.full(np.shape(z), np.nan)
+
         if alpha == 1.0 and beta == 1.0:
             return np.exp(z)
         
@@ -242,7 +248,8 @@ class MittagLefflerFunction:
              res_flat = np.zeros_like(z_flat, dtype=np.complex128 if np.iscomplexobj(z) else np.float64)
              # Can't easily invoke prange inside class method due to self?
              # Call module function
-             res_flat = _ml_numba_array_loop(z_flat, alpha, beta, max_terms, tolerance)
+             # Call module function
+             _ml_numba_array_loop(z_flat, res_flat, alpha, beta, max_terms, tolerance)
              return res_flat.reshape(z.shape)
              
         # Fallback loop
@@ -278,9 +285,8 @@ class MittagLefflerFunction:
     # Keeping it simple for this edit.
     
 @jit(nopython=True, parallel=True)
-def _ml_numba_array_loop(z_arr, alpha, beta, max_terms, tolerance):
+def _ml_numba_array_loop(z_arr, res, alpha, beta, max_terms, tolerance):
     n = z_arr.size
-    res = np.zeros_like(z_arr)
     for i in prange(n):
         res[i] = _ml_numba_impl(z_arr[i], alpha, beta, max_terms, tolerance)
     return res

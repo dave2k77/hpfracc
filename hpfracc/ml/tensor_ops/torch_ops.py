@@ -150,6 +150,19 @@ class TorchTensorOps(TensorOps):
     def softmax(self, tensor: Any, dim: int = -1) -> Any:
         return F.softmax(tensor, dim=dim)
 
+    def einsum(self, equation: str, *operands: Any) -> Any:
+        return torch.einsum(equation, *operands)
+
+    def std(self, tensor: Any, dim: Optional[int] = None, keepdims: bool = False) -> Any:
+        if dim is None:
+            return torch.std(tensor)
+        return torch.std(tensor, dim=dim, keepdim=keepdims)
+
+    def var(self, tensor: Any, dim: Optional[int] = None, keepdims: bool = False) -> Any:
+        if dim is None:
+            return torch.var(tensor)
+        return torch.var(tensor, dim=dim, keepdim=keepdims)
+
     def dropout(self, tensor: Any, p: float = 0.5, training: bool = True, **kwargs) -> Any:
         return F.dropout(tensor, p=p, training=training)
 

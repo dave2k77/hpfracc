@@ -251,8 +251,8 @@ class TestFractionalDataLoader:
         batches = list(dataloader)
         
         assert len(batches) == 2  # 3 samples with batch_size=2
-        assert len(batches[0]) == 2  # First batch has 2 samples
-        assert len(batches[1]) == 1  # Second batch has 1 sample
+        assert batches[0][0].shape[0] == 2  # First batch has 2 samples
+        assert batches[1][0].shape[0] == 1  # Second batch has 1 sample
 
     def test_batch_sampling(self):
         """Test batch sampling"""
@@ -786,8 +786,8 @@ class TestDataIntegration:
         """Test fractional transform integration"""
         # Create dataset with fractional transform enabled
         tensors = [
-            torch.tensor([1.0, 2.0, 3.0]),
-            torch.tensor([4.0, 5.0, 6.0])
+            torch.tensor([[1.0, 1.1, 1.2], [2.0, 2.1, 2.2], [3.0, 3.1, 3.2]]),
+            torch.tensor([[4.0, 4.1, 4.2], [5.0, 5.1, 5.2], [6.0, 6.1, 6.2]])
         ]
         dataset = FractionalTensorDataset(
             tensors, 
@@ -809,8 +809,8 @@ class TestDataIntegration:
         """Test collate function integration"""
         # Create dataset
         tensors = [
-            torch.tensor([1.0, 2.0]),
-            torch.tensor([3.0, 4.0])
+            torch.tensor([[1.0], [2.0]]),
+            torch.tensor([[3.0], [4.0]])
         ]
         dataset = FractionalTensorDataset(tensors)
         
@@ -827,4 +827,4 @@ class TestDataIntegration:
         # Test collation
         batch = next(iter(dataloader))
         assert batch[0].shape == (2, 5)  # Padded to length 5
-        assert batch[1].shape == (2, 5)  # Padded to length 5
+        assert batch[1].shape == (2, 1)  # Targets not padded

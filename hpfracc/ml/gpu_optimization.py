@@ -108,12 +108,16 @@ class GPUProfiler:
 class ChunkedFFT:
     """Chunked FFT operations for large sequences."""
 
-    def __init__(self, chunk_size: int = 1024, overlap: int = 128):
+    def __init__(self, chunk_size: int = 1024, overlap: Union[int, float] = 0.1, window_type: str = "hann"):
         self.chunk_size = chunk_size
         self.overlap = overlap
+        self.window_type = window_type
 
     def fft_chunked(self, x: torch.Tensor, dim: int = -1) -> torch.Tensor:
         """Perform chunked FFT on large sequences."""
+        if x.numel() == 0 or x.shape[dim] == 0:
+            return x
+
         if x.shape[dim] <= self.chunk_size:
             return torch.fft.fft(x, dim=dim)
 
@@ -122,11 +126,22 @@ class ChunkedFFT:
 
     def ifft_chunked(self, x: torch.Tensor, dim: int = -1) -> torch.Tensor:
         """Perform chunked IFFT on large sequences."""
+        if x.numel() == 0 or x.shape[dim] == 0:
+            return x
+
         if x.shape[dim] <= self.chunk_size:
             return torch.fft.ifft(x, dim=dim)
 
         # For large sequences, use chunked processing
         return self._process_chunks(x, dim, torch.fft.ifft)
+
+    def forward(self, x: torch.Tensor, dim: int = -1) -> torch.Tensor:
+        """Alias for fft_chunked."""
+        return self.fft_chunked(x, dim)
+
+    def inverse(self, x: torch.Tensor, dim: int = -1) -> torch.Tensor:
+        """Alias for ifft_chunked."""
+        return self.ifft_chunked(x, dim)
 
     def _process_chunks(self, x: torch.Tensor, dim: int, fft_func) -> torch.Tensor:
         """Process tensor in chunks with overlap."""
@@ -180,7 +195,7 @@ class AMPFractionalEngine:
         self.base_engine = base_engine
         self.use_amp = use_amp
         self.dtype = dtype
-        self.scaler = GradScaler('cuda') if use_amp else None
+        self.scaler = GradScaler('cuda') if (use_amp and torch.cuda.is_available()) else None
 
     def forward(self, x: torch.Tensor, alpha: float, **kwargs) -> torch.Tensor:
         """Forward pass with AMP support."""
@@ -197,6 +212,21 @@ class AMPFractionalEngine:
         else:
             return grad_output
 
+    def update_scaler(self):
+        """Update the GradScaler after an optimization step."""
+        if self.scaler is not None:
+            self.scaler.update()
+
+    def get_scaler_state(self) -> Dict[str, Any]:
+        """Get the current state of the GradScaler."""
+        if self.scaler is not None:
+            return {
+                'scale': self.scaler.get_scale(),
+                'growth_factor': self.scaler.get_growth_factor(),
+                'backoff_factor': self.scaler.get_backoff_factor(),
+                'growth_interval': self.scaler.get_growth_interval()
+            }
+        return {}
 
 class GPUOptimizedSpectralEngine:
     """GPU-optimized spectral engine with AMP and chunked FFT."""
@@ -298,8 +328,31 @@ class GPUOptimizedSpectralEngine:
             result = self.chunked_fft.ifft_chunked(result_fft)
             return result.real
 
-        else:
             raise ValueError(f"Unknown engine type: {self.engine_type}")
+
+    def spectral_derivative(self, x: torch.Tensor, alpha: float) -> torch.Tensor:
+        """Compute spectral fractional derivative."""
+        return self.forward(x, alpha)
+
+    def spectral_integral(self, x: torch.Tensor, alpha: float) -> torch.Tensor:
+        """Compute spectral fractional integral."""
+        # Integral is negative derivative order
+        return self.forward(x, -alpha)
+
+    def spectral_transform(self, x: torch.Tensor, alpha: float) -> torch.Tensor:
+        """Compute spectral transform (returns complex result)."""
+        # We need the complex output before taking real part
+        if self.engine_type == "fft":
+            x_fft = self.chunked_fft.fft_chunked(x)
+            N = x_fft.shape[-1]
+            omega = torch.fft.fftfreq(N, device=x.device, dtype=torch.float32)
+            multiplier = torch.pow(torch.abs(omega) + 1e-8, alpha)
+            result_fft = x_fft * multiplier
+            result = self.chunked_fft.ifft_chunked(result_fft)
+            return result
+        else:
+            # Fallback for other engines (simplify by returning forward result cast to complex)
+            return self.forward(x, alpha).to(torch.complex64)
 
     def _fallback_compute(self, x: torch.Tensor, alpha: float) -> torch.Tensor:
         """Fallback computation without GPU optimizations."""
@@ -347,6 +400,42 @@ class GPUOptimizedStochasticSampler:
         indices = self.base_sampler.sample_indices(n, k)
         return indices.to('cuda') if torch.cuda.is_available() else indices
 
+    def sample(self, mu: torch.Tensor, sigma: torch.Tensor, num_samples: int) -> torch.Tensor:
+        """GPU-optimized distribution sampling."""
+        self.profiler.start_timer("stochastic_sampling_dist")
+        
+        try:
+            if self.use_amp and torch.cuda.is_available():
+                with autocast(device_type='cuda', dtype=torch.float16):
+                    samples = self._gpu_sample(mu, sigma, num_samples)
+            else:
+                if hasattr(self.base_sampler, 'sample'):
+                    samples = self.base_sampler.sample(mu, sigma, num_samples)
+                else:
+                    # Fallback implementation if base_sampler doesn't have sample
+                    # Assuming normal distribution for mu/sigma
+                    eps = torch.randn(num_samples, len(mu), device=mu.device, dtype=mu.dtype)
+                    samples = mu + sigma * eps
+            
+            self.profiler.end_timer(mu, samples)
+            return samples
+            
+        except Exception as e:
+            warnings.warn(f"GPU sampling failed, falling back: {e}")
+            if hasattr(self.base_sampler, 'sample'):
+                return self.base_sampler.sample(mu, sigma, num_samples)
+            # Simple fallback
+            return mu + sigma * torch.randn(num_samples, len(mu), device=mu.device)
+
+    def _gpu_sample(self, mu, sigma, num_samples):
+        # Ensure inputs are on GPU
+        if torch.cuda.is_available():
+            mu = mu.to('cuda')
+            sigma = sigma.to('cuda')
+        
+        eps = torch.randn(num_samples, len(mu), device=mu.device, dtype=mu.dtype)
+        return mu + sigma * eps
+
     def get_performance_summary(self) -> Dict[str, Dict[str, float]]:
         """Get performance summary."""
         return self.profiler.get_summary()
@@ -355,11 +444,12 @@ class GPUOptimizedStochasticSampler:
 @contextmanager
 def gpu_optimization_context(use_amp: bool = True, dtype: torch.dtype = torch.float16):
     """Context manager for GPU optimization."""
+    context = {'use_amp': use_amp, 'dtype': dtype}
     if use_amp and torch.cuda.is_available():
         with autocast(device_type='cuda', dtype=dtype):
-            yield
+            yield context
     else:
-        yield
+        yield context
 
 
 def benchmark_gpu_optimization():
@@ -415,71 +505,120 @@ def benchmark_gpu_optimization():
 
                 print(f"    {config_name}: {avg_time:.4f}s")
 
-    return results
+                print(f"    {config_name}: {avg_time:.4f}s")
+
+    return {
+        'gpu_available': torch.cuda.is_available(),
+        'benchmarks': results,
+        'summary': {}
+    }
 
 
 def create_gpu_optimized_components(use_amp: bool = True,
                                     chunk_size: int = 1024,
-                                    dtype: torch.dtype = torch.float16):
+                                    dtype: torch.dtype = torch.float16,
+                                    enable_profiling: bool = False):
     """Factory function to create GPU-optimized components."""
-
-    components = {}
-
-    # Create GPU-optimized spectral engines
-    for engine_type in ["fft", "mellin", "laplacian"]:
-        components[f"{engine_type}_engine"] = GPUOptimizedSpectralEngine(
-            engine_type=engine_type,
-            use_amp=use_amp,
-            chunk_size=chunk_size,
-            dtype=dtype
-        )
-
+    
+    # Create base components
+    profiler = GPUProfiler()
+    
+    # Create spectral engine
+    spectral_engine = GPUOptimizedSpectralEngine(
+        engine_type="fft",
+        use_amp=use_amp,
+        chunk_size=chunk_size,
+        dtype=dtype
+    )
+    
+    # Create AMP engine with a mock base engine for standalone use
+    class MockBaseEngine:
+        def forward(self, x, alpha, **kwargs):
+            return x * alpha
+    amp_engine = AMPFractionalEngine(MockBaseEngine(), use_amp=use_amp, dtype=dtype)
+    
+    # Create stochastic sampler with a simple base sampler
+    class SimpleSampler:
+        def sample_indices(self, n, k):
+            return torch.randperm(n)[:k]
+            
+        def sample(self, mu, sigma, num_samples):
+            eps = torch.randn(num_samples, len(mu), device=mu.device)
+            return mu + sigma * eps
+    stochastic_sampler = GPUOptimizedStochasticSampler(SimpleSampler(), use_amp=use_amp)
+    
+    components = {
+        'profiler': profiler,
+        'spectral_engine': spectral_engine,
+        'amp_engine': amp_engine,
+        'stochastic_sampler': stochastic_sampler
+    }
+    
     return components
 
 
 # Example usage and testing
-def test_gpu_optimization():
-    """Test GPU optimization functionality."""
-    print("Testing GPU optimization...")
+def test_gpu_optimization(test_size: int = 1024, num_iterations: int = 10, use_amp: bool = True):
+    """Test GPU optimization functionality.
+    
+    Returns:
+        Dictionary containing test results with test_passed, test_results, and performance_metrics.
+    """
+    test_results = {}
+    performance_metrics = {}
+    test_passed = True
 
     # Test if CUDA is available
     if not torch.cuda.is_available():
-        print("CUDA not available, testing CPU fallback...")
         device = 'cpu'
     else:
-        print("CUDA available, testing GPU optimization...")
         device = 'cuda'
 
-    # Create test data
-    x = torch.randn(16, 1024, device=device)
-    alpha = 0.5
+    try:
+        # Create test data
+        x = torch.randn(16, test_size, device=device)
+        alpha = 0.5
 
-    # Test GPU-optimized spectral engine
-    engine = GPUOptimizedSpectralEngine(
-        engine_type="fft",
-        use_amp=True,
-        chunk_size=512
-    )
+        # Test GPU-optimized spectral engine
+        engine = GPUOptimizedSpectralEngine(
+            engine_type="fft",
+            use_amp=use_amp,
+            chunk_size=512
+        )
 
-    # Test forward pass
-    result = engine.forward(x, alpha)
-    print(f"Input shape: {x.shape}, Output shape: {result.shape}")
+        # Test forward pass
+        start_time = time.time()
+        for _ in range(num_iterations):
+            result = engine.forward(x, alpha)
+        end_time = time.time()
+        
+        test_results['spectral_engine'] = True
+        performance_metrics['spectral_engine'] = {
+            'execution_time': (end_time - start_time) / num_iterations,
+            'input_shape': tuple(x.shape),
+            'output_shape': tuple(result.shape)
+        }
 
-    # Get performance summary
-    summary = engine.get_performance_summary()
-    print("Performance summary:")
-    for op, metrics in summary.items():
-        print(f"  {op}: {metrics['execution_time']:.4f}s, "
-              f"throughput: {metrics['throughput']:.2e} ops/s")
+        # Test chunked FFT
+        chunked_fft = ChunkedFFT(chunk_size=256)
+        x_fft = chunked_fft.fft_chunked(x)
+        x_reconstructed = chunked_fft.ifft_chunked(x_fft)
+        reconstruction_error = torch.mean(torch.abs(x - x_reconstructed.real)).item()
+        
+        test_results['chunked_fft'] = reconstruction_error < 0.1
+        performance_metrics['chunked_fft'] = {
+            'reconstruction_error': reconstruction_error
+        }
 
-    # Test chunked FFT
-    chunked_fft = ChunkedFFT(chunk_size=256)
-    x_fft = chunked_fft.fft_chunked(x)
-    x_reconstructed = chunked_fft.ifft_chunked(x_fft)
-    print(
-        f"Chunked FFT reconstruction error: {torch.mean(torch.abs(x - x_reconstructed.real)):.6f}")
+    except Exception as e:
+        test_passed = False
+        test_results['error'] = str(e)
 
-    print("GPU optimization test completed!")
+    return {
+        'test_passed': test_passed and all(test_results.values()),
+        'test_results': test_results,
+        'performance_metrics': performance_metrics
+    }
 
 
 if __name__ == "__main__":
