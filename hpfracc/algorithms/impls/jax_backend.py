@@ -72,6 +72,13 @@ def _grunwald_letnikov_jax(f, alpha, h):
 
 def _riemann_liouville_jax(f, alpha, n, h):
     _check_jax()
+    
+    # Handle integer cases
+    if alpha == 0.0:
+        return f
+    if alpha == 1.0:
+        return _jnp_gradient_edge_order_2(f, h)
+        
     N = f.shape[0]
     beta = n - alpha
     k_vals = jnp.arange(N)
@@ -97,6 +104,12 @@ def _caputo_jax(f, alpha, h):
     _check_jax()
     n_ceil = jnp.ceil(alpha).astype(int)
     beta = n_ceil - alpha
+    
+    # Handle integers
+    if alpha == 0.0:
+        return f
+    if alpha == 1.0:
+        return _jnp_gradient_edge_order_2(f, h)
 
     # Compute n-th derivative of f
     f_deriv = f

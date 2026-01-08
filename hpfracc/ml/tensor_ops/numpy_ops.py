@@ -118,6 +118,15 @@ class NumpyTensorOps(TensorOps):
         e_x = np.exp(tensor - np.max(tensor, axis=dim, keepdims=True))
         return e_x / e_x.sum(axis=dim, keepdims=True)
 
+    def einsum(self, equation: str, *operands: Any) -> Any:
+        return np.einsum(equation, *operands)
+
+    def std(self, tensor: Any, dim: Optional[int] = None, keepdims: bool = False) -> Any:
+        return np.std(tensor, axis=dim, keepdims=keepdims)
+
+    def var(self, tensor: Any, dim: Optional[int] = None, keepdims: bool = False) -> Any:
+        return np.var(tensor, axis=dim, keepdims=keepdims)
+
     def dropout(self, tensor: Any, p: float = 0.5, training: bool = True, **kwargs) -> Any:
         # Numpy backend usually for inference or simple ops, so dropout is identity
         return tensor

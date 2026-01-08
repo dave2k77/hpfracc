@@ -38,9 +38,13 @@ def _grunwald_letnikov_numpy(f: np.ndarray, alpha: float, h: float) -> np.ndarra
 
 def _riemann_liouville_numpy(f: np.ndarray, alpha: float, n: int, h: float) -> np.ndarray:
     """
-    Compute Riemann-Liouville derivative using Grünwald-Letnikov approximation
-    which is equivalent for small h.
+    Compute Riemann-Liouville derivative.
     """
+    if alpha == 0.0:
+        return f
+    elif alpha == 1.0:
+        return np.gradient(f, h, edge_order=2)
+        
     return _grunwald_letnikov_numpy(f, alpha, h)
 
 

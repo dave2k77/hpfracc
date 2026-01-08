@@ -224,9 +224,15 @@ class BinomialCoefficients:
         Uses the gamma function relationship for generalized binomial coefficients.
         """
         # Handle special cases
-        if k < 0 or k > n:
+        if k < 0:
             return 0.0
-        if k == 0 or k == n:
+        # Expected behavior: C(n,k) = 0 if k > n ONLY for non-negative integer n
+        if k > n and n >= 0 and n == int(n):
+             return 0.0
+             
+        if k == 0:
+            return 1.0
+        if k == n:
             return 1.0
 
         # For integer n and k, use the standard formula

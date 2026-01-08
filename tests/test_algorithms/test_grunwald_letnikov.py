@@ -145,8 +145,10 @@ class TestOptimizedGrunwaldLetnikov:
         # Test with constant function
         f = np.ones_like(t)
         result = gl.compute(f, t, h)
-        # Grünwald-Letnikov derivative of constant should be zero
-        assert np.allclose(result, 0, atol=1e-10)
+        # Grünwald-Letnikov (RL) derivative of constant is non-zero (t^-alpha / Gamma(1-alpha))
+        # It is NOT zero (unlike Caputo).
+        assert not np.allclose(result, 0, atol=1e-10)
+        assert np.all(np.isfinite(result))
 
     def test_optimized_grunwald_letnikov_performance(self):
         """Test performance characteristics."""

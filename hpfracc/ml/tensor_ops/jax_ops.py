@@ -122,6 +122,15 @@ class JaxTensorOps(TensorOps):
     def softmax(self, tensor: Any, dim: int = -1) -> Any:
         return jax.nn.softmax(tensor, axis=dim)
 
+    def einsum(self, equation: str, *operands: Any) -> Any:
+        return jnp.einsum(equation, *operands)
+
+    def std(self, tensor: Any, dim: Optional[int] = None, keepdims: bool = False) -> Any:
+        return jnp.std(tensor, axis=dim, keepdims=keepdims)
+
+    def var(self, tensor: Any, dim: Optional[int] = None, keepdims: bool = False) -> Any:
+        return jnp.var(tensor, axis=dim, keepdims=keepdims)
+
     def dropout(self, tensor: Any, p: float = 0.5, training: bool = True, **kwargs) -> Any:
         # Functional dropout requires RNG handling which is not in signature.
         # Returning identity for compatibility.

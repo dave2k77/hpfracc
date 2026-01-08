@@ -302,7 +302,8 @@ class TestBinomialCoefficientsErrorHandling:
         
         # Test with negative n
         result = bc.compute(-1, 2)
-        assert abs(result - 0) < 1e-10
+        # Generalized binomial coefficient C(-1,2) = 1
+        assert abs(result - 1) < 1e-10
         
         # Test with k > n
         result = bc.compute(3, 5)
