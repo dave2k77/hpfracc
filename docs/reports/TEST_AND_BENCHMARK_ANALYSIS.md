@@ -1,7 +1,7 @@
 # Test and Benchmark Analysis Report
 
-**Date:** $(date)
-**Library:** HPFRACC v3.0.1
+**Date:** 2026-01-09
+**Library:** HPFRACC v3.1.0
 
 ## Executive Summary
 
@@ -60,25 +60,28 @@ Comprehensive testing and benchmark analysis completed. Fixed critical issues in
 
 ## Benchmark Results
 
-### Intelligent Backend Selection Benchmark
+### Comprehensive Performance Benchmark
 **Status:** ✅ Completed Successfully
+**Date:** 2026-01-09
+**Platform:** Python 3.13.9, NumPy 2.1.1, 16 CPU cores
 
-**Results:**
-- **GPU Methods:** Average time 79.33 ms across 3 sizes (100, 1000, 10000 points)
-- **ODE Solvers:** Tested 4 problem sizes (1650 total points)
-  - 50 points: 1.79 ms (35.79 μs per step)
-  - 100 points: 4.86 ms (48.55 μs per step)
-  - 500 points: 36.47 ms (72.94 μs per step)
-  - 1000 points: 91.14 ms (91.14 μs per step)
-- **Selector Overhead:** < 1 μs (negligible)
-- **Memory-Aware Selection:** Working correctly with dynamic thresholds
+**Core Derivative Methods (Average Throughput):**
+- **Grünwald-Letnikov:** 1,033,506 ops/sec (Fastest) 🏆
+- **Caputo:** 949,709 ops/sec
+- **Riemann-Liouville:** 924,642 ops/sec
+
+**Special Functions:**
+- **Mittag-Leffler:** ~85,219 ops/sec
+
+**Scalability:**
+- **Scaling Factor:** ~0.87 (Excellent scaling up to 10,000 points)
+- **Memory Usage:** negligible (< 0.1 MB) for standard operations
 
 **Key Takeaways:**
-1. ✅ Backend selection working correctly
-2. ⚡ Negligible overhead (< 1 μs)
-3. 💾 Memory safety with automatic CPU fallback
-4. 📈 Performance gains for different data sizes
-5. 🔧 Zero configuration required
+1. ✅ **High Performance:** All core methods exceed 900k ops/sec.
+2. ⚡ **Optimization:** Grünwald-Letnikov implementation is highly optimized.
+3. 📈 **Scalability:** Library maintains performance consistent with O(N) or O(N log N) complexity.
+4. 🔧 **Stability:** 100% success rate across all 93 benchmark tests.
 
 ## Remaining Issues
 
