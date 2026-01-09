@@ -64,8 +64,8 @@ print(f"Learned Alpha Gradient: {alpha_param.rho.grad.item():.6f}")
 
 For detailed tutorials, mathematical theory, and API references, please visit our **[Official Documentation](https://fractional-calculus-library.readthedocs.io/en/latest/)**.
 
-*   **[User Guide](https://fractional-calculus-library.readthedocs.io/en/latest/user_guide.html)**: Comprehensive walkthroughs for researchers.
-*   **[Theoretical Foundations](https://fractional-calculus-library.readthedocs.io/en/latest/12_theoretical_foundations.html)**: The math behind the magic.
+*   **[User Guide](https://fractional-calculus-library.readthedocs.io/en/latest/user_manual/index.html)**: Comprehensive walkthroughs for researchers.
+*   **[Theoretical Foundations](https://fractional-calculus-library.readthedocs.io/en/latest/user_manual/science_and_theory.html)**: The math behind the magic.
 *   **[API Reference](https://fractional-calculus-library.readthedocs.io/en/latest/api/index.html)**: Detailed class and function documentation.
 
 ---
