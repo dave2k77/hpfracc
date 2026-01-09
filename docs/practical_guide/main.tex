@@ -1,0 +1,113 @@
+\documentclass[11pt,a4paper]{book}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{float}
+
+% Geometry
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={A Practical Introduction to hpfracc},
+    pdfauthor={HPFracc Development Team}
+}
+
+% Listings setup
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% Title Page
+\title{
+    \textbf{\Huge A Practical Introduction to the hpfracc library}\\[0.5cm]
+    \Large High-Performance Fractional Calculus for Python
+}
+\author{HPFracc Development Team}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\part{Foundations}
+\chapter{Getting Started}
+\label{ch:getting_started}
+\input{chapters/chapter_01_getting_started}
+
+\chapter{The Core API}
+\label{ch:core_api}
+\input{chapters/chapter_02_core_api}
+
+\chapter{Backend Intelligence}
+\label{ch:backend_int}
+\input{chapters/chapter_03_backend}
+
+\part{Machine Learning with hpfracc}
+\chapter{Fractional Neural Networks}
+\label{ch:fnn}
+\input{chapters/chapter_04_fnn}
+
+\chapter{MLOps and Production}
+\label{ch:mlops}
+\input{chapters/chapter_05_mlops}
+
+\part{Scientific Applications}
+\chapter{Anomalous Diffusion}
+\label{ch:diffusion}
+\input{chapters/chapter_06_diffusion}
+
+\chapter{Physiological Signal Analysis}
+\label{ch:physio}
+\input{chapters/chapter_07_physio}
+
+\chapter{Advanced Solvers}
+\label{ch:solvers}
+\input{chapters/chapter_08_solvers}
+
+\part{Research and Performance}
+\chapter{Real-World Integration}
+\label{ch:research}
+\input{chapters/chapter_09_research}
+
+\chapter{Performance Benchmarking}
+\label{ch:benchmarking}
+\input{chapters/chapter_10_benchmarking}
+
+\end{document}

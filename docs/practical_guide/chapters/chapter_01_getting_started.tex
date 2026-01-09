@@ -1,0 +1,38 @@
+\section{Introduction}
+
+\texttt{hpfracc} is a high-performance framework for fractional calculus, designed to bridge the gap between rigorous mathematical modeling and scalable computational implementation. It supports a wide range of fractional operators (Caputo, Riemann-Liouville, Riesz, etc.) and integrates seamlessly with modern deep learning workflows.
+
+\section{Installation}
+To install \texttt{hpfracc}, use pip:
+
+\begin{lstlisting}[language=bash]
+pip install hpfracc
+\end{lstlisting}
+
+Ensure you have the necessary backends installed (PyTorch, JAX, or Numba) depending on your performance requirements.
+
+\section{First Steps: Calculating a Derivative}
+The core of \texttt{hpfracc} is intuitive. Here is a simple example calculating the fractional derivative of $f(t) = t^2$.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+from hpfracc.core.derivatives import CaputoDerivative
+
+# Define grid and function
+t = np.linspace(0.01, 5, 100)
+f = t**2
+
+# Initialize operator with alpha=0.5
+operator = CaputoDerivative(order=0.5)
+
+# Compute
+result = operator.compute(f, t)
+\end{lstlisting}
+
+\section{Production Readiness}
+Version 3.2.0 introduces several production-ready features:
+\begin{itemize}
+    \item **Intelligent Backend Selection**: Automatically selects the fastest backend (Numba/NumPy for small arrays, JAX/Torch for large tensors).
+    \item **Standardized API**: Consistent `compute(function, points)` interface across all operators.
+    \item **Validations**: rigorously validated against analytical solutions for standard functions.
+\end{itemize}

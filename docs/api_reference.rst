@@ -208,9 +208,7 @@ RiemannLiouvilleDerivative
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: compute
+   :no-index:
 
 CaputoDerivative
 ^^^^^^^^^^^^^^^
@@ -219,9 +217,7 @@ CaputoDerivative
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: compute
+   :no-index:
 
 GrunwaldLetnikovDerivative
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -230,9 +226,7 @@ GrunwaldLetnikovDerivative
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: compute
+   :no-index:
 
 Backend Management
 ~~~~~~~~~~~~~~~~~
@@ -243,6 +237,7 @@ BackendType
 .. autoclass:: hpfracc.ml.backends.BackendType
    :members:
    :undoc-members:
+   :no-index:
 
 BackendManager
 ^^^^^^^^^^^^^
@@ -251,11 +246,7 @@ BackendManager
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: set_backend
-   .. automethod:: get_current_backend
-   .. automethod:: get_available_backends
-   .. automethod:: is_backend_available
+   :no-index:
 
 Tensor Operations
 ~~~~~~~~~~~~~~~~
@@ -267,26 +258,7 @@ TensorOps
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: zeros
-   .. automethod:: ones
-   .. automethod:: random_normal
-   .. automethod:: matmul
-   .. automethod:: transpose
-   .. automethod:: sum
-   .. automethod:: mean
-   .. automethod:: sqrt
-   .. automethod:: exp
-   .. automethod:: log
-   .. automethod:: sin
-   .. automethod:: cos
-   .. automethod:: tanh
-   .. automethod:: relu
-   .. automethod:: sigmoid
-   .. automethod:: softmax
-   .. automethod:: dropout
-   .. automethod:: batch_norm
+   :no-index:
 
 Neural Networks
 ~~~~~~~~~~~~~~
@@ -294,28 +266,13 @@ Neural Networks
 FractionalNeuralNetwork
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: hpfracc.ml.neural_networks.FractionalNeuralNetwork
+.. autoclass:: hpfracc.ml.core.FractionalNeuralNetwork
    :members:
    :undoc-members:
    :show-inheritance:
 
    .. automethod:: __init__
    .. automethod:: forward
-   .. automethod:: get_parameters
-   .. automethod:: set_parameters
-
-FractionalLayer
-^^^^^^^^^^^^^^^
-
-.. autoclass:: hpfracc.ml.neural_networks.FractionalLayer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: forward
-   .. automethod:: get_weights
-   .. automethod:: set_weights
 
 Graph Neural Networks
 ~~~~~~~~~~~~~~~~~~~~
@@ -339,10 +296,7 @@ FractionalGAT
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: forward
-   .. automethod:: get_parameters
+   :no-index:
 
 FractionalGraphSAGE
 ^^^^^^^^^^^^^^^^^^^
@@ -351,10 +305,7 @@ FractionalGraphSAGE
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: forward
-   .. automethod:: get_parameters
+   :no-index:
 
 FractionalGraphUNet
 ^^^^^^^^^^^^^^^^^^^
@@ -363,10 +314,7 @@ FractionalGraphUNet
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: __init__
-   .. automethod:: forward
-   .. automethod:: get_parameters
+   :no-index:
 
 GNN Factory
 ^^^^^^^^^^^
@@ -375,8 +323,7 @@ GNN Factory
    :members:
    :undoc-members:
    :show-inheritance:
-
-   .. automethod:: create_model
+   :no-index:
 
 GNN Layers
 ^^^^^^^^^^
@@ -420,14 +367,13 @@ Attention Mechanisms
 FractionalAttention
 ^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: hpfracc.ml.attention.FractionalAttention
+.. autoclass:: hpfracc.ml.core.FractionalAttention
    :members:
    :undoc-members:
    :show-inheritance:
 
    .. automethod:: __init__
    .. automethod:: forward
-   .. automethod:: get_attention_weights
 
 Fractional Autograd Framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -554,11 +500,10 @@ Tensor Utilities
 Model Utilities
 ~~~~~~~~~~~~~~
 
-.. autofunction:: hpfracc.ml.neural_networks.create_fractional_model
+.. note::
 
-.. autofunction:: hpfracc.ml.gnn_models.create_gnn_model
-
-.. autofunction:: hpfracc.ml.attention.create_attention_model
+   Model creation utilities are available through the main ML module.
+   See :py:mod:`hpfracc.ml` for factory functions and model constructors.
 
 Configuration
 -------------
@@ -593,51 +538,16 @@ Supported Derivative Methods
 .. data:: hpfracc.core.derivatives.SUPPORTED_METHODS
    :annotation: = ['RL', 'Caputo', 'GL']
 
-Error Classes
-------------
+Type Information
+---------------
 
-.. autoclass:: hpfracc.core.exceptions.FractionalOrderError
-   :members:
-   :undoc-members:
+The library uses Python type hints throughout. Key types include:
 
-.. autoclass:: hpfracc.core.exceptions.BackendError
-   :members:
-   :undoc-members:
+- **FractionalOrder**: Core class for representing fractional orders
+- **BackendType**: Enum for backend selection (TORCH, JAX, NUMBA, AUTO)
+- **TensorType**: Union of numpy arrays, PyTorch tensors, and JAX arrays
 
-.. autoclass:: hpfracc.core.exceptions.TensorError
-   :members:
-   :undoc-members:
-
-.. autoclass:: hpfracc.core.exceptions.ModelError
-   :members:
-   :undoc-members:
-
-Type Hints
-----------
-
-Core Types
-~~~~~~~~~~
-
-.. autodata:: hpfracc.core.types.FractionalOrderType
-   :annotation: Union[float, FractionalOrder]
-
-.. autodata:: hpfracc.core.types.BackendTypeType
-   :annotation: Union[str, BackendType]
-
-.. autodata:: hpfracc.core.types.TensorType
-   :annotation: Union[np.ndarray, torch.Tensor, jax.numpy.ndarray]
-
-ML Types
-~~~~~~~~
-
-.. autodata:: hpfracc.ml.types.ModelType
-   :annotation: Union[FractionalNeuralNetwork, FractionalGCN, FractionalGAT, FractionalGraphSAGE, FractionalGraphUNet]
-
-.. autodata:: hpfracc.ml.types.LayerType
-   :annotation: Union[FractionalLayer, FractionalGCNLayer, FractionalGATLayer, FractionalGraphSAGELayer]
-
-.. autodata:: hpfracc.ml.types.AttentionType
-   :annotation: FractionalAttention
+See the source code for detailed type annotations.
 
 Usage Examples
 -------------
@@ -848,4 +758,4 @@ Debugging Tips
 3. **Verify backend compatibility**
 4. **Test with small datasets first**
 
-For more detailed examples, see :doc:`04_basic_examples` and :doc:`05_advanced_examples`.
+For more detailed examples, see :doc:`user_manual/tutorials`.

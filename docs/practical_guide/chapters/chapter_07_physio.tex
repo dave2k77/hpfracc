@@ -1,0 +1,29 @@
+\section{Fractional Dynamics in Physiology}
+
+Physiological signals like EEG and HRV often exhibit long-range dependence and self-similarity, properties well-captured by fractional calculus.
+
+\section{Fractional State Space (FOSS)}
+
+Traditional state space reconstruction uses time delays ($x(t), x(t-\tau)$). The FOSS method replaces delays with fractional derivatives:
+\begin{equation}
+\mathbf{X}(t) = [x(t), D^\alpha x(t), D^{2\alpha} x(t), \dots]
+\end{equation}
+
+This captures the "velocity" and "acceleration" of the system with memory, providing a richer phase space embedding.
+
+\section{Feature Extraction Code}
+
+\begin{lstlisting}[language=Python]
+from hpfracc.analytics import FractionalFeatures
+
+def analyze_eeg(signal):
+    # Extract Hurst exponent
+    H = FractionalFeatures.hurst_exponent(signal)
+    
+    # Extract Fractal Dimension
+    D = FractionalFeatures.fractal_dimension(signal)
+    
+    return H, D
+\end{lstlisting}
+
+These features have been shown to improve classification accuracy in seizure detection tasks compared to standard spectral features.

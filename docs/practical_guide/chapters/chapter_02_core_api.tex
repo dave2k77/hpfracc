@@ -1,0 +1,45 @@
+\section{Overview}
+
+The \texttt{hpfracc.core} module provides the fundamental building blocks for fractional calculus. It implements both derivatives and integrals using a factory pattern that ensures extensibility and consistency.
+
+\section{Supported Operators}
+
+\subsection{Standard Derivatives}
+\begin{itemize}
+    \item \textbf{Riemann-Liouville}: The most fundamental definition, typically used for theoretical analysis.
+    \item \textbf{Caputo}: The "physical" definition where initial conditions are standard integer derivatives.
+    \item \textbf{Grunwald-Letnikov}: Discrete approximation suitable for numerical simulations.
+\end{itemize}
+
+\subsection{Novel Derivatives}
+The library also supports modern definitions with non-singular kernels:
+\begin{itemize}
+    \item \textbf{Caputo-Fabrizio}: Exponential kernel, useful for material science.
+    \item \textbf{Atangana-Baleanu}: Mittag-Leffler kernel, capturing non-locality with memory fading.
+\end{itemize}
+
+\section{Usage Example}
+
+\begin{lstlisting}[language=Python, caption=Comparing Operators]
+from hpfracc.core.derivatives import create_fractional_derivative
+import numpy as np
+
+# Setup
+x = np.linspace(0, 1, 100)
+f = lambda x: x**3
+alpha = 0.5
+
+# 1. Riemann-Liouville
+rl = create_fractional_derivative('riemann_liouville', alpha)
+y_rl = rl.compute(f, x)
+
+# 2. Caputo
+caputo = create_fractional_derivative('caputo', alpha)
+y_caputo = caputo.compute(f, x)
+
+# 3. Grunwald-Letnikov
+gl = create_fractional_derivative('grunwald_letnikov', alpha)
+y_gl = gl.compute(f, x)
+\end{lstlisting}
+
+Each operator handles the boundary conditions and kernel singularities appropriately, ensuring numerical stability.

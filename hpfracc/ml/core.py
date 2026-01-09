@@ -87,6 +87,17 @@ class FractionalNeuralNetwork:
         # Initialize weights
         self._initialize_weights()
 
+        # Training state
+        self.training = True
+
+    def train(self, mode: bool = True):
+        """Set training mode"""
+        self.training = mode
+
+    def eval(self):
+        """Set evaluation mode"""
+        self.train(False)
+
     def parameters(self) -> List[Any]:
         """Return list of learnable parameters for compatibility with optimizers/tests"""
         params: List[Any] = []
@@ -273,7 +284,7 @@ class FractionalNeuralNetwork:
             x = self._apply_activation(x)
 
             # Apply dropout
-            x = self.tensor_ops.dropout(x, p=self.dropout_rate, training=True)
+            x = self.tensor_ops.dropout(x, p=self.dropout_rate, training=self.training)
 
         # Output layer (no activation)
         x = self.tensor_ops.matmul(x, weights[-1]) + biases[-1]

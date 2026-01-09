@@ -12,6 +12,7 @@ with neural networks, including:
 - **Multi-backend support (PyTorch, JAX, NUMBA)**
 - **Backend Management System**: BackendManager, BackendType, unified tensor operations
 - **Unified Tensor Operations**: Cross-backend tensor manipulations
+- **MLOps**: ModelRegistry, DevelopmentWorkflow, ProductionWorkflow, QualityGate
 """
 
 # Backend Management
@@ -123,6 +124,23 @@ from .probabilistic_fractional_orders import (
     create_beta_alpha_layer,
 )
 
+# MLOps Components
+from .registry import (
+    ModelRegistry,
+    ModelMetadata,
+    ModelVersion,
+    DeploymentStatus,
+)
+
+from .workflow import (
+    DevelopmentWorkflow,
+    ProductionWorkflow,
+    ModelValidator,
+    QualityGate,
+    QualityMetric,
+    QualityThreshold,
+)
+
 # Export all components
 __all__ = [
     # Backend Management
@@ -201,8 +219,19 @@ __all__ = [
     'create_normal_alpha_layer',
     'create_uniform_alpha_layer',
     'create_beta_alpha_layer',
+    # MLOps
+    'ModelRegistry',
+    'ModelMetadata',
+    'ModelVersion',
+    'DeploymentStatus',
+    'DevelopmentWorkflow',
+    'ProductionWorkflow',
+    'ModelValidator',
+    'QualityGate',
+    'QualityMetric',
+    'QualityThreshold',
 ]
-__version__ = "3.1.0"
+__version__ = "3.2.0"
 __author__ = "Davian R. Chin"
 __email__ = "d.r.chin@pgr.reading.ac.uk"
 __institution__ = "Department of Biomedical Engineering, University of Reading"

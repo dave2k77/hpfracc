@@ -1,0 +1,29 @@
+\section{Introduction}
+
+Anomalous diffusion is a transport process where the mean squared displacement (MSD) scales as a non-linear power of time: $\langle x^2(t)\rangle \propto t^\alpha$. This contrasts with normal (Fickian) diffusion where $\alpha=1$.
+
+\section{Simulation with Fractional Brownian Motion}
+
+\texttt{hpfracc} provides tools to simulate Fractional Brownian Motion (fBm), a continuous Gaussian process with stationary increments that exhibits anomalous diffusion behavior.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def generate_fbm(n_samples, hurst):
+    # Spectral synthesis method
+    beta = 2 * hurst + 1
+    freqs = np.fft.rfftfreq(n_samples * 2)
+    magnitude = np.zeros_like(freqs)
+    magnitude[1:] = freqs[1:] ** (-beta / 2.0)
+    phase = np.random.uniform(0, 2*np.pi, size=len(freqs))
+    fgn = np.fft.irfft(magnitude * np.exp(1j * phase))
+    return np.cumsum(fgn[:n_samples])
+\end{lstlisting}
+
+\section{Analysis}
+By characterizing the Hurst exponent ($H = \alpha/2$), researchers can identify the nature of the diffusion:
+\begin{itemize}
+    \item $H < 0.5$: Subdiffusion (antipersistent, $\alpha < 1$).
+    \item $H = 0.5$: Normal diffusion ($\alpha = 1$).
+    \item $H > 0.5$: Superdiffusion (persistent, $\alpha > 1$).
+\end{itemize}

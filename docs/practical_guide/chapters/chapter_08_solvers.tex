@@ -1,0 +1,26 @@
+\section{Fractional Differential Equations}
+
+Solving standard FDEs requires specialized numerical methods. \texttt{hpfracc} implements spectral and finite difference solvers for the Fractional Laplacian: $(-\Delta)^{\alpha/2} u(x) = f(x)$.
+
+\section{The Fractional Laplacian}
+
+The fractional Laplacian is a non-local operator defined via the Fourier transform:
+\begin{equation}
+\mathcal{F}[(-\Delta)^s u](\xi) = |\xi|^{2s} \mathcal{F}[u](\xi)
+\end{equation}
+
+\section{Python Implementation}
+
+\begin{lstlisting}[language=Python]
+from hpfracc.algorithms.special_methods import FractionalLaplacian
+
+# Initialize solver
+solver = FractionalLaplacian(alpha=1.5)
+
+# Compute on a grid
+x = np.linspace(-5, 5, 200)
+u = np.exp(-x**2) # Gaussian
+Lu = solver.compute(u, x, method="spectral")
+\end{lstlisting}
+
+This spectral method (using FFT) is $O(N \log N)$ and highly accurate for smooth functions on periodic domains.

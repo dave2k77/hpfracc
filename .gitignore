@@ -133,6 +133,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv_wsl/
 env/
 venv/
 ENV/
@@ -266,6 +267,10 @@ journal/
 
 # LaTeX files
 *.tex
+!examples/scientific_tutorials/guide/*.tex
+!examples/scientific_tutorials/guide/chapters/*.tex
+!docs/practical_guide/*.tex
+!docs/practical_guide/chapters/*.tex
 *.aux
 *.bbl
 *.blg

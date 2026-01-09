@@ -1,0 +1,44 @@
+\section{The Fractional MLOps Lifecycle}
+
+Deploying fractional models requires specialized management of metadata (e.g., fractional order \(\alpha\), solver methods). \texttt{hpfracc} includes a built-in MLOps system inspired by MLflow but tailored for scientific machine learning.
+
+\section{Key Components}
+
+\begin{itemize}
+    \item \textbf{ModelRegistry}: A local database tracking model versions, hyperparameters, and artifacts.
+    \item \textbf{DevelopmentWorkflow}: Manages experiment tracking and initial model registration.
+    \item \textbf{ProductionWorkflow}: Enforces quality gates before models can be promoted to 'Production' status.
+\end{itemize}
+
+\section{Workflow Example}
+
+\subsection{1. Registration (Development)}
+\begin{lstlisting}[language=Python]
+dev_workflow = DevelopmentWorkflow()
+model_id = dev_workflow.register_development_model(
+    model=model,
+    name="alpha_forecaster",
+    version="0.1.0",
+    fractional_order=0.6,
+    hyperparameters={"hidden_size": 32}
+)
+\end{lstlisting}
+
+\subsection{2. Validation}
+Quality gates ensure robustness.
+\begin{lstlisting}[language=Python]
+validation_results = dev_workflow.validate_development_model(
+    model_id=model_id,
+    test_data=val_data,
+    test_labels=val_labels
+)
+\end{lstlisting}
+
+\subsection{3. Promotion}
+If validation passes, promote to production.
+\begin{lstlisting}[language=Python]
+prod_workflow = ProductionWorkflow(registry=dev_workflow.registry)
+prod_workflow.promote_to_production(model_id=model_id, version="0.1.0")
+\end{lstlisting}
+
+This system ensures reproducibility in scientific experiments, where parameter precise tracking is critical.

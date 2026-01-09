@@ -1,0 +1,41 @@
+\section{The Need for Hybrid Computation}
+
+Fractional calculus operations range from simple memory-efficient calculations (suitable for CPUs) to massive tensor convolutions (requiring GPUs). \texttt{hpfracc} solves this with an **Intelligent Backend Selector**.
+
+\section{Architecture}
+
+The library abstracts the computation layer using a Strategy Pattern. The `BackendManager` dynamically routes calls to:
+\begin{itemize}
+    \item \textbf{NumPy}: For small arrays and scalar operations (lowest overhead).
+    \item \textbf{Numba}: For JIT-compiled loops and iterative solvers.
+    \item \textbf{JAX}: For automatic differentiation and TPU support.
+    \item \textbf{PyTorch}: For deep learning integration and CUDA acceleration.
+\end{itemize}
+
+\section{Automatic Selection}
+
+By default, \texttt{BackendType.AUTO} delegates the decision to the heuristic engine.
+
+\begin{lstlisting}[language=Python, caption=Intelligent Selection Demo]
+from hpfracc.ml.layers import LayerConfig, BackendManager
+from hpfracc.ml.backends import BackendType
+
+manager = BackendManager()
+config = LayerConfig(backend=BackendType.AUTO)
+
+# Case 1: Small Batch
+# Heuristic: NumPy is faster due to zero kernel launch overhead
+backend_small = manager.select_optimal_backend(config, (100, 10))
+print(f"Backend for (100,10): {backend_small}") # Output: numpy
+
+# Case 2: Large Batch
+# Heuristic: GPU backends (Torch/JAX) dominate via parallelism
+backend_large = manager.select_optimal_backend(config, (100000, 100))
+print(f"Backend for (100k,100): {backend_large}") # Output: torch/jax
+\end{lstlisting}
+
+\section{Manual Override}
+For research consistency, you can force a specific backend:
+\begin{lstlisting}[language=Python]
+config_gpu = LayerConfig(backend=BackendType.TORCH)
+\end{lstlisting}

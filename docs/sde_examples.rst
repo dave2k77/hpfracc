@@ -248,4 +248,4 @@ See Also
 
 * :doc:`neural_fsde_guide` - Comprehensive guide to neural fractional SDEs
 * :doc:`sde_api_reference` - Complete API reference
-* :doc:`04_basic_examples` and :doc:`05_advanced_examples` - More general examples
+* :doc:`user_manual/tutorials` - More general examples

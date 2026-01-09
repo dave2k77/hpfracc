@@ -14,25 +14,58 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-# Mock imports for heavy dependencies that might not be available on ReadTheDocs
-autodoc_mock_imports = [
-    'torch',
-    'torch.nn',
-    'torch.nn.functional',
-    'torch.optim',
-    'jax',
-    'jax.numpy',
-    'jax.random',
-    'jaxlib',
+# Mock imports for dependencies that might not be available on ReadTheDocs
+# We need BOTH sys.modules mocks AND autodoc_mock_imports for complete coverage
+
+import types
+from unittest.mock import MagicMock
+
+class MockModule(MagicMock):
+    """Mock module that acts as both a module and a class."""
+    
+    # Make it usable as a base class
+    @classmethod
+    def __subclasshook__(cls, C):
+        return True
+    
+    def __init__(self, name='', *args, **kwargs):
+        super().__init__()
+        self.__name__ = name
+        self.__path__ = []
+        self.__file__ = f'<mock {name}>'
+        self.__all__ = []
+    
+    def __call__(self, *args, **kwargs):
+        return MockModule()
+    
+    def __getitem__(self, key):
+        return MockModule()
+    
+    def __setitem__(self, key, value):
+        pass
+
+# List of modules to mock
+mock_modules = [
+    # PyTorch (all submodules needed)
+    'torch', 'torch.nn', 'torch.nn.functional', 'torch.nn.init', 
+    'torch.nn.utils', 'torch.optim', 'torch.cuda', 'torch.autograd',
+    'torch.fft', 'torch.linalg', 'torch.distributions',
+    # JAX
+    'jax', 'jax.numpy', 'jax.random', 'jax.lax', 'jax.nn', 
+    'jax.config', 'jax.experimental', 'jaxlib',
+    # Numba
     'numba',
-    'numba.jit',
-    'numba.njit',
-    'optax',
-    'cupy',
-    'sklearn',
-    'sklearn.cluster',
-    'sklearn.metrics',
+    # Other ML libraries
+    'optax', 'cupy', 'sklearn', 'numpyro', 'optuna',
 ]
+
+# Pre-install mocks in sys.modules so they're available during imports
+for mod_name in mock_modules:
+    if mod_name not in sys.modules:
+        sys.modules[mod_name] = MockModule(mod_name)
+
+# Also set autodoc_mock_imports for Sphinx autodoc
+autodoc_mock_imports = mock_modules
 
 # -- Project information -----------------------------------------------------
 

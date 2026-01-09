@@ -1,0 +1,49 @@
+\section{Introduction}
+
+The \texttt{hpfracc.ml} module provides a comprehensive suite of fractional deep learning components. These extend PyTorch's `nn.Module` enabling standard training workflows while incorporating fractional calculus dynamics.
+
+\section{Building Models}
+
+The high-level `FractionalNeuralNetwork` class builds a configurable MLP where activations or connections can have fractional properties.
+
+\begin{lstlisting}[language=Python]
+from hpfracc.ml import FractionalNeuralNetwork, FractionalOrder
+
+model = FractionalNeuralNetwork(
+    input_size=10,
+    hidden_sizes=[64, 32],
+    output_size=3,
+    fractional_order=FractionalOrder(0.5), # alpha=0.5
+    activation="relu"
+)
+\end{lstlisting}
+
+\section{Fractional Layers}
+
+For custom architectures, individual layers are available:
+
+\begin{itemize}
+    \item `FractionalConv1D / Conv2D`: Convolutions with fractional padding/kernels.
+    \item `FractionalLSTM`: Long Short-Term Memory with fractional derivatives in the state update, enhancing long-range dependency capture.
+    \item `FractionalAttention`: Attention mechanisms weighted by fractional distances.
+\end{itemize}
+
+\section{Training}
+
+Training behaves like standard PyTorch, but with customized optimizers and loss functions that respect fractional gradients.
+
+\begin{lstlisting}[language=Python]
+from hpfracc.ml import FractionalMSELoss, FractionalAdam
+
+# Loss and Optimizer
+criterion = FractionalMSELoss(fractional_order=FractionalOrder(0.5))
+optimizer = FractionalAdam(model.parameters(), lr=0.001, fractional_order=FractionalOrder(0.5))
+
+# Loop
+for epoch in range(epochs):
+    optimizer.zero_grad()
+    outputs = model(inputs)
+    loss = criterion(outputs, targets)
+    loss.backward()
+    optimizer.step()
+\end{lstlisting}

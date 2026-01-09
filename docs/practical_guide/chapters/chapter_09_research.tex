@@ -1,0 +1,37 @@
+\section{Research Workflow}
+
+When applying fractional calculus to novel research, reproducibility and performance are paramount. \texttt{hpfracc} facilitates this via `GPUProfiler` and `VarianceMonitor`.
+
+\section{Case Study: Viscoelastic Materials}
+
+Modeling stress relaxation in polymers often uses the fractional Kelvin-Voigt model:
+\begin{equation}
+\sigma(t) = E \varepsilon(t) + \eta D^\alpha \varepsilon(t)
+\end{equation}
+
+\begin{lstlisting}[language=Python]
+from hpfracc.core.derivatives import CaputoDerivative
+
+def stress_response(strain, t, E, eta, alpha):
+    # Elastic part
+    elastic = E * strain
+    
+    # Viscous part (fractional derivative)
+    caputo = CaputoDerivative(order=alpha)
+    viscous = eta * caputo.compute(strain, t)
+    
+    return elastic + viscous
+\end{lstlisting}
+
+\section{GPU Profiling}
+
+For large-scale simulations (e.g., FEM integration), ensuring GPU utilization is rigorous.
+
+\begin{lstlisting}[language=Python]
+from hpfracc.ml.gpu_optimization import GPUProfiler
+
+profiler = GPUProfiler()
+with profiler.profile():
+    # Massive computation
+    result = compute_material_response(mesh_data)
+\end{lstlisting}
