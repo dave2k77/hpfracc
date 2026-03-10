@@ -40,7 +40,7 @@ dependencies = [
     
     # JAX ecosystem for automatic differentiation and GPU acceleration
     # Note: For CUDA 12 GPU support, install separately with: pip install "jax[cuda12]"
-    # JAX CUDA 12 wheels (built with 12.3) are compatible with CUDA ≥12.1 including 12.8
+    #       For Blackwell (RTX 5000 series) and newer, use: pip install "jax[cuda13]"
     # Recommended: JAX 0.4.35+ to resolve jaxlib version conflicts
     "jax>=0.4.35",
     "jaxlib>=0.4.35",
@@ -103,7 +103,7 @@ gpu = [
     "cudf>=21.0.0",  # GPU DataFrame
     # Note: For JAX GPU with CUDA 12 support, install separately:
     #       pip install torch==2.9.0 --index-url https://download.pytorch.org/whl/cu128
-    #       pip install --upgrade "jax[cuda12]"
+    #       pip install --upgrade "jax[cuda12]" (or "jax[cuda13]" for Blackwell/RTX 5000+ architectures)
     # JAX CUDA 12 wheels work with CUDA ≥12.1, compatible with PyTorch CUDA 12.8
 ]
 

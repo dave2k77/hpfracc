@@ -66,7 +66,7 @@ def check_cudnn_compatibility() -> Dict[str, Any]:
         return {
             'cudnn_available': cudnn_available,
             'jaxlib_version': jaxlib.__version__,
-            'warning': 'CuDNN version mismatch detected. Consider upgrading CuDNN to 9.12.0+ for optimal performance.'
+            'warning': 'CuDNN version mismatch detected. Consider upgrading CuDNN to 9.20.0+ (via jax[cuda13] for Blackwell) for optimal performance.'
         }
         
     except Exception as e:

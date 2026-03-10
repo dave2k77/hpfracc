@@ -28,8 +28,15 @@
 # Basic installation
 pip install hpfracc
 
-# With Machine Learning and GPU support
+# With Machine Learning and core GPU support requirements
 pip install hpfracc[ml,gpu]
+
+# IMPORTANT: To enable full JAX GPU acceleration, install JAX with CUDA matching your architecture:
+# Standard NVIDIA GPUs (Ampere, Hopper):
+pip install --upgrade "jax[cuda12]"
+# Blackwell Architecture (RTX 5000 series):
+pip install --upgrade "jax[cuda13]"
+# Ensure your PyTorch installation matches this CUDA version to avoid libcublas.so namespace collisions.
 ```
 
 ### 🧠 A Simple Learnable Fractional Model

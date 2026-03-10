@@ -6,7 +6,7 @@ This example demonstrates the use of JAX for GPU acceleration, automatic
 differentiation, and vectorization in fractional calculus computations.
 """
 
-from hpfracc.algorithms.optimized_methods import (
+from hpfracc.algorithms.impls.jax_backend import (
     _caputo_jax,
     _riemann_liouville_jax,
     _grunwald_letnikov_jax,

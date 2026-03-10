@@ -8,8 +8,10 @@ matplotlib>=3.5.0
 torch>=2.4.0
 
 # JAX ecosystem for automatic differentiation and GPU acceleration
-jax>=0.4.0
-jaxlib>=0.4.0
+# Note: For CUDA 12 (Ampere, Hopper), install separately: pip install "jax[cuda12]"
+# Note: For CUDA 13 (Blackwell), install separately: pip install "jax[cuda13]"
+jax>=0.4.35
+jaxlib>=0.4.35
 optax>=0.1.0
 equinox>=0.10.0
 

@@ -14,7 +14,7 @@ import numpy as np
 
 from hpfracc.core.definitions import FractionalOrder, validate_fractional_order
 from ..ml.neural_ode import BaseNeuralODE, NeuralODEConfig
-from ..ml.adjoint_optimization import AdjointConfig, adjoint_sde_gradient
+from ..ml.adjoint_optimization import AdjointConfig
 from ..solvers.sde_solvers import solve_fractional_sde, FractionalSDESolver
 
 
