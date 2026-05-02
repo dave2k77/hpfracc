@@ -1,0 +1,19 @@
+site_name: HPFRACC
+site_description: High-performance fractional calculus for differentiable scientific computing.
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Quickstart:
+      - Overview: quickstart/index.md
+  - Theory:
+      - Operators: theory/operators.md
+  - API:
+      - Contract: api/contract.md
+  - Validation:
+      - Methodology: validation/methodology.md
+  - Developer:
+      - Notes: developer/index.md
+      - Roadmap: developer/roadmap.md
+      - ADR 0001 JAX Backend: developer/adr-0001-jax-only-v0.1.md
+      - ADR 0002 Full History: developer/adr-0002-full-history-first.md

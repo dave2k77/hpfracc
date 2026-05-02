@@ -1,0 +1,2 @@
+"""Operator validation report helpers."""
+
