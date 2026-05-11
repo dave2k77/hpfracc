@@ -3,7 +3,19 @@
 HPFRACC development is milestone-gated. Each phase must produce validation
 evidence before later scientific or domain-specific layers depend on it.
 
+Current status:
+
+- Phase 0: Complete in commit `3f46a84`.
+- Phase 1: Complete in commit `3f46a84`.
+- Phase 2: Complete in the current working tree.
+- Phase 3: Complete in the current working tree.
+- Phase 4: Complete in the current working tree.
+- Phase 5: Complete in the current working tree.
+- Active phase: Phase 6, neural mass and neural field foundations.
+
 ## Phase 0: Project Spine and Governance
+
+Status: Complete.
 
 Goal: make the repository coherent, installable, testable, and explicit about
 research boundaries.
@@ -26,6 +38,8 @@ Exit criteria:
 
 ## Phase 1: Fractional Operator Core
 
+Status: Complete.
+
 Goal: implement validated Riemann-Liouville, Caputo, and Grunwald-Letnikov
 operators on uniform grids for scalar `0 < alpha < 1`.
 
@@ -37,6 +51,9 @@ Deliverables:
 - Analytic validation tests for constants and polynomials.
 - JIT and differentiation smoke tests where JAX is available.
 - Theory documentation for definitions, assumptions, and limitations.
+- Operator metadata/result contracts.
+- Validation report command.
+- Operator scaling smoke benchmark.
 
 Exit criteria:
 
@@ -50,21 +67,45 @@ Exit criteria:
 Goal: implement the first credible deterministic fractional dynamical-system
 solver.
 
+Status: Complete.
+
 Deliverables:
 
-- Fixed-step Caputo predictor-corrector solver.
+- Fixed-step Caputo predictor-corrector solver for scalar `0 < alpha < 1`.
 - `simulate(...)` API following the engineering contract.
-- Structured `SimulationResult` and solver diagnostics.
+- `PredictorCorrector` solver configuration object.
+- Structured `SimulationResult` and `SolverInfo` diagnostics.
+- Uniform-grid validation and early failure for nonuniform grids.
 - Validation against scalar reference FDEs.
 - Gradients with respect to initial state and model parameters.
+- Solver validation report command.
+- Minimal fractional ODE example.
 
 Exit criteria:
 
 - Timestep refinement behavior is demonstrated.
 - JIT/non-JIT consistency is tested.
 - Solver limitations and failure modes are documented.
+- `python -m pytest` passes.
+- `mkdocs build --strict` passes.
+
+Implementation checklist:
+
+- Add `hp.solvers.PredictorCorrector`.
+- Add `hp.solvers.simulate`.
+- Accept callable dynamics `f(t, state, params, *, rng_key=None, inputs=None)`.
+- Support states with arbitrary trailing dimensions.
+- Return trajectories with leading time axis.
+- Record fractional order, timestep, step count, method, and warnings in
+  `SolverInfo`.
+- Validate against `D_C^alpha y = lambda y`, `y(0)=1`, using a truncated
+  Mittag-Leffler reference.
+- Add gradient smoke tests with respect to `initial_state` and a scalar model
+  parameter.
 
 ## Phase 3: Numerical Validation and Benchmark Harness
+
+Status: Complete.
 
 Goal: make correctness and performance claims reproducible.
 
@@ -84,6 +125,8 @@ Exit criteria:
 
 ## Phase 4: Differentiable Scientific Model Layer
 
+Status: Complete.
+
 Goal: support trainable fractional dynamical models after solver validation.
 
 Deliverables:
@@ -99,6 +142,8 @@ Exit criteria:
 - A small synthetic recovery example is tested.
 
 ## Phase 5: Stochastic and Probabilistic Layer
+
+Status: Complete.
 
 Goal: add uncertainty-aware workflows after deterministic differentiability is
 solid.
@@ -116,6 +161,8 @@ Exit criteria:
 - Posterior diagnostics and assumptions are documented.
 
 ## Phase 6: Neural Mass and Neural Field Foundations
+
+Status: Active.
 
 Goal: introduce domain-relevant dynamical systems downstream of the numerical
 core.
@@ -163,4 +210,3 @@ Exit criteria:
 - Validation report is complete.
 - Benchmark report is complete.
 - Docs and citation metadata are ready.
-

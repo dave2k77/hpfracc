@@ -1,6 +1,6 @@
 """HPFRACC public package entry point."""
 
-from hpfracc import config, experimental, metrics, ops, solvers, typing
+from hpfracc import config, experimental, metrics, nn, ops, prob, solvers, typing
 from hpfracc._version import __version__
 
 __all__ = [
@@ -8,8 +8,9 @@ __all__ = [
     "config",
     "experimental",
     "metrics",
+    "nn",
     "ops",
+    "prob",
     "solvers",
     "typing",
 ]
-

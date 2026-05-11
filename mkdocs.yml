@@ -8,6 +8,9 @@ nav:
       - Overview: quickstart/index.md
   - Theory:
       - Operators: theory/operators.md
+      - Solvers: theory/solvers.md
+      - Models: theory/models.md
+      - Probabilistic Workflows: theory/probabilistic.md
   - API:
       - Contract: api/contract.md
   - Validation:
@@ -15,5 +18,6 @@ nav:
   - Developer:
       - Notes: developer/index.md
       - Roadmap: developer/roadmap.md
+      - Phase 2 Solver Plan: developer/phase-2-caputo-fde-solver.md
       - ADR 0001 JAX Backend: developer/adr-0001-jax-only-v0.1.md
       - ADR 0002 Full History: developer/adr-0002-full-history-first.md

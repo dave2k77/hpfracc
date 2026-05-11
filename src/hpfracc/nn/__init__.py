@@ -1,4 +1,5 @@
 """Experimental neural modelling namespace."""
 
-__all__: list[str] = []
+from hpfracc.nn.fode import NeuralFODE, mse_loss, sgd_step, trajectory_mse
 
+__all__ = ["NeuralFODE", "mse_loss", "sgd_step", "trajectory_mse"]

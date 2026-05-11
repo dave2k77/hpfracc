@@ -18,7 +18,41 @@ fractional order, grid size, timestep, maximum absolute error, and reference.
 
 This report is a correctness artifact, not a performance benchmark.
 
-## Operator Scaling Smoke Benchmark
+## Phase 2 Solver Validation Report
+
+Run the deterministic Caputo FDE solver validation report with:
+
+```bash
+python -m benchmarks.numerical.solver_validation.report
+```
+
+The command writes CSV rows for the scalar linear Caputo FDE against a
+truncated Mittag-Leffler reference.
+
+## Phase 3 Validation Summary
+
+Run the aggregate validation summary with:
+
+```bash
+python -m benchmarks.numerical.validation_summary
+```
+
+The command writes repeatable CSV summary rows for operator convergence, solver
+refinement, finite-difference gradient checks, and stability checks.
+
+Run finite-difference gradient checks directly with:
+
+```bash
+python -m benchmarks.numerical.gradient_checks
+```
+
+Run stability checks directly with:
+
+```bash
+python -m benchmarks.numerical.stability
+```
+
+## Baseline Benchmarks
 
 Run the lightweight operator scaling benchmark with:
 
@@ -40,3 +74,11 @@ python -m benchmarks.numerical.operator_scaling \
   --state-dims 1 8 \
   --repeats 5
 ```
+
+Run the broader CPU-oriented baseline benchmark with:
+
+```bash
+python -m benchmarks.numerical.baseline
+```
+
+This records operator and solver timing rows with backend and platform context.
