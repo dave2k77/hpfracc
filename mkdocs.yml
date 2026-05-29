@@ -14,6 +14,7 @@ nav:
   - API:
       - Contract: api/contract.md
   - Validation:
+      - Status: validation/status.md
       - Methodology: validation/methodology.md
   - Developer:
       - Notes: developer/index.md

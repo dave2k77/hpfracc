@@ -222,6 +222,7 @@ Acceptance criteria:
 
 - Validation status page is visible in docs nav.
 - Page distinguishes validated claims from provisional capabilities.
+- Page links report commands back to `docs/validation/methodology.md`.
 - `uv run --extra docs mkdocs build --strict` passes.
 
 ### Task 7: Capture benchmark/report outputs for release notes

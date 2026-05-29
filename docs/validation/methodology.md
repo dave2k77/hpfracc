@@ -97,10 +97,12 @@ backend and platform context.
 
 ## Provenance Context
 
-Validation report modules currently write plain CSV to stdout so their output can
-be piped directly into downstream tools. Runtime provenance is therefore kept
-outside the CSV rows instead of being emitted as comment headers that would break
-strict CSV parsers.
+Validation reports write plain CSV to stdout so their output can be piped directly
+into downstream tools. Runtime provenance is therefore kept outside the CSV rows
+instead of being emitted as comment headers that would break strict CSV parsers.
+
+See [Validation Status](status.md) for the current v0.1 alpha claim boundary: what
+is validated, what remains provisional, and how to interpret passing rows.
 
 Capture provenance next to a report with:
 
