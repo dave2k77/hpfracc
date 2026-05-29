@@ -25,7 +25,7 @@ dedicated validation suite is added.
 Run the Phase 1 operator validation report with:
 
 ```bash
-python -m benchmarks.numerical.operator_validation.report
+uv run python -m benchmarks.numerical.operator_validation.report
 ```
 
 The command prints CSV rows for:
@@ -37,7 +37,7 @@ The command prints CSV rows for:
 Use `--order`, `--power`, and `--n-steps` to vary the validation grid:
 
 ```bash
-python -m benchmarks.numerical.operator_validation.report \
+uv run python -m benchmarks.numerical.operator_validation.report \
   --order 0.4 \
   --power 2.0 \
   --n-steps 21 41 81 161
@@ -46,7 +46,7 @@ python -m benchmarks.numerical.operator_validation.report \
 Run the Phase 2 solver validation report with:
 
 ```bash
-python -m benchmarks.numerical.solver_validation.report
+uv run python -m benchmarks.numerical.solver_validation.report
 ```
 
 The command validates the scalar linear Caputo FDE against a truncated
@@ -57,7 +57,7 @@ Mittag-Leffler reference and records timestep-refinement errors.
 Run the aggregate Phase 3 validation summary with:
 
 ```bash
-python -m benchmarks.numerical.validation_summary
+uv run python -m benchmarks.numerical.validation_summary
 ```
 
 The summary covers:
@@ -70,8 +70,8 @@ The summary covers:
 Run the component commands directly when detailed rows are needed:
 
 ```bash
-python -m benchmarks.numerical.gradient_checks
-python -m benchmarks.numerical.stability
+uv run python -m benchmarks.numerical.gradient_checks
+uv run python -m benchmarks.numerical.stability
 ```
 
 ## Scaling Smoke Benchmark
@@ -79,7 +79,7 @@ python -m benchmarks.numerical.stability
 Run the lightweight scaling benchmark with:
 
 ```bash
-python -m benchmarks.numerical.operator_scaling
+uv run python -m benchmarks.numerical.operator_scaling
 ```
 
 The benchmark records small CPU-oriented timing rows for Caputo and
@@ -89,8 +89,29 @@ rows are local baselines for regression checking, not broad performance claims.
 Run the broader baseline benchmark with:
 
 ```bash
-python -m benchmarks.numerical.baseline
+uv run python -m benchmarks.numerical.baseline
 ```
 
 The baseline benchmark records both operator and solver timing rows with JAX
 backend and platform context.
+
+## Provenance Context
+
+Validation report modules currently write plain CSV to stdout so their output can
+be piped directly into downstream tools. Runtime provenance is therefore kept
+outside the CSV rows instead of being emitted as comment headers that would break
+strict CSV parsers.
+
+Capture provenance next to a report with:
+
+```bash
+uv run python - <<'PY'
+import json
+import hpfracc as hp
+
+print(json.dumps(hp.config.current_provenance().to_dict(), indent=2))
+PY
+```
+
+For committed release artifacts, save the provenance JSON alongside the CSV or
+benchmark output and record which command produced each file.

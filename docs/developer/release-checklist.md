@@ -42,15 +42,10 @@ uv sync --extra dev
 
 ```bash
 uv run python - <<'PY'
-import platform
-import jax
-import hpfracc
+import json
+import hpfracc as hp
 
-print(f"python={platform.python_version()}")
-print(f"hpfracc={hpfracc.__version__}")
-print(f"jax={jax.__version__}")
-print(f"jax_backend={jax.default_backend()}")
-print(f"jax_devices={[str(device) for device in jax.devices()]}")
+print(json.dumps(hp.config.current_provenance().to_dict(), indent=2))
 PY
 ```
 

@@ -32,16 +32,42 @@ Current assignments:
 | `hp.ops.OperatorResult`, `hp.ops.OperatorInfo`, `hp.ops.OperatorFamily`, `hp.ops.FractionalOrder` | Provisional | Structured result and metadata contracts may evolve with provenance needs. |
 | `hp.solvers.PredictorCorrector`, `hp.solvers.simulate` | Provisional | First fixed-step Caputo FDE solver surface. |
 | `hp.solvers.SimulationResult`, `hp.solvers.SolverInfo` | Provisional | Result metadata is public but may expand during Phase 6 provenance work. |
-| `hp.config.Provenance`, `hp.config.ExperimentMetadata`, `hp.config.RuntimeTarget` | Provisional | Intended for reproducibility metadata; fields may be refined before v0.1 alpha finalization. |
+| `hp.config.Provenance`, `hp.config.ExperimentMetadata`, `hp.config.RuntimeTarget`, `hp.config.current_provenance` | Provisional | Intended for reproducibility metadata; fields may be refined before v0.1 alpha finalization. |
 | `hp.nn` | Experimental | Differentiable Neural FODE wrapper and training utilities. |
 | `hp.prob` | Experimental | Scalar-grid calibration, posterior-predictive utilities, and additive-noise FSDE helpers. |
 | `hp.experimental` | Experimental | Staging namespace for APIs that are not ready for the main contract. |
 | Placeholder domain namespaces such as `hpfracc.brain`, `hpfracc.observe`, `hpfracc.train`, `hpfracc.data`, and `hpfracc.viz` | Experimental | Importable planning stubs only; no biological or clinical claims. |
 | Underscored modules, helper functions, and implementation details | Private | Use documented namespace exports instead. |
 
-The code-level enum `hpfracc.stability.StabilityTier` records these tier names
-for internal documentation and tests. It is not exported at top level in v0.1;
-users should treat the table above as the public stability contract.
+## Provenance Metadata
+
+Use `hp.config.current_provenance()` when a script, validation run, or report
+needs runtime context:
+
+```python
+provenance = hp.config.current_provenance(
+    config={"case": "operator_validation"},
+)
+print(provenance.to_dict())
+```
+
+The helper captures:
+
+- HPFRACC package version;
+- best-effort git commit hash, or `None` when git is unavailable;
+- JAX backend and runtime target;
+- JAX version and visible devices;
+- Python version and platform string;
+- UTC timestamp;
+- caller-supplied configuration values.
+
+`Provenance.to_dict()` returns a JSON-compatible dictionary. Default
+`Provenance()` construction remains available for deterministic tests and for
+callers that want to supply every field explicitly.
+
+The code-level enum `hpfracc.stability.StabilityTier` records stability tier
+names for internal documentation and tests. It is not exported at top level in
+v0.1; users should treat the stability table above as the public contract.
 
 ## Operator Results
 

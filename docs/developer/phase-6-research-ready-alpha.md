@@ -101,10 +101,12 @@ research reproducibility.
 Files:
 
 - Modify: `src/hpfracc/config/base.py`
-- Possibly create: `src/hpfracc/config/provenance.py`
-- Modify: validation report modules under `benchmarks/numerical/`
+- Modify: `src/hpfracc/config/__init__.py`
+- Modify: validation methodology documentation for report provenance capture
+- Modify: validation report modules under `benchmarks/numerical/` only if CSV
+  format changes are explicitly needed
 - Test: `tests/unit/test_contracts.py`
-- Possibly add: `tests/unit/test_provenance.py`
+- Test: `tests/unit/test_provenance.py`
 
 Work:
 
@@ -115,16 +117,16 @@ Work:
 3. Keep default construction deterministic enough for tests; avoid hidden global
    mutation.
 4. Ensure `to_dict()` remains JSON-compatible.
-5. Include provenance context in validation or benchmark report headers where it
-   does not break existing CSV expectations, or document why it remains outside
-   CSV rows.
+5. Document why validation CSV rows remain plain CSV and how to capture
+   provenance JSON alongside report artifacts.
 
 Acceptance criteria:
 
 - Provenance helper behavior is tested without requiring a git command to
   succeed.
 - Existing structured result contracts still pass.
-- Validation output format remains documented.
+- Validation output format remains documented, including separate provenance
+  capture for CSV reports.
 - `uv run --extra test python -m pytest tests/unit/test_contracts.py` passes.
 
 ### Task 4: Smoke-test and document all examples
