@@ -1,21 +1,27 @@
 # HPFRACC
 
-HPFRACC is a research-support library for fractional calculus and fractional
-dynamical systems in differentiable scientific computing.
+HPFRACC is a pre-alpha research-support library for fractional calculus and
+fractional dynamical systems in differentiable scientific computing.
 
-The v0.1 line prioritizes numerical correctness, numerical stability,
-differentiability, and reproducibility before domain-specific phantom-brain
-workflows.
+The v0.1 alpha line prioritizes numerical correctness, numerical stability,
+differentiability, and reproducibility before domain-specific phantom-brain or
+brain-model workflows.
+
+HPFRACC is research software only. It is not clinical, diagnostic, or
+subject-specific decision software.
 
 ## Scope
 
-The initial implementation targets:
+The current implementation targets:
 
 - JAX-native fractional operators.
 - Riemann-Liouville, Caputo, and Grunwald-Letnikov operator families.
 - Fixed-step Caputo fractional differential equation solvers.
-- CPU and single GPU/TPU execution.
-- Explicit state, configuration, and provenance objects.
+- Experimental differentiable Neural FODE workflows.
+- Experimental scalar-grid probabilistic calibration and additive-noise
+  stochastic simulation helpers.
+- CPU and single accelerator execution.
+- Explicit state, configuration, provenance, and validation-status objects.
 
 ## Current Surface
 
@@ -83,49 +89,58 @@ calibration = hp.prob.grid_calibrate_scalar(
 )
 ```
 
+## Development Environment
+
+Use the project `uv` environment:
+
+```bash
+uv sync --extra dev
+```
+
+The lockfile is committed so release-readiness checks can run from a reproducible
+development environment.
+
 ## Validation
 
 Run the test suite:
 
 ```bash
-python -m pytest
+uv run python -m pytest
 ```
 
-Run the Phase 1 operator validation report:
+Run the aggregate validation summary:
 
 ```bash
-python -m benchmarks.numerical.operator_validation.report
+uv run python -m benchmarks.numerical.validation_summary
+```
+
+Run detailed operator and solver validation reports:
+
+```bash
+uv run python -m benchmarks.numerical.operator_validation.report
+uv run python -m benchmarks.numerical.solver_validation.report
 ```
 
 Run the lightweight operator scaling smoke benchmark:
 
 ```bash
-python -m benchmarks.numerical.operator_scaling
-```
-
-Run the Phase 2 solver validation report:
-
-```bash
-python -m benchmarks.numerical.solver_validation.report
-```
-
-Run the aggregate Phase 3 validation summary:
-
-```bash
-python -m benchmarks.numerical.validation_summary
+uv run python -m benchmarks.numerical.operator_scaling
 ```
 
 Run the CPU-oriented baseline benchmark:
 
 ```bash
-python -m benchmarks.numerical.baseline
+uv run python -m benchmarks.numerical.baseline
 ```
 
 Build the documentation:
 
 ```bash
-mkdocs build --strict
+uv run mkdocs build --strict
 ```
+
+See `docs/validation/status.md` for the current v0.1 alpha validation boundary
+and `docs/developer/release-checklist.md` for the release candidate checklist.
 
 ## Research Use
 

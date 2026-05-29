@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "hpfracc"
 version = "0.1.0a0"
-description = "High-performance fractional calculus for differentiable scientific computing."
+description = "Research software for fractional calculus in differentiable scientific computing."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"

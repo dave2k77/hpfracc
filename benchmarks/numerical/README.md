@@ -10,7 +10,7 @@ Phase 1 includes a deterministic validation report for the initial fractional
 operators:
 
 ```bash
-python -m benchmarks.numerical.operator_validation.report
+uv run python -m benchmarks.numerical.operator_validation.report
 ```
 
 The command writes CSV to standard output with columns for operator, case,
@@ -23,7 +23,7 @@ This report is a correctness artifact, not a performance benchmark.
 Run the deterministic Caputo FDE solver validation report with:
 
 ```bash
-python -m benchmarks.numerical.solver_validation.report
+uv run python -m benchmarks.numerical.solver_validation.report
 ```
 
 The command writes CSV rows for the scalar linear Caputo FDE against a
@@ -34,7 +34,7 @@ truncated Mittag-Leffler reference.
 Run the aggregate validation summary with:
 
 ```bash
-python -m benchmarks.numerical.validation_summary
+uv run python -m benchmarks.numerical.validation_summary
 ```
 
 The command writes repeatable CSV summary rows for operator convergence, solver
@@ -43,13 +43,13 @@ refinement, finite-difference gradient checks, and stability checks.
 Run finite-difference gradient checks directly with:
 
 ```bash
-python -m benchmarks.numerical.gradient_checks
+uv run python -m benchmarks.numerical.gradient_checks
 ```
 
 Run stability checks directly with:
 
 ```bash
-python -m benchmarks.numerical.stability
+uv run python -m benchmarks.numerical.stability
 ```
 
 ## Baseline Benchmarks
@@ -57,7 +57,7 @@ python -m benchmarks.numerical.stability
 Run the lightweight operator scaling benchmark with:
 
 ```bash
-python -m benchmarks.numerical.operator_scaling
+uv run python -m benchmarks.numerical.operator_scaling
 ```
 
 The command writes CSV to standard output with operator name, time-grid size,
@@ -69,7 +69,7 @@ full-history implementation. It is not a general performance claim.
 Example with custom sizes:
 
 ```bash
-python -m benchmarks.numerical.operator_scaling \
+uv run python -m benchmarks.numerical.operator_scaling \
   --n-steps 32 64 128 \
   --state-dims 1 8 \
   --repeats 5
@@ -78,7 +78,7 @@ python -m benchmarks.numerical.operator_scaling \
 Run the broader CPU-oriented baseline benchmark with:
 
 ```bash
-python -m benchmarks.numerical.baseline
+uv run python -m benchmarks.numerical.baseline
 ```
 
 This records operator and solver timing rows with backend and platform context.

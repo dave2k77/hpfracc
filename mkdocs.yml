@@ -1,5 +1,5 @@
 site_name: HPFRACC
-site_description: High-performance fractional calculus for differentiable scientific computing.
+site_description: Research software for fractional calculus in differentiable scientific computing.
 theme:
   name: material
 nav:
