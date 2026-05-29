@@ -54,6 +54,7 @@ PY
 - [ ] Run the full unit test suite.
 
 ```bash
+uv run python -m pytest tests/unit/test_docs_consistency.py
 uv run python -m pytest
 ```
 
