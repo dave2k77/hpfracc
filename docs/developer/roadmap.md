@@ -11,8 +11,8 @@ Current status:
 - Phase 3: Complete in the current working tree.
 - Phase 4: Complete in the current working tree.
 - Phase 5: Complete in the current working tree.
-- Active phase: Phase 6, research-ready v0.1 alpha.
-- Next domain phase: Phase 7, neural mass and neural field foundations.
+- Phase 6: Complete in the current working tree.
+- Active phase: Phase 7, neural mass and neural field foundations.
 
 ## Phase 0: Project Spine and Governance
 
@@ -164,7 +164,7 @@ Exit criteria:
 
 ## Phase 6: Research-Ready v0.1 Alpha
 
-Status: Active.
+Status: Complete.
 
 Goal: make the completed numerical, differentiable-model, and experimental
 probabilistic foundations coherent enough for a credible v0.1 alpha release

@@ -22,6 +22,7 @@ nav:
       - Roadmap: developer/roadmap.md
       - Phase 2 Solver Plan: developer/phase-2-caputo-fde-solver.md
       - Phase 6 Alpha Backlog: developer/phase-6-research-ready-alpha.md
+      - Domain Model Guardrails: developer/domain-model-guardrails.md
       - v0.1 Alpha Release Checklist: developer/release-checklist.md
       - ADR 0001 JAX Backend: developer/adr-0001-jax-only-v0.1.md
       - ADR 0002 Full History: developer/adr-0002-full-history-first.md

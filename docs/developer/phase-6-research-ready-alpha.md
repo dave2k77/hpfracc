@@ -1,6 +1,6 @@
 # Phase 6: Research-Ready v0.1 Alpha Task Backlog
 
-Status: Active
+Status: Complete
 
 Goal: make the completed numerical, differentiable-model, and experimental
 probabilistic foundations coherent enough for a credible v0.1 alpha release

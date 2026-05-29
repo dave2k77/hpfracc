@@ -90,3 +90,27 @@ def test_release_checklist_mentions_docs_consistency_test() -> None:
     checklist = _read(ROOT / "docs/developer/release-checklist.md")
 
     assert "uv run python -m pytest tests/unit/test_docs_consistency.py" in checklist
+
+
+def test_domain_model_guardrails_are_documented() -> None:
+    guardrails_path = ROOT / "docs/developer/domain-model-guardrails.md"
+    developer_index = _read(ROOT / "docs/developer/index.md")
+    mkdocs = _read(ROOT / "mkdocs.yml")
+
+    assert guardrails_path.exists()
+    guardrails = _read(guardrails_path).lower()
+
+    required_phrases = [
+        "neural mass",
+        "neural field",
+        "phantom-brain",
+        "experimental until independently validated",
+        "no biological, clinical, diagnostic, or subject-specific claims",
+        "model-relative tests",
+        "sensitivity checks",
+    ]
+    missing_phrases = [phrase for phrase in required_phrases if phrase not in guardrails]
+
+    assert missing_phrases == []
+    assert "domain-model-guardrails.md" in developer_index
+    assert "developer/domain-model-guardrails.md" in mkdocs
