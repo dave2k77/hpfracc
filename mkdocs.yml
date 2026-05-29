@@ -16,6 +16,7 @@ nav:
   - Validation:
       - Status: validation/status.md
       - Methodology: validation/methodology.md
+      - v0.1.0a0 Report Bundle: validation/reports/v0.1.0a0/README.md
   - Developer:
       - Notes: developer/index.md
       - Roadmap: developer/roadmap.md

@@ -1,0 +1,4 @@
+solver,case,order,rate,n_steps,dt,max_abs_error,reference
+predictor_corrector,linear_caputo_fde,0.7,-0.8,21,0.05000000074505806,0.0004811882972717285,truncated_mittag_leffler
+predictor_corrector,linear_caputo_fde,0.7,-0.8,41,0.02500000037252903,0.00024080276489257812,truncated_mittag_leffler
+predictor_corrector,linear_caputo_fde,0.7,-0.8,81,0.012500000186264515,0.00010526180267333984,truncated_mittag_leffler

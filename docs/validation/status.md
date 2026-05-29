@@ -71,7 +71,9 @@ uv run python -m benchmarks.numerical.baseline
 ```
 
 See [Validation Methodology](methodology.md) for report formats, command
-options, and provenance capture guidance.
+options, and provenance capture guidance. See the
+[v0.1.0a0 Report Bundle](reports/v0.1.0a0/README.md) for committed example
+artifacts from the current alpha-readiness pass.
 
 ## Interpreting Validation Output
 

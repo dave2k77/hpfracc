@@ -1,0 +1,13 @@
+target,case,n_steps,state_dim,order,repeats,seconds,backend,platform
+caputo,full_history_operator,32,1,0.7,3,0.0008025666660008332,cpu,Windows-11-10.0.26200-SP0
+grunwald_letnikov,full_history_operator,32,1,0.7,3,0.0007073000015225261,cpu,Windows-11-10.0.26200-SP0
+predictor_corrector,linear_caputo_fde,32,1,0.7,3,0.017127466669383768,cpu,Windows-11-10.0.26200-SP0
+caputo,full_history_operator,32,4,0.7,3,0.000851366664088952,cpu,Windows-11-10.0.26200-SP0
+grunwald_letnikov,full_history_operator,32,4,0.7,3,0.0007949000040146833,cpu,Windows-11-10.0.26200-SP0
+predictor_corrector,linear_caputo_fde,32,4,0.7,3,0.01715093333526359,cpu,Windows-11-10.0.26200-SP0
+caputo,full_history_operator,64,1,0.7,3,0.000834499999958401,cpu,Windows-11-10.0.26200-SP0
+grunwald_letnikov,full_history_operator,64,1,0.7,3,0.0008707333327038214,cpu,Windows-11-10.0.26200-SP0
+predictor_corrector,linear_caputo_fde,64,1,0.7,3,0.058542966668028384,cpu,Windows-11-10.0.26200-SP0
+caputo,full_history_operator,64,4,0.7,3,0.0009194666684682792,cpu,Windows-11-10.0.26200-SP0
+grunwald_letnikov,full_history_operator,64,4,0.7,3,0.001061599997531933,cpu,Windows-11-10.0.26200-SP0
+predictor_corrector,linear_caputo_fde,64,4,0.7,3,0.05738600000040606,cpu,Windows-11-10.0.26200-SP0

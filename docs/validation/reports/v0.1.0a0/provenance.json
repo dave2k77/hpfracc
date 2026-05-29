@@ -1,0 +1,17 @@
+{
+  "package_version": "0.1.0a0",
+  "commit_hash": "2df84ed2a12733a10c23f6cad75c6ad9f0ad1a9e",
+  "backend": "jax",
+  "runtime_target": "cpu",
+  "timestamp_utc": "2026-05-29T17:03:57.375150+00:00",
+  "config": {
+    "jax_backend": "cpu",
+    "jax_version": "0.10.1",
+    "jax_devices": [
+      "cpu:0"
+    ],
+    "python_version": "3.13.13",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "report_bundle": "v0.1.0a0"
+  }
+}
