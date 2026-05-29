@@ -11,7 +11,8 @@ Current status:
 - Phase 3: Complete in the current working tree.
 - Phase 4: Complete in the current working tree.
 - Phase 5: Complete in the current working tree.
-- Active phase: Phase 6, neural mass and neural field foundations.
+- Active phase: Phase 6, research-ready v0.1 alpha.
+- Next domain phase: Phase 7, neural mass and neural field foundations.
 
 ## Phase 0: Project Spine and Governance
 
@@ -150,19 +151,51 @@ solid.
 
 Deliverables:
 
-- Experimental FSDE support.
-- NumPyro-backed calibration workflow.
+- Experimental additive-noise FSDE support.
+- Scalar-grid Gaussian calibration workflow.
 - Posterior predictive utilities.
-- Small simulation-based calibration examples where feasible.
+- Small reproducible probabilistic calibration example.
+- NumPyro integration deferred until small probabilistic contracts stabilize.
 
 Exit criteria:
 
 - One reproducible probabilistic calibration example.
 - Posterior diagnostics and assumptions are documented.
 
-## Phase 6: Neural Mass and Neural Field Foundations
+## Phase 6: Research-Ready v0.1 Alpha
 
 Status: Active.
+
+Goal: make the completed numerical, differentiable-model, and experimental
+probabilistic foundations coherent enough for a credible v0.1 alpha release
+before adding domain-specific brain-model layers.
+
+Deliverables:
+
+- Documentation consistency pass across README, theory pages, API contracts,
+  validation methodology, and developer notes.
+- Runnable examples for operators, deterministic solvers, differentiable
+  training, and probabilistic calibration.
+- Explicit API stability tier labels for public namespaces and objects.
+- Provenance metadata review for result objects, validation reports, and
+  examples.
+- Release checklist covering tests, docs, validation reports, benchmarks,
+  citation metadata, and research-use disclaimers.
+
+Exit criteria:
+
+- `python -m pytest` passes.
+- `mkdocs build --strict` passes.
+- Validation and benchmark commands are documented and runnable.
+- Public API stability expectations are visible in docs.
+- Release-readiness gaps are tracked before the v0.1 alpha tag.
+
+Task backlog: see [Phase 6 Alpha Backlog](phase-6-research-ready-alpha.md).
+Release gate: see the [v0.1 Alpha Release Checklist](release-checklist.md).
+
+## Phase 7: Neural Mass and Neural Field Foundations
+
+Status: Planned.
 
 Goal: introduce domain-relevant dynamical systems downstream of the numerical
 core.
@@ -178,7 +211,7 @@ Exit criteria:
 - Model-relative behavior is documented.
 - No biological or clinical realism claims are made.
 
-## Phase 7: Observation, Metrics, and Phantom-Brain MVP
+## Phase 8: Observation, Metrics, and Phantom-Brain MVP
 
 Goal: build the first end-to-end research demonstration.
 
@@ -193,7 +226,7 @@ Exit criteria:
 - Synthetic EEG-like demonstration runs end to end.
 - Metric assumptions and warnings are explicit.
 
-## Phase 8: Scaling, Release, and Publication Readiness
+## Phase 9: Scaling, Release, and Publication Readiness
 
 Goal: prepare a credible open-source research release.
 
