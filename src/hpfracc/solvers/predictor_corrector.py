@@ -37,86 +37,98 @@ def simulate(
     rng_key: PyTree | None = None,
     inputs: PyTree | None = None,
 ) -> SimulationResult:
-    """Simulate a Caputo FDE with a fixed-step predictor-corrector method."""
+    """Simulate a Caputo FDE with a fixed-step predictor-corrector method.
 
+    The full-history Diethelm predictor-corrector recurrence is evaluated with a
+    single ``jax.lax.scan`` over a preallocated history buffer rather than a
+    Python loop. This keeps the method ``jax.jit``-traceable and gives a bounded
+    autodiff graph whose size does not grow with the number of time steps, while
+    reproducing the same numerics as a direct unrolled evaluation. The compute
+    cost remains ``O(n**2)`` because each step weights the full history.
+    """
+
+    jax = _jax()
     jnp = _jnp()
     times = jnp.asarray(ts)
     _validate_time_grid(times, solver.dt)
 
     y0 = jnp.asarray(initial_state)
     alpha = validate_order(solver.order)
+    n_time = int(times.shape[0])
     dt_alpha = float(solver.dt) ** alpha
     predictor_scale = dt_alpha / gamma(alpha + 1.0)
     corrector_scale = dt_alpha / gamma(alpha + 2.0)
 
-    trajectory = [y0]
-    f_history = [
-        model(
-            times[0],
-            y0,
-            params,
-            rng_key=rng_key,
-            inputs=_inputs_at(inputs, 0, times.shape[0]),
-        )
-    ]
+    indices = jnp.arange(n_time)
 
-    for step in range(1, int(times.shape[0])):
-        predictor_history = jnp.zeros_like(y0)
-        for history_index, f_value in enumerate(f_history):
-            lag = step - history_index
-            weight = (lag**alpha) - ((lag - 1) ** alpha)
-            predictor_history = predictor_history + weight * f_value
-        predicted = y0 + predictor_scale * predictor_history
+    f0 = model(
+        times[0],
+        y0,
+        params,
+        rng_key=rng_key,
+        inputs=_inputs_at(inputs, 0, n_time),
+    )
+    history0 = jnp.zeros((n_time, *y0.shape), dtype=f0.dtype).at[0].set(f0)
+
+    def history_dot(weights: PyTree, history: PyTree) -> PyTree:
+        return jnp.tensordot(weights, history, axes=([0], [0]))
+
+    def step_fn(history: PyTree, step: PyTree) -> tuple[PyTree, PyTree]:
+        valid = indices < step
+        # Clamp the lag to >= 1 on masked (future) entries before taking
+        # fractional powers, so jnp.where never evaluates a negative base.
+        lag = jnp.where(valid, (step - indices).astype(history0.dtype), 1.0)
+        step_f = step.astype(history0.dtype)
+
+        predictor_weights = jnp.where(
+            valid, lag**alpha - (lag - 1.0) ** alpha, 0.0
+        )
+        predicted = y0 + predictor_scale * history_dot(predictor_weights, history)
 
         predicted_f = model(
             times[step],
             predicted,
             params,
             rng_key=rng_key,
-            inputs=_inputs_at(inputs, step, times.shape[0]),
+            inputs=_inputs_at(inputs, step, n_time),
         )
 
-        corrector_history = jnp.zeros_like(y0)
-        for history_index, f_value in enumerate(f_history):
-            weight = _corrector_history_weight(alpha, step, history_index)
-            corrector_history = corrector_history + weight * f_value
-
-        corrected = y0 + corrector_scale * (corrector_history + predicted_f)
-        trajectory.append(corrected)
-        f_history.append(
-            model(
-                times[step],
-                corrected,
-                params,
-                rng_key=rng_key,
-                inputs=_inputs_at(inputs, step, times.shape[0]),
-            )
+        boundary = (step_f - 1.0) ** (alpha + 1.0) - (
+            step_f - 1.0 - alpha
+        ) * step_f**alpha
+        interior = (
+            (lag + 1.0) ** (alpha + 1.0)
+            + (lag - 1.0) ** (alpha + 1.0)
+            - 2.0 * lag ** (alpha + 1.0)
+        )
+        corrector_weights = jnp.where(
+            valid, jnp.where(indices == 0, boundary, interior), 0.0
+        )
+        corrected = y0 + corrector_scale * (
+            history_dot(corrector_weights, history) + predicted_f
         )
 
-    values = jnp.stack(trajectory, axis=0)
+        next_f = model(
+            times[step],
+            corrected,
+            params,
+            rng_key=rng_key,
+            inputs=_inputs_at(inputs, step, n_time),
+        )
+        return history.at[step].set(next_f), corrected
+
+    _, tail = jax.lax.scan(step_fn, history0, jnp.arange(1, n_time))
+    values = jnp.concatenate([y0[jnp.newaxis, ...], tail], axis=0)
+
     info = SolverInfo(
         name="predictor_corrector",
         method="caputo_pece_full_history",
         fractional_order=alpha,
         step_size=float(solver.dt),
-        n_steps=int(times.shape[0] - 1),
+        n_steps=int(n_time - 1),
         diagnostics={"history": "full", "grid": "uniform"},
     )
     return SimulationResult(ts=times, latent_state=values, solver_info=info)
-
-
-def _corrector_history_weight(alpha: float, step: int, history_index: int) -> float:
-    if history_index == 0:
-        return (step - 1) ** (alpha + 1.0) - (
-            step - 1.0 - alpha
-        ) * step**alpha
-
-    lag = step - history_index
-    return (
-        (lag + 1) ** (alpha + 1.0)
-        + (lag - 1) ** (alpha + 1.0)
-        - 2.0 * lag ** (alpha + 1.0)
-    )
 
 
 def _inputs_at(inputs: PyTree | None, index: int, n_time: int) -> PyTree | None:
@@ -157,11 +169,20 @@ def _validate_time_grid(times: Any, dt: float) -> None:
     except Exception:
         return
 
+    # Tolerate floating-point grid-construction error (a few ULPs of the largest
+    # time), scaled to the working dtype, but still reject genuinely non-uniform
+    # grids. A fixed atol=1e-8 is below float32 grid resolution and wrongly
+    # rejects large uniform grids built in the default single precision.
+    dtype = concrete_times.dtype
+    eps = float(np.finfo(dtype).eps) if np.issubdtype(dtype, np.floating) else 0.0
+    scale = max(abs(float(concrete_times[-1])), 1.0)
+    atol = max(16.0 * eps * scale, 1e-12)
+
     diffs = np.diff(concrete_times)
-    if not np.allclose(diffs, diffs[0], rtol=1e-5, atol=1e-8):
+    if not np.allclose(diffs, diffs[0], rtol=1e-5, atol=atol):
         msg = "Expected a uniform time grid."
         raise ValueError(msg)
-    if not np.isclose(float(diffs[0]), float(dt), rtol=1e-5, atol=1e-8):
+    if not np.isclose(float(diffs[0]), float(dt), rtol=1e-5, atol=atol):
         msg = (
             "Expected solver dt to match time-grid spacing; "
             f"got dt={dt} and spacing={float(diffs[0])}."
