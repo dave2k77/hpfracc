@@ -15,6 +15,7 @@ from hpfracc.ops import (
     caputo_power_law,
     grunwald_letnikov,
     riemann_liouville,
+    riemann_liouville_power_law,
 )
 
 
@@ -64,11 +65,68 @@ def test_operators_preserve_trailing_state_shape() -> None:
     assert actual.shape == x.shape
 
 
-def test_riemann_liouville_uses_gl_baseline_discretisation() -> None:
+def test_riemann_liouville_uses_gl_discretisation() -> None:
+    # Documents the implementation choice: RL is computed through the GL
+    # discretisation. This is not the correctness check -- see the analytic
+    # tests below -- it pins the shared-implementation decision.
     x = jnp.linspace(0.0, 1.0, 8)
     gl = grunwald_letnikov(x, dt=0.1, order=0.5)
     rl = riemann_liouville(x, dt=0.1, order=0.5)
     assert jnp.allclose(rl, gl)
+
+
+def test_riemann_liouville_power_law_reference_is_nonzero_for_constant() -> None:
+    # The RL derivative of a constant is t**(-alpha) / Gamma(1 - alpha), NOT zero
+    # (this is the term distinguishing RL from Caputo). The reference must encode
+    # that, unlike the Caputo reference which is zero for a constant.
+    alpha = 0.5
+    ts = jnp.linspace(0.5, 1.0, 6)
+    rl_ref = riemann_liouville_power_law(ts, power=0.0, order=alpha)
+    expected = ts ** (-alpha) / math.gamma(1.0 - alpha)
+    assert jnp.allclose(rl_ref, expected, rtol=1e-6, atol=1e-6)
+    assert jnp.all(rl_ref > 0.0)
+    assert jnp.allclose(caputo_power_law(ts, power=0.0, order=alpha), 0.0)
+
+
+def test_riemann_liouville_constant_matches_analytic_reference() -> None:
+    # Validates the GL-based RL operator against analytic ground truth on the
+    # decisive constant case, away from the t=0 singularity.
+    alpha = 0.5
+    n_steps = 801
+    t = jnp.linspace(0.0, 1.0, n_steps)
+    dt = float(t[1] - t[0])
+    actual = riemann_liouville(jnp.ones((n_steps,)), dt=dt, order=alpha)
+    expected = riemann_liouville_power_law(t, power=0.0, order=alpha)
+    interior = t >= 0.5
+    assert jnp.max(jnp.abs((actual - expected)[interior])) < 1e-3
+
+
+def test_riemann_liouville_differs_from_caputo_for_constant() -> None:
+    alpha = 0.5
+    n_steps = 401
+    t = jnp.linspace(0.0, 1.0, n_steps)
+    dt = float(t[1] - t[0])
+    rl = riemann_liouville(jnp.ones((n_steps,)), dt=dt, order=alpha)
+    cap = caputo(jnp.ones((n_steps,)), dt=dt, order=alpha)
+    # Caputo of a constant is zero; RL is not. They must be clearly different.
+    assert jnp.allclose(cap, 0.0, atol=1e-6)
+    assert jnp.max(jnp.abs(rl[t >= 0.5])) > 0.5
+
+
+def test_riemann_liouville_power_law_refines_against_analytic_reference() -> None:
+    alpha = 0.4
+    coarse_t = jnp.linspace(0.0, 1.0, 21)
+    fine_t = jnp.linspace(0.0, 1.0, 81)
+
+    coarse = riemann_liouville(coarse_t**2, dt=float(coarse_t[1] - coarse_t[0]), order=alpha)
+    fine = riemann_liouville(fine_t**2, dt=float(fine_t[1] - fine_t[0]), order=alpha)
+
+    coarse_ref = riemann_liouville_power_law(coarse_t, power=2.0, order=alpha)
+    fine_ref = riemann_liouville_power_law(fine_t, power=2.0, order=alpha)
+
+    coarse_error = jnp.max(jnp.abs(coarse[1:] - coarse_ref[1:]))
+    fine_error = jnp.max(jnp.abs(fine[1:] - fine_ref[1:]))
+    assert fine_error < coarse_error
 
 
 def test_return_info_provides_operator_metadata() -> None:

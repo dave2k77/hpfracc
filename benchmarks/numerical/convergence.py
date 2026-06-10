@@ -7,6 +7,8 @@ that the error decreases under refinement.
 Expected rates:
 
 - Caputo L1 operator: max-norm error scales as ``O(h^(2 - alpha))``.
+- Riemann-Liouville (Grunwald-Letnikov) operator: max-norm error scales as
+  ``O(h)`` (first order, independent of alpha).
 - Caputo predictor-corrector (PECE) solver: final-time (endpoint) error scales
   as ``O(h^(1 + alpha))`` for ``0 < alpha < 1``.
 
@@ -38,7 +40,12 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from hpfracc.ops import caputo, caputo_power_law
+from hpfracc.ops import (
+    caputo,
+    caputo_power_law,
+    riemann_liouville,
+    riemann_liouville_power_law,
+)
 from hpfracc.solvers import PredictorCorrector, simulate
 
 # Pass criteria, grounded in float64 measurements on the grids used here.
@@ -137,6 +144,46 @@ def caputo_operator_order_row(
     )
 
 
+def riemann_liouville_order_row(
+    *,
+    alpha: float,
+    power: float = 2.0,
+    n_steps_values: Sequence[int] = (101, 201, 401),
+) -> ConvergenceRow:
+    """Estimate the Grunwald-Letnikov / RL operator order (first order in ``h``).
+
+    The expected order is 1 for every ``alpha`` because the Grunwald-Letnikov
+    discretisation is first-order consistent with the Riemann-Liouville
+    derivative. Finer grids than the Caputo case are used because a first-order
+    method needs more refinement to reach a clean asymptotic slope.
+    """
+
+    step_sizes: list[float] = []
+    errors: list[float] = []
+    with _enabled_x64():
+        for n_steps in n_steps_values:
+            t = jnp.linspace(0.0, 1.0, n_steps)
+            dt = float(t[1] - t[0])
+            actual = riemann_liouville(t**power, dt=dt, order=alpha)
+            expected = riemann_liouville_power_law(t, power=power, order=alpha)
+            error = float(jnp.max(jnp.abs(actual[1:] - expected[1:])))
+            step_sizes.append(dt)
+            errors.append(error)
+
+    return ConvergenceRow(
+        target="riemann_liouville",
+        case="power_law_max_norm",
+        alpha=alpha,
+        metric="max_abs_error",
+        n_steps=tuple(n_steps_values),
+        step_sizes=tuple(step_sizes),
+        errors=tuple(errors),
+        expected_order=1.0,
+        estimated_order=estimate_order(step_sizes, errors),
+        reference="analytic_riemann_liouville_power_law",
+    )
+
+
 def _linear_model(
     t: object,
     state: object,
@@ -207,7 +254,7 @@ def row_passed(row: ConvergenceRow) -> bool:
     super-converge) with a physical upper cap.
     """
 
-    if row.target == "caputo_operator":
+    if row.target in ("caputo_operator", "riemann_liouville"):
         return abs(row.estimated_order - row.expected_order) <= OPERATOR_ORDER_TOLERANCE
     if row.target == "predictor_corrector":
         return (
@@ -221,8 +268,10 @@ def row_passed(row: ConvergenceRow) -> bool:
 def generate_rows(
     *,
     operator_alphas: Sequence[float] = (0.25, 0.5, 0.7, 0.9),
+    riemann_liouville_alphas: Sequence[float] = (0.3, 0.5, 0.7),
     solver_alphas: Sequence[float] = (0.5, 0.7, 0.9),
     operator_n_steps: Sequence[int] = (41, 81, 161, 321),
+    riemann_liouville_n_steps: Sequence[int] = (101, 201, 401),
     solver_n_steps: Sequence[int] = (21, 41, 81, 161),
 ) -> list[ConvergenceRow]:
     """Generate the complete convergence-order validation table."""
@@ -231,6 +280,12 @@ def generate_rows(
         caputo_operator_order_row(alpha=alpha, n_steps_values=operator_n_steps)
         for alpha in operator_alphas
     ]
+    rows.extend(
+        riemann_liouville_order_row(
+            alpha=alpha, n_steps_values=riemann_liouville_n_steps
+        )
+        for alpha in riemann_liouville_alphas
+    )
     rows.extend(
         solver_endpoint_order_row(alpha=alpha, n_steps_values=solver_n_steps)
         for alpha in solver_alphas

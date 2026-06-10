@@ -5,6 +5,9 @@ caputo,constant,0.5,0.0,81,0.0125,0.0,zero
 caputo,power_law,0.5,2.0,21,0.05000000074505806,0.005010008811950684,analytic_caputo_power_law
 caputo,power_law,0.5,2.0,41,0.02500000037252903,0.0017958879470825195,analytic_caputo_power_law
 caputo,power_law,0.5,2.0,81,0.012500000186264515,0.0006414651870727539,analytic_caputo_power_law
-riemann_liouville,gl_baseline_consistency,0.5,2.0,21,0.05000000074505806,0.0,grunwald_letnikov
-riemann_liouville,gl_baseline_consistency,0.5,2.0,41,0.02500000037252903,0.0,grunwald_letnikov
-riemann_liouville,gl_baseline_consistency,0.5,2.0,81,0.012500000186264515,0.0,grunwald_letnikov
+riemann_liouville,rl_power_law,0.5,2.0,21,0.05000000074505806,0.028061866760253906,analytic_riemann_liouville_power_law
+riemann_liouville,rl_power_law,0.5,2.0,41,0.02500000037252903,0.014068245887756348,analytic_riemann_liouville_power_law
+riemann_liouville,rl_power_law,0.5,2.0,81,0.012500000186264515,0.00704348087310791,analytic_riemann_liouville_power_law
+riemann_liouville,rl_constant,0.5,0.0,21,0.05000000074505806,0.009907424449920654,analytic_riemann_liouville_constant
+riemann_liouville,rl_constant,0.5,0.0,41,0.02500000037252903,0.0049707889556884766,analytic_riemann_liouville_constant
+riemann_liouville,rl_constant,0.5,0.0,81,0.012500000186264515,0.0024895668029785156,analytic_riemann_liouville_constant

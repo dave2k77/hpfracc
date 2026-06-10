@@ -27,6 +27,7 @@ from benchmarks.numerical.convergence import (
     SOLVER_ORDER_UPPER_CAP,
     caputo_operator_order_row,
     estimate_order,
+    riemann_liouville_order_row,
     row_passed,
     solver_endpoint_order_row,
 )
@@ -63,6 +64,18 @@ def test_caputo_operator_matches_two_minus_alpha_order(alpha: float) -> None:
         f"alpha={alpha}: estimated order {row.estimated_order:.3f} "
         f"deviates from expected {row.expected_order:.3f} by more than "
         f"{OPERATOR_ORDER_TOLERANCE}"
+    )
+    assert row_passed(row)
+
+
+@pytest.mark.parametrize("alpha", [0.3, 0.5, 0.7])
+def test_riemann_liouville_matches_first_order(alpha: float) -> None:
+    row = riemann_liouville_order_row(alpha=alpha)
+
+    assert _is_strictly_decreasing(row.errors), row.errors
+    assert row.expected_order == 1.0
+    assert row.estimated_order == pytest.approx(1.0, abs=OPERATOR_ORDER_TOLERANCE), (
+        f"alpha={alpha}: RL/GL order {row.estimated_order:.3f} is not first order"
     )
     assert row_passed(row)
 

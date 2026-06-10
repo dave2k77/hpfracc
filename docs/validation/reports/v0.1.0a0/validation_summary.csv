@@ -2,5 +2,8 @@ area,case,metric,value,passed,details
 operator,caputo_constant,max_abs_error,0.0,True,n_steps=21|41|81
 operator,caputo_power_law_refinement,last_max_abs_error,0.002190709114074707,True,first=0.013187646865844727; last=0.002190709114074707
 solver,linear_caputo_fde_refinement,last_max_abs_error,0.00010526180267333984,True,first=0.0004811882972717285; last=0.00010526180267333984
+convergence,caputo_operator_order,estimated_order,1.2971050885316349,True,expected~=1.300; alpha=0.7; two_sided
+convergence,riemann_liouville_order,estimated_order,0.999579809980191,True,expected~=1.000; alpha=0.7; two_sided
+convergence,solver_endpoint_order,estimated_order,1.7309105370437063,True,expected>=1.700; alpha=0.7; lower_bound
 gradient,finite_difference_checks,max_abs_error,2.9802322387695312e-05,True,tolerance=0.002
 stability,basic_stability_checks,passed_count,2.0,True,total=2

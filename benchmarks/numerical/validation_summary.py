@@ -10,6 +10,7 @@ from dataclasses import dataclass
 
 from benchmarks.numerical.convergence import (
     caputo_operator_order_row,
+    riemann_liouville_order_row,
     row_passed,
     solver_endpoint_order_row,
 )
@@ -55,6 +56,9 @@ def generate_rows(
     operator_order = caputo_operator_order_row(
         alpha=order, n_steps_values=(41, 81, 161)
     )
+    rl_order = riemann_liouville_order_row(
+        alpha=order, n_steps_values=(101, 201, 401)
+    )
     solver_order = solver_endpoint_order_row(
         alpha=order, n_steps_values=(21, 41, 81, 161)
     )
@@ -98,6 +102,17 @@ def generate_rows(
             passed=row_passed(operator_order),
             details=(
                 f"expected~={operator_order.expected_order:.3f}; "
+                f"alpha={order}; two_sided"
+            ),
+        ),
+        ValidationSummaryRow(
+            area="convergence",
+            case="riemann_liouville_order",
+            metric="estimated_order",
+            value=rl_order.estimated_order,
+            passed=row_passed(rl_order),
+            details=(
+                f"expected~={rl_order.expected_order:.3f}; "
                 f"alpha={order}; two_sided"
             ),
         ),
