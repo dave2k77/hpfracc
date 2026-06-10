@@ -44,6 +44,92 @@ def solve_linear(*, n_steps: int, order: float, rate: float) -> hp.solvers.Simul
     )
 
 
+def _unrolled_reference(
+    *, ts: jax.Array, order: float, rate: float, y0: jax.Array
+) -> jax.Array:
+    """Independent unrolled Diethelm PECE recurrence used as a cross-check.
+
+    This mirrors the original Python-loop implementation so the lax.scan
+    rewrite can be verified to preserve the exact numerics, not just the
+    asymptotic order.
+    """
+
+    alpha = order
+    dt = float(ts[1] - ts[0])
+    dt_alpha = dt**alpha
+    predictor_scale = dt_alpha / math.gamma(alpha + 1.0)
+    corrector_scale = dt_alpha / math.gamma(alpha + 2.0)
+    n = int(ts.shape[0])
+
+    trajectory = [y0]
+    f_history = [rate * y0]
+    for step in range(1, n):
+        predictor_history = jnp.zeros_like(y0)
+        for j, f_value in enumerate(f_history):
+            lag = step - j
+            weight = lag**alpha - (lag - 1) ** alpha
+            predictor_history = predictor_history + weight * f_value
+        predicted = y0 + predictor_scale * predictor_history
+        predicted_f = rate * predicted
+
+        corrector_history = jnp.zeros_like(y0)
+        for j, f_value in enumerate(f_history):
+            if j == 0:
+                weight = (step - 1) ** (alpha + 1.0) - (
+                    step - 1.0 - alpha
+                ) * step**alpha
+            else:
+                lag = step - j
+                weight = (
+                    (lag + 1) ** (alpha + 1.0)
+                    + (lag - 1) ** (alpha + 1.0)
+                    - 2.0 * lag ** (alpha + 1.0)
+                )
+            corrector_history = corrector_history + weight * f_value
+        corrected = y0 + corrector_scale * (corrector_history + predicted_f)
+        trajectory.append(corrected)
+        f_history.append(rate * corrected)
+    return jnp.stack(trajectory, axis=0)
+
+
+@pytest.mark.parametrize("y0", [jnp.asarray(1.0), jnp.asarray([1.0, -2.0])])
+def test_predictor_corrector_matches_unrolled_reference(y0: jax.Array) -> None:
+    order = 0.7
+    rate = -0.8
+    ts = jnp.linspace(0.0, 1.0, 24)
+    result = hp.solvers.simulate(
+        model=linear_model,
+        ts=ts,
+        solver=hp.solvers.PredictorCorrector(dt=float(ts[1] - ts[0]), order=order),
+        initial_state=y0,
+        params=jnp.asarray(rate),
+    )
+    reference = _unrolled_reference(ts=ts, order=order, rate=rate, y0=y0)
+    assert jnp.allclose(result.latent_state, reference, rtol=1e-5, atol=1e-6)
+
+
+def test_predictor_corrector_graph_size_is_independent_of_n() -> None:
+    # The scan-based solver must not unroll: the traced graph size is bounded and
+    # independent of the number of time steps. A regression to a Python loop would
+    # make the equation count grow with n and fail this guard.
+    def make(n: int):
+        ts = jnp.linspace(0.0, 1.0, n)
+        solver = hp.solvers.PredictorCorrector(dt=float(ts[1] - ts[0]), order=0.7)
+
+        def run(y0: jax.Array) -> jax.Array:
+            return hp.solvers.simulate(
+                model=linear_model,
+                ts=ts,
+                solver=solver,
+                initial_state=y0,
+                params=jnp.asarray(-0.8),
+            ).latent_state
+
+        return len(jax.make_jaxpr(run)(jnp.asarray(1.0)).jaxpr.eqns)
+
+    assert make(16) == make(256)
+
+
 def test_predictor_corrector_rejects_nonuniform_time_grid() -> None:
     solver = hp.solvers.PredictorCorrector(dt=0.1, order=0.7)
     ts = jnp.asarray([0.0, 0.1, 0.25])
@@ -56,6 +142,22 @@ def test_predictor_corrector_rejects_nonuniform_time_grid() -> None:
             initial_state=jnp.asarray(1.0),
             params=jnp.asarray(-1.0),
         )
+
+
+def test_predictor_corrector_accepts_large_uniform_float32_grid() -> None:
+    # A large uniform grid built in the default single precision must not be
+    # rejected by float-rounding in the grid-uniformity check.
+    ts = jnp.linspace(0.0, 1.0, 400)
+    assert ts.dtype == jnp.float32
+    result = hp.solvers.simulate(
+        model=linear_model,
+        ts=ts,
+        solver=hp.solvers.PredictorCorrector(dt=float(ts[1] - ts[0]), order=0.7),
+        initial_state=jnp.asarray(1.0),
+        params=jnp.asarray(-0.8),
+    )
+    assert result.latent_state.shape == (400,)
+    assert jnp.all(jnp.isfinite(result.latent_state))
 
 
 def test_predictor_corrector_rejects_mismatched_dt() -> None:

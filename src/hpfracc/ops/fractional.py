@@ -81,8 +81,16 @@ def riemann_liouville(
 ) -> Any:
     """Approximate a Riemann-Liouville fractional derivative.
 
-    v0.1 uses the Grunwald-Letnikov full-history discretisation as the baseline
-    approximation to the Riemann-Liouville derivative on a uniform grid.
+    The Grunwald-Letnikov full-history convolution is, for ``0 < order < 1`` on a
+    uniform grid with zero history before ``t = 0``, a first-order ``O(dt)``
+    consistent discretisation of the lower-terminal Riemann-Liouville derivative.
+    v0.1 therefore computes the RL derivative *through* the GL discretisation;
+    the two share an implementation by design, not as an unverified assumption.
+
+    Correctness is validated against the analytic RL reference
+    ``hp.ops.riemann_liouville_power_law`` -- including the constant case, where
+    the RL derivative is ``t**(-order) / Gamma(1 - order)`` and is nonzero,
+    distinguishing it from the Caputo derivative.
     """
 
     result = grunwald_letnikov(x, dt=dt, order=order)
@@ -91,13 +99,13 @@ def riemann_liouville(
             values=result,
             operator_info=_operator_info(
                 family=OperatorFamily.RIEMANN_LIOUVILLE,
-                method="grunwald_letnikov_baseline",
+                method="grunwald_letnikov_discretisation",
                 alpha=validate_order(order),
                 dt=dt,
                 n_steps=result.shape[0],
                 warnings=(
-                    "v0.1 Riemann-Liouville uses the GL full-history "
-                    "uniform-grid discretisation as its baseline.",
+                    "v0.1 Riemann-Liouville is computed through the first-order "
+                    "GL full-history uniform-grid discretisation.",
                 ),
             ),
         )

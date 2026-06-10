@@ -12,8 +12,9 @@ The first operator validation layer covers:
 - Caputo derivative of linear functions.
 - Caputo power-law references for `t**beta`.
 - Refinement behavior for smooth polynomial functions.
-- Riemann-Liouville and Grunwald-Letnikov consistency under the v0.1 GL
-  baseline discretisation.
+- Riemann-Liouville correctness against the analytic RL power-law reference,
+  including the constant case `t**(-alpha) / Gamma(1 - alpha)` that distinguishes
+  RL from Caputo.
 - JIT compatibility.
 - Gradients with respect to input samples.
 
@@ -32,7 +33,9 @@ The command prints CSV rows for:
 
 - Caputo derivative of constants.
 - Caputo derivative of `t**power` against the analytic power-law reference.
-- Riemann-Liouville consistency with the v0.1 Grunwald-Letnikov baseline.
+- Riemann-Liouville derivative of `t**power` against the analytic RL reference.
+- Riemann-Liouville derivative of a constant against `t**(-alpha) / Gamma(1 -
+  alpha)`.
 
 Use `--order`, `--power`, and `--n-steps` to vary the validation grid:
 
