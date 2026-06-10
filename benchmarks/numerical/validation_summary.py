@@ -8,8 +8,16 @@ import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 
+from benchmarks.numerical.convergence import (
+    caputo_operator_order_row,
+    riemann_liouville_order_row,
+    row_passed,
+    solver_endpoint_order_row,
+)
 from benchmarks.numerical.gradient_checks import generate_rows as gradient_rows
-from benchmarks.numerical.operator_validation.report import generate_rows as operator_rows
+from benchmarks.numerical.operator_validation.report import (
+    generate_rows as operator_rows,
+)
 from benchmarks.numerical.solver_validation.report import generate_rows as solver_rows
 from benchmarks.numerical.stability import generate_rows as stability_rows
 
@@ -42,6 +50,19 @@ def generate_rows(
     grad_rows = gradient_rows()
     stable_rows = stability_rows(order=order, n_steps=n_steps_values[-1])
 
+    # Convergence-order checks use their own dedicated refinement grids (not the
+    # summary ``n_steps_values``, which are tuned for the other checks) so the
+    # log-log slope is estimated in an asymptotic, float64-clean regime.
+    operator_order = caputo_operator_order_row(
+        alpha=order, n_steps_values=(41, 81, 161)
+    )
+    rl_order = riemann_liouville_order_row(
+        alpha=order, n_steps_values=(101, 201, 401)
+    )
+    solver_order = solver_endpoint_order_row(
+        alpha=order, n_steps_values=(21, 41, 81, 161)
+    )
+
     return [
         ValidationSummaryRow(
             area="operator",
@@ -71,6 +92,39 @@ def generate_rows(
             details=(
                 f"first={sol_rows[0].max_abs_error}; "
                 f"last={sol_rows[-1].max_abs_error}"
+            ),
+        ),
+        ValidationSummaryRow(
+            area="convergence",
+            case="caputo_operator_order",
+            metric="estimated_order",
+            value=operator_order.estimated_order,
+            passed=row_passed(operator_order),
+            details=(
+                f"expected~={operator_order.expected_order:.3f}; "
+                f"alpha={order}; two_sided"
+            ),
+        ),
+        ValidationSummaryRow(
+            area="convergence",
+            case="riemann_liouville_order",
+            metric="estimated_order",
+            value=rl_order.estimated_order,
+            passed=row_passed(rl_order),
+            details=(
+                f"expected~={rl_order.expected_order:.3f}; "
+                f"alpha={order}; two_sided"
+            ),
+        ),
+        ValidationSummaryRow(
+            area="convergence",
+            case="solver_endpoint_order",
+            metric="estimated_order",
+            value=solver_order.estimated_order,
+            passed=row_passed(solver_order),
+            details=(
+                f"expected>={solver_order.expected_order:.3f}; "
+                f"alpha={order}; lower_bound"
             ),
         ),
         ValidationSummaryRow(

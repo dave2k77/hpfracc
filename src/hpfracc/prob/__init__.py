@@ -7,6 +7,7 @@ from hpfracc.prob.calibration import (
     grid_calibrate_scalar,
     normalize_log_weights,
     posterior_predictive,
+    weighted_quantile,
 )
 from hpfracc.prob.fsde import simulate_stochastic
 
@@ -17,5 +18,6 @@ __all__ = [
     "grid_calibrate_scalar",
     "normalize_log_weights",
     "posterior_predictive",
+    "weighted_quantile",
     "simulate_stochastic",
 ]

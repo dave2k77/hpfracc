@@ -14,7 +14,12 @@ from dataclasses import dataclass
 
 import jax.numpy as jnp
 
-from hpfracc.ops import caputo, caputo_power_law, grunwald_letnikov, riemann_liouville
+from hpfracc.ops import (
+    caputo,
+    caputo_power_law,
+    riemann_liouville,
+    riemann_liouville_power_law,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -90,31 +95,73 @@ def caputo_constant_rows(
     return rows
 
 
-def rl_gl_consistency_rows(
+def riemann_liouville_power_law_rows(
     *,
     order: float = 0.5,
+    power: float = 2.0,
     n_steps_values: Sequence[int] = (21, 41, 81),
 ) -> list[ValidationRow]:
-    """Compute RL/GL consistency under the v0.1 baseline discretisation."""
+    """Compute RL errors against the analytic ``t**power`` reference.
+
+    This validates the RL derivative against analytic ground truth rather than
+    against the identical GL code path, so the error is a genuine discretisation
+    error (not a tautological zero).
+    """
 
     rows: list[ValidationRow] = []
     for n_steps in n_steps_values:
         t = jnp.linspace(0.0, 1.0, n_steps)
         dt = float(t[1] - t[0])
-        x = t**2
-        rl = riemann_liouville(x, dt=dt, order=order)
-        gl = grunwald_letnikov(x, dt=dt, order=order)
-        error = float(jnp.max(jnp.abs(rl - gl)))
+        x = t**power
+        actual = riemann_liouville(x, dt=dt, order=order)
+        expected = riemann_liouville_power_law(t, power=power, order=order)
+        error = float(jnp.max(jnp.abs(actual[1:] - expected[1:])))
         rows.append(
             ValidationRow(
                 operator="riemann_liouville",
-                case="gl_baseline_consistency",
+                case="rl_power_law",
                 order=order,
-                power=2.0,
+                power=power,
                 n_steps=n_steps,
                 dt=dt,
                 max_abs_error=error,
-                reference="grunwald_letnikov",
+                reference="analytic_riemann_liouville_power_law",
+            )
+        )
+    return rows
+
+
+def riemann_liouville_constant_rows(
+    *,
+    order: float = 0.5,
+    n_steps_values: Sequence[int] = (21, 41, 81),
+) -> list[ValidationRow]:
+    """Compute RL errors for a constant against ``t**(-alpha) / Gamma(1 - alpha)``.
+
+    The decisive RL-vs-Caputo case: the RL derivative of a constant is nonzero.
+    The reference is singular at ``t = 0``, so the error is measured over the
+    interior region ``t >= 0.5`` where the GL discretisation is in its smooth,
+    convergent regime.
+    """
+
+    rows: list[ValidationRow] = []
+    for n_steps in n_steps_values:
+        t = jnp.linspace(0.0, 1.0, n_steps)
+        dt = float(t[1] - t[0])
+        actual = riemann_liouville(jnp.ones((n_steps,)), dt=dt, order=order)
+        expected = riemann_liouville_power_law(t, power=0.0, order=order)
+        interior = t >= 0.5
+        error = float(jnp.max(jnp.abs((actual - expected)[interior])))
+        rows.append(
+            ValidationRow(
+                operator="riemann_liouville",
+                case="rl_constant",
+                order=order,
+                power=0.0,
+                n_steps=n_steps,
+                dt=dt,
+                max_abs_error=error,
+                reference="analytic_riemann_liouville_constant",
             )
         )
     return rows
@@ -135,7 +182,12 @@ def generate_rows(
             power=power,
             n_steps_values=n_steps_values,
         ),
-        *rl_gl_consistency_rows(order=order, n_steps_values=n_steps_values),
+        *riemann_liouville_power_law_rows(
+            order=order,
+            power=power,
+            n_steps_values=n_steps_values,
+        ),
+        *riemann_liouville_constant_rows(order=order, n_steps_values=n_steps_values),
     ]
 
 

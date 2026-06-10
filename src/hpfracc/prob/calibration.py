@@ -58,6 +58,47 @@ def normalize_log_weights(log_weights: PyTree) -> Any:
     return jax.nn.softmax(_jnp().asarray(log_weights))
 
 
+def weighted_quantile(values: PyTree, weights: PyTree, q: float) -> Any:
+    """Quantile of a discrete weighted distribution along the leading axis.
+
+    ``values`` has the weighted (grid/sample) axis first, shape ``(n, ...)``;
+    ``weights`` is a length-``n`` non-negative vector (it is renormalized here).
+
+    This uses the right-continuous inverse empirical CDF: the ``q``-quantile is
+    the smallest value whose cumulative weight, in ascending value order, is at
+    least ``q``. It is the *exact* quantile of the discrete grid-weighted
+    predictive distribution and makes no smoothness assumption between grid
+    points -- so a near-degenerate posterior collapses the quantile onto the
+    dominant trajectory rather than interpolating toward improbable neighbours.
+
+    Unlike an unweighted quantile, this respects ``weights``: reweighting the
+    grid changes the result.
+    """
+
+    if not 0.0 <= float(q) <= 1.0:
+        msg = f"Expected quantile level q in [0, 1], got {q}."
+        raise ValueError(msg)
+
+    jnp = _jnp()
+    values = jnp.asarray(values)
+    weights = jnp.asarray(weights)
+    total = jnp.sum(weights)
+    normalized = weights / total
+
+    order = jnp.argsort(values, axis=0)
+    sorted_values = jnp.take_along_axis(values, order, axis=0)
+    weight_shape = (values.shape[0],) + (1,) * (values.ndim - 1)
+    broadcast_weights = jnp.broadcast_to(normalized.reshape(weight_shape), values.shape)
+    sorted_weights = jnp.take_along_axis(broadcast_weights, order, axis=0)
+
+    cumulative = jnp.cumsum(sorted_weights, axis=0)
+    # First sorted position whose cumulative weight reaches q. The small
+    # tolerance keeps exact cumulative-weight boundaries on the lower side.
+    at_or_above = cumulative >= (float(q) - 1e-12)
+    index = jnp.argmax(at_or_above, axis=0)
+    return jnp.take_along_axis(sorted_values, index[None, ...], axis=0)[0]
+
+
 def grid_calibrate_scalar(
     model: NeuralFODE,
     *,
@@ -133,8 +174,10 @@ def posterior_predictive(
     reshape = (normalized.shape[0],) + (1,) * (stacked.ndim - 1)
     mean = jnp.sum(stacked * normalized.reshape(reshape), axis=0)
     alpha = (1.0 - float(interval_mass)) / 2.0
-    lower = jnp.quantile(stacked, alpha, axis=0)
-    upper = jnp.quantile(stacked, 1.0 - alpha, axis=0)
+    # Weighted quantiles so the band reflects the posterior, not the raw grid
+    # spread. An unweighted jnp.quantile here would ignore ``normalized``.
+    lower = weighted_quantile(stacked, normalized, alpha)
+    upper = weighted_quantile(stacked, normalized, 1.0 - alpha)
     return PosteriorPredictiveResult(
         trajectories=stacked,
         mean=mean,
