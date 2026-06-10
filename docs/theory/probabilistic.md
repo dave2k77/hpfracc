@@ -21,15 +21,36 @@ result = hp.prob.simulate_stochastic(
 )
 ```
 
+for `D_C^alpha y(t) = f(t, y) + g(t, y) xi(t)` with Gaussian white noise `xi`.
 The diffusion callable uses the same signature as deterministic dynamics:
 
 ```python
 g(t, state, params, *, rng_key=None, inputs=None)
 ```
 
-This surface is explicitly experimental. It uses an Euler-Maruyama-style
-additive perturbation and should not be cited as a validated stochastic
-fractional numerical method.
+In integral form the stochastic term is the Riemann-Liouville fractional
+integral of the noise. It is discretised as a fractional Euler-Maruyama step in
+which each Brownian increment is weighted by the exact per-interval kernel
+variance
+
+```text
+w_{j,n} = integral_{t_j}^{t_{j+1}} (t_n - s)^(2 alpha - 2) ds
+```
+
+so that the simulated variance matches the analytic variance of the linear
+additive FSDE,
+
+```text
+Var(y(t)) = sigma^2 * integral_0^t [tau^(alpha-1) E_{alpha,alpha}(lambda tau^alpha)]^2 dtau.
+```
+
+The solver is restricted to `alpha > 1/2`: for `alpha <= 1/2` the stochastic
+fractional integral of white noise is singular and the variance integral
+diverges, so `simulate_stochastic` raises `ValueError` there.
+
+This surface remains experimental. The variance match is validated for the
+linear additive case; general nonlinear drift and state-dependent (multiplicative)
+diffusion are not yet validated beyond reproducibility and mean behaviour.
 
 ## Calibration
 

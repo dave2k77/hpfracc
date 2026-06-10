@@ -1,11 +1,35 @@
 from __future__ import annotations
 
+import math
+
 import pytest
 
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
 import hpfracc as hp
+
+
+def _mittag_leffler_two(alpha: float, beta: float, z: jax.Array, terms: int = 140):
+    total = jnp.zeros_like(z)
+    for k in range(terms):
+        total = total + z**k / math.gamma(alpha * k + beta)
+    return total
+
+
+def _analytic_fsde_variance(
+    final_time: float, alpha: float, rate: float, sigma: float, n: int = 4000
+) -> float:
+    # Var(y(T)) = sigma^2 * integral_0^T [tau^(alpha-1) E_{alpha,alpha}(rate tau^alpha)]^2 dtau.
+    # The substitution tau = u^2 removes the mild tau^(2 alpha - 2) endpoint
+    # singularity (integrable for alpha > 1/2), so a midpoint rule is accurate.
+    root_t = final_time**0.5
+    du = root_t / n
+    u = (jnp.arange(n) + 0.5) * du
+    tau = u**2
+    kernel = tau ** (alpha - 1.0) * _mittag_leffler_two(alpha, alpha, rate * tau**alpha)
+    integrand = (kernel**2) * 2.0 * u
+    return float(sigma**2 * jnp.sum(integrand) * du)
 
 
 def linear_dynamics(
@@ -93,6 +117,83 @@ def test_stochastic_simulation_changes_with_key() -> None:
     )
 
     assert not jnp.allclose(first.latent_state, second.latent_state)
+
+
+def test_stochastic_fsde_variance_matches_analytic() -> None:
+    # The headline validity check: the simulated variance must track the analytic
+    # variance of the linear additive FSDE. The old dt**0.5 scheme was wrong by
+    # ~50x, so a generous tolerance still discriminates strongly.
+    alpha, rate, sigma, y0, final_time = 0.8, -0.8, 0.5, 1.0, 1.0
+    ts = jnp.linspace(0.0, final_time, 41)
+    solver = hp.solvers.PredictorCorrector(dt=float(ts[1] - ts[0]), order=alpha)
+    params = {"rate": jnp.asarray(rate), "noise": jnp.asarray(sigma)}
+
+    def one(key: jax.Array) -> jax.Array:
+        return hp.prob.simulate_stochastic(
+            model=linear_dynamics,
+            diffusion=constant_diffusion,
+            ts=ts,
+            solver=solver,
+            initial_state=jnp.asarray(y0),
+            params=params,
+            rng_key=key,
+        ).latent_state
+
+    keys = jax.random.split(jax.random.PRNGKey(0), 4000)
+    paths = jax.jit(jax.vmap(one))(keys)
+    mc_variance = float(jnp.var(paths[:, -1]))
+    analytic = _analytic_fsde_variance(final_time, alpha, rate, sigma)
+
+    assert 0.8 < mc_variance / analytic < 1.3, (mc_variance, analytic)
+
+
+def test_stochastic_fsde_mean_matches_deterministic_solution() -> None:
+    # The noise is mean-zero, so the sample mean must reproduce the deterministic
+    # Mittag-Leffler trajectory from the deterministic solver.
+    alpha, rate, sigma, y0 = 0.8, -0.8, 0.5, 1.0
+    ts = jnp.linspace(0.0, 1.0, 41)
+    solver = hp.solvers.PredictorCorrector(dt=float(ts[1] - ts[0]), order=alpha)
+    params = {"rate": jnp.asarray(rate), "noise": jnp.asarray(sigma)}
+
+    def one(key: jax.Array) -> jax.Array:
+        return hp.prob.simulate_stochastic(
+            model=linear_dynamics,
+            diffusion=constant_diffusion,
+            ts=ts,
+            solver=solver,
+            initial_state=jnp.asarray(y0),
+            params=params,
+            rng_key=key,
+        ).latent_state
+
+    keys = jax.random.split(jax.random.PRNGKey(1), 4000)
+    mc_mean_final = float(jnp.mean(jax.jit(jax.vmap(one))(keys)[:, -1]))
+
+    deterministic = hp.solvers.simulate(
+        model=linear_dynamics,
+        ts=ts,
+        solver=solver,
+        initial_state=jnp.asarray(y0),
+        params={"rate": jnp.asarray(rate)},
+    ).latent_state
+    assert abs(mc_mean_final - float(deterministic[-1])) < 0.03
+
+
+@pytest.mark.parametrize("order", [0.5, 0.3])
+def test_stochastic_fsde_rejects_order_at_or_below_half(order: float) -> None:
+    ts = jnp.linspace(0.0, 1.0, 11)
+    solver = hp.solvers.PredictorCorrector(dt=float(ts[1] - ts[0]), order=order)
+    params = {"rate": jnp.asarray(-0.5), "noise": jnp.asarray(0.1)}
+    with pytest.raises(ValueError, match="order > 0.5"):
+        hp.prob.simulate_stochastic(
+            model=linear_dynamics,
+            diffusion=constant_diffusion,
+            ts=ts,
+            solver=solver,
+            initial_state=jnp.asarray(1.0),
+            params=params,
+            rng_key=jax.random.PRNGKey(0),
+        )
 
 
 def test_gaussian_log_likelihood_prefers_closer_predictions() -> None:
