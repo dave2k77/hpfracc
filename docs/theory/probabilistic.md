@@ -38,13 +38,19 @@ independent Gaussian observation model. It returns log likelihoods, normalized
 posterior weights, and the best grid value.
 
 `hp.prob.posterior_predictive` evaluates trajectories over a scalar parameter
-grid and returns trajectory samples, a weighted mean, and simple interval
-summaries.
+grid and returns trajectory samples, a posterior-weighted mean, and
+posterior-weighted credible intervals. The intervals are quantiles of the
+discrete grid-weighted predictive distribution via `hp.prob.weighted_quantile`,
+so reweighting the grid changes the band; a near-degenerate posterior collapses
+the band onto the dominant trajectory.
 
 ## Assumptions
 
 - Observational errors are independent Gaussian errors with a user-supplied
   positive `noise_scale`.
 - Calibration currently targets scalar grid searches.
-- Posterior predictive intervals are simple empirical grid quantiles.
+- Posterior predictive intervals are quantiles of the discrete grid-weighted
+  predictive distribution, not unweighted grid quantiles. Because that
+  distribution is discrete, the bands are step-valued between grid points rather
+  than smoothly interpolated.
 - NumPyro integration is deferred until these small contracts stabilize.

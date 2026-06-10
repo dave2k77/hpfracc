@@ -25,7 +25,7 @@ use.
 | Basic numerical stability checks | Smoke-tested for constant zero response and non-amplifying scalar decay. | `uv run python -m benchmarks.numerical.stability`. |
 | Baseline benchmark context | Local CPU-oriented timing rows include backend/platform context. | `uv run python -m benchmarks.numerical.baseline`. |
 | Stochastic reproducibility mechanics | Reproducibility with fixed PRNG keys and variation across keys are tested for the additive-noise helper. | Unit tests in `tests/unit/test_probabilistic_phase5.py`. |
-| Scalar-grid probabilistic calibration behavior | Tested for Gaussian likelihood preference, nearby scalar parameter recovery, normalized posterior weights, and posterior-predictive summary shape. | Unit tests in `tests/unit/test_probabilistic_phase5.py` and the calibration example. |
+| Scalar-grid probabilistic calibration behavior | Tested for Gaussian likelihood preference, nearby scalar parameter recovery, normalized posterior weights, posterior-predictive summary shape, and posterior-weighted credible intervals (the band tracks the posterior and stays within trajectory support). | Unit tests in `tests/unit/test_probabilistic_phase5.py` and the calibration example. |
 | Runtime provenance capture | Tested for JSON-compatible runtime context and graceful operation without git. | Unit tests in `tests/unit/test_provenance.py`. |
 
 ## Provisional Capabilities

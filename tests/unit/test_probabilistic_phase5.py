@@ -152,3 +152,92 @@ def test_posterior_predictive_returns_weighted_summary() -> None:
     assert result.lower.shape == (11,)
     assert result.upper.shape == (11,)
     assert jnp.isclose(jnp.sum(result.weights), 1.0)
+
+
+def test_weighted_quantile_matches_known_discrete_cases() -> None:
+    two = jnp.asarray([0.0, 10.0])
+    # The weighted median follows the mass: 0.9 on the low point -> low point.
+    assert float(hp.prob.weighted_quantile(two, jnp.asarray([0.9, 0.1]), 0.5)) == 0.0
+    assert float(hp.prob.weighted_quantile(two, jnp.asarray([0.1, 0.9]), 0.5)) == 10.0
+
+    four = jnp.asarray([0.0, 1.0, 2.0, 3.0])
+    uniform = jnp.ones(4)
+    assert float(hp.prob.weighted_quantile(four, uniform, 0.05)) == 0.0
+    assert float(hp.prob.weighted_quantile(four, uniform, 0.5)) == 1.0
+    assert float(hp.prob.weighted_quantile(four, uniform, 0.95)) == 3.0
+
+
+def test_weighted_quantile_is_vectorized_over_columns() -> None:
+    # Leading axis is the weighted (grid) axis; each column resolved independently.
+    stacked = jnp.asarray([[0.0, 0.0], [1.0, 5.0], [2.0, 9.0]])
+    lower = hp.prob.weighted_quantile(stacked, jnp.ones(3), 0.05)
+    upper = hp.prob.weighted_quantile(stacked, jnp.ones(3), 0.95)
+    assert jnp.allclose(lower, jnp.asarray([0.0, 0.0]))
+    assert jnp.allclose(upper, jnp.asarray([2.0, 9.0]))
+
+
+def test_weighted_quantile_rejects_out_of_range_q() -> None:
+    with pytest.raises(ValueError, match="quantile level"):
+        hp.prob.weighted_quantile(jnp.asarray([0.0, 1.0]), jnp.ones(2), 1.5)
+
+
+def _final_band(weights: jax.Array) -> tuple[float, float, float]:
+    model = make_model()
+    ts = jnp.linspace(0.0, 0.5, 11)
+    grid = jnp.asarray([-1.2, -0.8, -0.4])
+    result = hp.prob.posterior_predictive(
+        model,
+        ts=ts,
+        initial_state=jnp.asarray(1.0),
+        parameter_name="rate",
+        parameter_grid=grid,
+        weights=weights,
+    )
+    return float(result.lower[-1]), float(result.mean[-1]), float(result.upper[-1])
+
+
+def test_posterior_predictive_interval_respects_weights() -> None:
+    # Regression guard for the original bug, where lower/upper used an unweighted
+    # quantile and were identical across different posteriors. The grid is
+    # [-1.2, -0.8, -0.4]; faster decay (-1.2) gives the lowest final value.
+    low_lower, _, low_upper = _final_band(jnp.asarray([0.98, 0.01, 0.01]))
+    high_lower, _, high_upper = _final_band(jnp.asarray([0.01, 0.01, 0.98]))
+
+    # Different posteriors must yield different bands (the bug made them equal).
+    assert not jnp.isclose(low_lower, high_lower)
+    assert not jnp.isclose(low_upper, high_upper)
+    # A posterior concentrated on fast decay sits entirely below one concentrated
+    # on slow decay.
+    assert low_upper < high_lower
+
+
+def test_posterior_predictive_band_stays_within_trajectory_support() -> None:
+    model = make_model()
+    ts = jnp.linspace(0.0, 0.5, 11)
+    grid = jnp.asarray([-1.2, -0.8, -0.4])
+    weights = jnp.asarray([0.2, 0.5, 0.3])
+    result = hp.prob.posterior_predictive(
+        model,
+        ts=ts,
+        initial_state=jnp.asarray(1.0),
+        parameter_name="rate",
+        parameter_grid=grid,
+        weights=weights,
+    )
+    per_time_min = jnp.min(result.trajectories, axis=0)
+    per_time_max = jnp.max(result.trajectories, axis=0)
+    assert jnp.all(result.lower >= per_time_min - 1e-6)
+    assert jnp.all(result.upper <= per_time_max + 1e-6)
+    assert jnp.all(result.upper >= result.lower)
+
+
+def test_posterior_predictive_concentrated_weight_collapses_band() -> None:
+    # 90% interval of a posterior with ~all mass on one grid point is that point.
+    lower, _, upper = _final_band(jnp.asarray([0.001, 0.998, 0.001]))
+    assert jnp.isclose(lower, upper, atol=1e-6)
+
+
+def test_posterior_predictive_uniform_weight_brackets_mean() -> None:
+    # For a symmetric uniform grid weighting the mean lies inside the band.
+    lower, mean, upper = _final_band(jnp.asarray([1.0, 1.0, 1.0]))
+    assert lower <= mean <= upper
