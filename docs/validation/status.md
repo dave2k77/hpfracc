@@ -17,6 +17,7 @@ use.
 | --- | --- | --- |
 | Caputo derivative of constants | Validated for the v0.1 full-history L1 implementation. | Unit tests and `uv run python -m benchmarks.numerical.operator_validation.report`. |
 | Caputo power-law references | Validated against analytic `t**power` references with refinement checks. | Unit tests and operator validation report. |
+| Observed convergence order | Validated that the Caputo L1 operator attains max-norm order `2 - alpha` and the predictor-corrector solver attains endpoint order `1 + alpha`, by float64 grid-refinement slope estimates. | Unit tests in `tests/unit/test_convergence_order.py` and `uv run python -m benchmarks.numerical.convergence`. |
 | Riemann-Liouville / Grunwald-Letnikov consistency | Validated as a v0.1 baseline-discretization consistency check. | Operator validation report. |
 | JAX JIT compatibility | Smoke-tested for representative operators and solver calls. | Unit tests for JIT-compatible operator and solver paths. |
 | Input/parameter differentiability | Validated with finite-difference checks for representative operator and solver quantities. | `uv run python -m benchmarks.numerical.gradient_checks` and unit tests. |
@@ -62,6 +63,13 @@ Run component validation checks when detailed rows are needed:
 ```bash
 uv run python -m benchmarks.numerical.gradient_checks
 uv run python -m benchmarks.numerical.stability
+```
+
+Run the observed-convergence-order report (estimates empirical orders against
+the expected `2 - alpha` operator and `1 + alpha` solver rates):
+
+```bash
+uv run python -m benchmarks.numerical.convergence
 ```
 
 Run the baseline benchmark for local timing context:
