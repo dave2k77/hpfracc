@@ -2,7 +2,7 @@
 
 ## 0.1.0a0
 
-Status: unreleased pre-alpha candidate.
+Status: pre-alpha candidate, released 2026-06-10.
 
 - Initial project skeleton.
 - Added full-history fractional operators, operator validation, and scaling
