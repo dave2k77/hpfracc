@@ -19,3 +19,26 @@ Status: unreleased pre-alpha candidate.
 - Added runtime provenance capture with `hp.config.current_provenance()`.
 - Added Phase 6 alpha release-readiness documentation, validation status
   summary, release checklist, and smoke-tested example documentation.
+
+### Numerical correctness fixes (2026-06-10 core review)
+
+- Added an observed-convergence-order harness
+  (`benchmarks.numerical.convergence`, `tests/unit/test_convergence_order.py`)
+  verifying the Caputo L1 operator attains max-norm order `2 - alpha`, the
+  Grunwald-Letnikov / Riemann-Liouville operators attain first order `O(h)`, and
+  the predictor-corrector solver attains endpoint order `1 + alpha`.
+- Replaced the tautological Riemann-Liouville-equals-Grunwald-Letnikov check
+  with genuine analytic validation: added `hp.ops.riemann_liouville_power_law`
+  and the decisive constant case (`t**(-alpha) / Gamma(1 - alpha)`,
+  distinguishing RL from Caputo).
+- Fixed `hp.prob.posterior_predictive` credible intervals to respect posterior
+  weights via a new `hp.prob.weighted_quantile`; previously the bands ignored the
+  posterior entirely.
+- Re-expressed the Caputo predictor-corrector solver with `jax.lax.scan` over a
+  preallocated history buffer for a bounded autodiff graph and tractable
+  reverse-mode differentiation; also widened the time-grid uniformity tolerance
+  to a ULP-scaled atol so large uniform float32 grids are accepted.
+- Derived and validated the additive-noise FSDE noise scaling as a fractional
+  Euler-Maruyama scheme with exact per-interval kernel-variance weights
+  (validated against the analytic variance by Monte-Carlo); restricted to
+  `alpha > 1/2`.
