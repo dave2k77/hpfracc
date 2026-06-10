@@ -12,8 +12,8 @@ performance claim.
 | File | Purpose |
 | --- | --- |
 | `provenance.json` | Runtime context captured with `hp.config.current_provenance()`. |
-| `validation_summary.csv` | Aggregate pass/fail rows for operator, solver, gradient, and stability checks. |
-| `operator_validation.csv` | Detailed operator correctness rows. |
+| `validation_summary.csv` | Aggregate pass/fail rows for operator, solver, convergence-order, gradient, and stability checks. |
+| `operator_validation.csv` | Detailed operator correctness rows, including Caputo and Riemann-Liouville analytic-reference errors. |
 | `solver_validation.csv` | Detailed scalar Caputo FDE solver refinement rows. |
 | `baseline.csv` | Local CPU-oriented operator and solver timing rows. |
 

@@ -20,8 +20,29 @@ trailing state dimensions.
 
 ### Riemann-Liouville
 
-`hp.ops.riemann_liouville(x, dt=..., order=...)` currently uses the GL
-full-history discretisation as the baseline uniform-grid approximation to the
+`hp.ops.riemann_liouville(x, dt=..., order=...)` computes the lower-terminal
+Riemann-Liouville derivative *through* the Grunwald-Letnikov full-history
+discretisation, which is first-order (`O(dt)`) consistent with the RL derivative
+on a uniform grid with zero history before `t = 0`. RL and GL therefore share an
+implementation by design.
+
+This is validated against the analytic RL reference, not against the identical
+GL code path:
+
+```text
+D_RL^alpha t**beta = Gamma(beta + 1) / Gamma(beta + 1 - alpha) * t**(beta - alpha)
+```
+
+available as `hp.ops.riemann_liouville_power_law(t, power=..., order=...)`. The
+decisive case is the constant `beta = 0`, where the RL derivative is
+
+```text
+t**(-alpha) / Gamma(1 - alpha)
+```
+
+which is nonzero and singular at `t = 0`. This is the term by which RL and
+Caputo differ (`D_RL^alpha f = D_C^alpha f + f(0) t**(-alpha) / Gamma(1 - alpha)`)
+and it is the reason a constant has a zero Caputo derivative but a nonzero
 Riemann-Liouville derivative.
 
 ### Caputo
