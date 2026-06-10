@@ -25,6 +25,7 @@ use.
 | Basic numerical stability checks | Smoke-tested for constant zero response and non-amplifying scalar decay. | `uv run python -m benchmarks.numerical.stability`. |
 | Baseline benchmark context | Local CPU-oriented timing rows include backend/platform context. | `uv run python -m benchmarks.numerical.baseline`. |
 | Stochastic reproducibility mechanics | Reproducibility with fixed PRNG keys and variation across keys are tested for the additive-noise helper. | Unit tests in `tests/unit/test_probabilistic_phase5.py`. |
+| Additive-noise FSDE variance | For the linear additive FSDE (`alpha > 1/2`), the simulated variance matches the analytic variance `sigma^2 * integral [tau^(alpha-1) E_{alpha,alpha}(lambda tau^alpha)]^2 dtau` (Monte-Carlo check) and the sample mean reproduces the deterministic Mittag-Leffler solution. The solver rejects `alpha <= 1/2`. | Unit tests in `tests/unit/test_probabilistic_phase5.py`. |
 | Scalar-grid probabilistic calibration behavior | Tested for Gaussian likelihood preference, nearby scalar parameter recovery, normalized posterior weights, posterior-predictive summary shape, and posterior-weighted credible intervals (the band tracks the posterior and stays within trajectory support). | Unit tests in `tests/unit/test_probabilistic_phase5.py` and the calibration example. |
 | Runtime provenance capture | Tested for JSON-compatible runtime context and graceful operation without git. | Unit tests in `tests/unit/test_provenance.py`. |
 
@@ -35,8 +36,9 @@ research infrastructure yet:
 
 - Gradients with respect to fractional order `alpha`.
 - Numerical behavior for long time horizons or very large state dimensions.
-- General stochastic fractional differential equation accuracy beyond the
-  additive-noise reproducibility smoke tests.
+- Stochastic fractional differential equation accuracy beyond the linear
+  additive-noise variance check: nonlinear drift, state-dependent
+  (multiplicative) diffusion, and `alpha <= 1/2` noise are not validated.
 - Broad Bayesian inference workflows beyond scalar-grid Gaussian calibration.
 - Performance claims outside the local benchmark context.
 - Biological, neural, EEG, clinical, diagnostic, or subject-specific realism.
