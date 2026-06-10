@@ -74,6 +74,7 @@ def test_validation_summary_reports_all_areas_passing() -> None:
         "solver",
         "gradient",
         "stability",
+        "convergence",
     }
     assert all(row.passed for row in rows)
 
