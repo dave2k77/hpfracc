@@ -11,8 +11,23 @@ Current status:
 - Phase 3: Complete in the current working tree.
 - Phase 4: Complete in the current working tree.
 - Phase 5: Complete in the current working tree.
-- Phase 6: Complete in the current working tree.
-- Active phase: Phase 7, neural mass and neural field foundations.
+- Phase 6: Complete in the current working tree (v0.1.0a0 released and tagged).
+- Active phase: Phase A, hardening the numerical core.
+
+The post-alpha roadmap below (Phases A-D) supersedes the earlier
+Phases 7-9 sketch. It maps the path from the released v0.1.0a0 "minimal viable
+scientific kernel" to the full layered blueprint in
+`hpfracc_design_specification.pdf`, sequenced Core-first per the v0.1 priority
+order. Four standing decisions constrain it:
+
+1. Core-first: harden the mathematical engine before the brain stack.
+2. No NumPyro: the probabilistic layer stays dependency-free and JAX-native,
+   evolving the hand-rolled approach toward SVI/MCMC while preserving the public
+   `hp.prob` surface.
+3. Additive growth: keep the flat `ops/`, `solvers/`, `prob/` layout and add new
+   sibling modules; do not refactor into the blueprint's granular directory tree.
+4. Preserve the released API: all additions are additive, with deprecation paths
+   for any later incompatible change.
 
 ## Phase 0: Project Spine and Governance
 
@@ -193,53 +208,113 @@ Exit criteria:
 Task backlog: see [Phase 6 Alpha Backlog](phase-6-research-ready-alpha.md).
 Release gate: see the [v0.1 Alpha Release Checklist](release-checklist.md).
 
-## Phase 7: Neural Mass and Neural Field Foundations
+## Phase A: Harden the Numerical Core
 
-Status: Planned.
+Status: Active.
 
-Goal: introduce domain-relevant dynamical systems downstream of the numerical
-core.
-
-Deliverables:
-
-- Experimental fractional Wilson-Cowan model.
-- Neural field design note or prototype.
-- Regime and sensitivity tests.
-
-Exit criteria:
-
-- Model-relative behavior is documented.
-- No biological or clinical realism claims are made.
-
-## Phase 8: Observation, Metrics, and Phantom-Brain MVP
-
-Goal: build the first end-to-end research demonstration.
+Goal: make the mathematical engine broad, fast, and trustworthy enough to carry
+the SciML and brain layers before any domain code depends on it.
 
 Deliverables:
 
-- Linear observation model.
-- PSD slope, DFA, and minimal avalanche/branching metrics.
-- Small phantom-brain network of validated neural mass nodes.
+- Memory-efficient kernels (opt-in, never silently substituted for full-history):
+  FFT-accelerated history convolution, short-memory truncation, sum-of-exponentials
+  compression.
+- Solver breadth: adaptive-step control and an implicit scheme for stiff regimes,
+  alongside the existing predictor-corrector, reusing the `lax.scan` history-buffer
+  pattern and returning the same `SimulationResult`.
+- Grid and order generality: nonuniform time grids and vector / per-state
+  fractional orders extending today's scalar `0 < alpha < 1`.
+- Validated gradients with respect to fractional order `alpha` (promoted from
+  provisional).
+- Test-tier build-out: `tests/property/` (hypothesis identities),
+  `tests/regression/` (golden artifacts), `tests/performance/`, plus convergence
+  checks for every new scheme.
 
 Exit criteria:
 
-- Synthetic EEG-like demonstration runs end to end.
-- Metric assumptions and warnings are explicit.
+- Every new operator/solver has analytic, convergence-order, gradient, and JIT
+  validation.
+- Compressed-memory paths are proven bit-equivalent or bounded versus full-history.
+- `python -m pytest` and `mkdocs build --strict` pass; the validation summary
+  covers the new areas; `docs/validation/status.md` is updated.
 
-## Phase 9: Scaling, Release, and Publication Readiness
+## Phase B: SciML Depth
 
-Goal: prepare a credible open-source research release.
+Goal: turn the single `NeuralFODE` into a real differentiable-modelling layer and
+grow inference natively (no NumPyro).
 
 Deliverables:
 
-- Optional compressed-memory strategies.
-- Multi-device design ADR.
-- Benchmark and validation reports.
-- API stability review.
-- Versioned `0.1.0` research release.
+- `hp.nn`: `NeuralFSDE` on the Phase A stochastic solver, PINN-style residual
+  losses, and graph-coupled dynamics on `(n_nodes, n_nodes)` connectivity.
+- `hp.train`: `Trainer`, losses, loops, callbacks, checkpoints, with Optax as an
+  optional optimizer dependency and a pure-pytree fallback.
+- `hp.prob`: extend the hand-rolled JAX-native layer toward variational inference
+  and a simple MCMC sampler, preserving the public `hp.prob.fit` /
+  `hp.prob.posterior_predictive` shape.
+- Probabilistic validation: parameter recovery, posterior predictive checks, and
+  simulation-based calibration on controlled examples.
 
 Exit criteria:
 
-- Validation report is complete.
-- Benchmark report is complete.
-- Docs and citation metadata are ready.
+- Gradients flow through all new model types.
+- One synthetic recovery example per model class.
+- SVI/MCMC validated on a closed-form posterior; `tests/integration/` covers a
+  fit-to-predict round trip.
+
+## Phase C: Brain MVP - Observation, Metrics, Phantom Brain
+
+Goal: deliver the blueprint headline, the end-to-end phantom-brain to EEG to
+criticality demonstration.
+
+Deliverables:
+
+- `hp.brain`: `connectomes.random_modular`, `node_models.FractionalWilsonCowan`,
+  and `phantom.PhantomBrain` composing connectome, node model, and observation
+  model, runnable through `hp.solvers.simulate`.
+- `hp.observe`: `eeg.LinearLeadField` and `observe.run` for the latent-to-sensor
+  forward map, in deterministic and probabilistic observation modes.
+- `hp.metrics`: trajectory, spectral, and uncertainty summaries, and the headline
+  `criticality.report(eeg, metrics=["psd_slope", "dfa", "avalanche",
+  "branching_ratio"])` returning structured output that separates point from
+  interval estimates.
+- `hp.data`: synthetic EEG-like dataset generation from tunable phantom brains.
+- Domain validation: regime control (subcritical, near-critical, supercritical),
+  spectral-slope control, and avalanche/branching where model-appropriate, with a
+  `benchmarks/criticality/` suite.
+
+Guardrails: every brain and metric output carries the non-clinical, model-relative
+disclaimer; "ground truth" stays mechanism-relative; criticality signatures are
+documented as model- and measurement-dependent.
+
+Exit criteria:
+
+- The phantom-brain example runs end to end.
+- Metric assumptions and failure modes are documented; regime-control tests pass;
+  all brain APIs are labeled experimental.
+
+## Phase D: Reproducibility Infrastructure, Scaling, and Research Release
+
+Goal: make the expanded platform reproducible, benchmarked, and publishable.
+
+Deliverables:
+
+- Experiment infrastructure: `experiments/{configs,scripts,reports,manifests}`,
+  typed `ExperimentConfig` and manifest objects, and `hp.cli`.
+- Benchmark suites: `benchmarks/{inference,scaling,criticality}` beyond today's
+  `numerical/`, with compile time, runtime, memory, node-count and
+  sequence-length scaling, and batching efficiency.
+- `hp.viz`: trajectory, spectra, network, posterior, and benchmark plotting
+  helpers.
+- A multi-device design ADR (`pmap`/`pjit`/sharding), forward-compatible without
+  required implementation.
+- Research cookbooks and tutorials, plus a full API reference.
+- A versioned research release graduating from `0.1.0a0`, with complete validation
+  and performance reports and provenance artifacts.
+
+Exit criteria:
+
+- Validation and benchmark reports are complete across all blueprint layers.
+- Experiment manifests reproduce a published-style result.
+- Docs and citation metadata are ready; the release checklist is green.
