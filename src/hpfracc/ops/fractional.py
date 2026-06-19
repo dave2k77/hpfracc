@@ -10,7 +10,14 @@ from __future__ import annotations
 from math import gamma
 from typing import Any
 
-from hpfracc.ops.base import OperatorFamily, OperatorInfo, OperatorResult
+from hpfracc.ops.base import HistoryMethod, OperatorFamily, OperatorInfo, OperatorResult
+from hpfracc.ops.kernels import (
+    _gl_weights,
+    _history_convolution,
+    _l1_weights,
+    _soe_convolution,
+    _soe_weights,
+)
 from hpfracc.ops.orders import validate_order
 
 
@@ -19,6 +26,10 @@ def grunwald_letnikov(
     *,
     dt: float,
     order: float,
+    history: HistoryMethod | str = HistoryMethod.FULL,
+    window_steps: int = 64,
+    soe_poles: int = 8,
+    soe_t_max: float | None = None,
     return_info: bool = False,
 ) -> Any:
     """Approximate a Grunwald-Letnikov fractional derivative.
@@ -31,6 +42,19 @@ def grunwald_letnikov(
         Uniform timestep. Must be positive.
     order:
         Scalar fractional order satisfying ``0 < order < 1``.
+    history:
+        History convolution strategy.  ``"full"`` (default) uses the dense
+        lower-triangular matrix; ``"fft"`` uses an FFT-accelerated causal
+        convolution; ``"short_memory"`` truncates history to ``window_steps``;
+        ``"soe"`` uses a sum-of-exponentials kernel approximation.  All
+        alternatives are opt-in and validated against the ``"full"`` reference.
+    window_steps:
+        Number of recent time steps retained when ``history="short_memory"``.
+    soe_poles:
+        Number of exponential poles when ``history="soe"``.
+    soe_t_max:
+        Physical horizon used for SOE fitting.  Defaults to the signal duration
+        ``n_steps * dt``.
 
     Returns
     -------
@@ -55,9 +79,18 @@ def grunwald_letnikov(
     _validate_time_axis(values)
 
     n_time = values.shape[0]
-    weights = _gl_weights(alpha, n_time)
-    history = _lower_triangular_history_matrix(weights)
-    result = jnp.tensordot(history, values, axes=([1], [0])) / (dt**alpha)
+    if HistoryMethod(history) is HistoryMethod.SOE:
+        t_max = (n_time * dt) if soe_t_max is None else float(soe_t_max)
+        weights = _soe_weights(
+            alpha, n_time, n_poles=soe_poles, t_max=t_max, kernel="gl"
+        )
+        conv = _soe_convolution(values, weights)
+    else:
+        weights = _gl_weights(alpha, n_time)
+        conv = _history_convolution(
+            values, weights, history=history, window_steps=window_steps
+        )
+    result = conv / (dt**alpha)
     if return_info:
         return OperatorResult(
             values=result,
@@ -67,6 +100,15 @@ def grunwald_letnikov(
                 alpha=alpha,
                 dt=dt,
                 n_steps=n_time,
+                history=history,
+                diagnostics={
+                    "history": str(history),
+                    "window_steps": window_steps,
+                    "soe_poles": soe_poles,
+                    "soe_t_max": (
+                        (n_time * dt) if soe_t_max is None else float(soe_t_max)
+                    ),
+                },
             ),
         )
     return result
@@ -77,6 +119,10 @@ def riemann_liouville(
     *,
     dt: float,
     order: float,
+    history: HistoryMethod | str = HistoryMethod.FULL,
+    window_steps: int = 64,
+    soe_poles: int = 8,
+    soe_t_max: float | None = None,
     return_info: bool = False,
 ) -> Any:
     """Approximate a Riemann-Liouville fractional derivative.
@@ -93,7 +139,15 @@ def riemann_liouville(
     distinguishing it from the Caputo derivative.
     """
 
-    result = grunwald_letnikov(x, dt=dt, order=order)
+    result = grunwald_letnikov(
+        x,
+        dt=dt,
+        order=order,
+        history=history,
+        window_steps=window_steps,
+        soe_poles=soe_poles,
+        soe_t_max=soe_t_max,
+    )
     if return_info:
         return OperatorResult(
             values=result,
@@ -103,10 +157,21 @@ def riemann_liouville(
                 alpha=validate_order(order),
                 dt=dt,
                 n_steps=result.shape[0],
+                history=history,
                 warnings=(
                     "v0.1 Riemann-Liouville is computed through the first-order "
                     "GL full-history uniform-grid discretisation.",
                 ),
+                diagnostics={
+                    "history": str(history),
+                    "window_steps": window_steps,
+                    "soe_poles": soe_poles,
+                    "soe_t_max": (
+                        (result.shape[0] * dt)
+                        if soe_t_max is None
+                        else float(soe_t_max)
+                    ),
+                },
             ),
         )
     return result
@@ -117,6 +182,10 @@ def caputo(
     *,
     dt: float,
     order: float,
+    history: HistoryMethod | str = HistoryMethod.FULL,
+    window_steps: int = 64,
+    soe_poles: int = 8,
+    soe_t_max: float | None = None,
     return_info: bool = False,
 ) -> Any:
     """Approximate a Caputo fractional derivative with the L1 scheme.
@@ -129,6 +198,20 @@ def caputo(
         Uniform timestep. Must be positive.
     order:
         Scalar fractional order satisfying ``0 < order < 1``.
+    history:
+        History convolution strategy.  ``"full"`` (default) uses the dense
+        lower-triangular matrix; ``"fft"`` uses an FFT-accelerated causal
+        convolution on the L1 increments; ``"short_memory"`` truncates history to
+        ``window_steps``; ``"soe"`` uses a sum-of-exponentials kernel
+        approximation.  All alternatives are opt-in and validated against the
+        ``"full"`` reference.
+    window_steps:
+        Number of recent time steps retained when ``history="short_memory"``.
+    soe_poles:
+        Number of exponential poles when ``history="soe"``.
+    soe_t_max:
+        Physical horizon used for SOE fitting.  Defaults to the signal duration
+        ``n_steps * dt``.
 
     Returns
     -------
@@ -156,15 +239,34 @@ def caputo(
                     alpha=alpha,
                     dt=dt,
                     n_steps=n_time,
+                    history=history,
+                    diagnostics={
+                        "history": str(history),
+                        "window_steps": window_steps,
+                        "soe_poles": soe_poles,
+                        "soe_t_max": (
+                            (n_time * dt) if soe_t_max is None else float(soe_t_max)
+                        ),
+                    },
                 ),
             )
         return result
 
     increments = values[1:] - values[:-1]
-    weights = _l1_weights(alpha, n_time - 1)
-    history = _lower_triangular_history_matrix(weights)
+    if HistoryMethod(history) is HistoryMethod.SOE:
+        t_max = (n_time * dt) if soe_t_max is None else float(soe_t_max)
+        n_inc = n_time - 1
+        weights = _soe_weights(
+            alpha, n_inc, n_poles=soe_poles, t_max=t_max, kernel="l1"
+        )
+        tail = _soe_convolution(increments, weights)
+    else:
+        weights = _l1_weights(alpha, n_time - 1)
+        tail = _history_convolution(
+            increments, weights, history=history, window_steps=window_steps
+        )
     scale = 1.0 / (gamma(2.0 - alpha) * (dt**alpha))
-    tail = jnp.tensordot(history, increments, axes=([1], [0])) * scale
+    tail = tail * scale
     result = jnp.concatenate([jnp.zeros_like(values[:1]), tail], axis=0)
     if return_info:
         return OperatorResult(
@@ -175,6 +277,15 @@ def caputo(
                 alpha=alpha,
                 dt=dt,
                 n_steps=n_time,
+                history=history,
+                diagnostics={
+                    "history": str(history),
+                    "window_steps": window_steps,
+                    "soe_poles": soe_poles,
+                    "soe_t_max": (
+                        (n_time * dt) if soe_t_max is None else float(soe_t_max)
+                    ),
+                },
             ),
         )
     return result
@@ -238,13 +349,20 @@ def _operator_info(
     alpha: float,
     dt: float,
     n_steps: int,
+    history: HistoryMethod | str = HistoryMethod.FULL,
     warnings: tuple[str, ...] = (),
+    diagnostics: dict[str, Any] | None = None,
 ) -> OperatorInfo:
+    method_label = method
+    if HistoryMethod(history) is HistoryMethod.FFT and "fft" not in method_label:
+        method_label = f"{method_label}_fft"
     return OperatorInfo(
         family=family,
-        method=method,
+        method=method_label,
         fractional_order=alpha,
         dt=float(dt),
         n_steps=int(n_steps),
+        history=HistoryMethod(history),
+        diagnostics={**(diagnostics or {}), "history": str(history)},
         warnings=warnings,
     )

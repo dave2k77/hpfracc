@@ -77,17 +77,39 @@ Fractional operators return raw arrays by default:
 dx = hp.ops.caputo(x, dt=0.01, order=0.5)
 ```
 
+The optional ``history`` argument selects the history convolution strategy while
+keeping the same output contract.  ``history="full"`` is the default and uses the
+explicit dense lower-triangular reference.  ``history="fft"`` uses an
+FFT-accelerated causal convolution that is mathematically equivalent on uniform
+grids but ``O(n log n)`` instead of ``O(n^2)``.  ``history="short_memory"``
+truncates the kernel to the most recent ``window_steps`` lags.
+``history="soe"`` fits a sum-of-exponentials approximation to the discrete
+kernel using ``soe_poles`` exponential terms:
+
+```python
+dx = hp.ops.caputo(x, dt=0.01, order=0.5, history="fft")
+dx = hp.ops.caputo(x, dt=0.01, order=0.5, history="short_memory", window_steps=64)
+dx = hp.ops.caputo(
+    x,
+    dt=0.01,
+    order=0.5,
+    history="soe",
+    soe_poles=8,
+    soe_t_max=1.0,
+)
+```
+
+New history methods remain opt-in and must be validated against the
+``"full"`` reference before they are used as defaults.
+
 When provenance or method metadata is needed, pass `return_info=True`:
 
 ```python
-result = hp.ops.caputo(x, dt=0.01, order=0.5, return_info=True)
+result = hp.ops.caputo(x, dt=0.01, order=0.5, history="fft", return_info=True)
 dx = result.values
 method = result.operator_info.method
+history = result.operator_info.history
 ```
-
-The structured result form is intended for validation, benchmarking, and
-research reporting. The array-return form remains the ergonomic default for
-numerical workflows.
 
 ## Solver Results
 
