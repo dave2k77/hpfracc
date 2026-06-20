@@ -40,10 +40,23 @@ def _two_signals(draw: st.DrawFn) -> tuple:
     return x, y, a, b
 
 
+# Run in float64: linearity holds exactly in real arithmetic, but the GL
+# ``dt**(-alpha)`` factor (large for small dt / alpha near 1) amplifies float32
+# cancellation past a 1e-5 tolerance for adversarial scalars. float64 measures the
+# algebraic property rather than single-precision roundoff. The float64 fixture is
+# set up once around all hypothesis examples, hence the function_scoped_fixture
+# health-check suppression.
+_PROPERTY_SETTINGS = settings(
+    max_examples=40,
+    deadline=None,
+    suppress_health_check=[HealthCheck.too_slow, HealthCheck.function_scoped_fixture],
+)
+
+
 @pytest.mark.parametrize("operator", [caputo, grunwald_letnikov])
-@settings(max_examples=40, deadline=None, suppress_health_check=[HealthCheck.too_slow])
+@_PROPERTY_SETTINGS
 @given(order=_orders, dt=_dts, payload=_two_signals())
-def test_operator_is_linear(operator, order, dt, payload) -> None:
+def test_operator_is_linear(operator, enable_x64, order, dt, payload) -> None:
     x, y, a, b = payload
     combined = operator(a * x + b * y, dt=dt, order=order)
     separate = a * operator(x, dt=dt, order=order) + b * operator(
@@ -52,14 +65,14 @@ def test_operator_is_linear(operator, order, dt, payload) -> None:
     assert jnp.allclose(combined, separate, rtol=1e-5, atol=1e-5)
 
 
-@settings(max_examples=40, deadline=None, suppress_health_check=[HealthCheck.too_slow])
+@_PROPERTY_SETTINGS
 @given(
     order=_orders,
     dt=_dts,
     n=_n_steps,
     constant=_signal_values,
 )
-def test_caputo_of_constant_is_zero(order, dt, n, constant) -> None:
+def test_caputo_of_constant_is_zero(enable_x64, order, dt, n, constant) -> None:
     x = jnp.full((n,), constant)
     result = caputo(x, dt=dt, order=order)
     assert jnp.allclose(result, jnp.zeros_like(x), atol=1e-6)
