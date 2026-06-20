@@ -4,6 +4,15 @@
 
 Post-alpha Phase A (harden the numerical core).
 
+- Added vector / per-state fractional orders to the `caputo`,
+  `grunwald_letnikov`, and `riemann_liouville` operators. The `order` argument now
+  accepts a per-state array broadcastable to the trailing state shape in addition
+  to a scalar; each state component is differentiated independently (validated by
+  a per-component decoupling property), the uniform-vector case reproduces the
+  scalar result exactly, and gradients with respect to the order *vector* are
+  validated against finite differences. The `full`, `fft`, and `short_memory`
+  history methods support per-state orders; `soe` raises `NotImplementedError`.
+  Added `tests/unit/test_vector_orders.py`. The fixed-step solver remains scalar.
 - Validated gradients with respect to the fractional order `alpha`, promoting
   them from provisional. The operators now build their L1 normalisation and
   weights with `jax.scipy.special.gamma` and a NaN-safe power (instead of
