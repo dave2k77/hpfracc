@@ -4,6 +4,18 @@
 
 Post-alpha Phase A (harden the numerical core).
 
+- Added non-uniform / graded time grids to the `caputo` operator. `caputo` now
+  accepts a `t=` array of (strictly increasing) time nodes as an alternative to a
+  uniform `dt`; exactly one of the two must be given. The non-uniform path uses
+  the L1 product-integration weights derived from the actual node spacings, which
+  reduce exactly to the uniform `b_k` weights on an equispaced grid and let a mesh
+  graded toward `t=0` recover accuracy for weakly-singular inputs. It is
+  full-history only and scalar-order only; `history` other than `full`, a vector
+  order, and `grunwald_letnikov` / `riemann_liouville` with `t=` all raise
+  `NotImplementedError` (GL is a uniform-shift operator with no non-uniform
+  analog). Gradients with respect to the order remain validated on the
+  non-uniform path. Added `tests/unit/test_nonuniform_grids.py`. The fixed-step
+  solver remains uniform.
 - Added vector / per-state fractional orders to the `caputo`,
   `grunwald_letnikov`, and `riemann_liouville` operators. The `order` argument now
   accepts a per-state array broadcastable to the trailing state shape in addition
