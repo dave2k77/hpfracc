@@ -15,7 +15,12 @@ from hpfracc.ops.kernels import (
     _soe_convolution,
     _soe_weights,
 )
-from hpfracc.ops.orders import as_order, validate_order
+from hpfracc.ops.orders import as_order
+
+_SOE_VECTOR_MSG = (
+    "history='soe' does not support vector / per-state fractional orders in v0.1; "
+    "use history='full', 'fft', or 'short_memory'."
+)
 
 
 def grunwald_letnikov(
@@ -38,7 +43,11 @@ def grunwald_letnikov(
     dt:
         Uniform timestep. Must be positive.
     order:
-        Scalar fractional order satisfying ``0 < order < 1``.
+        Fractional order(s) satisfying ``0 < order < 1`` elementwise. A scalar
+        applies one order to every state component; a per-state order
+        broadcastable to the trailing state shape ``x.shape[1:]`` gives each
+        component its own order, applied independently. ``"soe"`` history does not
+        support per-state orders.
     history:
         History convolution strategy.  ``"full"`` (default) uses the dense
         lower-triangular matrix; ``"fft"`` uses an FFT-accelerated causal
@@ -76,18 +85,21 @@ def grunwald_letnikov(
     _validate_time_axis(values)
 
     n_time = values.shape[0]
+    alpha_w, alpha_s, is_vector = _prepare_order(alpha, values.shape[1:])
     if HistoryMethod(history) is HistoryMethod.SOE:
+        if is_vector:
+            raise NotImplementedError(_SOE_VECTOR_MSG)
         t_max = (n_time * dt) if soe_t_max is None else float(soe_t_max)
         weights = _soe_weights(
             alpha, n_time, n_poles=soe_poles, t_max=t_max, kernel="gl"
         )
         conv = _soe_convolution(values, weights)
     else:
-        weights = _gl_weights(alpha, n_time)
+        weights = _gl_weights(alpha_w, n_time)
         conv = _history_convolution(
             values, weights, history=history, window_steps=window_steps
         )
-    result = conv / (dt**alpha)
+    result = conv / (dt**alpha_s)
     if return_info:
         return OperatorResult(
             values=result,
@@ -151,7 +163,7 @@ def riemann_liouville(
             operator_info=_operator_info(
                 family=OperatorFamily.RIEMANN_LIOUVILLE,
                 method="grunwald_letnikov_discretisation",
-                alpha=validate_order(order),
+                alpha=as_order(order),
                 dt=dt,
                 n_steps=result.shape[0],
                 history=history,
@@ -194,7 +206,11 @@ def caputo(
     dt:
         Uniform timestep. Must be positive.
     order:
-        Scalar fractional order satisfying ``0 < order < 1``.
+        Fractional order(s) satisfying ``0 < order < 1`` elementwise. A scalar
+        applies one order to every state component; a per-state order
+        broadcastable to the trailing state shape ``x.shape[1:]`` gives each
+        component its own order, applied independently. ``"soe"`` history does not
+        support per-state orders.
     history:
         History convolution strategy.  ``"full"`` (default) uses the dense
         lower-triangular matrix; ``"fft"`` uses an FFT-accelerated causal
@@ -249,8 +265,11 @@ def caputo(
             )
         return result
 
+    alpha_w, alpha_s, is_vector = _prepare_order(alpha, values.shape[1:])
     increments = values[1:] - values[:-1]
     if HistoryMethod(history) is HistoryMethod.SOE:
+        if is_vector:
+            raise NotImplementedError(_SOE_VECTOR_MSG)
         t_max = (n_time * dt) if soe_t_max is None else float(soe_t_max)
         n_inc = n_time - 1
         weights = _soe_weights(
@@ -258,11 +277,11 @@ def caputo(
         )
         tail = _soe_convolution(increments, weights)
     else:
-        weights = _l1_weights(alpha, n_time - 1)
+        weights = _l1_weights(alpha_w, n_time - 1)
         tail = _history_convolution(
             increments, weights, history=history, window_steps=window_steps
         )
-    scale = 1.0 / (_gamma()(2.0 - alpha) * (dt**alpha))
+    scale = 1.0 / (_gamma()(2.0 - alpha_s) * (dt**alpha_s))
     tail = tail * scale
     result = jnp.concatenate([jnp.zeros_like(values[:1]), tail], axis=0)
     if return_info:
@@ -318,6 +337,44 @@ def _gamma() -> Any:
     return gamma
 
 
+def _prepare_order(alpha: Any, trail_shape: tuple[int, ...]) -> tuple[Any, Any, bool]:
+    """Split a (possibly vector) order into weight-axis and scaling forms.
+
+    Returns ``(alpha_weights, alpha_scale, is_vector)``. For a scalar order both
+    forms are the scalar itself and ``is_vector`` is ``False``. For a per-state
+    order broadcast to the trailing state shape ``trail_shape``, ``alpha_weights``
+    is flattened to ``(m,)`` so it indexes the per-feature weight columns, while
+    ``alpha_scale`` keeps the trailing shape so that ``dt ** alpha_scale`` and the
+    Gamma normalisation broadcast against ``(time, *trail_shape)`` arrays.
+    """
+
+    jnp = _jnp()
+    a = jnp.asarray(alpha)
+    if a.ndim == 0:
+        return a, a, False
+    a_trail = jnp.broadcast_to(a, trail_shape)
+    return a_trail.reshape(-1), a_trail, True
+
+
+def _normalize_order_field(alpha: Any) -> Any:
+    """Render an order as a JSON-friendly scalar/tuple for ``OperatorInfo``.
+
+    Concrete scalars become ``float``; concrete arrays become a tuple of floats.
+    A traced order (under ``jax.grad``/``jit`` with ``return_info=True``) is
+    returned unchanged as a best-effort fallback.
+    """
+
+    import numpy as np
+
+    try:
+        concrete = np.asarray(alpha, dtype=float)
+    except (TypeError, ValueError):
+        return alpha
+    if concrete.ndim == 0:
+        return float(concrete)
+    return tuple(float(a) for a in concrete.reshape(-1))
+
+
 def _safe_pow(base: Any, exp: Any) -> Any:
     """``base ** exp`` with a finite gradient where ``base == 0``.
 
@@ -347,18 +404,34 @@ def _validate_time_axis(values: Any) -> None:
         raise ValueError(msg)
 
 
-def _gl_weights(alpha: float, n: int) -> Any:
+def _gl_weights(alpha: Any, n: int) -> Any:
+    """Grunwald-Letnikov binomial weights along a leading lag axis.
+
+    ``alpha`` may be a scalar (shape ``()``) giving weights of shape ``(n,)`` or a
+    1-D array of per-state orders (shape ``(m,)``) giving weights of shape
+    ``(n, m)``: a trailing order axis is carried through the recurrence so each
+    state component gets its own weight column.
+    """
+
     jnp = _jnp()
+    alpha = jnp.asarray(alpha)
     if n == 1:
-        return jnp.ones((1,))
-    ks = jnp.arange(1, n, dtype=jnp.result_type(float))
+        return jnp.ones((1, *alpha.shape))
+    # Reshape the lag axis to broadcast against the trailing order axis.
+    ks = jnp.arange(1, n, dtype=jnp.result_type(float)).reshape(
+        (-1, *(1,) * alpha.ndim)
+    )
     factors = (ks - 1.0 - alpha) / ks
-    return jnp.concatenate([jnp.ones((1,), dtype=factors.dtype), jnp.cumprod(factors)])
+    ones = jnp.ones((1, *alpha.shape), dtype=factors.dtype)
+    return jnp.concatenate([ones, jnp.cumprod(factors, axis=0)], axis=0)
 
 
-def _l1_weights(alpha: float, n: int) -> Any:
+def _l1_weights(alpha: Any, n: int) -> Any:
+    """L1 Caputo weights along a leading lag axis (scalar or per-state ``alpha``)."""
+
     jnp = _jnp()
-    ks = jnp.arange(n, dtype=jnp.result_type(float))
+    alpha = jnp.asarray(alpha)
+    ks = jnp.arange(n, dtype=jnp.result_type(float)).reshape((-1, *(1,) * alpha.ndim))
     # ks**(1 - alpha) is zero at k=0 but has a NaN d/dalpha there; use _safe_pow
     # so gradients with respect to the fractional order stay finite.
     return _safe_pow(ks + 1.0, 1.0 - alpha) - _safe_pow(ks, 1.0 - alpha)
@@ -390,7 +463,7 @@ def _operator_info(
     return OperatorInfo(
         family=family,
         method=method_label,
-        fractional_order=alpha,
+        fractional_order=_normalize_order_field(alpha),
         dt=float(dt),
         n_steps=int(n_steps),
         history=HistoryMethod(history),
