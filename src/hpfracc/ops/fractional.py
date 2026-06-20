@@ -21,12 +21,27 @@ _SOE_VECTOR_MSG = (
     "history='soe' does not support vector / per-state fractional orders in v0.1; "
     "use history='full', 'fft', or 'short_memory'."
 )
+_NONUNIFORM_NON_CAPUTO_MSG = (
+    "non-uniform grids (t=) are supported only for caputo in v0.1; "
+    "grunwald_letnikov / riemann_liouville require a uniform dt."
+)
+_NONUNIFORM_HISTORY_MSG = (
+    "non-uniform grids (t=) support only history='full'; the L1 weights on a "
+    "non-uniform grid are not Toeplitz, so fft / short_memory / soe do not apply."
+)
+_NONUNIFORM_VECTOR_MSG = (
+    "non-uniform grids (t=) support only a scalar fractional order in v0.1."
+)
+_DT_XOR_T_MSG = (
+    "Provide exactly one of dt (uniform grid) or t (non-uniform node array)."
+)
 
 
 def grunwald_letnikov(
     x: Any,
     *,
-    dt: float,
+    dt: float | None = None,
+    t: Any | None = None,
     order: float,
     history: HistoryMethod | str = HistoryMethod.FULL,
     window_steps: int = 64,
@@ -42,6 +57,10 @@ def grunwald_letnikov(
         Samples with leading time axis ``(time, ...)``.
     dt:
         Uniform timestep. Must be positive.
+    t:
+        Not supported: the Grunwald-Letnikov discretisation is a uniform-shift
+        operator with no non-uniform-grid analog. Passing ``t`` raises
+        ``NotImplementedError``; use a uniform ``dt``.
     order:
         Fractional order(s) satisfying ``0 < order < 1`` elementwise. A scalar
         applies one order to every state component; a per-state order
@@ -77,6 +96,8 @@ def grunwald_letnikov(
     ``w_k = w_{k-1} * (k - 1 - alpha) / k``.
     """
 
+    if t is not None:
+        raise NotImplementedError(_NONUNIFORM_NON_CAPUTO_MSG)
     alpha = as_order(order)
     _validate_dt(dt)
 
@@ -126,7 +147,8 @@ def grunwald_letnikov(
 def riemann_liouville(
     x: Any,
     *,
-    dt: float,
+    dt: float | None = None,
+    t: Any | None = None,
     order: float,
     history: HistoryMethod | str = HistoryMethod.FULL,
     window_steps: int = 64,
@@ -135,6 +157,10 @@ def riemann_liouville(
     return_info: bool = False,
 ) -> Any:
     """Approximate a Riemann-Liouville fractional derivative.
+
+    Passing ``t`` (a non-uniform node array) raises ``NotImplementedError``: v0.1
+    computes RL through the uniform-grid Grunwald-Letnikov discretisation, which
+    has no non-uniform analog. Use a uniform ``dt``.
 
     The Grunwald-Letnikov full-history convolution is, for ``0 < order < 1`` on a
     uniform grid with zero history before ``t = 0``, a first-order ``O(dt)``
@@ -148,6 +174,8 @@ def riemann_liouville(
     distinguishing it from the Caputo derivative.
     """
 
+    if t is not None:
+        raise NotImplementedError(_NONUNIFORM_NON_CAPUTO_MSG)
     result = grunwald_letnikov(
         x,
         dt=dt,
@@ -189,7 +217,8 @@ def riemann_liouville(
 def caputo(
     x: Any,
     *,
-    dt: float,
+    dt: float | None = None,
+    t: Any | None = None,
     order: float,
     history: HistoryMethod | str = HistoryMethod.FULL,
     window_steps: int = 64,
@@ -199,18 +228,30 @@ def caputo(
 ) -> Any:
     """Approximate a Caputo fractional derivative with the L1 scheme.
 
+    Provide **exactly one** of ``dt`` (a uniform timestep) or ``t`` (an array of
+    time nodes for a non-uniform / graded grid). The non-uniform path uses the L1
+    product-integration weights derived from the actual node spacings, reducing
+    exactly to the uniform ``b_k`` weights on an equispaced grid. It is
+    full-history only (``history='full'``) and supports a scalar order only; the
+    fft / short_memory / soe accelerations and per-state orders are uniform-grid
+    features.
+
     Parameters
     ----------
     x:
         Samples with leading time axis ``(time, ...)``.
     dt:
-        Uniform timestep. Must be positive.
+        Uniform timestep. Must be positive. Mutually exclusive with ``t``.
+    t:
+        Time nodes of shape ``(time,)``, strictly increasing, one per sample in
+        ``x``. Selects the non-uniform Caputo L1 path. Mutually exclusive with
+        ``dt``.
     order:
         Fractional order(s) satisfying ``0 < order < 1`` elementwise. A scalar
         applies one order to every state component; a per-state order
         broadcastable to the trailing state shape ``x.shape[1:]`` gives each
-        component its own order, applied independently. ``"soe"`` history does not
-        support per-state orders.
+        component its own order, applied independently. ``"soe"`` history and the
+        non-uniform (``t=``) path do not support per-state orders.
     history:
         History convolution strategy.  ``"full"`` (default) uses the dense
         lower-triangular matrix; ``"fft"`` uses an FFT-accelerated causal
@@ -234,13 +275,24 @@ def caputo(
     """
 
     alpha = as_order(order)
-    _validate_dt(dt)
 
     jnp = _jnp()
     values = jnp.asarray(x)
     _validate_time_axis(values)
-
     n_time = values.shape[0]
+
+    if (dt is None) == (t is None):
+        raise ValueError(_DT_XOR_T_MSG)
+    if t is not None:
+        return _caputo_nonuniform_op(
+            values,
+            t,
+            alpha,
+            history=history,
+            return_info=return_info,
+        )
+
+    _validate_dt(dt)
     if n_time == 1:
         result = jnp.zeros_like(values)
         if return_info:
@@ -254,6 +306,7 @@ def caputo(
                     n_steps=n_time,
                     history=history,
                     diagnostics={
+                        "grid": "uniform",
                         "history": str(history),
                         "window_steps": window_steps,
                         "soe_poles": soe_poles,
@@ -295,6 +348,7 @@ def caputo(
                 n_steps=n_time,
                 history=history,
                 diagnostics={
+                    "grid": "uniform",
                     "history": str(history),
                     "window_steps": window_steps,
                     "soe_poles": soe_poles,
@@ -389,10 +443,129 @@ def _safe_pow(base: Any, exp: Any) -> Any:
     return jnp.where(base > 0, safe_base**exp, 0.0)
 
 
-def _validate_dt(dt: float) -> None:
+def _validate_dt(dt: float | None) -> None:
+    if dt is None:
+        raise ValueError(_DT_XOR_T_MSG)
     if not float(dt) > 0.0:
         msg = f"Expected positive uniform timestep dt, got {dt}."
         raise ValueError(msg)
+
+
+def _validate_time_nodes(t: Any, n_expected: int) -> None:
+    """Validate a non-uniform time-node array ``t`` of shape ``(n_expected,)``.
+
+    Shape checks are static; the strictly-increasing / finite checks run on a
+    concrete ``numpy`` view and are skipped under tracing (deferred to the eager
+    call site), mirroring ``predictor_corrector._validate_time_grid``.
+    """
+
+    if t.ndim != 1:
+        msg = "Expected a one-dimensional time-node array t."
+        raise ValueError(msg)
+    if t.shape[0] != n_expected:
+        msg = (
+            "Expected t to have one node per time sample "
+            f"({n_expected}); got {t.shape[0]}."
+        )
+        raise ValueError(msg)
+
+    try:
+        import numpy as np
+
+        concrete = np.asarray(t)
+    except Exception:
+        return
+    if not np.all(np.isfinite(concrete)):
+        msg = "Expected finite time nodes t."
+        raise ValueError(msg)
+    if concrete.shape[0] >= 2 and not np.all(np.diff(concrete) > 0.0):
+        msg = "Expected strictly increasing time nodes t."
+        raise ValueError(msg)
+
+
+def _mean_spacing(t: Any) -> float:
+    """Best-effort mean node spacing for the ``OperatorInfo.dt`` summary field."""
+
+    jnp = _jnp()
+    spacing = jnp.mean(t[1:] - t[:-1]) if t.shape[0] >= 2 else jnp.asarray(0.0)
+    try:
+        return float(spacing)
+    except (TypeError, ValueError):
+        return float("nan")
+
+
+def _caputo_nonuniform(increments: Any, t: Any, alpha: Any) -> Any:
+    """Unscaled non-uniform Caputo L1 history sum ``W @ increments``.
+
+    ``W[n, k] = ((t_n - t_k)^(1-alpha) - (t_n - t_{k+1})^(1-alpha)) / (t_{k+1} - t_k)``
+    for ``k < n`` and ``0`` otherwise. Returned shape is ``(n, *trail)`` with the
+    ``n = 0`` row zero (empty history). The most-recent increment makes
+    ``t_n - t_{k+1} = 0``; ``_safe_pow`` keeps the alpha-gradient finite there.
+    """
+
+    jnp = _jnp()
+    a = jnp.asarray(alpha)
+    n = t.shape[0]
+    a_minus = t[:, None] - t[None, :-1]  # (n, n-1): t_n - t_k
+    a_plus = t[:, None] - t[None, 1:]  # (n, n-1): t_n - t_{k+1}
+    spacing = t[1:] - t[:-1]  # (n-1,)
+    rows = jnp.arange(n)[:, None]
+    cols = jnp.arange(n - 1)[None, :]
+    mask = rows > cols  # increment k contributes to row n iff k < n
+    weights = jnp.where(
+        mask,
+        (_safe_pow(a_minus, 1.0 - a) - _safe_pow(a_plus, 1.0 - a)) / spacing,
+        0.0,
+    )
+    inc_2d = jnp.reshape(increments, (n - 1, -1))
+    out_2d = weights @ inc_2d
+    return jnp.reshape(out_2d, (n, *increments.shape[1:]))
+
+
+def _caputo_nonuniform_op(
+    values: Any,
+    t: Any,
+    alpha: Any,
+    *,
+    history: HistoryMethod | str,
+    return_info: bool,
+) -> Any:
+    """Non-uniform Caputo L1 operator path (scalar order, full history only)."""
+
+    jnp = _jnp()
+    t_arr = jnp.asarray(t)
+    n_time = values.shape[0]
+    _validate_time_nodes(t_arr, n_time)
+    if HistoryMethod(history) is not HistoryMethod.FULL:
+        raise NotImplementedError(_NONUNIFORM_HISTORY_MSG)
+    if jnp.asarray(alpha).ndim > 0:
+        raise NotImplementedError(_NONUNIFORM_VECTOR_MSG)
+
+    if n_time == 1:
+        result = jnp.zeros_like(values)
+    else:
+        increments = values[1:] - values[:-1]
+        history_sum = _caputo_nonuniform(increments, t_arr, alpha)
+        result = history_sum / _gamma()(2.0 - jnp.asarray(alpha))
+
+    if not return_info:
+        return result
+    return OperatorResult(
+        values=result,
+        operator_info=_operator_info(
+            family=OperatorFamily.CAPUTO,
+            method="l1_nonuniform",
+            alpha=alpha,
+            dt=_mean_spacing(t_arr),
+            n_steps=n_time,
+            history=HistoryMethod.FULL,
+            diagnostics={
+                "grid": "nonuniform",
+                "history": "full",
+                "n_nodes": int(n_time),
+            },
+        ),
+    )
 
 
 def _validate_time_axis(values: Any) -> None:
