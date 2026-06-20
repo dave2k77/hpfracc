@@ -27,3 +27,27 @@ def validate_order(alpha: float) -> float:
         raise ValueError(msg)
     return float(alpha)
 
+
+def as_order(alpha: float) -> float:
+    """Return ``alpha`` for use in a differentiable numerical path.
+
+    Unlike :func:`validate_order`, this does **not** coerce ``alpha`` to a Python
+    ``float``: doing so would break ``jax.grad`` with respect to the fractional
+    order, since a traced value cannot be converted to a concrete ``float``. The
+    open-interval constraint is still enforced eagerly whenever ``alpha`` is
+    concrete; under tracing (e.g. inside ``jax.grad``/``jax.jit``) the check is
+    skipped and the constraint is assumed to hold, as it is enforced at eager
+    construction sites (``FractionalOrder``, the solver config, and concrete
+    operator calls).
+    """
+
+    try:
+        concrete = float(alpha)
+    except (TypeError, ValueError):
+        # Traced value under a JAX transform: defer to eager validation sites.
+        return alpha
+    if not 0.0 < concrete < 1.0:
+        msg = f"Expected fractional order in the open interval (0, 1), got {alpha}."
+        raise ValueError(msg)
+    return alpha
+
