@@ -29,11 +29,42 @@ class PredictorCorrector:
         as_order(self.order)
 
 
+@dataclass(frozen=True, slots=True)
+class ImplicitPredictorCorrector:
+    """Configuration for the full-history **implicit** Caputo solver.
+
+    Unlike :class:`PredictorCorrector` (explicit PECE, one corrector pass), this
+    solves the fractional Adams-Moulton corrector equation
+    ``y_n = C + corrector_scale * f(t_n, y_n)`` at each step with a fixed number of
+    Newton iterations, seeded by the explicit predictor. The implicit treatment of
+    the most-recent stage gives a much larger stability region on stiff problems.
+    It remains full-history, fixed-step, uniform-grid, ``jit``-traceable with a
+    bounded autodiff graph, and differentiable.
+
+    Provisional: targets Caputo initial value problems with ``0 < order < 1`` on a
+    positive, uniform timestep grid. Adaptive stepping is a future extension.
+    """
+
+    dt: float
+    order: float
+    newton_iterations: int = 3
+
+    def __post_init__(self) -> None:
+        _validate_dt(self.dt)
+        as_order(self.order)
+        if int(self.newton_iterations) < 1:
+            msg = (
+                "Expected newton_iterations >= 1 for the implicit solver, "
+                f"got {self.newton_iterations}."
+            )
+            raise ValueError(msg)
+
+
 def simulate(
     *,
     model: DynamicsFn,
     ts: PyTree,
-    solver: PredictorCorrector,
+    solver: PredictorCorrector | ImplicitPredictorCorrector,
     initial_state: PyTree,
     params: PyTree,
     rng_key: PyTree | None = None,
@@ -41,27 +72,58 @@ def simulate(
 ) -> SimulationResult:
     """Simulate a Caputo FDE with a fixed-step predictor-corrector method.
 
-    The full-history Diethelm predictor-corrector recurrence is evaluated with a
-    single ``jax.lax.scan`` over a preallocated history buffer rather than a
-    Python loop. This keeps the method ``jax.jit``-traceable and gives a bounded
-    autodiff graph whose size does not grow with the number of time steps, while
-    reproducing the same numerics as a direct unrolled evaluation. The compute
-    cost remains ``O(n**2)`` because each step weights the full history.
+    The full-history Diethelm recurrence is evaluated with a single
+    ``jax.lax.scan`` over a preallocated history buffer rather than a Python loop.
+    This keeps the method ``jax.jit``-traceable and gives a bounded autodiff graph
+    whose size does not grow with the number of time steps. The compute cost
+    remains ``O(n**2)`` because each step weights the full history.
+
+    With a :class:`PredictorCorrector` the explicit one-pass PECE method is used;
+    with an :class:`ImplicitPredictorCorrector` the corrector equation is solved
+    implicitly (fixed-iteration Newton) for a much larger stability region on stiff
+    problems. Both share the same predictor/corrector history weights.
     """
 
-    jax = _jax()
-    jnp = _jnp()
-    times = jnp.asarray(ts)
-    _validate_time_grid(times, solver.dt)
+    if isinstance(solver, ImplicitPredictorCorrector):
+        return _simulate_implicit(
+            model=model,
+            ts=ts,
+            solver=solver,
+            initial_state=initial_state,
+            params=params,
+            rng_key=rng_key,
+            inputs=inputs,
+        )
+    return _simulate_explicit(
+        model=model,
+        ts=ts,
+        solver=solver,
+        initial_state=initial_state,
+        params=params,
+        rng_key=rng_key,
+        inputs=inputs,
+    )
 
-    y0 = jnp.asarray(initial_state)
+
+def _setup(
+    *,
+    model: DynamicsFn,
+    times: PyTree,
+    solver: PredictorCorrector | ImplicitPredictorCorrector,
+    y0: PyTree,
+    params: PyTree,
+    rng_key: PyTree | None,
+    inputs: PyTree | None,
+) -> tuple[Any, ...]:
+    """Shared predictor-corrector setup: scales, indices, and seeded history."""
+
+    jnp = _jnp()
     alpha = as_order(solver.order)
     n_time = int(times.shape[0])
     gamma = _gamma()
     dt_alpha = float(solver.dt) ** alpha
     predictor_scale = dt_alpha / gamma(alpha + 1.0)
     corrector_scale = dt_alpha / gamma(alpha + 2.0)
-
     indices = jnp.arange(n_time)
 
     f0 = model(
@@ -72,22 +134,75 @@ def simulate(
         inputs=_inputs_at(inputs, 0, n_time),
     )
     history0 = jnp.zeros((n_time, *y0.shape), dtype=f0.dtype).at[0].set(f0)
+    return alpha, n_time, predictor_scale, corrector_scale, indices, history0
 
-    def history_dot(weights: PyTree, history: PyTree) -> PyTree:
-        return jnp.tensordot(weights, history, axes=([0], [0]))
+
+def _pece_weights(
+    step: PyTree, indices: PyTree, alpha: Any, dtype: Any
+) -> tuple[PyTree, PyTree]:
+    """Diethelm predictor (Adams-Bashforth) and corrector (Adams-Moulton) weights.
+
+    Shared by the explicit and implicit paths so the validated weight formulas are
+    defined once. Future (masked) lags are clamped to ``>= 1`` before fractional
+    powers so ``jnp.where`` never evaluates a negative base.
+    """
+
+    jnp = _jnp()
+    valid = indices < step
+    lag = jnp.where(valid, (step - indices).astype(dtype), 1.0)
+    step_f = step.astype(dtype)
+
+    predictor_weights = jnp.where(
+        valid, lag**alpha - _safe_pow(lag - 1.0, alpha), 0.0
+    )
+    boundary = _safe_pow(step_f - 1.0, alpha + 1.0) - (
+        step_f - 1.0 - alpha
+    ) * step_f**alpha
+    interior = (
+        (lag + 1.0) ** (alpha + 1.0)
+        + _safe_pow(lag - 1.0, alpha + 1.0)
+        - 2.0 * lag ** (alpha + 1.0)
+    )
+    corrector_weights = jnp.where(
+        valid, jnp.where(indices == 0, boundary, interior), 0.0
+    )
+    return predictor_weights, corrector_weights
+
+
+def _history_dot(weights: PyTree, history: PyTree) -> PyTree:
+    return _jnp().tensordot(weights, history, axes=([0], [0]))
+
+
+def _simulate_explicit(
+    *,
+    model: DynamicsFn,
+    ts: PyTree,
+    solver: PredictorCorrector,
+    initial_state: PyTree,
+    params: PyTree,
+    rng_key: PyTree | None = None,
+    inputs: PyTree | None = None,
+) -> SimulationResult:
+    jax = _jax()
+    jnp = _jnp()
+    times = jnp.asarray(ts)
+    _validate_time_grid(times, solver.dt)
+    y0 = jnp.asarray(initial_state)
+    alpha, n_time, predictor_scale, corrector_scale, indices, history0 = _setup(
+        model=model,
+        times=times,
+        solver=solver,
+        y0=y0,
+        params=params,
+        rng_key=rng_key,
+        inputs=inputs,
+    )
 
     def step_fn(history: PyTree, step: PyTree) -> tuple[PyTree, PyTree]:
-        valid = indices < step
-        # Clamp the lag to >= 1 on masked (future) entries before taking
-        # fractional powers, so jnp.where never evaluates a negative base.
-        lag = jnp.where(valid, (step - indices).astype(history0.dtype), 1.0)
-        step_f = step.astype(history0.dtype)
-
-        predictor_weights = jnp.where(
-            valid, lag**alpha - _safe_pow(lag - 1.0, alpha), 0.0
+        predictor_weights, corrector_weights = _pece_weights(
+            step, indices, alpha, history0.dtype
         )
-        predicted = y0 + predictor_scale * history_dot(predictor_weights, history)
-
+        predicted = y0 + predictor_scale * _history_dot(predictor_weights, history)
         predicted_f = model(
             times[step],
             predicted,
@@ -95,22 +210,9 @@ def simulate(
             rng_key=rng_key,
             inputs=_inputs_at(inputs, step, n_time),
         )
-
-        boundary = _safe_pow(step_f - 1.0, alpha + 1.0) - (
-            step_f - 1.0 - alpha
-        ) * step_f**alpha
-        interior = (
-            (lag + 1.0) ** (alpha + 1.0)
-            + _safe_pow(lag - 1.0, alpha + 1.0)
-            - 2.0 * lag ** (alpha + 1.0)
-        )
-        corrector_weights = jnp.where(
-            valid, jnp.where(indices == 0, boundary, interior), 0.0
-        )
         corrected = y0 + corrector_scale * (
-            history_dot(corrector_weights, history) + predicted_f
+            _history_dot(corrector_weights, history) + predicted_f
         )
-
         next_f = model(
             times[step],
             corrected,
@@ -132,6 +234,107 @@ def simulate(
         diagnostics={"history": "full", "grid": "uniform"},
     )
     return SimulationResult(ts=times, latent_state=values, solver_info=info)
+
+
+def _simulate_implicit(
+    *,
+    model: DynamicsFn,
+    ts: PyTree,
+    solver: ImplicitPredictorCorrector,
+    initial_state: PyTree,
+    params: PyTree,
+    rng_key: PyTree | None = None,
+    inputs: PyTree | None = None,
+) -> SimulationResult:
+    jax = _jax()
+    jnp = _jnp()
+    times = jnp.asarray(ts)
+    _validate_time_grid(times, solver.dt)
+    y0 = jnp.asarray(initial_state)
+    alpha, n_time, predictor_scale, corrector_scale, indices, history0 = _setup(
+        model=model,
+        times=times,
+        solver=solver,
+        y0=y0,
+        params=params,
+        rng_key=rng_key,
+        inputs=inputs,
+    )
+    iterations = int(solver.newton_iterations)
+
+    def step_fn(history: PyTree, step: PyTree) -> tuple[PyTree, PyTree]:
+        predictor_weights, corrector_weights = _pece_weights(
+            step, indices, alpha, history0.dtype
+        )
+        # Explicit predictor seeds the Newton solve; ``known`` is the part of the
+        # corrector that depends only on the (already computed) history.
+        predicted = y0 + predictor_scale * _history_dot(predictor_weights, history)
+        known = y0 + corrector_scale * _history_dot(corrector_weights, history)
+
+        def f_at(state: PyTree) -> PyTree:
+            return model(
+                times[step],
+                state,
+                params,
+                rng_key=rng_key,
+                inputs=_inputs_at(inputs, step, n_time),
+            )
+
+        corrected = _newton_corrector(
+            f_at, known, corrector_scale, predicted, iterations
+        )
+        next_f = f_at(corrected)
+        return history.at[step].set(next_f), corrected
+
+    _, tail = jax.lax.scan(step_fn, history0, jnp.arange(1, n_time))
+    values = jnp.concatenate([y0[jnp.newaxis, ...], tail], axis=0)
+
+    info = SolverInfo(
+        name="implicit_predictor_corrector",
+        method="caputo_implicit_adams_moulton",
+        fractional_order=alpha,
+        step_size=float(solver.dt),
+        n_steps=int(n_time - 1),
+        diagnostics={
+            "history": "full",
+            "grid": "uniform",
+            "scheme": "implicit",
+            "newton_iterations": iterations,
+        },
+    )
+    return SimulationResult(ts=times, latent_state=values, solver_info=info)
+
+
+def _newton_corrector(
+    f_at: Any,
+    known: PyTree,
+    scale: Any,
+    guess: PyTree,
+    iterations: int,
+) -> PyTree:
+    """Solve ``y = known + scale * f_at(y)`` by fixed-iteration Newton.
+
+    ``residual(y) = y - known - scale * f_at(y)``; each iteration forms the dense
+    state Jacobian, solves the flattened linear system, and updates. The iteration
+    count is fixed, so the unrolled graph stays bounded and ``jit``/``grad``-safe.
+    For a linear ``f_at`` one iteration is exact.
+    """
+
+    jax = _jax()
+    jnp = _jnp()
+    shape = guess.shape
+    size = int(guess.size)
+
+    def residual(state: PyTree) -> PyTree:
+        return state - known - scale * f_at(state)
+
+    state = guess
+    for _ in range(iterations):
+        g = residual(state)
+        jac = jax.jacobian(residual)(state).reshape(size, size)
+        delta = jnp.linalg.solve(jac, g.reshape(size))
+        state = state - delta.reshape(shape)
+    return state
 
 
 def _inputs_at(inputs: PyTree | None, index: int, n_time: int) -> PyTree | None:
