@@ -83,13 +83,76 @@ class NonUniformPredictorCorrector:
         as_order(self.order)
 
 
+@dataclass(frozen=True, slots=True)
+class AdaptivePredictorCorrector:
+    """Configuration for the **a-posteriori adaptive-step** Caputo PECE solver.
+
+    Unlike the fixed-grid solvers, this estimates the local error as it integrates
+    and grows/shrinks the step to track ``rtol``/``atol``, clustering nodes where
+    the solution is hard to resolve. The local error is a **step-doubling
+    (Richardson)** estimate -- one step of ``h`` versus two of ``h/2`` -- which is
+    the correct *local* estimator for a full-history fractional method (the
+    predictor/corrector difference, by contrast, behaves like the *global* error
+    because every step re-sums the whole history, so it cannot be used here).
+
+    The realized mesh is data-dependent, so for a bounded, ``jit``-traceable,
+    reverse-differentiable graph the integration runs as a **fixed-length
+    ``lax.scan`` of ``max_steps`` masked iterations** (the diffrax pattern), not a
+    ``while_loop``. Gradients flow through the solution values on the *realized*
+    grid; the step-size controller and accept/reject decisions are treated as
+    non-differentiable (mesh positions are ``stop_gradient``-ed), matching
+    discretize-then-optimize. It remains a correct full-history ``O(N**2)``
+    reference -- rejected steps re-evaluate history; the sum-of-exponentials
+    acceleration is a future stage.
+
+    ``simulate``'s ``ts`` supplies only the integration **bounds**
+    ``(t0, t_end) = (ts[0], ts[-1])``; the interior nodes are chosen adaptively.
+
+    Provisional: targets Caputo initial value problems with ``0 < order < 1``.
+    """
+
+    order: float
+    rtol: float = 1e-4
+    atol: float = 1e-6
+    max_steps: int = 4096
+    first_step: float | None = None
+    safety: float = 0.9
+    min_factor: float = 0.2
+    max_factor: float = 5.0
+
+    def __post_init__(self) -> None:
+        as_order(self.order)
+        if not float(self.rtol) > 0.0 or not float(self.atol) > 0.0:
+            msg = (
+                "Expected positive rtol/atol, got "
+                f"rtol={self.rtol}, atol={self.atol}."
+            )
+            raise ValueError(msg)
+        if int(self.max_steps) < 2:
+            msg = f"Expected max_steps >= 2, got {self.max_steps}."
+            raise ValueError(msg)
+        if self.first_step is not None and not float(self.first_step) > 0.0:
+            msg = f"Expected positive first_step, got {self.first_step}."
+            raise ValueError(msg)
+        if not 0.0 < float(self.safety) <= 1.0:
+            msg = f"Expected safety in (0, 1], got {self.safety}."
+            raise ValueError(msg)
+        if not 0.0 < float(self.min_factor) < 1.0 < float(self.max_factor):
+            msg = (
+                "Expected min_factor < 1 < max_factor, got "
+                f"min_factor={self.min_factor}, max_factor={self.max_factor}."
+            )
+            raise ValueError(msg)
+
+
 def simulate(
     *,
     model: DynamicsFn,
     ts: PyTree,
     solver: PredictorCorrector
     | ImplicitPredictorCorrector
-    | NonUniformPredictorCorrector,
+    | NonUniformPredictorCorrector
+    | AdaptivePredictorCorrector,
     initial_state: PyTree,
     params: PyTree,
     rng_key: PyTree | None = None,
@@ -107,9 +170,22 @@ def simulate(
     with an :class:`ImplicitPredictorCorrector` the corrector equation is solved
     implicitly (fixed-iteration Newton) for a much larger stability region on stiff
     problems; with a :class:`NonUniformPredictorCorrector` the variable-step
-    fractional Adams weights are built from the (non-uniform) ``ts`` node spacings.
+    fractional Adams weights are built from the (non-uniform) ``ts`` node spacings;
+    with an :class:`AdaptivePredictorCorrector` the step size is chosen on the fly
+    from a step-doubling local-error estimate (``ts`` then supplies only the
+    integration bounds ``(ts[0], ts[-1])``).
     """
 
+    if isinstance(solver, AdaptivePredictorCorrector):
+        return _simulate_adaptive(
+            model=model,
+            ts=ts,
+            solver=solver,
+            initial_state=initial_state,
+            params=params,
+            rng_key=rng_key,
+            inputs=inputs,
+        )
     if isinstance(solver, ImplicitPredictorCorrector):
         return _simulate_implicit(
             model=model,
@@ -487,6 +563,237 @@ def _simulate_nonuniform(
         diagnostics={"history": "full", "grid": "nonuniform"},
     )
     return SimulationResult(ts=times, latent_state=values, solver_info=info)
+
+
+def _adaptive_pc_at(
+    *,
+    model: DynamicsFn,
+    y0: PyTree,
+    t_target: Any,
+    step: Any,
+    times_eff: PyTree,
+    f_hist_eff: PyTree,
+    indices: PyTree,
+    alpha: Any,
+    dtype: Any,
+    params: PyTree,
+    rng_key: PyTree | None,
+    inputs: PyTree | None,
+    n_eval: int,
+) -> PyTree:
+    """One full PECE step targeting ``t_target`` placed at index ``step``.
+
+    ``times_eff`` / ``f_hist_eff`` are the (masked) history buffers with the trial
+    node(s) already written in, so the validated :func:`_nonuniform_pece_weights`
+    is reused verbatim -- the adaptive solver introduces no new weight formulas.
+    The mesh positions are frozen for autodiff by the caller (``stop_gradient``);
+    gradients flow through ``y0`` / ``f_hist_eff`` only.
+    """
+
+    predictor_weights, corrector_weights, diagonal = _nonuniform_pece_weights(
+        step, times_eff, indices, alpha, dtype
+    )
+    predicted = y0 + _history_dot(predictor_weights, f_hist_eff)
+    predicted_f = model(
+        t_target,
+        predicted,
+        params,
+        rng_key=rng_key,
+        inputs=_inputs_at(inputs, n_eval, n_eval + 1),
+    )
+    return y0 + _history_dot(corrector_weights, f_hist_eff) + diagonal * predicted_f
+
+
+def _simulate_adaptive(
+    *,
+    model: DynamicsFn,
+    ts: PyTree,
+    solver: AdaptivePredictorCorrector,
+    initial_state: PyTree,
+    params: PyTree,
+    rng_key: PyTree | None = None,
+    inputs: PyTree | None = None,
+) -> SimulationResult:
+    jax = _jax()
+    jnp = _jnp()
+    times_in = jnp.asarray(ts)
+    _validate_increasing_grid(times_in)
+    y0 = jnp.asarray(initial_state)
+    alpha = as_order(solver.order)
+    t0 = times_in[0]
+    t_end = times_in[-1]
+    span = t_end - t0
+
+    max_steps = int(solver.max_steps)
+    # Two extra buffer slots so the step-doubling "small" step can place its mid
+    # and trial nodes at indices n_accepted+1, n_accepted+2 without overflowing.
+    buf_len = max_steps + 2
+    ctrl_dtype = y0.dtype if jnp.issubdtype(y0.dtype, jnp.floating) else jnp.float32
+    rtol = jnp.asarray(solver.rtol, dtype=ctrl_dtype)
+    atol = jnp.asarray(solver.atol, dtype=rtol.dtype)
+    safety = jnp.asarray(solver.safety, dtype=rtol.dtype)
+    min_factor = jnp.asarray(solver.min_factor, dtype=rtol.dtype)
+    max_factor = jnp.asarray(solver.max_factor, dtype=rtol.dtype)
+    # Local order of the corrector pair (~ 1 + alpha for 0 < alpha < 1).
+    order_q = 1.0 + alpha
+    richardson = 2.0**order_q - 1.0
+
+    if solver.first_step is None:
+        h0 = jnp.asarray(0.01, dtype=rtol.dtype) * span
+    else:
+        h0 = jnp.asarray(solver.first_step, dtype=rtol.dtype)
+    h0 = jnp.minimum(h0, span)
+    h_min = jnp.asarray(1e-12, dtype=rtol.dtype) * jnp.maximum(jnp.abs(t_end), 1.0)
+    end_eps = jnp.asarray(1e-12, dtype=rtol.dtype) * jnp.maximum(jnp.abs(t_end), 1.0)
+
+    f0 = model(
+        t0, y0, params, rng_key=rng_key, inputs=_inputs_at(inputs, 0, 1)
+    )
+    dtype = f0.dtype
+    node_times0 = jnp.zeros((buf_len,), dtype=times_in.dtype).at[0].set(t0)
+    y_hist0 = jnp.zeros((buf_len, *y0.shape), dtype=dtype).at[0].set(y0)
+    f_hist0 = jnp.zeros((buf_len, *y0.shape), dtype=dtype).at[0].set(f0)
+    indices = jnp.arange(buf_len)
+
+    def weighted_error(y_big: PyTree, y_small: PyTree) -> Any:
+        err = jnp.abs(y_big - y_small) / richardson
+        scale = atol + rtol * jnp.maximum(jnp.abs(y_big), jnp.abs(y_small))
+        return jnp.sqrt(jnp.mean((err / scale) ** 2))
+
+    def iteration(carry: Any, _: Any) -> tuple[Any, Any]:
+        (n_acc, t_cur, h, node_times, y_hist, f_hist, n_rej, done) = carry
+        sg = jax.lax.stop_gradient
+        # Mesh / controller scalars are frozen for autodiff (diffrax pattern).
+        t_cur_f = sg(t_cur)
+        h_f = sg(h)
+        t_trial = jnp.minimum(t_cur_f + h_f, t_end)
+        h_act = t_trial - t_cur_f
+        t_mid = t_cur_f + 0.5 * h_act
+        m = n_acc
+
+        # Big step (one step of h) -- frozen mesh positions for the weights.
+        times_big = node_times.at[m + 1].set(t_trial)
+        y_big = _adaptive_pc_at(
+            model=model, y0=y0, t_target=t_trial, step=m + 1,
+            times_eff=sg(times_big), f_hist_eff=f_hist, indices=indices,
+            alpha=alpha, dtype=dtype, params=params, rng_key=rng_key,
+            inputs=inputs, n_eval=0,
+        )
+        # Two steps of h/2.
+        times_mid = node_times.at[m + 1].set(t_mid)
+        y_mid = _adaptive_pc_at(
+            model=model, y0=y0, t_target=t_mid, step=m + 1,
+            times_eff=sg(times_mid), f_hist_eff=f_hist, indices=indices,
+            alpha=alpha, dtype=dtype, params=params, rng_key=rng_key,
+            inputs=inputs, n_eval=0,
+        )
+        f_mid = model(
+            t_mid, y_mid, params, rng_key=rng_key, inputs=_inputs_at(inputs, 0, 1)
+        )
+        times_small = node_times.at[m + 1].set(t_mid).at[m + 2].set(t_trial)
+        f_hist_small = f_hist.at[m + 1].set(f_mid)
+        y_small = _adaptive_pc_at(
+            model=model, y0=y0, t_target=t_trial, step=m + 2,
+            times_eff=sg(times_small), f_hist_eff=f_hist_small, indices=indices,
+            alpha=alpha, dtype=dtype, params=params, rng_key=rng_key,
+            inputs=inputs, n_eval=0,
+        )
+
+        err = sg(weighted_error(y_big, y_small))
+        accept = ((err <= 1.0) | (h_f <= h_min)) & (~done)
+        reached = t_trial >= t_end - end_eps
+
+        # No local extrapolation: advance with the single full step ``y_big`` (the
+        # solution whose error we estimated and are controlling). The half-step
+        # ``y_small`` is used only for the error estimate. This makes the realized
+        # trajectory identical to the non-uniform solver run on the realized mesh,
+        # so gradients are the exact frozen-mesh sensitivity.
+        idx = m + 1
+        new_f = model(
+            t_trial, y_big, params, rng_key=rng_key, inputs=_inputs_at(inputs, 0, 1)
+        )
+        node_times = node_times.at[idx].set(
+            jnp.where(accept, t_trial, node_times[idx])
+        )
+        y_hist = y_hist.at[idx].set(jnp.where(accept, y_big, y_hist[idx]))
+        f_hist = f_hist.at[idx].set(jnp.where(accept, new_f, f_hist[idx]))
+        n_acc = n_acc + jnp.where(accept, 1, 0)
+        n_rej = n_rej + jnp.where(accept | done, 0, 1)
+        t_cur = jnp.where(accept, t_trial, t_cur)
+        done = done | (accept & reached)
+
+        # Integral step-size controller; frozen w.r.t. autodiff. ``factor`` grows
+        # the step on accept and shrinks it on reject; clamped both sides.
+        safe_err = jnp.maximum(err, 1e-16)
+        factor = jnp.clip(
+            safety * safe_err ** (-1.0 / (order_q + 1.0)), min_factor, max_factor
+        )
+        h_new = jnp.minimum(h_f * factor, jnp.maximum(t_end - t_cur, h_min))
+        h = jnp.where(done, h, h_new)
+
+        carry = (n_acc, t_cur, h, node_times, y_hist, f_hist, n_rej, done)
+        return carry, None
+
+    init = (
+        jnp.asarray(0, dtype=jnp.int32),
+        t0,
+        h0,
+        node_times0,
+        y_hist0,
+        f_hist0,
+        jnp.asarray(0, dtype=jnp.int32),
+        jnp.asarray(False),
+    )
+    (n_acc, t_cur, _h, node_times, y_hist, f_hist, n_rej, done), _ = jax.lax.scan(
+        iteration, init, None, length=max_steps
+    )
+
+    # Trim to the realized mesh: pad the unused tail with the final node / state so
+    # ``ts`` stays monotone non-decreasing and ``latent_state`` is well-defined.
+    valid = indices <= n_acc
+    final_t = node_times[n_acc]
+    final_y = y_hist[n_acc]
+    node_times = jnp.where(valid, node_times, final_t)
+    y_hist = jnp.where(valid.reshape((-1,) + (1,) * y0.ndim), y_hist, final_y)
+
+    # Concrete diagnostics when called eagerly; ``None`` under tracing (jit), where
+    # these counts are data-dependent traced values and cannot be Python ints.
+    n_acc_i = _maybe_concrete_int(n_acc)
+    info = SolverInfo(
+        name="adaptive_predictor_corrector",
+        method="caputo_adaptive_pece",
+        fractional_order=alpha,
+        step_size=None,
+        n_steps=n_acc_i,
+        diagnostics={
+            "history": "full",
+            "grid": "adaptive",
+            "estimator": "step_doubling",
+            "rtol": float(solver.rtol),
+            "atol": float(solver.atol),
+            "max_steps": max_steps,
+            "n_nodes": (n_acc_i + 1) if n_acc_i is not None else None,
+            "n_rejected": _maybe_concrete_int(n_rej),
+            "reached_t_end": _maybe_concrete_bool(done),
+        },
+    )
+    return SimulationResult(ts=node_times, latent_state=y_hist, solver_info=info)
+
+
+def _maybe_concrete_int(value: Any) -> int | None:
+    """``int(value)`` when concrete, else ``None`` (e.g. a tracer under ``jit``)."""
+
+    try:
+        return int(value)
+    except (TypeError, ValueError, _jax().errors.ConcretizationTypeError):
+        return None
+
+
+def _maybe_concrete_bool(value: Any) -> bool | None:
+    try:
+        return bool(value)
+    except (TypeError, ValueError, _jax().errors.ConcretizationTypeError):
+        return None
 
 
 def _inputs_at(inputs: PyTree | None, index: int, n_time: int) -> PyTree | None:
