@@ -63,7 +63,12 @@ packages = ["src/hpfracc"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = ["-ra", "--strict-markers", "--strict-config"]
+addopts = ["-ra", "--strict-markers", "--strict-config", "-m", "not performance"]
+markers = [
+  "property: hypothesis-based identity/invariant tests",
+  "regression: golden-artifact comparison tests",
+  "performance: timing/scaling tests, deselected by default (run with -m performance)",
+]
 
 [tool.ruff]
 line-length = 88
