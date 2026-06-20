@@ -10,6 +10,7 @@ def test_public_namespaces_are_exported() -> None:
     assert hp.solvers.PredictorCorrector is not None
     assert hp.solvers.ImplicitPredictorCorrector is not None
     assert hp.solvers.NonUniformPredictorCorrector is not None
+    assert hp.solvers.AdaptivePredictorCorrector is not None
     assert hp.solvers.simulate is not None
     assert hp.nn.NeuralFODE is not None
     assert hp.prob.grid_calibrate_scalar is not None

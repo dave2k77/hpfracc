@@ -4,6 +4,28 @@
 
 Post-alpha Phase A (harden the numerical core).
 
+- Added an a-posteriori adaptive-step Caputo solver
+  `hp.solvers.AdaptivePredictorCorrector`. It chooses its own mesh from a
+  step-doubling (Richardson) local-error estimate -- one step of `h` against two of
+  `h/2` -- and accepts / shrinks / grows the step to track `rtol`/`atol`, clustering
+  nodes where the solution is hard to resolve. (The predictor/corrector difference,
+  the usual integer-order estimate, is *not* usable here: because every step
+  re-sums the whole history it behaves like the global error and would force the
+  step to zero.) `simulate`'s `ts` then supplies only the integration bounds
+  `(ts[0], ts[-1])`. It advances with the single full step (no local
+  extrapolation), so the realized trajectory is identical to
+  `NonUniformPredictorCorrector` run on the realized mesh and the gradient is the
+  exact frozen-mesh sensitivity (finite-difference checked); the step-size
+  controller and accept/reject decisions are not differentiated (the diffrax
+  discretize-then-optimize pattern). The integration runs as a fixed-length masked
+  `lax.scan` of `max_steps` iterations, so it stays `jit`-traceable with a bounded
+  autodiff graph. On a problem with a weak `t**order` origin singularity it reaches
+  an accuracy the uniform fixed-step solver cannot reach even with several times as
+  many nodes (the uniform global error stalls). It remains a correct full-history
+  `O(N**2)` reference -- rejected steps re-evaluate history; a sum-of-exponentials
+  acceleration (cheap rejections, `O(M)` per step), dense output, and an
+  adaptive+implicit combination remain future extensions. Added
+  `tests/unit/test_adaptive_solver.py`.
 - Added a non-uniform / graded-mesh Caputo solver
   `hp.solvers.NonUniformPredictorCorrector`. It uses the variable-step fractional
   Adams-Bashforth-Moulton weights built from the actual node spacings of `ts` (no
