@@ -4,6 +4,18 @@
 
 Post-alpha Phase A (harden the numerical core).
 
+- Added an implicit Caputo solver `hp.solvers.ImplicitPredictorCorrector`. It
+  solves the fractional Adams-Moulton corrector equation
+  `y_n = C + corrector_scale * f(t_n, y_n)` at each step with a fixed-iteration
+  Newton solve (seeded by the explicit predictor) instead of the explicit
+  one-pass PECE correction, giving a much larger stability region: on a stiff
+  linear problem where the explicit `PredictorCorrector` diverges, the implicit
+  method stays bounded and tracks the decaying solution. It shares the explicit
+  solver's predictor/corrector history weights, stays full-history, fixed-step,
+  uniform-grid, `jit`-traceable with a bounded autodiff graph, and differentiable
+  in the initial state and parameters; `simulate` dispatches on the solver type.
+  Added `tests/unit/test_implicit_solver.py`. Adaptive step-size control remains a
+  future extension.
 - Added non-uniform / graded time grids to the `caputo` operator. `caputo` now
   accepts a `t=` array of (strictly increasing) time nodes as an alternative to a
   uniform `dt`; exactly one of the two must be given. The non-uniform path uses
