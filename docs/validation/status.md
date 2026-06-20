@@ -21,6 +21,7 @@ use.
 | Riemann-Liouville correctness | Validated against the analytic RL power-law reference and the decisive constant case (RL of a constant is `t**(-alpha) / Gamma(1 - alpha)`, nonzero, distinguishing it from Caputo). Replaces the earlier tautological RL-equals-GL check. | Unit tests in `tests/unit/test_fractional_operators.py` and `uv run python -m benchmarks.numerical.operator_validation.report`. |
 | JAX JIT compatibility | Smoke-tested for representative operators and solver calls. | Unit tests for JIT-compatible operator and solver paths. |
 | Input/parameter differentiability | Validated with finite-difference checks for representative operator and solver quantities. | `uv run python -m benchmarks.numerical.gradient_checks` and unit tests. |
+| Fractional-order (`alpha`) differentiability | Validated with finite-difference checks across a range of `alpha` for the Caputo, Grunwald-Letnikov, and Riemann-Liouville operators and the predictor-corrector solver endpoint, including a finiteness/JIT smoke test. The operators use a NaN-safe power so the gradient stays finite where a weight raises a zero base. | Unit tests in `tests/unit/test_alpha_gradients.py` and `uv run python -m benchmarks.numerical.gradient_checks`. |
 | Scalar linear Caputo FDE refinement | Validated against a truncated Mittag-Leffler reference for selected grids. | `uv run python -m benchmarks.numerical.solver_validation.report`. |
 | Basic numerical stability checks | Smoke-tested for constant zero response and non-amplifying scalar decay. | `uv run python -m benchmarks.numerical.stability`. |
 | Baseline benchmark context | Local CPU-oriented timing rows include backend/platform context. | `uv run python -m benchmarks.numerical.baseline`. |
@@ -34,7 +35,6 @@ use.
 The following capabilities exist, but should not be treated as validated stable
 research infrastructure yet:
 
-- Gradients with respect to fractional order `alpha`.
 - Numerical behavior for long time horizons or very large state dimensions.
 - Stochastic fractional differential equation accuracy beyond the linear
   additive-noise variance check: nonlinear drift, state-dependent

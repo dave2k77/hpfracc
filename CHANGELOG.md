@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+Post-alpha Phase A (harden the numerical core).
+
+- Validated gradients with respect to the fractional order `alpha`, promoting
+  them from provisional. The operators now build their L1 normalisation and
+  weights with `jax.scipy.special.gamma` and a NaN-safe power (instead of
+  `math.gamma`), and order validation no longer coerces `alpha` to a Python
+  `float` on traced paths (`hpfracc.ops.orders.as_order`), so `jax.grad` flows
+  through `alpha` for the Caputo, Grunwald-Letnikov, and Riemann-Liouville
+  operators and the predictor-corrector solver endpoint. Added
+  `tests/unit/test_alpha_gradients.py`, alpha-gradient rows in
+  `benchmarks.numerical.gradient_checks`, and an updated validation status.
+
 ## 0.1.0a0
 
 Status: pre-alpha candidate, released 2026-06-10.
