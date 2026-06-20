@@ -37,7 +37,7 @@ class OperatorInfo:
 
     family: OperatorFamily
     method: str
-    fractional_order: float
+    fractional_order: float | tuple[float, ...]
     dt: float
     n_steps: int
     history: HistoryMethod = field(default=HistoryMethod.FULL)
@@ -51,6 +51,8 @@ class OperatorInfo:
         payload["family"] = self.family.value
         payload["history"] = self.history.value
         payload["warnings"] = list(self.warnings)
+        if isinstance(self.fractional_order, tuple):
+            payload["fractional_order"] = list(self.fractional_order)
         return payload
 
 

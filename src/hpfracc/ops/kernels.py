@@ -53,14 +53,29 @@ def _full_history_convolution(values: Any, weights: Any) -> Any:
     For a 1-D signal ``values`` of length ``n`` and weights ``w`` of length ``n``,
     returns ``c`` where ``c[i] = sum_{k=0}^{i} w[k] * values[i-k]``.  Trailing
     dimensions are handled independently by reshaping to ``(n, m)``.
+
+    When ``weights`` is 2-D with shape ``(n, m)`` the columns are *per-feature*
+    fractional-order weights (vector / per-state orders): column ``j`` is applied
+    to feature ``j`` independently via a vmap over the feature axis.
     """
 
     jnp = _jnp()
     n = weights.shape[0]
     original_shape = values.shape
     values_2d = jnp.reshape(values, (n, -1))
-    history = _lower_triangular_history_matrix(weights)
-    out_2d = jnp.tensordot(history, values_2d, axes=([1], [0]))
+    if weights.ndim == 1:
+        history = _lower_triangular_history_matrix(weights)
+        out_2d = jnp.tensordot(history, values_2d, axes=([1], [0]))
+        return jnp.reshape(out_2d, original_shape)
+
+    # Per-feature weights: weights[:, j] convolves values_2d[:, j].
+    jax = _jax()
+
+    def _per_feature(w_col: Any, v_col: Any) -> Any:
+        history = _lower_triangular_history_matrix(w_col)
+        return history @ v_col
+
+    out_2d = jax.vmap(_per_feature, in_axes=(1, 1), out_axes=1)(weights, values_2d)
     return jnp.reshape(out_2d, original_shape)
 
 
@@ -89,17 +104,27 @@ def _fft_history_convolution(values: Any, weights: Any) -> Any:
     # remains traceable under jit for concretely-shaped inputs.
     fft_len = 1 << (2 * n - 2).bit_length()
 
-    weight_pad = jnp.concatenate([weights, jnp.zeros((fft_len - n,))])
     value_pad = jnp.concatenate(
         [values_2d, jnp.zeros((fft_len - n, m), dtype=values_2d.dtype)],
         axis=0,
     )
+    fx = jnp.fft.rfft(value_pad, axis=0)
+
+    if weights.ndim == 1:
+        # Shared weights broadcast across every feature column.
+        weight_pad = jnp.concatenate([weights, jnp.zeros((fft_len - n,))])
+        fw = jnp.fft.rfft(weight_pad, axis=0)[:, None]
+    else:
+        # Per-feature weights ``(n, m)``: pad and transform each column, then
+        # multiply elementwise so column j convolves feature j independently.
+        weight_pad = jnp.concatenate(
+            [weights, jnp.zeros((fft_len - n, weights.shape[1]))], axis=0
+        )
+        fw = jnp.fft.rfft(weight_pad, axis=0)
 
     # Real FFT along the leading (time) axis.  The product gives the linear
     # convolution because both operands are zero-padded to fft_len >= 2*n - 1.
-    fw = jnp.fft.rfft(weight_pad, axis=0)
-    fx = jnp.fft.rfft(value_pad, axis=0)
-    conv_2d = jnp.fft.irfft(fw[:, None] * fx, fft_len, axis=0)[:n]
+    conv_2d = jnp.fft.irfft(fw * fx, fft_len, axis=0)[:n]
 
     return jnp.reshape(conv_2d, original_shape)
 
@@ -124,10 +149,10 @@ def _short_memory_convolution(
     jnp = _jnp()
     n = weights.shape[0]
     window = max(1, min(int(window_steps), n))
-    truncated = jnp.concatenate([
-        weights[:window],
-        jnp.zeros((n - window,), dtype=weights.dtype),
-    ])
+    # Zero every lag at or beyond ``window`` along the leading time axis. The
+    # mask broadcasts over a trailing per-feature order axis when present.
+    lag = jnp.arange(n).reshape((n,) + (1,) * (weights.ndim - 1))
+    truncated = jnp.where(lag < window, weights, 0.0)
     return _full_history_convolution(values, truncated)
 
 
@@ -280,3 +305,15 @@ def _jnp() -> Any:
         )
         raise ModuleNotFoundError(msg) from exc
     return jnp
+
+
+def _jax() -> Any:
+    try:
+        import jax
+    except ModuleNotFoundError as exc:
+        msg = (
+            "JAX is required for hpfracc.ops numerical kernels. Install the "
+            "package with its runtime dependencies before calling this function."
+        )
+        raise ModuleNotFoundError(msg) from exc
+    return jax
