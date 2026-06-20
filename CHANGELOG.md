@@ -4,6 +4,18 @@
 
 Post-alpha Phase A (harden the numerical core).
 
+- Added a non-uniform / graded-mesh Caputo solver
+  `hp.solvers.NonUniformPredictorCorrector`. It uses the variable-step fractional
+  Adams-Bashforth-Moulton weights built from the actual node spacings of `ts` (no
+  scalar `dt`), so any strictly-increasing time grid is admissible; on an
+  equispaced grid it reduces exactly to `PredictorCorrector`. An a-priori mesh
+  graded toward `t=0` (`t_j = T (j/N)**r`) restores the convergence the uniform
+  grid loses to the solution's weak `t**order` origin singularity. `simulate`
+  dispatches on the solver type; the solver stays explicit one-pass PECE,
+  full-history, `jit`-traceable with a bounded autodiff graph, and differentiable.
+  Added `tests/unit/test_nonuniform_solver.py`. A-posteriori adaptive step-size
+  control and an SOE-accelerated non-uniform history remain future extensions, as
+  does the implicit solver on non-uniform grids.
 - Added an implicit Caputo solver `hp.solvers.ImplicitPredictorCorrector`. It
   solves the fractional Adams-Moulton corrector equation
   `y_n = C + corrector_scale * f(t_n, y_n)` at each step with a fixed-iteration

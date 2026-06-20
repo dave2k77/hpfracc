@@ -60,17 +60,42 @@ class ImplicitPredictorCorrector:
             raise ValueError(msg)
 
 
+@dataclass(frozen=True, slots=True)
+class NonUniformPredictorCorrector:
+    """Configuration for the explicit Caputo PECE solver on a **non-uniform** grid.
+
+    Unlike :class:`PredictorCorrector` (uniform timestep ``dt``), this uses the
+    variable-step fractional Adams-Bashforth-Moulton weights built from the actual
+    node spacings of ``ts``, so any strictly-increasing time grid is admissible. On
+    an equispaced grid it reduces exactly to :class:`PredictorCorrector`. Its
+    purpose is a-priori graded meshes ``t_j = T (j/N)**r`` clustered near ``t=0``,
+    which recover the accuracy a uniform grid loses to the solution's weak
+    ``t**order`` singularity at the origin.
+
+    There is no ``dt``: the grid is taken from the ``ts`` passed to
+    :func:`simulate`. Provisional; explicit one-pass PECE, full-history,
+    ``jit``-traceable with a bounded autodiff graph, and differentiable.
+    """
+
+    order: float
+
+    def __post_init__(self) -> None:
+        as_order(self.order)
+
+
 def simulate(
     *,
     model: DynamicsFn,
     ts: PyTree,
-    solver: PredictorCorrector | ImplicitPredictorCorrector,
+    solver: PredictorCorrector
+    | ImplicitPredictorCorrector
+    | NonUniformPredictorCorrector,
     initial_state: PyTree,
     params: PyTree,
     rng_key: PyTree | None = None,
     inputs: PyTree | None = None,
 ) -> SimulationResult:
-    """Simulate a Caputo FDE with a fixed-step predictor-corrector method.
+    """Simulate a Caputo FDE with a predictor-corrector method.
 
     The full-history Diethelm recurrence is evaluated with a single
     ``jax.lax.scan`` over a preallocated history buffer rather than a Python loop.
@@ -81,11 +106,22 @@ def simulate(
     With a :class:`PredictorCorrector` the explicit one-pass PECE method is used;
     with an :class:`ImplicitPredictorCorrector` the corrector equation is solved
     implicitly (fixed-iteration Newton) for a much larger stability region on stiff
-    problems. Both share the same predictor/corrector history weights.
+    problems; with a :class:`NonUniformPredictorCorrector` the variable-step
+    fractional Adams weights are built from the (non-uniform) ``ts`` node spacings.
     """
 
     if isinstance(solver, ImplicitPredictorCorrector):
         return _simulate_implicit(
+            model=model,
+            ts=ts,
+            solver=solver,
+            initial_state=initial_state,
+            params=params,
+            rng_key=rng_key,
+            inputs=inputs,
+        )
+    if isinstance(solver, NonUniformPredictorCorrector):
+        return _simulate_nonuniform(
             model=model,
             ts=ts,
             solver=solver,
@@ -337,6 +373,122 @@ def _newton_corrector(
     return state
 
 
+def _nonuniform_pece_weights(
+    step: PyTree, times: PyTree, indices: PyTree, alpha: Any, dtype: Any
+) -> tuple[PyTree, PyTree, PyTree]:
+    """Variable-step fractional Adams predictor/corrector weights at node ``step``.
+
+    Returns ``(predictor_weights, corrector_weights, diagonal_weight)``, each
+    already scaled by ``1 / Gamma(alpha)``. ``predictor_weights`` and
+    ``corrector_weights`` are length-``n_time`` history weights (zero for indices
+    ``>= step``); ``diagonal_weight`` is the implicit-stage coefficient applied to
+    ``f(t_n, y_predicted)``. On a uniform grid these collapse to the fixed-step
+    Diethelm weights. Derived from product integration of the Volterra form with a
+    piecewise-constant predictor and piecewise-linear corrector; the singular
+    ``(t-s)**(alpha-1)`` integrates to ``**alpha`` / ``**(alpha+1)`` powers, and the
+    most-recent interval makes the upper base zero, so ``_safe_pow`` keeps the
+    alpha-gradient finite.
+    """
+
+    jnp = _jnp()
+    t_n = times[step]
+    t_next = jnp.concatenate([times[1:], times[-1:]])  # t_{j+1}; last is masked
+    a_upper = (t_n - times).astype(dtype)  # A_j = t_n - t_j
+    b_upper = (t_n - t_next).astype(dtype)  # B_j = t_n - t_{j+1}
+    spacing = (t_next - times).astype(dtype)  # h_j (last entry bogus, masked)
+    spacing = jnp.where(spacing > 0, spacing, 1.0)
+
+    valid = indices < step  # interval j is used iff j < step
+    a1 = alpha
+    ap1 = alpha + 1.0
+    pow_a_upper = _safe_pow(a_upper, a1)
+    pow_b_upper = _safe_pow(b_upper, a1)
+    pow_a_ap1 = _safe_pow(a_upper, ap1)
+    pow_b_ap1 = _safe_pow(b_upper, ap1)
+    diff_a = pow_a_upper - pow_b_upper  # A_j**a - B_j**a
+    diff_ap1 = pow_a_ap1 - pow_b_ap1  # A_j**(a+1) - B_j**(a+1)
+
+    predictor = jnp.where(valid, diff_a / a1, 0.0)
+    # Per-interval hat integrals for the piecewise-linear corrector.
+    i0 = jnp.where(valid, (diff_ap1 / ap1 - b_upper * diff_a / a1) / spacing, 0.0)
+    i1 = jnp.where(valid, (a_upper * diff_a / a1 - diff_ap1 / ap1) / spacing, 0.0)
+
+    # Node j collects I0[j] (left endpoint of interval j) and I1[j-1] (right
+    # endpoint of interval j-1). The diagonal node ``step`` keeps I1[step-1].
+    i1_shifted = jnp.concatenate([jnp.zeros_like(i1[:1]), i1[:-1]])
+    corrector = i0 + i1_shifted  # already masked: i0/i1 are zero where invalid
+    diagonal = i1[step - 1]
+
+    inv_gamma = 1.0 / _gamma()(alpha)
+    return predictor * inv_gamma, corrector * inv_gamma, diagonal * inv_gamma
+
+
+def _simulate_nonuniform(
+    *,
+    model: DynamicsFn,
+    ts: PyTree,
+    solver: NonUniformPredictorCorrector,
+    initial_state: PyTree,
+    params: PyTree,
+    rng_key: PyTree | None = None,
+    inputs: PyTree | None = None,
+) -> SimulationResult:
+    jax = _jax()
+    jnp = _jnp()
+    times = jnp.asarray(ts)
+    _validate_increasing_grid(times)
+    y0 = jnp.asarray(initial_state)
+    alpha = as_order(solver.order)
+    n_time = int(times.shape[0])
+    indices = jnp.arange(n_time)
+
+    f0 = model(
+        times[0],
+        y0,
+        params,
+        rng_key=rng_key,
+        inputs=_inputs_at(inputs, 0, n_time),
+    )
+    history0 = jnp.zeros((n_time, *y0.shape), dtype=f0.dtype).at[0].set(f0)
+
+    def step_fn(history: PyTree, step: PyTree) -> tuple[PyTree, PyTree]:
+        predictor_weights, corrector_weights, diagonal = _nonuniform_pece_weights(
+            step, times, indices, alpha, history0.dtype
+        )
+        predicted = y0 + _history_dot(predictor_weights, history)
+        predicted_f = model(
+            times[step],
+            predicted,
+            params,
+            rng_key=rng_key,
+            inputs=_inputs_at(inputs, step, n_time),
+        )
+        corrected = (
+            y0 + _history_dot(corrector_weights, history) + diagonal * predicted_f
+        )
+        next_f = model(
+            times[step],
+            corrected,
+            params,
+            rng_key=rng_key,
+            inputs=_inputs_at(inputs, step, n_time),
+        )
+        return history.at[step].set(next_f), corrected
+
+    _, tail = jax.lax.scan(step_fn, history0, jnp.arange(1, n_time))
+    values = jnp.concatenate([y0[jnp.newaxis, ...], tail], axis=0)
+
+    info = SolverInfo(
+        name="nonuniform_predictor_corrector",
+        method="caputo_pece_nonuniform",
+        fractional_order=alpha,
+        step_size=None,
+        n_steps=int(n_time - 1),
+        diagnostics={"history": "full", "grid": "nonuniform"},
+    )
+    return SimulationResult(ts=times, latent_state=values, solver_info=info)
+
+
 def _inputs_at(inputs: PyTree | None, index: int, n_time: int) -> PyTree | None:
     if inputs is None:
         return None
@@ -355,6 +507,37 @@ def _inputs_at(inputs: PyTree | None, index: int, n_time: int) -> PyTree | None:
 def _validate_dt(dt: float) -> None:
     if not float(dt) > 0.0:
         msg = f"Expected positive uniform timestep dt, got {dt}."
+        raise ValueError(msg)
+
+
+def _validate_increasing_grid(times: Any) -> None:
+    """Validate a (possibly non-uniform) time grid: 1-D, strictly increasing.
+
+    Static shape checks always run; the strictly-increasing / finite checks run on
+    a concrete ``numpy`` view and are skipped under tracing, mirroring
+    :func:`_validate_time_grid`.
+    """
+
+    if times.ndim != 1:
+        msg = "Expected a one-dimensional time grid."
+        raise ValueError(msg)
+    if times.shape[0] < 1:
+        msg = "Expected at least one time sample."
+        raise ValueError(msg)
+    if times.shape[0] == 1:
+        return
+
+    try:
+        import numpy as np
+
+        concrete = np.asarray(times)
+    except Exception:
+        return
+    if not np.all(np.isfinite(concrete)):
+        msg = "Expected finite time nodes."
+        raise ValueError(msg)
+    if not np.all(np.diff(concrete) > 0.0):
+        msg = "Expected a strictly increasing time grid."
         raise ValueError(msg)
 
 
