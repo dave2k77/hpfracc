@@ -18,6 +18,19 @@ class OperatorFamily(StrEnum):
     GRUNWALD_LETNIKOV = "grunwald_letnikov"
 
 
+class HistoryMethod(StrEnum):
+    """Named history strategies for fractional operators.
+
+    New compression strategies must be added here and remain opt-in; the default
+    stays ``FULL`` so that exact full-history behavior is never silently changed.
+    """
+
+    FULL = "full"
+    FFT = "fft"
+    SHORT_MEMORY = "short_memory"
+    SOE = "soe"
+
+
 @dataclass(frozen=True, slots=True)
 class OperatorInfo:
     """Metadata describing a fractional operator evaluation."""
@@ -27,7 +40,7 @@ class OperatorInfo:
     fractional_order: float
     dt: float
     n_steps: int
-    history: str = "full"
+    history: HistoryMethod = field(default=HistoryMethod.FULL)
     diagnostics: dict[str, Any] = field(default_factory=dict)
     warnings: tuple[str, ...] = ()
 
@@ -36,6 +49,7 @@ class OperatorInfo:
 
         payload = asdict(self)
         payload["family"] = self.family.value
+        payload["history"] = self.history.value
         payload["warnings"] = list(self.warnings)
         return payload
 
