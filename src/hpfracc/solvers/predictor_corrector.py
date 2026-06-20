@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import gamma
 from typing import Any
 
-from hpfracc.ops import validate_order
+from hpfracc.ops.orders import as_order
 from hpfracc.solvers.base import SimulationResult, SolverInfo
 from hpfracc.typing import DynamicsFn, PyTree
 
@@ -24,7 +23,10 @@ class PredictorCorrector:
 
     def __post_init__(self) -> None:
         _validate_dt(self.dt)
-        validate_order(self.order)
+        # as_order (not validate_order) so a PredictorCorrector can be built with
+        # a traced order inside jax.grad/jax.jit; concrete orders are still
+        # validated against the open interval.
+        as_order(self.order)
 
 
 def simulate(
@@ -53,8 +55,9 @@ def simulate(
     _validate_time_grid(times, solver.dt)
 
     y0 = jnp.asarray(initial_state)
-    alpha = validate_order(solver.order)
+    alpha = as_order(solver.order)
     n_time = int(times.shape[0])
+    gamma = _gamma()
     dt_alpha = float(solver.dt) ** alpha
     predictor_scale = dt_alpha / gamma(alpha + 1.0)
     corrector_scale = dt_alpha / gamma(alpha + 2.0)
@@ -81,7 +84,7 @@ def simulate(
         step_f = step.astype(history0.dtype)
 
         predictor_weights = jnp.where(
-            valid, lag**alpha - (lag - 1.0) ** alpha, 0.0
+            valid, lag**alpha - _safe_pow(lag - 1.0, alpha), 0.0
         )
         predicted = y0 + predictor_scale * history_dot(predictor_weights, history)
 
@@ -93,12 +96,12 @@ def simulate(
             inputs=_inputs_at(inputs, step, n_time),
         )
 
-        boundary = (step_f - 1.0) ** (alpha + 1.0) - (
+        boundary = _safe_pow(step_f - 1.0, alpha + 1.0) - (
             step_f - 1.0 - alpha
         ) * step_f**alpha
         interior = (
             (lag + 1.0) ** (alpha + 1.0)
-            + (lag - 1.0) ** (alpha + 1.0)
+            + _safe_pow(lag - 1.0, alpha + 1.0)
             - 2.0 * lag ** (alpha + 1.0)
         )
         corrector_weights = jnp.where(
@@ -188,6 +191,34 @@ def _validate_time_grid(times: Any, dt: float) -> None:
             f"got dt={dt} and spacing={float(diffs[0])}."
         )
         raise ValueError(msg)
+
+
+def _gamma() -> Any:
+    """Return the JAX gamma function (differentiable in the fractional order)."""
+
+    try:
+        from jax.scipy.special import gamma
+    except ModuleNotFoundError as exc:
+        msg = (
+            "JAX is required for hpfracc.solvers numerical solvers. Install the "
+            "package with its runtime dependencies before calling this function."
+        )
+        raise ModuleNotFoundError(msg) from exc
+    return gamma
+
+
+def _safe_pow(base: Any, exp: Any) -> Any:
+    """``base ** exp`` with a finite gradient where ``base == 0``.
+
+    The PECE weights evaluate ``(lag - 1)`` and ``(step - 1)`` powers whose base
+    is zero at the most recent lag / first step. The forward value is ``0`` for a
+    positive exponent, but plain ``base ** exp`` produces a NaN cotangent there;
+    the double-``where`` keeps the gradient finite. Assumes ``exp > 0``.
+    """
+
+    jnp = _jnp()
+    safe_base = jnp.where(base > 0, base, 1.0)
+    return jnp.where(base > 0, safe_base**exp, 0.0)
 
 
 def _jax() -> Any:

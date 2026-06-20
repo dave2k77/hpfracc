@@ -7,18 +7,15 @@ large-scale kernels.
 
 from __future__ import annotations
 
-from math import gamma
 from typing import Any
 
 from hpfracc.ops.base import HistoryMethod, OperatorFamily, OperatorInfo, OperatorResult
 from hpfracc.ops.kernels import (
-    _gl_weights,
     _history_convolution,
-    _l1_weights,
     _soe_convolution,
     _soe_weights,
 )
-from hpfracc.ops.orders import validate_order
+from hpfracc.ops.orders import as_order, validate_order
 
 
 def grunwald_letnikov(
@@ -71,7 +68,7 @@ def grunwald_letnikov(
     ``w_k = w_{k-1} * (k - 1 - alpha) / k``.
     """
 
-    alpha = validate_order(order)
+    alpha = as_order(order)
     _validate_dt(dt)
 
     jnp = _jnp()
@@ -220,7 +217,7 @@ def caputo(
         because the L1 history integral has no elapsed interval at ``t=0``.
     """
 
-    alpha = validate_order(order)
+    alpha = as_order(order)
     _validate_dt(dt)
 
     jnp = _jnp()
@@ -265,7 +262,7 @@ def caputo(
         tail = _history_convolution(
             increments, weights, history=history, window_steps=window_steps
         )
-    scale = 1.0 / (gamma(2.0 - alpha) * (dt**alpha))
+    scale = 1.0 / (_gamma()(2.0 - alpha) * (dt**alpha))
     tail = tail * scale
     result = jnp.concatenate([jnp.zeros_like(values[:1]), tail], axis=0)
     if return_info:
@@ -303,6 +300,38 @@ def _jnp() -> Any:
     return jnp
 
 
+def _gamma() -> Any:
+    """Return the JAX gamma function.
+
+    Used instead of ``math.gamma`` so the Caputo L1 normalisation stays
+    differentiable with respect to the fractional order ``alpha``.
+    """
+
+    try:
+        from jax.scipy.special import gamma
+    except ModuleNotFoundError as exc:
+        msg = (
+            "JAX is required for hpfracc.ops numerical operators. Install the "
+            "package with its runtime dependencies before calling this function."
+        )
+        raise ModuleNotFoundError(msg) from exc
+    return gamma
+
+
+def _safe_pow(base: Any, exp: Any) -> Any:
+    """``base ** exp`` with a finite gradient where ``base == 0``.
+
+    For a positive exponent the value is ``0`` at ``base == 0``, but plain
+    ``base ** exp`` differentiates through ``exp * log(base)`` and yields a NaN
+    cotangent there. The double-``where`` keeps the masked branch from poisoning
+    the gradient. Assumes ``exp > 0`` (as for the ``1 - alpha`` L1 exponent).
+    """
+
+    jnp = _jnp()
+    safe_base = jnp.where(base > 0, base, 1.0)
+    return jnp.where(base > 0, safe_base**exp, 0.0)
+
+
 def _validate_dt(dt: float) -> None:
     if not float(dt) > 0.0:
         msg = f"Expected positive uniform timestep dt, got {dt}."
@@ -330,7 +359,9 @@ def _gl_weights(alpha: float, n: int) -> Any:
 def _l1_weights(alpha: float, n: int) -> Any:
     jnp = _jnp()
     ks = jnp.arange(n, dtype=jnp.result_type(float))
-    return (ks + 1.0) ** (1.0 - alpha) - ks ** (1.0 - alpha)
+    # ks**(1 - alpha) is zero at k=0 but has a NaN d/dalpha there; use _safe_pow
+    # so gradients with respect to the fractional order stay finite.
+    return _safe_pow(ks + 1.0, 1.0 - alpha) - _safe_pow(ks, 1.0 - alpha)
 
 
 def _lower_triangular_history_matrix(weights: Any) -> Any:

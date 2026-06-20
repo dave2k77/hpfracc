@@ -18,7 +18,12 @@ from benchmarks.numerical.validation_summary import write_csv as write_summary_c
 
 def test_gradient_checks_are_close_to_finite_difference() -> None:
     rows = gradient_rows(step=1e-3)
-    assert {row.target for row in rows} == {"caputo_operator", "caputo_solver"}
+    assert {row.target for row in rows} == {
+        "caputo_operator",
+        "grunwald_letnikov_operator",
+        "riemann_liouville_operator",
+        "caputo_solver",
+    }
     assert all(row.abs_error < 2e-3 for row in rows)
 
 

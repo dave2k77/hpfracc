@@ -6,13 +6,31 @@ import argparse
 import csv
 import sys
 from collections.abc import Iterable, Sequence
+from contextlib import contextmanager
 from dataclasses import dataclass
 
 import jax
 import jax.numpy as jnp
 
-from hpfracc.ops import caputo
+from hpfracc.ops import caputo, grunwald_letnikov, riemann_liouville
 from hpfracc.solvers import PredictorCorrector, simulate
+
+
+@contextmanager
+def _enabled_x64():
+    """Enable JAX float64 for the duration of a measurement, then restore.
+
+    The fractional-order finite differences need double precision: in single
+    precision the float32 roundoff floor (~1e-7) is comparable to the gradient
+    perturbation and corrupts the check.
+    """
+
+    previous = jax.config.jax_enable_x64
+    jax.config.update("jax_enable_x64", True)
+    try:
+        yield
+    finally:
+        jax.config.update("jax_enable_x64", previous)
 
 
 @dataclass(frozen=True, slots=True)
@@ -119,6 +137,68 @@ def solver_parameter_row(*, step: float = 1e-3) -> GradientCheckRow:
     )
 
 
+_OPERATORS = {
+    "caputo": caputo,
+    "grunwald_letnikov": grunwald_letnikov,
+    "riemann_liouville": riemann_liouville,
+}
+
+
+def operator_alpha_row(
+    target: str, *, alpha: float = 0.6, step: float = 1e-5
+) -> GradientCheckRow:
+    """Check an operator gradient with respect to the fractional order alpha."""
+
+    operator = _OPERATORS[target]
+    dt = 0.05
+
+    with _enabled_x64():
+        ts = jnp.arange(16, dtype=jnp.float64) * dt
+        x = ts**2
+
+        def objective(order: object) -> object:
+            return jnp.sum(operator(x, dt=dt, order=order) ** 2)
+
+        autodiff = float(jax.grad(objective)(jnp.asarray(alpha, dtype=jnp.float64)))
+        finite_difference = central_difference(objective, alpha, step)
+    return _row(
+        target=f"{target}_operator",
+        parameter="alpha",
+        autodiff=autodiff,
+        finite_difference=finite_difference,
+        step=step,
+    )
+
+
+def solver_alpha_row(*, alpha: float = 0.7, step: float = 1e-5) -> GradientCheckRow:
+    """Check a solver gradient with respect to the fractional order alpha."""
+
+    dt = 0.05
+    with _enabled_x64():
+        ts = jnp.arange(40, dtype=jnp.float64) * dt
+
+        def objective(order: object) -> object:
+            solver = PredictorCorrector(dt=dt, order=order)
+            result = simulate(
+                model=linear_model,
+                ts=ts,
+                solver=solver,
+                initial_state=jnp.asarray(1.0, dtype=jnp.float64),
+                params=jnp.asarray(-0.5, dtype=jnp.float64),
+            )
+            return result.latent_state[-1]
+
+        autodiff = float(jax.grad(objective)(jnp.asarray(alpha, dtype=jnp.float64)))
+        finite_difference = central_difference(objective, alpha, step)
+    return _row(
+        target="caputo_solver",
+        parameter="alpha",
+        autodiff=autodiff,
+        finite_difference=finite_difference,
+        step=step,
+    )
+
+
 def generate_rows(*, step: float = 1e-3) -> list[GradientCheckRow]:
     """Generate all finite-difference gradient check rows."""
 
@@ -126,6 +206,10 @@ def generate_rows(*, step: float = 1e-3) -> list[GradientCheckRow]:
         operator_input_row(step=step),
         solver_initial_state_row(step=step),
         solver_parameter_row(step=step),
+        operator_alpha_row("caputo"),
+        operator_alpha_row("grunwald_letnikov"),
+        operator_alpha_row("riemann_liouville"),
+        solver_alpha_row(),
     ]
 
 
