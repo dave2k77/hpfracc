@@ -24,7 +24,7 @@ def test_fractional_order_rejects_values_outside_open_unit_interval(
 def test_provenance_exports_runtime_target_value() -> None:
     provenance = Provenance(runtime_target=RuntimeTarget.CPU)
     payload = provenance.to_dict()
-    assert payload["package_version"] == "0.1.0a0"
+    assert payload["package_version"] == "0.1.0a1"
     assert payload["backend"] == "jax"
     assert payload["runtime_target"] == "cpu"
 
@@ -34,7 +34,7 @@ def test_experiment_metadata_exports_nested_provenance() -> None:
     payload = metadata.to_dict()
     assert payload["name"] == "smoke"
     assert payload["tags"] == ["contract"]
-    assert payload["provenance"]["package_version"] == "0.1.0a0"
+    assert payload["provenance"]["package_version"] == "0.1.0a1"
 
 
 def test_simulation_result_contract_accepts_structured_metadata() -> None:
