@@ -1,5 +1,7 @@
 # HPFRACC
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20942679.svg)](https://doi.org/10.5281/zenodo.20942679)
+
 HPFRACC is a pre-alpha research-support library for fractional calculus and
 fractional dynamical systems in differentiable scientific computing.
 
