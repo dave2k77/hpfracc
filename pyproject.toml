@@ -55,8 +55,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/hpfracc/hpfracc"
-Issues = "https://github.com/hpfracc/hpfracc/issues"
+Homepage = "https://github.com/dave2k77/hpfracc"
+Issues = "https://github.com/dave2k77/hpfracc/issues"
+DOI = "https://doi.org/10.5281/zenodo.20942679"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hpfracc"]
