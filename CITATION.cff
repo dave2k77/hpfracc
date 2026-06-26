@@ -2,6 +2,12 @@ cff-version: 1.2.0
 message: "If you use HPFRACC in published work, please cite the software."
 title: "HPFRACC: High-Performance Fractional Calculus for Differentiable Scientific Computing"
 version: 0.1.0a1
+doi: 10.5281/zenodo.20942679
+date-released: 2026-06-26
 license: MIT
+repository-code: "https://github.com/dave2k77/hpfracc"
 authors:
-  - name: "HPFRACC contributors"
+  - family-names: Chin
+    given-names: Davian Ricardo
+    orcid: "https://orcid.org/0009-0003-9434-3919"
+    affiliation: "University of Reading, School of Biological Sciences, Biomedical Engineering Division, Brain Embodiment Lab (BEL)"
