@@ -15,7 +15,7 @@ def test_current_provenance_captures_runtime_context() -> None:
 
     payload = provenance.to_dict()
 
-    assert payload["package_version"] == "0.1.0a0"
+    assert payload["package_version"] == "0.1.0a1"
     assert payload["commit_hash"] == "abc123"
     assert payload["backend"] == "jax"
     assert payload["runtime_target"] in {target.value for target in RuntimeTarget}

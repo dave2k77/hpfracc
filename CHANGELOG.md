@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.1.0a1
+
+Status: pre-alpha, released 2026-06-26.
+
 Post-alpha Phase A (harden the numerical core).
 
 - Added an a-posteriori adaptive-step Caputo solver
