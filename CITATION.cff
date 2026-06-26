@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use HPFRACC in published work, please cite the software."
 title: "HPFRACC: High-Performance Fractional Calculus for Differentiable Scientific Computing"
-version: 0.1.0a0
+version: 0.1.0a1
 license: MIT
 authors:
   - name: "HPFRACC contributors"

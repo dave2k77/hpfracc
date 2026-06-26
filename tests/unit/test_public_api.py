@@ -4,7 +4,7 @@ import hpfracc as hp
 
 
 def test_public_namespaces_are_exported() -> None:
-    assert hp.__version__ == "0.1.0a0"
+    assert hp.__version__ == "0.1.0a1"
     assert hp.ops is not None
     assert hp.solvers is not None
     assert hp.solvers.PredictorCorrector is not None
