@@ -1,7 +1,8 @@
 # Fractional Operators
 
-HPFRACC v0.1 targets Riemann-Liouville, Caputo, and Grunwald-Letnikov operator
-families on uniform grids for scalar orders `0 < alpha < 1`.
+HPFRACC v0.1 provides Riemann-Liouville, Caputo, and Grunwald-Letnikov operator
+families with orders `0 < alpha < 1`. Uniform grids support scalar or per-state
+orders; Caputo additionally supports nonuniform grids with scalar order.
 
 Each implementation must document its mathematical definition, discretisation,
 boundary convention, differentiability status, and known failure modes.
@@ -60,11 +61,23 @@ Gamma(beta + 1) / Gamma(beta + 1 - alpha) * t**(beta - alpha)
 
 For constants, the Caputo derivative is zero.
 
+### Nonuniform Caputo L1
+
+`hp.ops.caputo(x, t=nodes, order=...)` uses the actual, strictly increasing time
+nodes in the full-history L1 product integral. Supply exactly one of `t` or `dt`.
+This path supports scalar order only.
+
+Power differences on narrow historical intervals use the shared
+[stable interval moments](solvers.md#graded-mesh-precision), rather than
+subtracting nearly equal lag powers. This retains early-interval contributions
+on graded meshes without changing the L1 discretization or enabling x64 globally.
+
 ## Limitations
 
-- Only scalar `0 < alpha < 1` orders are supported.
-- Only positive uniform timesteps are supported.
-- Full-history matrices are used, so memory use grows quadratically with the
-  number of time samples.
-- Gradients with respect to `order` are provisional; gradients with respect to
-  input samples are the first validation target.
+- Nonuniform grids support only scalar-order Caputo with full history. GL/RL
+  remain uniform-grid operators; vector orders are not supported by SOE.
+- Full-history matrices have quadratic memory cost. The opt-in FFT path changes
+  that cost on uniform grids; the current short-memory and SOE paths still use
+  dense convolution despite approximating the history weights.
+- Order gradients have case-specific validation, not a guarantee for every
+  history strategy or numerical regime; see the validation status page.

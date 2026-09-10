@@ -1,6 +1,12 @@
 # Phase 6: Research-Ready v0.1 Alpha Task Backlog
 
-Status: Complete
+Status: Complete for the original `0.1.0a0` baseline.
+
+Historical closeout backlog, not the current development or release-candidate
+checklist. Task wording below preserves the original scope, including the now
+superseded Phase 7 numbering. The [roadmap](roadmap.md) defines active Phase A
+and planned Phases B-D; the [release checklist](release-checklist.md) defines
+current candidate checks. Completion of this baseline does not close Phase A.
 
 Goal: make the completed numerical, differentiable-model, and experimental
 probabilistic foundations coherent enough for a credible v0.1 alpha release
@@ -333,5 +339,6 @@ Acceptance criteria:
 8. Task 7: report output capture decision.
 9. Task 9 and Task 10 if time allows.
 
-Do not start Phase 7 neural mass / neural field implementation until P0 is
-complete and the Phase 6 completion gate passes.
+The original Phase 7 sequencing rule is historical. Domain-model work is now
+Phase C and follows the Phase A core and Phase B SciML gates, not merely the
+completed Phase 6 baseline.

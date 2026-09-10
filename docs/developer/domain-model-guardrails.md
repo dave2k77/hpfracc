@@ -1,6 +1,6 @@
 # Domain Model Guardrails
 
-Status: Required guardrails for Phase 7 and later domain-model work.
+Status: Required guardrails for Phase C and later domain-model work.
 
 HPFRACC's numerical core is domain-agnostic research software. Future neural
 mass, neural field, and phantom-brain modules must build on the validated core
@@ -37,7 +37,7 @@ At minimum, domain-model work should document:
 
 ## Review Checklist
 
-Before merging Phase 7 neural mass, neural field, or phantom-brain work, confirm:
+Before merging Phase C neural mass, neural field, or phantom-brain work, confirm:
 
 - [ ] public APIs are labeled experimental;
 - [ ] examples and docs avoid biological, clinical, diagnostic, or

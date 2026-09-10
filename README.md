@@ -18,7 +18,7 @@ The current implementation targets:
 
 - JAX-native fractional operators.
 - Riemann-Liouville, Caputo, and Grunwald-Letnikov operator families.
-- Fixed-step Caputo fractional differential equation solvers.
+- Uniform explicit/implicit, nonuniform, and adaptive Caputo FDE solvers.
 - Experimental differentiable Neural FODE workflows.
 - Experimental scalar-grid probabilistic calibration and additive-noise
   stochastic simulation helpers.
@@ -27,8 +27,17 @@ The current implementation targets:
 
 ## Current Surface
 
-The current pre-alpha implementation includes baseline full-history fractional
-operators on uniform grids and a fixed-step Caputo FDE solver:
+Active phase: Phase A
+
+Latest tagged release: `0.1.0a1` (2026-06-26).
+
+Further core hardening is unreleased. See the [current development state](docs/developer/roadmap.md#current-development-state)
+and [validation boundary](docs/validation/status.md) for supported combinations
+and remaining gates. Per-state orders are supported by uniform operators, not
+the scalar-order solvers; nonuniform Caputo is scalar-order/full-history only.
+
+The examples below start with the uniform full-history operator and explicit
+fixed-step Caputo solver baseline:
 
 ```python
 import jax.numpy as jnp
@@ -113,7 +122,7 @@ uv run python -m pytest
 Run the aggregate validation summary:
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary
+uv run python -m benchmarks.numerical.validation_summary --check
 ```
 
 Run detailed operator and solver validation reports:

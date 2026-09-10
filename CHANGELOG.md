@@ -2,6 +2,77 @@
 
 ## Unreleased
 
+- Added experimental opt-in `error_estimator="subdivision"` to the adaptive
+  solver: quarter-step probes, maximum componentwise pair discrepancies, and
+  bounded-factor step proposals. It detects the tested cubic cancellation while
+  retaining coarse PECE states, frozen-mesh gradients, and existing public
+  padding/status contracts. The default step-doubling behavior is unchanged.
+  Added precision/failure/JIT/gradient regressions and a paired comparison;
+  the new indicator remains heuristic, not a calibrated error bound.
+
+- Derived and checked retained-coarse startup scaling for weak power forcing
+  and smooth autonomous dynamics, with independent local-series references.
+  Added an executable smooth cubic counterexample whose coarse/fine indicator
+  vanishes despite nonzero error, plus raw measurements and provenance.
+  This follow-up does not change controller behavior; a safeguarded correction
+  requires more than an alpha-only multiplier or exponent change.
+
+- Added an independent adaptive tolerance-calibration audit with float32/float64
+  exact-solution sweeps and a first-panel quadratic-forcing counterexample.
+  Recorded source/environment provenance and separated global error from
+  operational completion. Clarified that the step-doubling indicator is not a
+  calibrated retained-coarse error bound; numerical controller updates are
+  unchanged pending a justified correction.
+
+- Reconciled the roadmap, engineering contract, validation boundary, and release
+  checklist: distinguish tagged a1 capabilities from unreleased hardening,
+  retain Phase A's open gates, and label the original Phase 2/6 plans as
+  historical. Added documentation-status and simulation-signature guards;
+  the candidate checklist now requires checked reports and separate evidence.
+
+- Extended the aggregate numerical report with fixed core-hardening cases for
+  graded-mesh precision, nonuniform refinement, implicit residual diagnostics,
+  and adaptive completion/failure/JIT status. Added the focused
+  `benchmarks.numerical.core_hardening` command and opt-in `--check` exit status
+  for both reports, preserving existing CSV columns and baseline case names.
+
+- Hardened shared solver time-grid validation: reject non-finite nodes (including
+  single-node grids), repeated/decreasing nodes, and non-finite uniform timesteps.
+  Uniform-grid rounding tolerances now scale with the actual grid magnitude,
+  rejecting spacing mismatches on tiny grids without rejecting valid float32
+  grids. The shared checks cover explicit, implicit, and stochastic uniform paths.
+- Fixed adaptive integration with integer time bounds and mixed time/state
+  precision by keeping mesh buffers and step-size control in a common floating
+  dtype. Nonuniform/adaptive weight normalization now respects the history dtype
+  when x64 is enabled. Added eager, JIT, and gradient regression coverage and
+  documented the boundary between eager validation and traced execution.
+
+- Stabilized nonuniform/adaptive solver and Caputo L1 interval weights on graded
+  meshes. Shared power-kernel moments use a bounded binomial series for narrow
+  intervals and stable closed forms elsewhere, retaining the original
+  full-history schemes without clipping negative weights or forcing float64.
+  Added high-precision reference, positivity, moment, endpoint, and autodiff
+  regressions, including zero-width trial intervals in completed adaptive scans.
+
+- Added implicit Newton residual diagnostics with configurable `newton_rtol`
+  and `newton_atol`, per-step convergence flags/scaled residuals, failure counts,
+  and structured warnings. Status arrays remain available under JIT; eager
+  diagnostics export non-finite residuals as JSON null with explicit failure
+  flags. The fixed iteration count and numerical updates are unchanged.
+
+- Added adaptive completion/failure flags, attempt counts, and a fixed-shape
+  output mask, all accessible under JIT. Non-finite trials and step-size failures
+  now stop without appending invalid states; exhausted budgets produce structured
+  warnings and retain the accepted prefix. Removed premature completion on tiny
+  time spans and forced acceptance of over-tolerance minimum steps. The step-size
+  failure threshold scales with the integration span; numerical controller
+  configuration values must be finite. Lossy integer time-bound conversions
+  report precision failure rather than false completion, and history buffers
+  preserve initial-state precision when dynamics return a narrower dtype.
+- Fixed signed-integer overflow in grid monotonicity/spacing validation and
+  nonuniform operator/solver lag calculations, with analytic eager/JIT checks
+  on valid integer spans wider than the signed dtype range.
+
 ## 0.1.0a1
 
 Status: pre-alpha, released 2026-06-26.

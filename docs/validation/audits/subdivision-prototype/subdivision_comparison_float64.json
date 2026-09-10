@@ -1,0 +1,67 @@
+{
+  "scope": "experimental comparison, not an accuracy guarantee",
+  "provenance": {
+    "package_version": "0.1.0a1",
+    "commit_hash": "82178eb12fef560345c595c76f725c368a1f8613",
+    "backend": "jax",
+    "runtime_target": "cpu",
+    "timestamp_utc": "2026-09-09T16:55:27.843944+00:00",
+    "config": {
+      "jax_backend": "cpu",
+      "jax_version": "0.10.1",
+      "jax_devices": [
+        "cpu:0"
+      ],
+      "python_version": "3.13.13",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "report": "subdivision_comparison",
+      "dtype": "float64",
+      "cases": [
+        "cubic",
+        "weak_power",
+        "half_order_decay",
+        "manufactured_feedback"
+      ],
+      "estimators": [
+        "step_doubling",
+        "subdivision"
+      ],
+      "tolerances": [
+        0.001,
+        0.0001
+      ],
+      "atol_over_rtol": 0.01,
+      "bounds": [
+        0,
+        1
+      ],
+      "max_steps": 512,
+      "first_step": {
+        "cubic": 1.0,
+        "weak_power": 0.01,
+        "half_order_decay": 0.01,
+        "manufactured_feedback": 0.01
+      }
+    }
+  },
+  "git_dirty": true,
+  "python": "3.13.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "jax": "0.10.1",
+  "jaxlib": "0.10.1",
+  "numpy": "2.4.6",
+  "scipy": "1.17.1",
+  "jax_enable_x64": true,
+  "devices": [
+    "cpu:0"
+  ],
+  "source_sha256": {
+    "benchmarks/numerical/adaptive_calibration.py": "f63bc29fa1db7918e30556a99f57aaabb9eb531ddcdeb8c09af24abb3b767210",
+    "src/hpfracc/solvers/predictor_corrector.py": "07f221c26c07a28a17fc78b6ae2d3cada81156b2c6284b8ff919b83a40a6f213",
+    "src/hpfracc/solvers/base.py": "e53384d792a899aafacc7496fcc8bc48a28c7332b2edf79b30df9b6ea2858ecf",
+    "src/hpfracc/ops/_quadrature.py": "5083889d88a725b12ebd630f535a92ce0b028c97f19f028df12a185c9f3a3d4a",
+    "src/hpfracc/ops/orders.py": "86185691bf0fa8249dd254294397ce8410ae6f75ebe6eb1ebe0b29a181e1359c",
+    "benchmarks/numerical/subdivision_comparison.py": "57fd010c038e983bff400f61ff23d55b6d9f81bb0410fe3b3089b4fbdc64b815"
+  },
+  "csv_sha256": "9788b3d30658464c36fe983415594c5f0bad5c332a8fedc3e813846a0a8f0060"
+}

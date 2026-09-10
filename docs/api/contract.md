@@ -31,6 +31,8 @@ Current assignments:
 | `hp.ops.caputo`, `hp.ops.riemann_liouville`, `hp.ops.grunwald_letnikov` | Provisional | Full-history reference implementations for v0.1 numerical validation. |
 | `hp.ops.OperatorResult`, `hp.ops.OperatorInfo`, `hp.ops.OperatorFamily`, `hp.ops.FractionalOrder` | Provisional | Structured result and metadata contracts may evolve with provenance needs. |
 | `hp.solvers.PredictorCorrector`, `hp.solvers.simulate` | Provisional | First fixed-step Caputo FDE solver surface. |
+| `hp.solvers.ImplicitPredictorCorrector` | Provisional | Fixed-step implicit corrector with configurable residual diagnostics; fixed Newton iteration count. |
+| `hp.solvers.AdaptivePredictorCorrector` | Provisional | Adaptive explicit PECE with bounded attempts, padded output, and JIT-accessible completion/failure diagnostics. |
 | `hp.solvers.SimulationResult`, `hp.solvers.SolverInfo` | Provisional | Result metadata is public but may expand during Phase 6 provenance work. |
 | `hp.config.Provenance`, `hp.config.ExperimentMetadata`, `hp.config.RuntimeTarget`, `hp.config.current_provenance` | Provisional | Intended for reproducibility metadata; fields may be refined before v0.1 alpha finalization. |
 | `hp.nn` | Experimental | Differentiable Neural FODE wrapper and training utilities. |
@@ -135,6 +137,122 @@ f(t, state, params, *, rng_key=None, inputs=None)
 `result.latent_state` stores the simulated trajectory with the leading time
 axis. `result.solver_info` records the method name, fractional order, step
 size, step count, and diagnostics.
+
+### Implicit Corrector Diagnostics
+
+`hp.solvers.ImplicitPredictorCorrector` accepts `newton_iterations=3`,
+`newton_rtol=1e-6`, and `newton_atol=1e-8`. Both tolerances must be finite and
+positive. They assess the final algebraic residual, not the trajectory error,
+and do not change the iteration count or trigger retries.
+
+The following fields are in `result.solver_info.diagnostics`:
+
+| Field | Meaning |
+| --- | --- |
+| `newton_converged` | Every attempted corrector step met the residual criterion. |
+| `newton_failure_count` | Number of steps failing the criterion, including non-finite results. |
+| `newton_nonfinite_count` | Steps with non-finite state, dynamics, or residual normalization. |
+| `newton_step_converged` | Per-step flags; index zero corresponds to `ts[1]`. |
+| `newton_scaled_residuals` | Per-step maximum componentwise scaled residuals. Values at most one pass. |
+| `newton_max_scaled_residual` | Maximum over all steps; zero if no Newton steps were taken. |
+
+Eager diagnostics use JSON-compatible scalars/lists. Non-finite residuals are
+represented by `None` (JSON null), with explicit failure flags and counts.
+Failures attach a message to `result.solver_info.warnings`; they do not raise
+an exception or emit a Python warning. Under JIT, the numerical diagnostic
+fields remain fixed-shape JAX arrays and non-finite residuals use positive
+infinity. Compiled callers should return the flags alongside the trajectory;
+data-dependent warning text is only available eagerly:
+
+```python
+def checked_simulation(params):
+    result = hp.solvers.simulate(
+        model=f, ts=ts, solver=implicit_solver, initial_state=y0, params=params,
+    )
+    return result.latent_state, result.solver_info.diagnostics["newton_converged"]
+```
+
+A single-node grid has no attempted Newton steps, so its convergence flag is
+vacuously true. The flag is not a certificate of initial-state validity, root
+uniqueness, conditioning, biological realism, or global integration accuracy.
+See [the residual criterion](../theory/solvers.md#implicit-residual-criterion).
+
+### Experimental Adaptive Subdivision Indicator
+
+The default remains `error_estimator="step_doubling"`. Select the unreleased,
+experimental safeguard explicitly:
+
+```python
+adaptive_solver = hp.solvers.AdaptivePredictorCorrector(
+    order=0.5, rtol=1e-4, atol=1e-6, max_steps=512,
+    error_estimator="subdivision",
+)
+```
+
+It compares full, half, and quarter PECE trial endpoints with a maximum
+componentwise normalized discrepancy, without Richardson rescaling, and uses
+bounded-factor step proposals. It still retains the coarse solution on the
+chosen mesh. The new mode detects the tested cubic pair-cancellation case, but
+is not a calibrated local/global error bound. See
+[the prototype and measured comparison](../validation/adaptive-subdivision.md).
+Unknown estimator names raise `ValueError`; default formulas and public output
+shape are unchanged.
+
+### Adaptive Completion and Failure Status
+
+`hp.solvers.AdaptivePredictorCorrector` treats `ts[0]` and `ts[-1]` as integration
+bounds. It returns arrays of length `max_steps + 2`, padding unused entries with
+the final retained time/state. `max_steps` is an **attempt** budget, including
+rejected and terminating failed trials, not a requested number of output nodes.
+
+Check `result.solver_info.diagnostics` before using a trajectory:
+
+| Field | Meaning |
+| --- | --- |
+| `success`, `reached_t_end` | Completed at the requested endpoint with finite accepted trials. |
+| `max_steps_reached` | Attempt budget exhausted before another terminal condition. False if the final allowed attempt succeeds. |
+| `nonfinite_detected` | Initial state/dynamics/span or trial state/dynamics/error normalization was non-finite. |
+| `step_size_underflow` | Lossy integer-bound conversion, unrepresentable required interior trial nodes (midpoint or quarters), or tolerance failure at the small-step threshold. |
+| `n_accepted`, `n_rejected`, `n_attempted` | Counts satisfying `n_attempted = n_accepted + n_rejected`. |
+| `n_nodes` | Initial node plus accepted steps. `solver_info.n_steps` is the accepted-step count. |
+| `valid_mask` | Boolean array of length `max_steps + 2` selecting the initial node and accepted prefix. |
+| `last_time`, `requested_t_end` | Final retained time and requested endpoint. |
+| `time_bounds_representable` | Integer bounds survive conversion to the floating time dtype exactly; floating bounds require no integer conversion. |
+| `minimum_step` | Small-step failure threshold, `1e-12 * abs(ts[-1] - ts[0])`. |
+| `estimator`, `estimator_stability` | Selected indicator and its provisional/default or experimental/subdivision status. |
+| `error_norm`, `trial_substeps` | `rms`, `2` for the default; `max`, `4` for subdivision. Substeps name the finest trial, not total work. |
+
+Exactly one terminal condition is reported: success, budget exhaustion,
+non-finite failure, or step-size failure. A non-finite initial condition stops
+before any attempts; a finite, representable single-node input completes with zero
+attempts. Lossy integer-bound conversion stops with a step-size failure before
+any attempts, including when conversion collapses distinct endpoints. The
+requested endpoint retains its pre-promotion integer value in the diagnostics.
+History buffers preserve the precision of both the initial state and dynamics;
+finiteness checks inspect the stored initial state, not just the input value.
+Terminal failures preserve the retained prefix instead of appending the failed
+trial. Eager failures attach a message to `solver_info.warnings`, without raising
+or emitting Python warnings.
+
+Counts, flags, times, and the mask are native scalars/lists eagerly and JAX
+arrays under tracing; they are no longer replaced by `None` inside JIT. Return
+the mask and success flag alongside the trajectory from a compiled wrapper:
+
+```python
+def checked_adaptive_simulation(params):
+    result = hp.solvers.simulate(
+        model=f, ts=ts, solver=adaptive_solver, initial_state=y0, params=params,
+    )
+    diagnostics = result.solver_info.diagnostics
+    return result.latent_state, diagnostics["valid_mask"], diagnostics["success"]
+```
+
+Inside JIT, use the fixed-shape mask for reductions rather than dynamically
+slicing at `n_nodes`. The mask indicates **unpadded entries**, not initial-state
+validity or numerical accuracy. Dynamic warning text is eager-only. Failure-path
+gradients are not guaranteed; the validated gradient contract is the successful
+solution's frozen-mesh sensitivity. See
+[adaptive termination semantics](../theory/solvers.md#adaptive-termination).
 
 ## Model Results
 

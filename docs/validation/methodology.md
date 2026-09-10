@@ -18,8 +18,9 @@ The first operator validation layer covers:
 - JIT compatibility.
 - Gradients with respect to input samples.
 
-Gradients with respect to fractional order `alpha` remain provisional until a
-dedicated validation suite is added.
+Gradients with respect to fractional order `alpha` have case-specific
+finite-difference validation. See the validation status page for the supported
+paths; this is not a blanket guarantee for every history strategy or regime.
 
 ## Validation Report Commands
 
@@ -55,12 +56,12 @@ uv run python -m benchmarks.numerical.solver_validation.report
 The command validates the scalar linear Caputo FDE against a truncated
 Mittag-Leffler reference and records timestep-refinement errors.
 
-## Phase 3 Validation Harness
+## Aggregate Validation Harness
 
-Run the aggregate Phase 3 validation summary with:
+Run the aggregate baseline and Phase A validation summary with:
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary
+uv run python -m benchmarks.numerical.validation_summary --check
 ```
 
 The summary covers:
@@ -69,6 +70,53 @@ The summary covers:
 - Solver refinement checks.
 - Finite-difference gradient checks.
 - Basic stability checks.
+- Float32 graded-mesh history precision and nonuniform-solver refinement.
+- Implicit nonlinear residual convergence and expected-failure reporting.
+- Adaptive completion, budget exhaustion, non-finite and step-size/precision
+  failures, including JIT-accessible status.
+
+The existing CSV schema and baseline case names are preserved. `--check` writes
+the report and exits 1 if any row fails or the report is empty; omitting the flag
+retains report-only behavior. A solver-failure detection row has `passed=True`
+when the intentionally failing solve reports the expected failure, not when that
+trajectory should be accepted for research use.
+
+Run only the new fixed cases with:
+
+```bash
+uv run python -m benchmarks.numerical.core_hardening --check
+```
+
+These cases record their orders, grids, precision, references, tolerances, and
+expected statuses in `details`. They intentionally do not inherit aggregate
+`--order`, `--n-steps`, or `--gradient-tolerance` overrides:
+
+- Graded weights/Caputo history: 160 nodes, grading exponent 4, order 0.4,
+  float32 execution; 70-digit mpmath references on the actual stored nodes;
+  relative-error tolerance `5e-6` and positive solver weights.
+- Nonuniform decay: order 0.4, rate -1, 40/80/160 nodes, grading exponent 4;
+  a host-float64, 100-term Mittag-Leffler series on mild arguments; monotone
+  refinement and finest max error at most `5e-4`.
+- Implicit cubic dynamics: order 0.7, rate -2, one step of 0.5; eight Newton
+  iterations must meet the residual criterion and one iteration must report
+  failure, including under JIT. Residual tolerances are `1e-6`/`1e-8`. The report
+  independently reconstructs the first-step residual from the finite returned
+  trajectory using host-float64 arithmetic, rather than trusting status fields.
+  Both residuals must lie on the expected side of the threshold of one, and the
+  reported residual must be nonnegative. Agreement is checked with `math.isclose`
+  using `rel_tol=1e-5` and `abs_tol=1.0` in scaled-residual units to accommodate
+  float32 gamma/arithmetic roundoff; both values and these comparison tolerances
+  are recorded. This comparison allowance does not relax the independent
+  convergence threshold.
+- Adaptive zero-drift controls and a deliberately non-finite drift verify
+  expected completion/failure flags, counts, retained-prefix masks, and states.
+  Separate controls cover an unrepresentable midpoint, lossy integer time bounds,
+  and eager/JIT agreement.
+
+The hardening workload stays float32 even when the caller has enabled x64; the
+report does not change that global setting. This extends the aggregate evidence
+but does not replace the complete unit/property/regression/performance suites,
+validate every Phase A feature, or establish general tolerance calibration.
 
 Run the component commands directly when detailed rows are needed:
 

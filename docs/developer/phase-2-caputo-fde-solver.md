@@ -1,9 +1,12 @@
 # Phase 2: Caputo FDE Solver Plan
 
-Status: Complete in the current working tree.
+Status: Complete in the original `0.1.0a0` baseline.
 
-Phase 2 implements the first deterministic fractional differential equation
-solver. The solver remains full-history and uniform-grid only.
+Historical plan for the first deterministic fractional differential equation
+solver, which was full-history and uniform-grid only. This is not the current
+solver capability list: see the [roadmap](roadmap.md) and
+[solver theory](../theory/solvers.md) for the released extensions and unreleased
+hardening. Non-goals below refer to Phase 2, not the active Phase A scope.
 
 ## Target Equation
 

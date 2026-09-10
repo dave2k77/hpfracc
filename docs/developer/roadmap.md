@@ -3,16 +3,22 @@
 HPFRACC development is milestone-gated. Each phase must produce validation
 evidence before later scientific or domain-specific layers depend on it.
 
-Current status:
+## Current Development State
 
-- Phase 0: Complete in commit `3f46a84`.
-- Phase 1: Complete in commit `3f46a84`.
-- Phase 2: Complete in the current working tree.
-- Phase 3: Complete in the current working tree.
-- Phase 4: Complete in the current working tree.
-- Phase 5: Complete in the current working tree.
-- Phase 6: Complete in the current working tree (v0.1.0a0 released and tagged).
-- Active phase: Phase A, hardening the numerical core.
+Active phase: Phase A
+
+Latest tagged release: `0.1.0a1` (2026-06-26).
+
+Phases 0-6 delivered the original `0.1.0a0` baseline. The `0.1.0a1` release
+added Phase A capabilities; it did **not** close Phase A. The hardening changes
+listed below are **unreleased**, even while package metadata still reads
+`0.1.0a1`. Use the changelog, commit and working-tree state to distinguish the
+development code from that tag. Phases B-D remain planned.
+
+This page is the current milestone map; the
+[validation status](../validation/status.md) defines the evidence boundary and
+the [release checklist](release-checklist.md) is an unexecuted candidate template,
+not a record that the current development tree is ready to tag.
 
 The post-alpha roadmap below (Phases A-D) supersedes the earlier
 Phases 7-9 sketch. It maps the path from the released v0.1.0a0 "minimal viable
@@ -21,7 +27,8 @@ scientific kernel" to the full layered blueprint in
 order. Four standing decisions constrain it:
 
 1. Core-first: harden the mathematical engine before the brain stack.
-2. No NumPyro: the probabilistic layer stays dependency-free and JAX-native,
+2. No NumPyro: the probabilistic layer stays JAX-native without an additional
+   probabilistic backend dependency,
    evolving the hand-rolled approach toward SVI/MCMC while preserving the public
    `hp.prob` surface.
 3. Additive growth: keep the flat `ops/`, `solvers/`, `prob/` layout and add new
@@ -170,7 +177,8 @@ Deliverables:
 - Scalar-grid Gaussian calibration workflow.
 - Posterior predictive utilities.
 - Small reproducible probabilistic calibration example.
-- NumPyro integration deferred until small probabilistic contracts stabilize.
+- Hand-rolled scalar-grid inference; the earlier optional NumPyro proposal is
+  superseded by the NumPyro-free post-alpha decision above.
 
 Exit criteria:
 
@@ -210,12 +218,82 @@ Release gate: see the [v0.1 Alpha Release Checklist](release-checklist.md).
 
 ## Phase A: Harden the Numerical Core
 
-Status: Active.
+Status: Active; not closed.
 
 Goal: make the mathematical engine broad, fast, and trustworthy enough to carry
 the SciML and brain layers before any domain code depends on it.
 
-Deliverables:
+### Released capabilities through 0.1.0a1
+
+| Area | Implemented boundary |
+| --- | --- |
+| History methods | Uniform-grid operator `full`, `fft`, `short_memory`, and `soe` paths are explicit opt-ins except the full-history default. FFT evaluates the same discrete convolution up to floating-point error. Short-memory and SOE approximate weights but still use dense full-history application; they are not yet bounded-memory implementations. |
+| Orders and grids | Uniform operators accept scalar or per-state orders with `full`, `fft`, and `short_memory`; SOE is scalar-only. Nonuniform Caputo L1 is scalar-order, full-history only. GL/RL remain uniform-grid operators. |
+| Deterministic solvers | `PredictorCorrector` and `ImplicitPredictorCorrector` use uniform grids; `NonUniformPredictorCorrector` uses supplied nodes; `AdaptivePredictorCorrector` chooses a mesh from the supplied bounds. All remain scalar-order and full-history. Implicit stepping is uniform only, not an adaptive/implicit combination. |
+| Differentiation | Selected state, parameter, and order gradients have finite-difference/JIT evidence. Adaptive derivatives are frozen-mesh sensitivities, not derivatives of the controller or accept/reject decisions. Validated cases do not promote the public APIs out of their provisional stability tier. |
+| Test tiers | Unit, property, golden-regression, and separately selected performance tests exist. Their presence is not proof that every Phase A combination or performance claim is covered. |
+
+<a id="phase-a-unreleased"></a>
+
+### Unreleased hardening
+
+- Shared solver validation for finite, strictly increasing grids, tiny uniform
+  spacings, and safe integer differences; adaptive time/state dtype handling.
+- Stable graded-mesh interval moments shared by nonuniform Caputo and
+  nonuniform/adaptive solvers, with independent high-precision references.
+- Implicit algebraic residual diagnostics and adaptive operational
+  completion/failure diagnostics, including JIT-readable arrays and accepted
+  output masks. Neither is a global integration-error guarantee.
+- Fixed core-hardening report cases added to the existing aggregate CSV schema;
+  `--check` makes failed or empty reports return a nonzero exit status. Corruption
+  tests check report sensitivity, including independent implicit residuals.
+
+The implementation and regression evidence live in the source tree and are
+described in [validation status](../validation/status.md) and the changelog's
+Unreleased section. Local development checks are not a clean-candidate release
+sign-off, accelerator validation, or a complete Phase A evidence dossier.
+
+<a id="phase-a-gates"></a>
+
+### Remaining Phase A gates
+
+1. Audit each new scheme/history path against the analytic, convergence,
+   gradient, and JIT requirements below. Record supported combinations and
+   case-specific tolerances; selected smoke tests or report rows are not blanket
+   coverage. In particular, extend independent adaptive tolerance-calibration
+   and nonlinear/stiff implicit evidence beyond the currently documented cases.
+   The [initial adaptive audit](../validation/adaptive-calibration.md) now
+   demonstrates first-panel indicator underestimation and separates global
+   errors from operational completion; a justified calibration correction
+   remains open, rather than being inferred from decreasing refinement errors.
+   The [startup follow-up](../validation/adaptive-startup.md) supplies the
+   weak-forcing/autonomous scaling and a zero-indicator cubic counterexample.
+   An [experimental subdivision prototype](../validation/adaptive-subdivision.md)
+   now uses additional quarter-step information behind an explicit opt-in.
+   Broader calibration, nonlinear/stiff evidence, and matched-work evaluation
+   remain gates before promotion; the default and the phase status are unchanged.
+2. Complete the memory-efficiency deliverable: replace dense short-memory/SOE
+   application with genuinely memory-efficient opt-in implementations, retaining
+   an explicit approximation contract. Measure memory and sequence/state scaling
+   before claiming acceleration; selected smooth-signal error bounds are not
+   universal error guarantees. Solver histories remain uncompressed.
+3. Reconcile any remaining grid/order and differentiation scope with the actual
+   supported combinations. Per-state solver orders are not implemented; do not
+   infer them from per-state operator support. Record explicit deferrals rather
+   than silently treating partial coverage as completion.
+4. Capture a reviewed candidate's validation/benchmark outputs with provenance.
+   The committed `v0.1.0a0` bundle is historical, not evidence for `0.1.0a1` or
+   these unreleased changes. Align CI with the lockfile and declare the lint tool
+   in the reproducible environment; current CI installs with pip and Ruff is
+   absent from the dev extra. Resolve existing repository lint findings before
+   claiming a clean lint gate.
+
+Full-result dataclass JIT return support and runtime numeric validation of traced
+inputs remain limitations. Current compiled callers should return array fields
+and numeric diagnostics and supply prevalidated inputs. These limitations must
+stay visible unless deliberately implemented and validated.
+
+Original Phase A deliverables (retained as the completion target):
 
 - Memory-efficient kernels (opt-in, never silently substituted for full-history):
   FFT-accelerated history convolution, short-memory truncation, sum-of-exponentials
@@ -224,7 +302,7 @@ Deliverables:
   alongside the existing predictor-corrector, reusing the `lax.scan` history-buffer
   pattern and returning the same `SimulationResult`.
 - Grid and order generality: nonuniform time grids and vector / per-state
-  fractional orders extending today's scalar `0 < alpha < 1`.
+  fractional orders extending the original scalar `0 < alpha < 1` baseline.
 - Validated gradients with respect to fractional order `alpha` (promoted from
   provisional).
 - Test-tier build-out: `tests/property/` (hypothesis identities),
@@ -235,7 +313,9 @@ Exit criteria:
 
 - Every new operator/solver has analytic, convergence-order, gradient, and JIT
   validation.
-- Compressed-memory paths are proven bit-equivalent or bounded versus full-history.
+- FFT paths agree with full-history within documented floating-point tolerances;
+  approximate paths have documented, validated error bounds versus full-history
+  for their claimed scope, with measured memory/scaling evidence.
 - `python -m pytest` and `mkdocs build --strict` pass; the validation summary
   covers the new areas; `docs/validation/status.md` is updated.
 
@@ -246,13 +326,15 @@ grow inference natively (no NumPyro).
 
 Deliverables:
 
-- `hp.nn`: `NeuralFSDE` on the Phase A stochastic solver, PINN-style residual
+- `hp.nn`: `NeuralFSDE` on the experimental additive-noise solver after the
+  required stochastic validation, PINN-style residual
   losses, and graph-coupled dynamics on `(n_nodes, n_nodes)` connectivity.
 - `hp.train`: `Trainer`, losses, loops, callbacks, checkpoints, with Optax as an
   optional optimizer dependency and a pure-pytree fallback.
 - `hp.prob`: extend the hand-rolled JAX-native layer toward variational inference
-  and a simple MCMC sampler, preserving the public `hp.prob.fit` /
-  `hp.prob.posterior_predictive` shape.
+  and a simple MCMC sampler, preserving the existing
+  `hp.prob.grid_calibrate_scalar` / `hp.prob.posterior_predictive` APIs.
+  A generic `fit` entry point would be new, not an existing public contract.
 - Probabilistic validation: parameter recovery, posterior predictive checks, and
   simulation-based calibration on controlled examples.
 
@@ -310,7 +392,7 @@ Deliverables:
 - A multi-device design ADR (`pmap`/`pjit`/sharding), forward-compatible without
   required implementation.
 - Research cookbooks and tutorials, plus a full API reference.
-- A versioned research release graduating from `0.1.0a0`, with complete validation
+- A versioned research release graduating from the pre-alpha line, with complete validation
   and performance reports and provenance artifacts.
 
 Exit criteria:

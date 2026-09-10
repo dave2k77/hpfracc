@@ -74,4 +74,5 @@ the band onto the dominant trajectory.
   predictive distribution, not unweighted grid quantiles. Because that
   distribution is discrete, the bands are step-valued between grid points rather
   than smoothly interpolated.
-- NumPyro integration is deferred until these small contracts stabilize.
+- The post-alpha roadmap keeps inference JAX-native and NumPyro-free. Broader
+  variational/MCMC workflows remain planned, not part of this scalar-grid API.

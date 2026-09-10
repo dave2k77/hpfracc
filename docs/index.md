@@ -9,18 +9,26 @@ adding domain-specific brain-model or phantom-brain workflows.
 HPFRACC is research software only. It is not clinical, diagnostic, or
 subject-specific decision software.
 
-## Current Release-Readiness Focus
+## Current Development Focus
 
-Phase 6 is a research-ready v0.1 alpha pass. The active work is to make the
-existing numerical, differentiable-model, and experimental probabilistic
-foundations coherent enough for alpha release:
+Active phase: Phase A
 
-- API stability tiers are documented in the API contract.
-- Validation scope and provisional capabilities are summarized in the validation
-  status page.
-- Runtime provenance can be captured with `hp.config.current_provenance()`.
-- The release checklist records the required tests, validation reports,
-  benchmarks, examples, version metadata, and research-use checks.
+Latest tagged release: `0.1.0a1` (2026-06-26).
+
+Phases 0-6 delivered the original alpha baseline. The tagged release adds nonuniform/adaptive
+and implicit solvers, per-state operator orders, and selected order-gradient
+validation. Further precision, input-validation, solver-diagnostic, and reporting
+hardening is unreleased, not part of that tag.
+
+- The [roadmap](developer/roadmap.md#current-development-state) separates released
+  capabilities, unreleased changes, and remaining Phase A gates.
+- The [validation status](validation/status.md) defines case-specific evidence
+  and limitations; a passing check is not a universal accuracy guarantee.
+- The [API contract](api/contract.md) records supported interfaces and stability
+  tiers. Numerical validation does not make the experimental layers stable.
+- The [release checklist](developer/release-checklist.md) is a candidate template,
+  not an executed release record. Runtime provenance can be captured with
+  `hp.config.current_provenance()` and must identify the source used.
 
 Neural mass, neural field, EEG, and phantom-brain workflows remain future domain
 phases and should not be interpreted as current validated capabilities.

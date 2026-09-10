@@ -1,0 +1,46 @@
+{
+  "protocol": "subdivision-runtime-dense-v1",
+  "declared_utc": "2026-09-10T06:51:41.457681+00:00",
+  "scope": "Local predeclaration before this dense sweep, informed by earlier coarse results; not an independently registered confirmatory study.",
+  "cases": ["nonlinear", "strong_feedback", "long_decay"],
+  "estimators": ["step_doubling", "subdivision"],
+  "precision_order": ["float32", "float64"],
+  "backend": "WSL CPU; locked JAX environment",
+  "sweep": "dense",
+  "tolerances": [0.01, 0.007, 0.005, 0.003, 0.002, 0.0015, 0.001, 0.0007, 0.0005, 0.0003, 0.0002, 0.00015, 0.0001],
+  "fractional_order": 0.5,
+  "atol_over_rtol": 0.01,
+  "first_step": 0.01,
+  "max_steps": 2048,
+  "repeats": 7,
+  "seed": 1729,
+  "configurations_per_precision": 78,
+  "total_configurations": 156,
+  "total_timed_samples": 1092,
+  "timing_protocol": "Unchanged from the coarse runtime audit: dynamic initial/bounds inputs, separate lower+compile and warmup, all configurations prepared before seeded shuffled serial rounds, whole-output synchronization, host validation outside timing.",
+  "matching": {
+    "metric": "median synchronized seconds",
+    "criterion": "max(default, subdivision) / min(default, subdivision) <= 1.2",
+    "allowance": 0.2,
+    "eligibility": "Compatible problem, dtype, order, interval, feedback, first step and budget; completed finite numerical measurements and stable finite positive timings.",
+    "selection": "Export every eligible pair, without using accuracy to select pairs; no interpolation or extrapolation.",
+    "coverage_goal": "At least one eligible pair for each case in each precision. Report unmet coverage rather than tuning the grid after observing outcomes."
+  },
+  "reported_outcomes": [
+    "Expected and collected unique configurations and samples",
+    "Completion, failure flags, and elementwise repeatability",
+    "Pair count and coverage by case and precision",
+    "All-pair maximum accepted-node error comparisons",
+    "All-pair endpoint error comparisons",
+    "Raw timings and within-configuration variability"
+  ],
+  "failure_policy": "Retain exhausted and other incomplete solves with timings but no full-span accuracy. Do not increase budget to eliminate failures. Strict completion --check may fail without invalidating measured failure evidence.",
+  "stopping_rule": "One full sweep per precision, serially, with no concurrent tests or numerical benchmarks. No post-hoc tolerance or matching-threshold adjustment. Infrastructure failures are reported separately and any retry must be disclosed.",
+  "interpretation": "Pairs can reuse configurations and are not independent trials. Ratios concern each mesh's maximum error and the common endpoint separately, not a dense-output/global-error bound or universal efficiency ranking.",
+  "source_sha256": {
+    "benchmarks/numerical/subdivision_runtime.py": "888ef8655e3c61ffae863976e3e102cf1f0a087093c15abb05280d589a791af9",
+    "benchmarks/numerical/subdivision_stress.py": "bb37829d9afb79143f5d5c6f3f98c8d6980407cb43e909a57206eb7f274d056f",
+    "src/hpfracc/solvers/predictor_corrector.py": "07f221c26c07a28a17fc78b6ae2d3cada81156b2c6284b8ff919b83a40a6f213",
+    "src/hpfracc/ops/_quadrature.py": "5083889d88a725b12ebd630f535a92ce0b028c97f19f028df12a185c9f3a3d4a"
+  }
+}

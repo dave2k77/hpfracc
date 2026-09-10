@@ -1,12 +1,22 @@
 # v0.1 Alpha Release Checklist
 
-Status: Draft for Phase 6 release-readiness work.
+Status: Reusable candidate template; not an executed release record.
 
-Goal: define the minimum checks required before tagging a research-ready
-`0.1.0a0` alpha candidate. HPFRACC remains research software only; this
+Latest tagged release: `0.1.0a1` (2026-06-26).
+
+Goal: define the minimum checks required before tagging the next reviewed
+pre-alpha candidate. No next version or release date is selected here. The
+current Phase A hardening is unreleased; passing local checks does not close
+Phase A or authorize a tag. See the [roadmap](roadmap.md#current-development-state)
+for remaining milestone gates. HPFRACC remains research software only; this
 checklist does not imply clinical, diagnostic, or subject-specific validity.
 
 Run commands from the repository root with the project `uv` environment.
+
+Leave this template unchecked. Copy it into the candidate's evidence bundle and
+record outcomes, environment, and exact source revision there. Do not relabel or
+overwrite the historical `docs/validation/reports/v0.1.0a0/` artifacts as evidence
+for a newer release.
 
 ## 1. Repository State
 
@@ -35,10 +45,14 @@ git branch --show-current
 - [ ] Synchronize the development environment from the lockfile.
 
 ```bash
-uv sync --extra dev
+uv sync --locked --extra dev
 ```
 
 - [ ] Record the Python, package, and backend versions used for validation.
+- [ ] Record JAX/jaxlib versions, device, dtype/x64 settings, OS, and uv version.
+  A commit hash alone does not identify a dirty development tree: record dirty
+  state and source changes for development runs, and use reviewed clean source
+  for final candidate evidence.
 
 ```bash
 uv run python - <<'PY'
@@ -49,13 +63,34 @@ print(json.dumps(hp.config.current_provenance().to_dict(), indent=2))
 PY
 ```
 
-## 3. Unit Tests
+Current reproducibility gaps: CI installs via pip rather than `uv.lock`, and
+Ruff is not declared in the dev extra. Align candidate tooling with the lockfile
+and resolve existing lint findings before claiming a reproducible, clean lint
+gate. A host/PATH-provided Ruff is not a locked project dependency.
 
-- [ ] Run the full unit test suite.
+## 3. Tests and Lint
+
+- [ ] Run the documentation guards and default suite, including property and
+  golden-regression tests. Performance tests are deselected by default.
 
 ```bash
 uv run python -m pytest tests/unit/test_docs_consistency.py
-uv run python -m pytest
+uv run --frozen python -m pytest tests/unit/test_development_status_docs.py
+uv run --frozen python -m pytest
+```
+
+- [ ] Record the separate machine-dependent performance result. CI treats this
+  timing job as non-gating; it is not numerical correctness or accelerator proof.
+
+```bash
+uv run --frozen python -m pytest -m performance
+```
+
+- [ ] Run repository lint with the candidate's explicitly provisioned Ruff and
+  record its version. Do not describe changed-file lint as a clean full-repo run.
+
+```bash
+uv run ruff check .
 ```
 
 - [ ] If failures occur, fix the underlying code or contract before continuing.
@@ -66,7 +101,7 @@ uv run python -m pytest
 - [ ] Build documentation in strict mode.
 
 ```bash
-uv run mkdocs build --strict
+uv run --frozen mkdocs build --strict
 ```
 
 - [ ] Confirm any warnings are understood and are not caused by HPFRACC docs.
@@ -75,11 +110,17 @@ uv run mkdocs build --strict
 
 ## 5. Numerical Validation Reports
 
-- [ ] Run the validation summary.
+- [ ] Run the aggregate and focused hardening reports as executable gates.
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
+uv run --frozen python -m benchmarks.numerical.core_hardening --check
 ```
+
+The `--check` flag makes failed or empty reports exit nonzero; report-only mode
+does not enforce this gate. A passing diagnostic-failure case means the expected
+failure was detected, not that its simulation succeeded. The aggregate is not
+the entire Phase A evidence matrix.
 
 - [ ] Run operator validation.
 
@@ -95,6 +136,13 @@ uv run python -m benchmarks.numerical.solver_validation.report
 
 - [ ] Review output for failures, warnings, or claims that exceed the documented
   v0.1 validation scope.
+- [ ] Review separate convergence, gradient, history-comparison, vector-order,
+  and solver test evidence referenced by [validation status](../validation/status.md).
+  Reports without a `--check` option require inspection of their rows, not just
+  successful process exit.
+- [ ] Save CSV output and companion provenance JSON in a new candidate-specific
+  bundle. Preserve existing case IDs/columns and identify fixed-case
+  configurations; see [methodology](../validation/methodology.md).
 
 ## 6. Baseline Benchmark
 
@@ -136,9 +184,25 @@ PY
 
 - [ ] Check `pyproject.toml` version metadata.
 - [ ] Check `src/hpfracc/_version.py`.
+- [ ] Check the project entry in `uv.lock` after an intentional version update.
 - [ ] Check `CHANGELOG.md` for a current alpha-release entry.
 - [ ] Check `CITATION.cff` if present.
 - [ ] Add a release date only when the tag date is known.
+
+### Distribution verification
+
+- [ ] Build wheel and source distributions from the reviewed candidate.
+
+```bash
+uv build
+```
+
+- [ ] Verify candidate filenames/version and package contents. Install the wheel
+  in an isolated environment outside the source checkout and smoke-test import,
+  version, and a numerical example; do not rely only on an editable installation.
+- [ ] Record packaging results with candidate evidence. Building is not
+  publishing; tagging, uploading, and publishing require an explicit release
+  decision.
 
 ## 9. Research-Use Disclaimer and API Stability
 
@@ -151,26 +215,34 @@ PY
 
 ## 10. Final Candidate Gate
 
-Run the complete Phase 6 gate from a clean checkout or a reviewed release
+Run the candidate gate from a clean checkout or a reviewed release
 candidate branch:
 
 ```bash
-uv run python -m pytest
-uv run mkdocs build --strict
-uv run python -m benchmarks.numerical.validation_summary
-uv run python -m benchmarks.numerical.operator_validation.report
-uv run python -m benchmarks.numerical.solver_validation.report
-uv run python -m benchmarks.numerical.baseline
+uv sync --locked --extra dev
+uv run --frozen python -m pytest
+uv run --frozen mkdocs build --strict
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
+uv run --frozen python -m benchmarks.numerical.core_hardening --check
+uv run --frozen python -m benchmarks.numerical.operator_validation.report
+uv run --frozen python -m benchmarks.numerical.solver_validation.report
+uv run --frozen python -m benchmarks.numerical.baseline
 git diff --check
 git status --short
 ```
 
 The v0.1 alpha candidate is ready for tagging only when:
 
-- [ ] all commands above pass;
+- [ ] all gating commands above pass and report rows have been reviewed;
+- [ ] separate performance results and candidate lint results are recorded;
 - [ ] example smoke tests pass;
+- [ ] distribution build and isolated wheel checks pass;
 - [ ] release notes/changelog match the actual code and validation scope;
 - [ ] provenance or validation-context gaps are either fixed or explicitly
   documented;
 - [ ] the working tree is clean except for intentional generated release
   artifacts.
+
+A candidate may ship a documented subset of Phase A without declaring the whole
+phase complete. Any Phase A closure additionally requires the roadmap exit
+criteria and explicitly reviewed deferrals; this checklist does not waive them.

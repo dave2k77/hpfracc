@@ -1,8 +1,18 @@
 # Developer Notes
 
+Active phase: Phase A
+
+Latest tagged release: `0.1.0a1` (2026-06-26).
+
 The numerical core should remain domain-agnostic. Neural mass, neural field,
 probabilistic, and phantom-brain layers should build on top of validated core
 operators and solvers.
+
+Start with the [current development state](roadmap.md#current-development-state)
+and [validation status](../validation/status.md). Tagged features, unreleased
+hardening, and remaining gates are separate.
+The Phase 2/6 plans are historical baselines, and the
+[release checklist](release-checklist.md) is a template, not release sign-off.
 
 Before domain-model work starts (Phase C), review the
 [Domain Model Guardrails](domain-model-guardrails.md). Future neural mass,

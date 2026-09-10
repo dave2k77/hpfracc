@@ -1,4 +1,4 @@
-"""Aggregate Phase 3 numerical validation summary."""
+"""Aggregate baseline and Phase A numerical validation summary."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import argparse
 import csv
 import sys
 from collections.abc import Iterable, Sequence
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 from benchmarks.numerical.convergence import (
     caputo_operator_order_row,
@@ -14,6 +14,7 @@ from benchmarks.numerical.convergence import (
     row_passed,
     solver_endpoint_order_row,
 )
+from benchmarks.numerical.core_hardening import generate_rows as hardening_rows
 from benchmarks.numerical.gradient_checks import generate_rows as gradient_rows
 from benchmarks.numerical.operator_validation.report import (
     generate_rows as operator_rows,
@@ -143,7 +144,7 @@ def generate_rows(
             passed=all(row.passed for row in stable_rows),
             details=f"total={len(stable_rows)}",
         ),
-    ]
+    ] + [ValidationSummaryRow(**asdict(row)) for row in hardening_rows()]
 
 
 def write_csv(
@@ -172,21 +173,30 @@ def write_csv(
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--order", type=float, default=0.7)
-    parser.add_argument("--n-steps", type=int, nargs="+", default=[21, 41, 81])
+    parser.add_argument(
+        "--order", type=float, default=0.7,
+        help="Baseline order; hardening cases use their own fixed recorded orders.",
+    )
+    parser.add_argument(
+        "--n-steps", type=int, nargs="+", default=[21, 41, 81],
+        help="Baseline grid sizes; hardening grids remain fixed.",
+    )
     parser.add_argument("--gradient-tolerance", type=float, default=2e-3)
+    parser.add_argument(
+        "--check", action="store_true", help="Exit 1 if any validation row fails."
+    )
     return parser.parse_args(argv)
 
 
-def main(argv: Sequence[str] | None = None) -> None:
+def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
-    write_csv(
-        generate_rows(
-            order=args.order,
-            n_steps_values=tuple(args.n_steps),
-            gradient_tolerance=args.gradient_tolerance,
-        )
+    rows = generate_rows(
+        order=args.order,
+        n_steps_values=tuple(args.n_steps),
+        gradient_tolerance=args.gradient_tolerance,
     )
+    write_csv(rows, sys.stdout)
+    return int(args.check and (not rows or not all(row.passed for row in rows)))
 
 
 def _join(values: Iterable[int]) -> str:
@@ -194,4 +204,4 @@ def _join(values: Iterable[int]) -> str:
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

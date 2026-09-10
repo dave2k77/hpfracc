@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import isfinite
 from typing import Any
 
+from hpfracc.ops._quadrature import _power_interval_moments, _time_difference
 from hpfracc.ops.orders import as_order
 from hpfracc.solvers.base import SimulationResult, SolverInfo
 from hpfracc.typing import DynamicsFn, PyTree
@@ -41,6 +43,10 @@ class ImplicitPredictorCorrector:
     It remains full-history, fixed-step, uniform-grid, ``jit``-traceable with a
     bounded autodiff graph, and differentiable.
 
+    ``newton_rtol`` and ``newton_atol`` assess the final corrector residual;
+    they do not change the fixed iteration count or update rule. Diagnostics
+    report per-step convergence and scaled residuals, including under JIT.
+
     Provisional: targets Caputo initial value problems with ``0 < order < 1`` on a
     positive, uniform timestep grid. Adaptive stepping is a future extension.
     """
@@ -48,6 +54,8 @@ class ImplicitPredictorCorrector:
     dt: float
     order: float
     newton_iterations: int = 3
+    newton_rtol: float = 1e-6
+    newton_atol: float = 1e-8
 
     def __post_init__(self) -> None:
         _validate_dt(self.dt)
@@ -58,6 +66,11 @@ class ImplicitPredictorCorrector:
                 f"got {self.newton_iterations}."
             )
             raise ValueError(msg)
+        for name in ("newton_rtol", "newton_atol"):
+            value = float(getattr(self, name))
+            if not isfinite(value) or value <= 0.0:
+                msg = f"Expected finite positive {name}, got {value}."
+                raise ValueError(msg)
 
 
 @dataclass(frozen=True, slots=True)
@@ -87,13 +100,21 @@ class NonUniformPredictorCorrector:
 class AdaptivePredictorCorrector:
     """Configuration for the **a-posteriori adaptive-step** Caputo PECE solver.
 
-    Unlike the fixed-grid solvers, this estimates the local error as it integrates
-    and grows/shrinks the step to track ``rtol``/``atol``, clustering nodes where
-    the solution is hard to resolve. The local error is a **step-doubling
-    (Richardson)** estimate -- one step of ``h`` versus two of ``h/2`` -- which is
-    the correct *local* estimator for a full-history fractional method (the
-    predictor/corrector difference, by contrast, behaves like the *global* error
-    because every step re-sums the whole history, so it cannot be used here).
+    This grows/shrinks steps using a **step-doubling indicator** -- one step of
+    ``h`` versus two of ``h/2`` -- scaled by ``rtol``/``atol``. Its Richardson-like
+    normalization is heuristic, not a calibrated bound for the retained coarse
+    step: the quadratic-forcing first-panel audit demonstrates underestimation.
+    Both trials reuse older history, whose common error is invisible to their
+    difference. See ``docs/validation/adaptive-calibration.md`` for the independent
+    identities, tolerance sweeps, and limits of this provisional controller.
+
+    ``error_estimator="subdivision"`` is an experimental opt-in safeguard. It
+    compares one full step, two half steps, and four quarter steps using the
+    maximum componentwise normalized pair discrepancy, without Richardson
+    rescaling. A bounded-factor controller avoids assuming one universal startup
+    power. Extra probes can detect pair cancellation, but do not establish a
+    local/global error bound or repair common old-history error. The retained
+    trajectory is still the coarse PECE path on the chosen mesh.
 
     The realized mesh is data-dependent, so for a bounded, ``jit``-traceable,
     reverse-differentiable graph the integration runs as a **fixed-length
@@ -108,6 +129,12 @@ class AdaptivePredictorCorrector:
     ``simulate``'s ``ts`` supplies only the integration **bounds**
     ``(t0, t_end) = (ts[0], ts[-1])``; the interior nodes are chosen adaptively.
 
+    ``max_steps`` bounds attempted steps, including rejections. Results report
+    completion, budget exhaustion, non-finite trials, and step-size limits, with
+    a fixed-shape mask identifying the retained output prefix. Numerical status
+    remains accessible under JIT. Failed trials are not appended to the history;
+    success means completion with finite accepted trials, not a global error bound.
+
     Provisional: targets Caputo initial value problems with ``0 < order < 1``.
     """
 
@@ -119,9 +146,20 @@ class AdaptivePredictorCorrector:
     safety: float = 0.9
     min_factor: float = 0.2
     max_factor: float = 5.0
+    error_estimator: str = "step_doubling"
 
     def __post_init__(self) -> None:
         as_order(self.order)
+        if self.error_estimator not in ("step_doubling", "subdivision"):
+            msg = f"Unknown error_estimator: {self.error_estimator!r}."
+            raise ValueError(msg)
+        for name in (
+            "rtol", "atol", "safety", "min_factor", "max_factor", "first_step"
+        ):
+            value = getattr(self, name)
+            if value is not None and not isfinite(float(value)):
+                msg = f"Expected finite {name}, got {value}."
+                raise ValueError(msg)
         if not float(self.rtol) > 0.0 or not float(self.atol) > 0.0:
             msg = (
                 "Expected positive rtol/atol, got "
@@ -396,10 +434,37 @@ def _simulate_implicit(
             f_at, known, corrector_scale, predicted, iterations
         )
         next_f = f_at(corrected)
-        return history.at[step].set(next_f), corrected
+        residual = corrected - known - corrector_scale * next_f
+        tolerance = solver.newton_atol + solver.newton_rtol * jnp.maximum(
+            jnp.abs(corrected), jnp.abs(known)
+        )
+        scaled = jnp.max(jnp.abs(residual) / tolerance)
+        finite = (
+            jnp.all(jnp.isfinite(corrected))
+            & jnp.all(jnp.isfinite(known))
+            & jnp.all(jnp.isfinite(next_f))
+            & jnp.all(jnp.isfinite(tolerance))
+            & jnp.isfinite(scaled)
+        )
+        # Diagnostics neither alter Newton updates nor add gradient paths.
+        scaled = jax.lax.stop_gradient(jnp.where(finite, scaled, jnp.inf))
+        return history.at[step].set(next_f), (corrected, scaled, finite)
 
-    _, tail = jax.lax.scan(step_fn, history0, jnp.arange(1, n_time))
+    _, (tail, residuals, finite_steps) = jax.lax.scan(
+        step_fn, history0, jnp.arange(1, n_time)
+    )
     values = jnp.concatenate([y0[jnp.newaxis, ...], tail], axis=0)
+
+    converged_steps = residuals <= 1.0
+    failure_count = jnp.sum(~converged_steps)
+    failures = _maybe_concrete_int(failure_count)
+    warnings = ()
+    if failures is not None and failures > 0:
+        warnings = (
+            f"Implicit Newton corrector failed residual tolerances on {failures} "
+            "step(s); inspect the diagnostics before using this trajectory. "
+            "The solver retained its fixed iteration count and did not retry.",
+        )
 
     info = SolverInfo(
         name="implicit_predictor_corrector",
@@ -412,9 +477,42 @@ def _simulate_implicit(
             "grid": "uniform",
             "scheme": "implicit",
             "newton_iterations": iterations,
+            "newton_rtol": float(solver.newton_rtol),
+            "newton_atol": float(solver.newton_atol),
+            "newton_converged": _diagnostic_value(jnp.all(converged_steps)),
+            "newton_failure_count": _diagnostic_value(failure_count),
+            "newton_nonfinite_count": _diagnostic_value(jnp.sum(~finite_steps)),
+            "newton_step_converged": _diagnostic_value(converged_steps),
+            "newton_scaled_residuals": _diagnostic_value(residuals),
+            "newton_max_scaled_residual": _diagnostic_value(
+                jnp.max(residuals, initial=0.0)
+            ),
         },
+        warnings=warnings,
     )
     return SimulationResult(ts=times, latent_state=values, solver_info=info)
+
+
+def _diagnostic_value(value: Any) -> Any:
+    """Export scalar/vector diagnostics eagerly, preserving arrays under JIT.
+
+    Non-finite floating values become JSON null eagerly; their corresponding
+    failure flags remain explicit. Traced values retain their fixed shape and
+    dtype so callers can return diagnostics from compiled simulations.
+    """
+    import numpy as np
+
+    try:
+        concrete = np.asarray(value).tolist()
+    except (TypeError, ValueError):
+        return value
+
+    def finite_or_none(item: Any) -> Any:
+        return None if isinstance(item, float) and not isfinite(item) else item
+
+    if isinstance(concrete, list):
+        return [finite_or_none(item) for item in concrete]
+    return finite_or_none(concrete)
 
 
 def _newton_corrector(
@@ -456,38 +554,33 @@ def _nonuniform_pece_weights(
 
     Returns ``(predictor_weights, corrector_weights, diagonal_weight)``, each
     already scaled by ``1 / Gamma(alpha)``. ``predictor_weights`` and
-    ``corrector_weights`` are length-``n_time`` history weights (zero for indices
-    ``>= step``); ``diagonal_weight`` is the implicit-stage coefficient applied to
-    ``f(t_n, y_predicted)``. On a uniform grid these collapse to the fixed-step
+    ``corrector_weights`` are length-``n_time`` arrays. The predictor is zero at
+    indices ``>= step``; the corrector includes the diagonal at ``step`` and is
+    zero beyond it. Callers keep history at ``step`` zero and apply the separately
+    returned ``diagonal_weight`` to ``f(t_n, y_predicted)``. Moment checks must
+    therefore use ``corrector_weights[:step]`` plus the diagonal, not count it
+    twice. On a uniform grid these collapse to the fixed-step
     Diethelm weights. Derived from product integration of the Volterra form with a
     piecewise-constant predictor and piecewise-linear corrector; the singular
-    ``(t-s)**(alpha-1)`` integrates to ``**alpha`` / ``**(alpha+1)`` powers, and the
-    most-recent interval makes the upper base zero, so ``_safe_pow`` keeps the
-    alpha-gradient finite.
+    ``(t-s)**(alpha-1)`` integrates to ``**alpha`` / ``**(alpha+1)`` powers.
+    Stable interval moments avoid cancellation on graded meshes and preserve
+    finite order gradients at the most-recent interval's zero lower lag.
     """
 
     jnp = _jnp()
+    # Keep normalization and powers in the history's numerical dtype even when
+    # x64 is enabled and the order was supplied as a Python scalar.
+    alpha = jnp.asarray(alpha, dtype=dtype)
     t_n = times[step]
     t_next = jnp.concatenate([times[1:], times[-1:]])  # t_{j+1}; last is masked
-    a_upper = (t_n - times).astype(dtype)  # A_j = t_n - t_j
-    b_upper = (t_n - t_next).astype(dtype)  # B_j = t_n - t_{j+1}
-    spacing = (t_next - times).astype(dtype)  # h_j (last entry bogus, masked)
-    spacing = jnp.where(spacing > 0, spacing, 1.0)
+    a_upper = _time_difference(t_n, times).astype(dtype)  # A_j = t_n - t_j
+    b_upper = _time_difference(t_n, t_next).astype(dtype)  # B_j = t_n - t_{j+1}
+    spacing = _time_difference(t_next, times).astype(dtype)  # h_j (last masked)
 
     valid = indices < step  # interval j is used iff j < step
-    a1 = alpha
-    ap1 = alpha + 1.0
-    pow_a_upper = _safe_pow(a_upper, a1)
-    pow_b_upper = _safe_pow(b_upper, a1)
-    pow_a_ap1 = _safe_pow(a_upper, ap1)
-    pow_b_ap1 = _safe_pow(b_upper, ap1)
-    diff_a = pow_a_upper - pow_b_upper  # A_j**a - B_j**a
-    diff_ap1 = pow_a_ap1 - pow_b_ap1  # A_j**(a+1) - B_j**(a+1)
-
-    predictor = jnp.where(valid, diff_a / a1, 0.0)
-    # Per-interval hat integrals for the piecewise-linear corrector.
-    i0 = jnp.where(valid, (diff_ap1 / ap1 - b_upper * diff_a / a1) / spacing, 0.0)
-    i1 = jnp.where(valid, (a_upper * diff_a / a1 - diff_ap1 / ap1) / spacing, 0.0)
+    predictor, i0, i1 = _power_interval_moments(
+        a_upper, b_upper, spacing, alpha, valid
+    )
 
     # Node j collects I0[j] (left endpoint of interval j) and I1[j-1] (right
     # endpoint of interval j-1). The diagonal node ``step`` keeps I1[step-1].
@@ -619,23 +712,42 @@ def _simulate_adaptive(
     times_in = jnp.asarray(ts)
     _validate_increasing_grid(times_in)
     y0 = jnp.asarray(initial_state)
+    # Mesh positions and the controller must share a floating dtype throughout
+    # lax.scan. Promote integer bounds and retain the precision of either input.
+    time_dtype = jnp.result_type(times_in.dtype, y0.real.dtype, float)
+    requested_t_end = times_in[-1]
+    bounds_exact = jnp.asarray(True)
+    if jnp.issubdtype(times_in.dtype, jnp.integer):
+        original_bounds = jnp.stack([times_in[0], times_in[-1]])
+        floating_bounds = original_bounds.astype(time_dtype)
+        bounds_exact = jnp.all(
+            floating_bounds.astype(times_in.dtype) == original_bounds
+        )
+        integer_info = jnp.iinfo(times_in.dtype)
+        if integer_info.bits > jnp.finfo(time_dtype).nmant + 1:
+            # Float-to-int casts saturate at the maximum integer. A round trip
+            # alone can therefore falsely certify a rounded-up maximum bound.
+            maximum = jnp.asarray(integer_info.max, dtype=times_in.dtype)
+            bounds_exact = bounds_exact & jnp.all(original_bounds != maximum)
+    times_in = times_in.astype(time_dtype)
     alpha = as_order(solver.order)
     t0 = times_in[0]
     t_end = times_in[-1]
     span = t_end - t0
 
     max_steps = int(solver.max_steps)
-    # Two extra buffer slots so the step-doubling "small" step can place its mid
-    # and trial nodes at indices n_accepted+1, n_accepted+2 without overflowing.
-    buf_len = max_steps + 2
-    ctrl_dtype = y0.dtype if jnp.issubdtype(y0.dtype, jnp.floating) else jnp.float32
+    subdivision = solver.error_estimator == "subdivision"
+    # Trial-only slots must also fit on the last allowed attempt. Public output
+    # retains max_steps+2 slots in either mode; extra quarter nodes are discarded.
+    buf_len = max_steps + (4 if subdivision else 2)
+    ctrl_dtype = time_dtype
     rtol = jnp.asarray(solver.rtol, dtype=ctrl_dtype)
     atol = jnp.asarray(solver.atol, dtype=rtol.dtype)
     safety = jnp.asarray(solver.safety, dtype=rtol.dtype)
     min_factor = jnp.asarray(solver.min_factor, dtype=rtol.dtype)
     max_factor = jnp.asarray(solver.max_factor, dtype=rtol.dtype)
-    # Local order of the corrector pair (~ 1 + alpha for 0 < alpha < 1).
-    order_q = 1.0 + alpha
+    # Heuristic normalization exponent; not a calibrated retained-coarse bound.
+    order_q = jnp.asarray(1.0 + alpha, dtype=ctrl_dtype)
     richardson = 2.0**order_q - 1.0
 
     if solver.first_step is None:
@@ -643,13 +755,15 @@ def _simulate_adaptive(
     else:
         h0 = jnp.asarray(solver.first_step, dtype=rtol.dtype)
     h0 = jnp.minimum(h0, span)
-    h_min = jnp.asarray(1e-12, dtype=rtol.dtype) * jnp.maximum(jnp.abs(t_end), 1.0)
-    end_eps = jnp.asarray(1e-12, dtype=rtol.dtype) * jnp.maximum(jnp.abs(t_end), 1.0)
+    # Relative to the integration span, not a unit-scale floor. Representability
+    # is checked separately before accepting any full/half-step trial.
+    h_min = jnp.asarray(1e-12, dtype=rtol.dtype) * jnp.abs(span)
 
     f0 = model(
         t0, y0, params, rng_key=rng_key, inputs=_inputs_at(inputs, 0, 1)
     )
-    dtype = f0.dtype
+    # A lower-precision dynamics result must not narrow the stored state.
+    dtype = jnp.result_type(y0.dtype, f0.dtype, float)
     node_times0 = jnp.zeros((buf_len,), dtype=times_in.dtype).at[0].set(t0)
     y_hist0 = jnp.zeros((buf_len, *y0.shape), dtype=dtype).at[0].set(y0)
     f_hist0 = jnp.zeros((buf_len, *y0.shape), dtype=dtype).at[0].set(f0)
@@ -658,10 +772,13 @@ def _simulate_adaptive(
     def weighted_error(y_big: PyTree, y_small: PyTree) -> Any:
         err = jnp.abs(y_big - y_small) / richardson
         scale = atol + rtol * jnp.maximum(jnp.abs(y_big), jnp.abs(y_small))
-        return jnp.sqrt(jnp.mean((err / scale) ** 2))
+        normalized = jnp.sqrt(jnp.mean((err / scale) ** 2))
+        valid_scale = jnp.all(jnp.isfinite(scale) & (scale > 0))
+        return jnp.where(valid_scale, normalized, jnp.inf)
 
-    def iteration(carry: Any, _: Any) -> tuple[Any, Any]:
-        (n_acc, t_cur, h, node_times, y_hist, f_hist, n_rej, done) = carry
+    def attempt(carry: Any) -> Any:
+        (n_acc, t_cur, h, node_times, y_hist, f_hist, n_rej,
+         done, nonfinite, underflow) = carry
         sg = jax.lax.stop_gradient
         # Mesh / controller scalars are frozen for autodiff (diffrax pattern).
         t_cur_f = sg(t_cur)
@@ -669,6 +786,7 @@ def _simulate_adaptive(
         t_trial = jnp.minimum(t_cur_f + h_f, t_end)
         h_act = t_trial - t_cur_f
         t_mid = t_cur_f + 0.5 * h_act
+        resolved = (t_cur_f < t_mid) & (t_mid < t_trial)
         m = n_acc
 
         # Big step (one step of h) -- frozen mesh positions for the weights.
@@ -699,12 +817,49 @@ def _simulate_adaptive(
             inputs=inputs, n_eval=0,
         )
 
-        err = sg(weighted_error(y_big, y_small))
-        accept = ((err <= 1.0) | (h_f <= h_min)) & (~done)
-        reached = t_trial >= t_end - end_eps
+        quarter_finite = jnp.asarray(True)
+        if subdivision:
+            quarter_times, quarter_history = node_times, f_hist
+            previous_target = t_cur_f
+            for part in range(1, 5):
+                target = t_trial if part == 4 else t_cur_f + (part / 4) * h_act
+                resolved = resolved & (previous_target < target)
+                quarter_times = quarter_times.at[m + part].set(target)
+                quarter_value = _adaptive_pc_at(
+                    model=model, y0=y0, t_target=target, step=m + part,
+                    times_eff=sg(quarter_times), f_hist_eff=quarter_history,
+                    indices=indices, alpha=alpha, dtype=dtype, params=params,
+                    rng_key=rng_key, inputs=inputs, n_eval=0,
+                )
+                quarter_f = model(
+                    target, quarter_value, params, rng_key=rng_key,
+                    inputs=_inputs_at(inputs, 0, 1),
+                )
+                quarter_finite = (
+                    quarter_finite & jnp.all(jnp.isfinite(quarter_value))
+                    & jnp.all(jnp.isfinite(quarter_f))
+                )
+                quarter_history = quarter_history.at[m + part].set(quarter_f)
+                previous_target = target
+            difference = jnp.maximum(
+                jnp.abs(y_big - y_small),
+                jnp.maximum(jnp.abs(y_big - quarter_value),
+                            jnp.abs(y_small - quarter_value)),
+            )
+            scale = atol + rtol * jnp.maximum(
+                jnp.maximum(jnp.abs(y_big), jnp.abs(y_small)),
+                jnp.abs(quarter_value),
+            )
+            valid_scale = jnp.all(jnp.isfinite(scale) & (scale > 0))
+            err = sg(jnp.where(valid_scale, jnp.max(difference / scale), jnp.inf))
+        else:
+            err = sg(weighted_error(y_big, y_small))
+        # min(..., t_end) clips overshoots exactly: an absolute endpoint tolerance
+        # would incorrectly declare tiny integration spans complete too early.
+        reached = t_trial >= t_end
 
-        # No local extrapolation: advance with the single full step ``y_big`` (the
-        # solution whose error we estimated and are controlling). The half-step
+        # No local extrapolation: advance with the single full step ``y_big``.
+        # The indicator is not a calibrated bound on its error. The half-step
         # ``y_small`` is used only for the error estimate. This makes the realized
         # trajectory identical to the non-uniform solver run on the realized mesh,
         # so gradients are the exact frozen-mesh sensitivity.
@@ -712,28 +867,65 @@ def _simulate_adaptive(
         new_f = model(
             t_trial, y_big, params, rng_key=rng_key, inputs=_inputs_at(inputs, 0, 1)
         )
+        finite = (
+            jnp.all(jnp.isfinite(y_big))
+            & jnp.all(jnp.isfinite(y_mid))
+            & jnp.all(jnp.isfinite(y_small))
+            & jnp.all(jnp.isfinite(f_mid))
+            & jnp.all(jnp.isfinite(new_f))
+            & jnp.isfinite(err)
+            & quarter_finite
+        )
+        nonfinite = nonfinite | (resolved & ~finite)
+        underflow = underflow | ~resolved | (finite & (err > 1.0) & (h_act <= h_min))
+        accept = resolved & finite & (err <= 1.0)
         node_times = node_times.at[idx].set(
             jnp.where(accept, t_trial, node_times[idx])
         )
         y_hist = y_hist.at[idx].set(jnp.where(accept, y_big, y_hist[idx]))
         f_hist = f_hist.at[idx].set(jnp.where(accept, new_f, f_hist[idx]))
         n_acc = n_acc + jnp.where(accept, 1, 0)
-        n_rej = n_rej + jnp.where(accept | done, 0, 1)
+        n_rej = n_rej + jnp.where(accept, 0, 1)
         t_cur = jnp.where(accept, t_trial, t_cur)
         done = done | (accept & reached)
 
         # Integral step-size controller; frozen w.r.t. autodiff. ``factor`` grows
         # the step on accept and shrinks it on reject; clamped both sides.
         safe_err = jnp.maximum(err, 1e-16)
-        factor = jnp.clip(
-            safety * safe_err ** (-1.0 / (order_q + 1.0)), min_factor, max_factor
-        )
+        if subdivision:
+            # Experimental bounded proposals, not an assumed universal power:
+            # reject -> half; comfortably accepted -> double; otherwise hold,
+            # all multiplied by safety and constrained by the configured limits.
+            proposal = jnp.where(err > 1, 0.5, jnp.where(err < 0.25, 2.0, 1.0))
+            factor = jnp.clip(safety * proposal, min_factor, max_factor)
+        else:
+            factor = jnp.clip(
+                safety * safe_err ** (-1.0 / (order_q + 1.0)), min_factor, max_factor
+            )
         h_new = jnp.minimum(h_f * factor, jnp.maximum(t_end - t_cur, h_min))
-        h = jnp.where(done, h, h_new)
+        # Higher-precision dynamics may promote the error estimate and factor;
+        # round the proposed step back to the mesh dtype at the carry boundary.
+        h = jnp.where(done | nonfinite | underflow, h, h_new).astype(ctrl_dtype)
 
-        carry = (n_acc, t_cur, h, node_times, y_hist, f_hist, n_rej, done)
-        return carry, None
+        return (n_acc, t_cur, h, node_times, y_hist, f_hist, n_rej,
+                done, nonfinite, underflow)
 
+    def iteration(carry: Any, _: Any) -> tuple[Any, Any]:
+        done, nonfinite, underflow = carry[-3:]
+        # The scan remains bounded, but no trials occur after a terminal status.
+        # This also avoids NaN gradient paths through unused post-completion work.
+        active = ~(done | nonfinite | underflow)
+        return jax.lax.cond(active, attempt, lambda state: state, carry), None
+
+    initial_finite = (
+        jnp.all(jnp.isfinite(y_hist0[0]))
+        & jnp.all(jnp.isfinite(f_hist0[0]))
+        & jnp.isfinite(span)
+    )
+    zero_duration = times_in.shape[0] == 1
+    initial_underflow = initial_finite & (
+        ~bounds_exact | ((span <= 0) & ~jnp.asarray(zero_duration))
+    )
     init = (
         jnp.asarray(0, dtype=jnp.int32),
         t0,
@@ -742,11 +934,13 @@ def _simulate_adaptive(
         y_hist0,
         f_hist0,
         jnp.asarray(0, dtype=jnp.int32),
-        jnp.asarray(False),
+        jnp.asarray(zero_duration) & initial_finite & bounds_exact,
+        ~initial_finite,
+        initial_underflow,
     )
-    (n_acc, t_cur, _h, node_times, y_hist, f_hist, n_rej, done), _ = jax.lax.scan(
-        iteration, init, None, length=max_steps
-    )
+    final, _ = jax.lax.scan(iteration, init, None, length=max_steps)
+    (n_acc, t_cur, _h, node_times, y_hist, f_hist, n_rej,
+     done, nonfinite, underflow) = final
 
     # Trim to the realized mesh: pad the unused tail with the final node / state so
     # ``ts`` stays monotone non-decreasing and ``latent_state`` is well-defined.
@@ -755,27 +949,55 @@ def _simulate_adaptive(
     final_y = y_hist[n_acc]
     node_times = jnp.where(valid, node_times, final_t)
     y_hist = jnp.where(valid.reshape((-1,) + (1,) * y0.ndim), y_hist, final_y)
+    if subdivision:
+        node_times = node_times[:max_steps + 2]
+        y_hist = y_hist[:max_steps + 2]
+        valid = valid[:max_steps + 2]
 
-    # Concrete diagnostics when called eagerly; ``None`` under tracing (jit), where
-    # these counts are data-dependent traced values and cannot be Python ints.
-    n_acc_i = _maybe_concrete_int(n_acc)
+    exhausted = ~(done | nonfinite | underflow)
+    warnings = ()
+    if _maybe_concrete_bool(nonfinite) is True:
+        warnings = ("Adaptive integration stopped on non-finite state, dynamics, "
+                    "or error normalization; inspect the retained trajectory.",)
+    elif _maybe_concrete_bool(underflow) is True:
+        warnings = ("Adaptive integration cannot resolve a tolerable step at the "
+                    "minimum step size or time precision; integration is incomplete.",)
+    elif _maybe_concrete_bool(exhausted) is True:
+        warnings = ("Adaptive integration exhausted max_steps before reaching "
+                    "the requested endpoint; integration is incomplete.",)
+
     info = SolverInfo(
         name="adaptive_predictor_corrector",
         method="caputo_adaptive_pece",
         fractional_order=alpha,
         step_size=None,
-        n_steps=n_acc_i,
+        n_steps=_diagnostic_value(n_acc),
         diagnostics={
             "history": "full",
             "grid": "adaptive",
-            "estimator": "step_doubling",
+            "estimator": solver.error_estimator,
+            "estimator_stability": "experimental" if subdivision else "provisional",
+            "error_norm": "max" if subdivision else "rms",
+            "trial_substeps": 4 if subdivision else 2,
             "rtol": float(solver.rtol),
             "atol": float(solver.atol),
             "max_steps": max_steps,
-            "n_nodes": (n_acc_i + 1) if n_acc_i is not None else None,
-            "n_rejected": _maybe_concrete_int(n_rej),
-            "reached_t_end": _maybe_concrete_bool(done),
+            "n_nodes": _diagnostic_value(n_acc + 1),
+            "n_accepted": _diagnostic_value(n_acc),
+            "n_rejected": _diagnostic_value(n_rej),
+            "n_attempted": _diagnostic_value(n_acc + n_rej),
+            "reached_t_end": _diagnostic_value(done),
+            "success": _diagnostic_value(done),
+            "max_steps_reached": _diagnostic_value(exhausted),
+            "nonfinite_detected": _diagnostic_value(nonfinite),
+            "step_size_underflow": _diagnostic_value(underflow),
+            "valid_mask": _diagnostic_value(valid),
+            "last_time": _diagnostic_value(final_t),
+            "requested_t_end": _diagnostic_value(requested_t_end),
+            "time_bounds_representable": _diagnostic_value(bounds_exact),
+            "minimum_step": _diagnostic_value(h_min),
         },
+        warnings=warnings,
     )
     return SimulationResult(ts=node_times, latent_state=y_hist, solver_info=info)
 
@@ -812,8 +1034,8 @@ def _inputs_at(inputs: PyTree | None, index: int, n_time: int) -> PyTree | None:
 
 
 def _validate_dt(dt: float) -> None:
-    if not float(dt) > 0.0:
-        msg = f"Expected positive uniform timestep dt, got {dt}."
+    if not isfinite(float(dt)) or not float(dt) > 0.0:
+        msg = f"Expected finite positive uniform timestep dt, got {dt}."
         raise ValueError(msg)
 
 
@@ -831,30 +1053,23 @@ def _validate_increasing_grid(times: Any) -> None:
     if times.shape[0] < 1:
         msg = "Expected at least one time sample."
         raise ValueError(msg)
-    if times.shape[0] == 1:
-        return
 
     try:
         import numpy as np
 
         concrete = np.asarray(times)
-    except Exception:
+    except (TypeError, ValueError):
         return
     if not np.all(np.isfinite(concrete)):
         msg = "Expected finite time nodes."
         raise ValueError(msg)
-    if not np.all(np.diff(concrete) > 0.0):
+    if not np.all(concrete[1:] > concrete[:-1]):
         msg = "Expected a strictly increasing time grid."
         raise ValueError(msg)
 
 
 def _validate_time_grid(times: Any, dt: float) -> None:
-    if times.ndim != 1:
-        msg = "Expected a one-dimensional time grid."
-        raise ValueError(msg)
-    if times.shape[0] < 1:
-        msg = "Expected at least one time sample."
-        raise ValueError(msg)
+    _validate_increasing_grid(times)
     if times.shape[0] == 1:
         return
 
@@ -862,7 +1077,7 @@ def _validate_time_grid(times: Any, dt: float) -> None:
         import numpy as np
 
         concrete_times = np.asarray(times)
-    except Exception:
+    except (TypeError, ValueError):
         return
 
     # Tolerate floating-point grid-construction error (a few ULPs of the largest
@@ -871,10 +1086,19 @@ def _validate_time_grid(times: Any, dt: float) -> None:
     # rejects large uniform grids built in the default single precision.
     dtype = concrete_times.dtype
     eps = float(np.finfo(dtype).eps) if np.issubdtype(dtype, np.floating) else 0.0
-    scale = max(abs(float(concrete_times[-1])), 1.0)
-    atol = max(16.0 * eps * scale, 1e-12)
+    # No unit-scale or absolute floor: on tiny grids either would admit large
+    # relative spacing errors. Include both ends for grids starting below zero.
+    scale = max(
+        abs(float(concrete_times[0])), abs(float(concrete_times[-1])), abs(float(dt))
+    )
+    atol = 16.0 * eps * scale
 
-    diffs = np.diff(concrete_times)
+    if np.issubdtype(dtype, np.integer):
+        # Python integers prevent subtraction overflow without rounding the
+        # original nodes to floats before their (potentially tiny) differences.
+        diffs = np.diff(concrete_times.astype(object)).astype(float)
+    else:
+        diffs = np.diff(concrete_times)
     if not np.allclose(diffs, diffs[0], rtol=1e-5, atol=atol):
         msg = "Expected a uniform time grid."
         raise ValueError(msg)

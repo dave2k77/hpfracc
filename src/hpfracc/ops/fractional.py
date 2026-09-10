@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from hpfracc.ops._quadrature import _power_interval_moments, _time_difference
 from hpfracc.ops.base import HistoryMethod, OperatorFamily, OperatorInfo, OperatorResult
 from hpfracc.ops.kernels import (
     _history_convolution,
@@ -478,7 +479,7 @@ def _validate_time_nodes(t: Any, n_expected: int) -> None:
     if not np.all(np.isfinite(concrete)):
         msg = "Expected finite time nodes t."
         raise ValueError(msg)
-    if concrete.shape[0] >= 2 and not np.all(np.diff(concrete) > 0.0):
+    if concrete.shape[0] >= 2 and not np.all(concrete[1:] > concrete[:-1]):
         msg = "Expected strictly increasing time nodes t."
         raise ValueError(msg)
 
@@ -487,7 +488,10 @@ def _mean_spacing(t: Any) -> float:
     """Best-effort mean node spacing for the ``OperatorInfo.dt`` summary field."""
 
     jnp = _jnp()
-    spacing = jnp.mean(t[1:] - t[:-1]) if t.shape[0] >= 2 else jnp.asarray(0.0)
+    spacing = (
+        jnp.mean(_time_difference(t[1:], t[:-1]))
+        if t.shape[0] >= 2 else jnp.asarray(0.0)
+    )
     try:
         return float(spacing)
     except (TypeError, ValueError):
@@ -499,24 +503,23 @@ def _caputo_nonuniform(increments: Any, t: Any, alpha: Any) -> Any:
 
     ``W[n, k] = ((t_n - t_k)^(1-alpha) - (t_n - t_{k+1})^(1-alpha)) / (t_{k+1} - t_k)``
     for ``k < n`` and ``0`` otherwise. Returned shape is ``(n, *trail)`` with the
-    ``n = 0`` row zero (empty history). The most-recent increment makes
-    ``t_n - t_{k+1} = 0``; ``_safe_pow`` keeps the alpha-gradient finite there.
+    ``n = 0`` row zero (empty history). Stable interval moments retain narrow
+    historical intervals and finite order gradients at the zero lower lag.
     """
 
     jnp = _jnp()
     a = jnp.asarray(alpha)
     n = t.shape[0]
-    a_minus = t[:, None] - t[None, :-1]  # (n, n-1): t_n - t_k
-    a_plus = t[:, None] - t[None, 1:]  # (n, n-1): t_n - t_{k+1}
-    spacing = t[1:] - t[:-1]  # (n-1,)
+    a_minus = _time_difference(t[:, None], t[None, :-1])  # t_n - t_k
+    a_plus = _time_difference(t[:, None], t[None, 1:])  # t_n - t_{k+1}
+    spacing = _time_difference(t[1:], t[:-1])
     rows = jnp.arange(n)[:, None]
     cols = jnp.arange(n - 1)[None, :]
     mask = rows > cols  # increment k contributes to row n iff k < n
-    weights = jnp.where(
-        mask,
-        (_safe_pow(a_minus, 1.0 - a) - _safe_pow(a_plus, 1.0 - a)) / spacing,
-        0.0,
+    integral, _, _ = _power_interval_moments(
+        a_minus, a_plus, spacing, 1.0 - a, mask
     )
+    weights = (1.0 - a) * integral / spacing
     inc_2d = jnp.reshape(increments, (n - 1, -1))
     out_2d = weights @ inc_2d
     return jnp.reshape(out_2d, (n, *increments.shape[1:]))

@@ -1,0 +1,52 @@
+{
+  "scope": "development audit, not release sign-off or global-error guarantee",
+  "provenance": {
+    "package_version": "0.1.0a1",
+    "commit_hash": "82178eb12fef560345c595c76f725c368a1f8613",
+    "backend": "jax",
+    "runtime_target": "cpu",
+    "timestamp_utc": "2026-09-09T13:40:08.355987+00:00",
+    "config": {
+      "jax_backend": "cpu",
+      "jax_version": "0.10.1",
+      "jax_devices": [
+        "cpu:0"
+      ],
+      "python_version": "3.13.13",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "audit": "adaptive_calibration",
+      "dtype": "float32",
+      "max_steps": 512,
+      "first_step": 0.01,
+      "tolerances": [
+        0.001,
+        0.0001,
+        1e-05
+      ],
+      "atol_over_rtol": 0.01,
+      "bounds": [
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "git_dirty": true,
+  "python": "3.13.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "jax": "0.10.1",
+  "jaxlib": "0.10.1",
+  "numpy": "2.4.6",
+  "scipy": "1.17.1",
+  "jax_enable_x64": false,
+  "devices": [
+    "cpu:0"
+  ],
+  "source_sha256": {
+    "benchmarks/numerical/adaptive_calibration.py": "f63bc29fa1db7918e30556a99f57aaabb9eb531ddcdeb8c09af24abb3b767210",
+    "src/hpfracc/solvers/predictor_corrector.py": "224efd702b8067ccaf22b67aa60f45e8ae98ceb1a26bfeea2968fb794da315c9",
+    "src/hpfracc/solvers/base.py": "e53384d792a899aafacc7496fcc8bc48a28c7332b2edf79b30df9b6ea2858ecf",
+    "src/hpfracc/ops/_quadrature.py": "5083889d88a725b12ebd630f535a92ce0b028c97f19f028df12a185c9f3a3d4a",
+    "src/hpfracc/ops/orders.py": "86185691bf0fa8249dd254294397ce8410ae6f75ebe6eb1ebe0b29a181e1359c"
+  },
+  "csv_sha256": "da46afee37680dc4da5cb2c64b15e5ee5989900d7eac95033232746d31365eb0"
+}
