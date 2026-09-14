@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- Replaced dense short-memory operator application with direct windowed
+  convolution and retained-window-only weights, preserving the explicit
+  truncation rule and scalar/per-state order support. Added independent
+  truncated-sum/tail-bound, analytic cutoff, complex-signal, JIT and gradient
+  checks, plus local float32 forward timing/XLA buffer evidence. SOE remains
+  dense; repeated float64 benchmarking hit a native Windows JAX access violation
+  recorded separately from passing numerical tests.
+- Added a coupled nonlinear adaptive audit across component scales, fractional
+  orders, tolerances, estimator modes, and both precisions (48 completed runs).
+  Added frozen-mesh state/parameter/order gradient checks and a compiled
+  quarter-only failure-prefix regression. Subdivision remains experimental;
+  some global reference-scaled errors still exceed one.
+
 - Added experimental opt-in `error_estimator="subdivision"` to the adaptive
   solver: quarter-step probes, maximum componentwise pair discrepancies, and
   bounded-factor step proposals. It detects the tested cubic cancellation while

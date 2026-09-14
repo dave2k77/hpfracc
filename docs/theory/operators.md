@@ -77,7 +77,9 @@ on graded meshes without changing the L1 discretization or enabling x64 globally
 - Nonuniform grids support only scalar-order Caputo with full history. GL/RL
   remain uniform-grid operators; vector orders are not supported by SOE.
 - Full-history matrices have quadratic memory cost. The opt-in FFT path changes
-  that cost on uniform grids; the current short-memory and SOE paths still use
-  dense convolution despite approximating the history weights.
+  that cost on uniform grids. Short-memory now uses direct windowed convolution;
+  SOE still uses dense application of approximate weights. See the
+  [windowed-history contract and evidence](../validation/windowed-history.md) for
+  the truncation bound, complexity, and measurement limits.
 - Order gradients have case-specific validation, not a guarantee for every
   history strategy or numerical regime; see the validation status page.

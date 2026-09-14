@@ -247,6 +247,12 @@ the SciML and brain layers before any domain code depends on it.
 - Fixed core-hardening report cases added to the existing aggregate CSV schema;
   `--check` makes failed or empty reports return a nonzero exit status. Corruption
   tests check report sensitivity, including independent implicit residuals.
+- Coupled adaptive accuracy/order/scale evidence and frozen-mesh gradients extend
+  the scalar stress and runtime audits; subdivision remains experimental.
+- Short-memory operators now build retained weights only and use direct windowed
+  convolution. Independent truncation/gradient tests and local float32 forward
+  timing/XLA buffer measurements are recorded in
+  [windowed history](../validation/windowed-history.md). SOE remains dense.
 
 The implementation and regression evidence live in the source tree and are
 described in [validation status](../validation/status.md) and the changelog's
@@ -272,11 +278,12 @@ sign-off, accelerator validation, or a complete Phase A evidence dossier.
    now uses additional quarter-step information behind an explicit opt-in.
    Broader calibration, nonlinear/stiff evidence, and matched-work evaluation
    remain gates before promotion; the default and the phase status are unchanged.
-2. Complete the memory-efficiency deliverable: replace dense short-memory/SOE
-   application with genuinely memory-efficient opt-in implementations, retaining
-   an explicit approximation contract. Measure memory and sequence/state scaling
-   before claiming acceleration; selected smooth-signal error bounds are not
-   universal error guarantees. Solver histories remain uncompressed.
+2. Complete the memory-efficiency deliverable: replace dense SOE application with
+   recursive execution and validate its fitting/approximation contract. Windowed
+   short-memory execution is implemented with selected CPU evidence; extend
+   per-state/reverse-mode/accelerator and peak-memory measurements and investigate
+   the recorded Windows float64 repeated-benchmark crash. Selected signal bounds
+   are not universal error guarantees. Solver histories remain uncompressed.
 3. Reconcile any remaining grid/order and differentiation scope with the actual
    supported combinations. Per-state solver orders are not implemented; do not
    infer them from per-state operator support. Record explicit deferrals rather

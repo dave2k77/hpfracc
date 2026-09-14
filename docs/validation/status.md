@@ -131,6 +131,25 @@ behavior. The [measured comparison](adaptive-subdivision.md) records 32 complete
 scalar runs across two precisions and modes; some global errors still exceed
 the reference tolerance scale. This is not promotion to a calibrated solver.
 
+The subsequent scalar [dense runtime audit](adaptive-runtime-dense.md) covers
+nonlinear/strong-feedback/long-span cases at approximately matched runtimes and
+retains budget failures. The [coupled audit](adaptive-coupled.md) adds 48 complete
+float32/float64 runs across orders and component scales, with independent
+continuous references, selected frozen-mesh gradients, and a compiled failure
+prefix. Neither establishes general efficiency superiority or calibrated error
+control; subdivision remains experimental.
+
+### Windowed Short-Memory Execution
+
+The [windowed implementation](windowed-history.md) replaces dense short-memory
+application with direct finite-kernel convolution and builds only retained
+weights. Independent truncated sums, signal-dependent discarded-tail bounds,
+analytic cutoff cases, complex signals, vector orders, and input/order gradients
+are tested. Local float32 timings and XLA buffer accounting show the measured
+forward scaling; they are not peak-memory or accelerator measurements. Repeated
+float64 benchmarking encountered a native Windows JAX access violation despite
+passing numerical tests. SOE remains dense, and solver histories remain full.
+
 ## Provisional Capabilities
 
 The following capabilities exist, but should not be treated as validated stable
@@ -142,10 +161,10 @@ research infrastructure yet:
   (multiplicative) diffusion, and `alpha <= 1/2` noise are not validated.
 - Broad Bayesian inference workflows beyond scalar-grid Gaussian calibration.
 - Performance claims outside the local benchmark context.
-- Memory-efficiency claims for short-memory/SOE: the current implementations
-  approximate weights but still apply them through dense full-history kernels.
-  Selected signal-error checks do not establish bounded-memory execution or
-  universal truncation/compression error bounds.
+- SOE memory-efficiency claims: it still applies approximate weights through
+  dense full-history kernels. Short-memory now uses windowed execution, but
+  selected forward CPU measurements do not establish reverse-mode/accelerator
+  memory bounds or universal truncation/compression error bounds.
 - Biological, neural, EEG, clinical, diagnostic, or subject-specific realism.
 - Placeholder domain namespaces such as `hpfracc.brain`, `hpfracc.observe`,
   `hpfracc.train`, `hpfracc.data`, and `hpfracc.viz`.

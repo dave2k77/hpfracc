@@ -84,7 +84,9 @@ keeping the same output contract.  ``history="full"`` is the default and uses th
 explicit dense lower-triangular reference.  ``history="fft"`` uses an
 FFT-accelerated causal convolution that is mathematically equivalent on uniform
 grids but ``O(n log n)`` instead of ``O(n^2)``.  ``history="short_memory"``
-truncates the kernel to the most recent ``window_steps`` lags.
+truncates the kernel to the most recent ``window_steps`` lags and, in the current
+development tree, applies direct windowed convolution without a dense history
+matrix. See the [approximation contract](../validation/windowed-history.md).
 ``history="soe"`` fits a sum-of-exponentials approximation to the discrete
 kernel using ``soe_poles`` exponential terms:
 

@@ -76,6 +76,9 @@ def grunwald_letnikov(
         alternatives are opt-in and validated against the ``"full"`` reference.
     window_steps:
         Number of recent time steps retained when ``history="short_memory"``.
+        Direct windowed convolution uses only these weights, without a dense
+        history matrix. Work is ``O(time * window_steps * features)`` for a window
+        shorter than the signal. Truncation remains an explicit approximation.
     soe_poles:
         Number of exponential poles when ``history="soe"``.
     soe_t_max:
@@ -117,7 +120,11 @@ def grunwald_letnikov(
         )
         conv = _soe_convolution(values, weights)
     else:
-        weights = _gl_weights(alpha_w, n_time)
+        n_weights = (
+            max(1, min(int(window_steps), n_time))
+            if HistoryMethod(history) is HistoryMethod.SHORT_MEMORY else n_time
+        )
+        weights = _gl_weights(alpha_w, n_weights)
         conv = _history_convolution(
             values, weights, history=history, window_steps=window_steps
         )
@@ -262,6 +269,10 @@ def caputo(
         ``"full"`` reference.
     window_steps:
         Number of recent time steps retained when ``history="short_memory"``.
+        Direct windowed convolution acts on the last ``window_steps`` increments
+        without constructing a dense history matrix. Work is
+        ``O(time * window_steps * features)`` for a window shorter than the signal.
+        The discarded full-history contribution is not generally negligible.
     soe_poles:
         Number of exponential poles when ``history="soe"``.
     soe_t_max:
@@ -331,7 +342,11 @@ def caputo(
         )
         tail = _soe_convolution(increments, weights)
     else:
-        weights = _l1_weights(alpha_w, n_time - 1)
+        n_weights = (
+            max(1, min(int(window_steps), n_time - 1))
+            if HistoryMethod(history) is HistoryMethod.SHORT_MEMORY else n_time - 1
+        )
+        weights = _l1_weights(alpha_w, n_weights)
         tail = _history_convolution(
             increments, weights, history=history, window_steps=window_steps
         )

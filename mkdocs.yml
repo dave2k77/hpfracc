@@ -20,11 +20,15 @@ nav:
       - Subdivision Prototype: validation/adaptive-subdivision.md
       - Subdivision Runtime Audit: validation/adaptive-runtime.md
       - Dense Runtime Sweep: validation/adaptive-runtime-dense.md
+      - Coupled Adaptive Audit: validation/adaptive-coupled.md
+      - Windowed History: validation/windowed-history.md
+      - Development Checkpoint: validation/development-2026-09-14.md
       - Methodology: validation/methodology.md
       - v0.1.0a0 Report Bundle: validation/reports/v0.1.0a0/README.md
   - Developer:
       - Notes: developer/index.md
       - Roadmap: developer/roadmap.md
+      - September Development Progress: developer/development-2026-09-14.md
       - Phase 2 Solver Plan: developer/phase-2-caputo-fde-solver.md
       - Phase 6 Alpha Backlog: developer/phase-6-research-ready-alpha.md
       - Domain Model Guardrails: developer/domain-model-guardrails.md

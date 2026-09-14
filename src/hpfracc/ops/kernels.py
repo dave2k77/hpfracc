@@ -138,22 +138,35 @@ def _short_memory_convolution(
     """Short-memory truncated causal convolution.
 
     Only the most recent ``window_steps`` weights are retained; earlier lags are
-    treated as zero.  This gives ``O(n * window_steps)`` cost instead of
-    ``O(n^2)`` and a bounded, method-specific truncation error that is validated
-    against the full-history reference rather than silently assumed.
+    treated as zero. Direct finite-kernel convolution uses ``O(n * window * m)``
+    work for ``m`` features without constructing an ``n * n`` history matrix.
+    The input/output remain length ``n``; this is a batch operator, not a streaming
+    interface. Weights may contain just the retained window or a longer history.
+
+    This evaluates the same truncated discrete sum as the former dense path up
+    to floating-point accumulation error. Truncation error versus full history
+    depends on the discarded weights and signal; no universal relative bound is
+    implied. The full-history default is unchanged.
 
     The truncation window is measured in time steps, not physical time.  Callers
     that want a physical horizon should convert ``t_window / dt`` and round.
     """
 
+    jax = _jax()
     jnp = _jnp()
-    n = weights.shape[0]
-    window = max(1, min(int(window_steps), n))
-    # Zero every lag at or beyond ``window`` along the leading time axis. The
-    # mask broadcasts over a trailing per-feature order axis when present.
-    lag = jnp.arange(n).reshape((n,) + (1,) * (weights.ndim - 1))
-    truncated = jnp.where(lag < window, weights, 0.0)
-    return _full_history_convolution(values, truncated)
+    n = values.shape[0]
+    window = max(1, min(int(window_steps), n, weights.shape[0]))
+    values_2d = jnp.reshape(values, (n, -1))
+    retained = weights[:window]
+
+    def convolve(column: Any, kernel: Any) -> Any:
+        return jnp.convolve(column, kernel, mode="full")[:n]
+
+    # Shared or per-feature kernels, with the same independent component
+    # semantics as the full/FFT paths. jnp.convolve also supports complex signals.
+    axes = (1, None) if weights.ndim == 1 else (1, 1)
+    result = jax.vmap(convolve, in_axes=axes, out_axes=1)(values_2d, retained)
+    return jnp.reshape(result, values.shape)
 
 
 def _soe_weights(
