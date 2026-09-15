@@ -1,0 +1,22 @@
+{
+  "scope": "conditional nodal interpolation-error control for prescribed C2 forcing; not general FDE or roundoff certification",
+  "design_basis": "global positive-kernel bound M/8 * sum(h_j^2 * integral_panel kernel/Gamma(alpha)); all old panels retained",
+  "operators": ["AdaptiveForcingQuadrature"],
+  "cases": ["affine", "quadratic", "cubic_blind_spot", "oscillatory", "vector_relative"],
+  "orders": [0.3, 0.5, 0.8],
+  "dtypes": ["float32", "float64"],
+  "absolute_tolerances": [0.001, 0.0001],
+  "rtol": "0 except vector_relative, which uses 0.001",
+  "curvature_bounds": "0 for affine; 2 for quadratic/cubic; 4 for sin(2t); [0,2] for [1+2t,t^2]",
+  "initial_states": "0 except vector_relative [1,0.5]",
+  "bounds": [0, 1],
+  "first_step": 1,
+  "max_steps": 512,
+  "safety": 0.8,
+  "min_factor": 0.2,
+  "max_factor": 5,
+  "references": "analytic polynomial integrals and independent weighted SciPy quadrature for sin(2t), all on actual accepted nodes",
+  "gate": "complete unique matrix; finite completed outputs; independently reconstructed history envelope; true error enclosed with precision-specific roundoff slack; observed reference-scaled error <=1 for these selected tolerances",
+  "roundoff_slack": {"float32": 0.000003, "float64": 0.000000000003},
+  "stopping_rule": "one full sweep per precision; preserve every failure and do not adjust configurations to pass"
+}

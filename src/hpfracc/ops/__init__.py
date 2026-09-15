@@ -8,7 +8,12 @@ from hpfracc.ops.base import (
     OperatorResult,
 )
 from hpfracc.ops.fractional import caputo, grunwald_letnikov, riemann_liouville
-from hpfracc.ops.kernels import _fft_history_convolution, _full_history_convolution
+from hpfracc.ops.kernels import (
+    _fft_history_convolution as _fft_history_convolution,
+)
+from hpfracc.ops.kernels import (
+    _full_history_convolution as _full_history_convolution,
+)
 from hpfracc.ops.orders import FractionalOrder, validate_order
 
 __all__ = [

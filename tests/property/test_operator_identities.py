@@ -14,7 +14,7 @@ from hypothesis import strategies as st
 
 jnp = pytest.importorskip("jax.numpy")
 
-from hpfracc.ops import caputo, grunwald_letnikov
+from hpfracc.ops import caputo, grunwald_letnikov  # noqa: E402
 
 pytestmark = pytest.mark.property
 

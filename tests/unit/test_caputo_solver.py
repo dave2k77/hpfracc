@@ -7,7 +7,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-import hpfracc as hp
+import hpfracc as hp  # noqa: E402 -- optional backend guard
 
 
 def linear_model(
@@ -29,7 +29,9 @@ def mittag_leffler(alpha: float, z: jax.Array, *, terms: int = 80) -> jax.Array:
     return total
 
 
-def solve_linear(*, n_steps: int, order: float, rate: float) -> hp.solvers.SimulationResult:
+def solve_linear(
+    *, n_steps: int, order: float, rate: float,
+) -> hp.solvers.SimulationResult:
     ts = jnp.linspace(0.0, 1.0, n_steps)
     solver = hp.solvers.PredictorCorrector(
         dt=float(ts[1] - ts[0]),
@@ -246,4 +248,3 @@ def test_predictor_corrector_supports_initial_state_and_parameter_gradients() ->
 
     assert jnp.isfinite(grad_initial)
     assert jnp.isfinite(grad_rate)
-

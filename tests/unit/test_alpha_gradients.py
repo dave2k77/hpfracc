@@ -14,11 +14,11 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from benchmarks.numerical.gradient_checks import (
+from benchmarks.numerical.gradient_checks import (  # noqa: E402
     operator_alpha_row,
     solver_alpha_row,
 )
-from hpfracc.ops import caputo, grunwald_letnikov, riemann_liouville
+from hpfracc.ops import caputo, grunwald_letnikov, riemann_liouville  # noqa: E402
 
 _OPERATORS = {
     "caputo": caputo,

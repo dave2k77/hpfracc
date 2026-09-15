@@ -39,7 +39,9 @@ uv run python -m benchmarks.numerical.validation_summary --check
 
 The command preserves the baseline operator convergence, solver refinement,
 finite-difference gradient, and stability rows, and appends fixed Phase A
-core-hardening cases. CSV columns remain `area,case,metric,value,passed,details`.
+core-hardening and history/bounded-forcing extension cases (28 rows total).
+CSV columns remain
+`area,case,metric,value,passed,details`.
 With `--check`, a failed or empty report exits with status 1 after writing CSV;
 without it, the command retains report-only behavior (status 0 even for failing
 rows). Unexpected execution errors still fail normally.
@@ -62,6 +64,17 @@ precision setting. Aggregate `--order`, `--n-steps`, and `--gradient-tolerance`
 affect the existing baseline checks, not these fixed cases. Reports remain
 case-specific evidence, not a complete Phase A release dossier.
 
+Run the eight fixed SOE/stable-weight/bounded-forcing checks separately with:
+
+```bash
+uv run --frozen python -m benchmarks.numerical.history_validation --check
+```
+
+They enforce analytic, fitted-sum, gradient, coefficient and solver-residual
+tolerances in explicit float32. See [methodology](../../docs/validation/methodology.md)
+and the [capability matrix](../../docs/validation/capabilities.md). They supplement
+the larger accuracy/scaling audits rather than replacing their full matrices.
+
 Run finite-difference gradient checks directly with:
 
 ```bash
@@ -73,6 +86,22 @@ Run stability checks directly with:
 ```bash
 uv run python -m benchmarks.numerical.stability
 ```
+
+## Conditional Prescribed-Forcing Audit
+
+```bash
+uv run --frozen python -m benchmarks.numerical.bounded_forcing_validation --check
+JAX_ENABLE_X64=1 uv run --frozen python -m benchmarks.numerical.bounded_forcing_validation --dtype float64 --check
+```
+
+Thirty configurations per precision cover prescribed affine, quadratic, cubic,
+oscillatory and vector forcing, with supplied global curvature bounds. `--check`
+requires complete outputs, independent panel-envelope agreement, selected-case
+reference-scaled error at most one, and true-error enclosure with predeclared
+precision slack. This is conditional nodal interpolation-error evidence,
+excluding roundoff and general state-dependent dynamics. See the
+[proof and archived audit](../../docs/validation/bounded-forcing.md).
+Use `--output-dir` with a new directory to save CSV/source/environment artifacts.
 
 ## Adaptive Calibration Audit
 

@@ -119,7 +119,9 @@ def grid_calibrate_scalar(
     for value in grid:
         params = {**fixed, parameter_name: value}
         result = model(ts=ts, initial_state=initial_state, params=params)
-        predicted = result.observed if result.observed is not None else result.latent_state
+        predicted = (
+            result.observed if result.observed is not None else result.latent_state
+        )
         log_likelihoods.append(
             gaussian_log_likelihood(
                 predicted,
@@ -167,7 +169,9 @@ def posterior_predictive(
     for value in grid:
         params = {**fixed, parameter_name: value}
         result = model(ts=ts, initial_state=initial_state, params=params)
-        predicted = result.observed if result.observed is not None else result.latent_state
+        predicted = (
+            result.observed if result.observed is not None else result.latent_state
+        )
         trajectories.append(predicted)
 
     stacked = jnp.stack(trajectories, axis=0)

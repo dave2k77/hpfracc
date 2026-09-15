@@ -4,20 +4,46 @@ on:
   push:
   pull_request:
 
+env:
+  JAX_PLATFORMS: cpu
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.11"
-      - name: Install package
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[test]"
+          version: "0.11.21"
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - name: Sync locked development environment
+        run: uv sync --locked --extra dev
+      - name: Record runtime context
+        run: uv run --frozen python -c "import json; import hpfracc as hp; print(json.dumps(hp.config.current_provenance().to_dict(), indent=2))"
       - name: Run tests
-        run: python -m pytest
+        run: uv run --frozen python -m pytest
+      - name: Check aggregate numerical validation
+        run: uv run --frozen python -m benchmarks.numerical.validation_summary --check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.11.21"
+          python-version: "3.13"
+          enable-cache: true
+      - name: Sync locked development environment
+        run: uv sync --locked --extra dev
+      - name: Lint
+        run: uv run --frozen ruff check .
 
   performance:
     runs-on: ubuntu-latest
@@ -25,27 +51,26 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.11"
-      - name: Install package
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[test]"
+          version: "0.11.21"
+          python-version: "3.13"
+          enable-cache: true
+      - name: Sync locked development environment
+        run: uv sync --locked --extra dev
       - name: Run performance tests
-        run: python -m pytest -m performance
+        run: uv run --frozen python -m pytest -m performance
 
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.11"
-      - name: Install docs dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[docs]"
+          version: "0.11.21"
+          python-version: "3.13"
+          enable-cache: true
+      - name: Sync locked development environment
+        run: uv sync --locked --extra dev
       - name: Build docs
-        run: mkdocs build --strict
-
+        run: uv run --frozen mkdocs build --strict

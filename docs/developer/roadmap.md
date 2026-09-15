@@ -265,12 +265,22 @@ the SciML and brain layers before any domain code depends on it.
   independent continuous and discrete-residual references, 360 measured cases,
   and selected coupled state/parameter/order gradients. It documents coarse-grid
   positivity loss and float32 uniform-weight roundoff separately from Newton
-   convergence; solver updates and defaults are unchanged.
+  convergence; solver updates and defaults are unchanged.
 - Uniform explicit/implicit solvers now expose `weight_evaluation="stable"` as
   an opt-in evaluation of the same coefficients, with direct evaluation still
   default. The [paired evidence](../validation/uniform-weights.md) addresses the
   float32 weight-roundoff issue with independent coefficient, solver and gradient
   checks. Model/accumulation precision and method-level positivity limits remain.
+- Consolidation adds locked Ruff/uv CI checks, lazy runtime provenance imports,
+  a [capability matrix](../validation/capabilities.md), and seven fixed SOE/stable-
+  weight checks in the aggregate report. The numerical checkpoint is `e19f0c1`;
+  consolidation remains unreleased and is not candidate sign-off.
+- Experimental `BoundedForcing` / `AdaptiveForcingQuadrature` adds a restricted
+  full-history nodal interpolation bound for prescribed C2 forcing, conditional
+  on caller-supplied global curvature. The [60-case audit](../validation/bounded-forcing.md)
+  and independent gradient/failure tests support this boundary; roundoff and
+  state-feedback error propagation remain outside it. An eighth fixed extension
+  gate brings the current aggregate to 28 rows.
 
 The implementation and regression evidence live in the source tree and are
 described in [validation status](../validation/status.md) and the changelog's
@@ -298,8 +308,13 @@ sign-off, accelerator validation, or a complete Phase A evidence dossier.
    weak-forcing/autonomous scaling and a zero-indicator cubic counterexample.
    An [experimental subdivision prototype](../validation/adaptive-subdivision.md)
    now uses additional quarter-step information behind an explicit opt-in.
-   Broader calibration, nonlinear/stiff evidence, and matched-work evaluation
-   remain gates before promotion; the default and the phase status are unchanged.
+    Broader calibration, nonlinear/stiff evidence, and matched-work evaluation
+    remain gates before promotion; the default and the phase status are unchanged.
+    A [conditional prescribed-forcing bound](../validation/bounded-forcing.md)
+    now provides a justified restricted target with independent evidence, using
+    supplied global curvature rather than inferred pair discrepancies. Extending
+    calibrated control to weak forcing and nonlinear feedback, and bounding
+    working-precision error, remain open.
 2. Complete the memory-efficiency evidence: windowed short-memory and recursive
    SOE application are implemented with selected CPU evidence. Extend
    approximation calibration, tolerance-driven fitting/selection, and
@@ -314,10 +329,10 @@ sign-off, accelerator validation, or a complete Phase A evidence dossier.
    than silently treating partial coverage as completion.
 4. Capture a reviewed candidate's validation/benchmark outputs with provenance.
    The committed `v0.1.0a0` bundle is historical, not evidence for `0.1.0a1` or
-   these unreleased changes. Align CI with the lockfile and declare the lint tool
-   in the reproducible environment; current CI installs with pip and Ruff is
-   absent from the dev extra. Resolve existing repository lint findings before
-   claiming a clean lint gate.
+   these unreleased changes. CI and lint now use the locked uv environment;
+   verify the actual remote checks for the reviewed candidate and preserve its
+   outputs. A configured workflow and local checks are not an executed release
+   dossier or accelerator evidence.
 
 Full-result dataclass JIT return support and runtime numeric validation of traced
 inputs remain limitations. Current compiled callers should return array fields

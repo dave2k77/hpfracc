@@ -19,7 +19,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-import hpfracc as hp
+import hpfracc as hp  # noqa: E402 -- optional backend guard
 
 
 def linear_model(t, state, params, *, rng_key=None, inputs=None):

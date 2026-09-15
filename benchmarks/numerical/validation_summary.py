@@ -16,6 +16,7 @@ from benchmarks.numerical.convergence import (
 )
 from benchmarks.numerical.core_hardening import generate_rows as hardening_rows
 from benchmarks.numerical.gradient_checks import generate_rows as gradient_rows
+from benchmarks.numerical.history_validation import generate_rows as history_rows
 from benchmarks.numerical.operator_validation.report import (
     generate_rows as operator_rows,
 )
@@ -144,7 +145,9 @@ def generate_rows(
             passed=all(row.passed for row in stable_rows),
             details=f"total={len(stable_rows)}",
         ),
-    ] + [ValidationSummaryRow(**asdict(row)) for row in hardening_rows()]
+    ] + [ValidationSummaryRow(**asdict(row)) for row in hardening_rows()] + [
+        ValidationSummaryRow(**asdict(row)) for row in history_rows()
+    ]
 
 
 def write_csv(
@@ -175,11 +178,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--order", type=float, default=0.7,
-        help="Baseline order; hardening cases use their own fixed recorded orders.",
+        help="Baseline order; extension cases use their own fixed recorded orders.",
     )
     parser.add_argument(
         "--n-steps", type=int, nargs="+", default=[21, 41, 81],
-        help="Baseline grid sizes; hardening grids remain fixed.",
+        help="Baseline grid sizes; extension grids remain fixed.",
     )
     parser.add_argument("--gradient-tolerance", type=float, default=2e-3)
     parser.add_argument(

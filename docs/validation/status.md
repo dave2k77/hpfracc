@@ -24,6 +24,12 @@ attributed to the a1 tag. The [roadmap](../developer/roadmap.md#current-developm
 separates implemented capabilities from the remaining Phase A completion gates.
 Selected numerical validation does not promote provisional public APIs to stable.
 
+The [capability/evidence matrix](capabilities.md) consolidates supported
+combinations and their transformation, precision and coverage limits. The current
+aggregate contains 28 fixed checks, including representative scaled-tail SOE,
+stable uniform-weight and bounded prescribed-forcing paths; broader matrices
+remain separate evidence.
+
 | Area | Current status | Evidence |
 | --- | --- | --- |
 | Caputo derivative of constants | Validated for the v0.1 full-history L1 implementation. | Unit tests and `uv run python -m benchmarks.numerical.operator_validation.report`. |
@@ -161,6 +167,23 @@ continuous references, selected frozen-mesh gradients, and a compiled failure
 prefix. Neither establishes general efficiency superiority or calibrated error
 control; subdivision remains experimental.
 
+### Conditional Bound for Prescribed Forcing
+
+The experimental `BoundedForcing` / `AdaptiveForcingQuadrature` path uses a
+caller-supplied global C2 curvature bound to control a full-history nodal
+interpolation-error envelope. It includes older panels and conservative relative
+scaling. The [derivation and audit](bounded-forcing.md) record 60 completed
+float32/float64 configurations with independent continuous references and panel
+envelope reconstruction. Every selected reference-scaled error is below one.
+
+Tests cover tolerance refinement, a 70-digit envelope reference, componentwise
+and tensor states, nonuniform consistency, JIT/frozen-mesh gradients, failure
+prefixes and invalid inputs. Deliberately false curvature and a zero-envelope
+roundoff example make the exclusions explicit. The bound assumes prescribed C2
+forcing and valid supplied curvature; it excludes roundoff and forcing-evaluation
+error. Both classes remain experimental. General state-dependent adaptive FDE
+calibration and dense-output bounds remain open.
+
 ### Windowed Short-Memory Execution
 
 The [windowed implementation](windowed-history.md) replaces dense short-memory
@@ -190,7 +213,8 @@ and 48 final scaling configurations across both precisions. It retains severe
 legacy-fit errors and the initial failed float32 scaling experiment, whose
 eager/JIT pole inconsistency was corrected without relaxing tolerances. Fixed
 poles/iterations do not guarantee a fit tolerance or full-history convergence
-order. The new reports remain separate from the aggregate hardening summary.
+order. The full audit matrices remain separate; the aggregate now includes
+selected scaled-tail analytic, recurrence and order-gradient checks.
 
 ## Provisional Capabilities
 
@@ -214,16 +238,19 @@ research infrastructure yet:
 
 ## Aggregate Report Coverage
 
-The aggregate summary now includes the fixed core-hardening report in addition
-to the original baseline rows. Run either report as an executable check:
+The aggregate includes the original baseline, fixed core-hardening, and eight
+history/bounded-forcing extension checks. Run the aggregate or focused reports
+as executable checks:
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary --check
-uv run python -m benchmarks.numerical.core_hardening --check
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
+uv run --frozen python -m benchmarks.numerical.core_hardening --check
+uv run --frozen python -m benchmarks.numerical.history_validation --check
 ```
 
-New rows cover graded history precision, nonuniform refinement, implicit
-convergence/failure diagnostics, and adaptive completion/failure/JIT status.
+Rows cover graded history precision, nonuniform refinement, implicit
+convergence/failure diagnostics, adaptive completion/failure/JIT status, and the
+selected SOE/stable-weight/bounded-forcing checks described in the methodology.
 Intentional solver failures count as passing validation only when the expected
 failure is detected. Case configurations and tolerances are recorded per row;
 the [methodology](methodology.md#aggregate-validation-harness) defines the scope.
@@ -235,7 +262,7 @@ still rely on their separate tests/reports rather than these new summary cases.
 Run the aggregate validation summary:
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary --check
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
 ```
 
 Run detailed operator and solver reports:

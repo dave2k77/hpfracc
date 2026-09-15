@@ -13,6 +13,14 @@ import pytest
 
 from benchmarks.numerical import validation_summary as summary
 
+HISTORY_CASES = {
+    "soe_caputo_scaled_tail_float32", "soe_rl_constant_scaled_tail_float32",
+    "soe_scaled_tail_recurrence_float32", "soe_scaled_tail_order_gradient_float32",
+    "uniform_stable_weight_precision_float32", "uniform_stable_explicit_float32",
+    "uniform_stable_implicit_float32",
+    "bounded_forcing_quadratic_float32",
+}
+
 EXPECTED_CASES = {
     "graded_history_weights_float32",
     "graded_caputo_history_float32",
@@ -84,7 +92,7 @@ def test_summary_includes_new_and_existing_cases():
     rows = summary.generate_rows(n_steps_values=(21, 41))
     names = [row.case for row in rows]
     assert len(names) == len(set(names))
-    assert set(names) == EXPECTED_CASES | set(BASELINE_CASES)
+    assert set(names) == EXPECTED_CASES | set(BASELINE_CASES) | HISTORY_CASES
     assert names[:len(BASELINE_CASES)] == list(BASELINE_CASES)
     assert all(row.passed for row in rows)
 

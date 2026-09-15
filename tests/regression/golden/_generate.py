@@ -17,9 +17,9 @@ import jax
 
 jax.config.update("jax_enable_x64", True)
 
-import jax.numpy as jnp
+import jax.numpy as jnp  # noqa: E402 -- configure precision first
 
-from hpfracc.ops import caputo, grunwald_letnikov
+from hpfracc.ops import caputo, grunwald_letnikov  # noqa: E402
 
 # Fixed, deterministic case. Keep these in sync with test_golden_operators.py.
 ALPHA = 0.5

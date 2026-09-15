@@ -59,7 +59,7 @@ print(result.operator_info.to_dict())
 
 ```python
 def f(t, state, params, *, rng_key=None, inputs=None):
-    return params * state
+    return params["rate"] * state
 
 solver = hp.solvers.PredictorCorrector(dt=dt, order=0.7)
 solution = hp.solvers.simulate(
@@ -67,7 +67,7 @@ solution = hp.solvers.simulate(
     ts=t,
     solver=solver,
     initial_state=jnp.asarray(1.0),
-    params=jnp.asarray(-0.8),
+    params={"rate": jnp.asarray(-0.8)},
 )
 ```
 
@@ -80,7 +80,7 @@ loss = hp.nn.trajectory_mse(
     model,
     ts=t,
     initial_state=jnp.asarray(1.0),
-    params=jnp.asarray(-0.8),
+    params={"rate": jnp.asarray(-0.8)},
     target=solution.latent_state,
 )
 ```
@@ -105,24 +105,28 @@ calibration = hp.prob.grid_calibrate_scalar(
 Use the project `uv` environment:
 
 ```bash
-uv sync --extra dev
+uv sync --locked --extra dev
 ```
 
 The lockfile is committed so release-readiness checks can run from a reproducible
 development environment.
+
+Ruff is included in the dev extra. CI uses the lockfile for its Python 3.11–3.13
+CPU checks, lint, and strict docs. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
+matching local workflow.
 
 ## Validation
 
 Run the test suite:
 
 ```bash
-uv run python -m pytest
+uv run --frozen python -m pytest
 ```
 
 Run the aggregate validation summary:
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary --check
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
 ```
 
 Run detailed operator and solver validation reports:
@@ -147,11 +151,13 @@ uv run python -m benchmarks.numerical.baseline
 Build the documentation:
 
 ```bash
-uv run mkdocs build --strict
+uv run --frozen mkdocs build --strict
 ```
 
 See `docs/validation/status.md` for the current v0.1 alpha validation boundary
 and `docs/developer/release-checklist.md` for the release candidate checklist.
+The [capability/evidence matrix](docs/validation/capabilities.md) maps supported
+grid/order/history combinations to their tests and remaining gaps.
 
 ## Research Use
 

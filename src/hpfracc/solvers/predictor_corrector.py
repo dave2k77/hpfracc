@@ -10,6 +10,10 @@ from hpfracc.ops._quadrature import _power_interval_moments, _time_difference
 from hpfracc.ops.orders import as_order
 from hpfracc.solvers._weights import _stable_pece_weights, _validate_weight_evaluation
 from hpfracc.solvers.base import SimulationResult, SolverInfo
+from hpfracc.solvers.bounded_forcing import (
+    AdaptiveForcingQuadrature,
+    _simulate_bounded_forcing,
+)
 from hpfracc.typing import DynamicsFn, PyTree
 
 
@@ -205,7 +209,8 @@ def simulate(
     solver: PredictorCorrector
     | ImplicitPredictorCorrector
     | NonUniformPredictorCorrector
-    | AdaptivePredictorCorrector,
+    | AdaptivePredictorCorrector
+    | AdaptiveForcingQuadrature,
     initial_state: PyTree,
     params: PyTree,
     rng_key: PyTree | None = None,
@@ -227,8 +232,17 @@ def simulate(
     with an :class:`AdaptivePredictorCorrector` the step size is chosen on the fly
     from a step-doubling local-error estimate (``ts`` then supplies only the
     integration bounds ``(ts[0], ts[-1])``).
+
+    :class:`AdaptiveForcingQuadrature` requires a ``BoundedForcing`` model and
+    controls a conditional nodal interpolation-error envelope for prescribed
+    time forcing. It does not support general state-dependent dynamics.
     """
 
+    if isinstance(solver, AdaptiveForcingQuadrature):
+        return _simulate_bounded_forcing(
+            model=model, ts=ts, solver=solver, initial_state=initial_state,
+            params=params, rng_key=rng_key, inputs=inputs,
+        )
     if isinstance(solver, AdaptivePredictorCorrector):
         return _simulate_adaptive(
             model=model,

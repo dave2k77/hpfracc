@@ -12,6 +12,10 @@ The v0.1 public namespace starts small: `hp.ops`, `hp.solvers`, `hp.config`,
 HPFRACC is pre-alpha research software. Public APIs are intentionally small and
 carry explicit stability tiers so users can decide what to depend on.
 
+The [capability/evidence matrix](../validation/capabilities.md) records supported
+order/grid/history combinations, precision and transformation limits, and the
+specific evidence behind them.
+
 ## API Stability Tiers
 
 | Tier | Meaning | Compatibility expectation |
@@ -33,6 +37,7 @@ Current assignments:
 | `hp.solvers.PredictorCorrector`, `hp.solvers.simulate` | Provisional | First fixed-step Caputo FDE solver surface. |
 | `hp.solvers.ImplicitPredictorCorrector` | Provisional | Fixed-step implicit corrector with configurable residual diagnostics; fixed Newton iteration count. |
 | `hp.solvers.AdaptivePredictorCorrector` | Provisional | Adaptive explicit PECE with bounded attempts, padded output, and JIT-accessible completion/failure diagnostics. |
+| `hp.solvers.BoundedForcing`, `hp.solvers.AdaptiveForcingQuadrature` | Experimental | Prescribed C2 forcing with a supplied global curvature bound; conditional full-history nodal interpolation envelope, excluding roundoff. |
 | `hp.solvers.SimulationResult`, `hp.solvers.SolverInfo` | Provisional | Result metadata is public but may expand during Phase 6 provenance work. |
 | `hp.config.Provenance`, `hp.config.ExperimentMetadata`, `hp.config.RuntimeTarget`, `hp.config.current_provenance` | Provisional | Intended for reproducibility metadata; fields may be refined before v0.1 alpha finalization. |
 | `hp.nn` | Experimental | Differentiable Neural FODE wrapper and training utilities. |
@@ -59,6 +64,7 @@ The helper captures:
 - best-effort git commit hash, or `None` when git is unavailable;
 - JAX backend and runtime target;
 - JAX version and visible devices;
+- JAX x64-enabled setting (actual array dtypes still need to be recorded);
 - Python version and platform string;
 - UTC timestamp;
 - caller-supplied configuration values.
@@ -66,6 +72,9 @@ The helper captures:
 `Provenance.to_dict()` returns a JSON-compatible dictionary. Default
 `Provenance()` construction remains available for deterministic tests and for
 callers that want to supply every field explicitly.
+
+Package import and metadata-only dataclass construction do not import JAX.
+`current_provenance()` imports it lazily when runtime/device context is requested.
 
 The code-level enum `hpfracc.stability.StabilityTier` records stability tier
 names for internal documentation and tests. It is not exported at top level in
@@ -268,6 +277,35 @@ validity or numerical accuracy. Dynamic warning text is eager-only. Failure-path
 gradients are not guaranteed; the validated gradient contract is the successful
 solution's frozen-mesh sensitivity. See
 [adaptive termination semantics](../theory/solvers.md#adaptive-termination).
+
+### Experimental Bounded Prescribed Forcing
+
+`hp.solvers.AdaptiveForcingQuadrature` dispatches through `hp.solvers.simulate`
+and requires `hp.solvers.BoundedForcing(q, curvature_bound=M)`. The prescribed
+callable has signature `q(t, params, *, rng_key=None, inputs=None)` and no
+evolving-state argument. `M` is a concrete nonnegative scalar/array bounding
+`abs(q''(t))` componentwise throughout the interval and parameter domain used;
+the library does not verify that assumption.
+
+The solver takes scalar order, real float32/float64 bounds and initial states,
+and full history. Its default settings are `rtol=0`, `atol=1e-5`,
+`max_steps=1024`, `first_step=None` (one percent of the span), `safety=0.8`,
+`min_factor=0.2`, `max_factor=5`. Tolerances require `rtol>=0`, `atol>0`.
+`ts` supplies integration bounds; output has `max_steps+2` slots with
+accepted-prefix masking and repeated-tail padding.
+
+Diagnostics include `interpolation_error_bound` with the trajectory shape,
+`curvature_bound`, `bound_scope="conditional_nodal_interpolation_error"`,
+`roundoff_included=False`, completion/failure flags, attempt counts and
+`valid_mask`. Step-size failure means an unrepresentable forward target or
+an over-budget envelope at the minimum-step threshold. Failure retains the
+accepted prefix; it never forces acceptance. Eager diagnostics export to JSON;
+JIT wrappers return numerical fields and numeric diagnostics. Gradients freeze
+the mesh and controller decisions.
+
+See the [derivation, example and 60-case audit](../validation/bounded-forcing.md).
+The conditional envelope covers accepted-node interpolation error, not roundoff,
+forcing-evaluation error, dense output or general state-dependent FDEs.
 
 ## Model Results
 

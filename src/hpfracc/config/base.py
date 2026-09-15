@@ -10,8 +10,6 @@ from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any
 
-import jax
-
 from hpfracc._version import __version__
 
 
@@ -58,11 +56,14 @@ def current_provenance(
     is unavailable or the source tree is not a repository.
     """
 
+    import jax
+
     backend = jax.default_backend()
     runtime_target = _runtime_target_from_backend(backend)
     runtime_config: dict[str, Any] = {
         "jax_backend": backend,
         "jax_version": jax.__version__,
+        "jax_enable_x64": bool(jax.config.x64_enabled),
         "jax_devices": [str(device) for device in jax.devices()],
         "python_version": platform.python_version(),
         "platform": platform.platform(),
@@ -126,4 +127,3 @@ class ExperimentMetadata:
             "tags": list(self.tags),
             "provenance": self.provenance.to_dict(),
         }
-

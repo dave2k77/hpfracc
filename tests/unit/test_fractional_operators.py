@@ -9,7 +9,7 @@ from hypothesis import strategies as st
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from hpfracc.ops import (
+from hpfracc.ops import (  # noqa: E402 -- optional backend guard
     OperatorFamily,
     caputo,
     caputo_power_law,
@@ -118,7 +118,9 @@ def test_riemann_liouville_power_law_refines_against_analytic_reference() -> Non
     coarse_t = jnp.linspace(0.0, 1.0, 21)
     fine_t = jnp.linspace(0.0, 1.0, 81)
 
-    coarse = riemann_liouville(coarse_t**2, dt=float(coarse_t[1] - coarse_t[0]), order=alpha)
+    coarse = riemann_liouville(
+        coarse_t**2, dt=float(coarse_t[1] - coarse_t[0]), order=alpha,
+    )
     fine = riemann_liouville(fine_t**2, dt=float(fine_t[1] - fine_t[0]), order=alpha)
 
     coarse_ref = riemann_liouville_power_law(coarse_t, power=2.0, order=alpha)

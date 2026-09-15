@@ -21,7 +21,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from hpfracc.ops import caputo, grunwald_letnikov, riemann_liouville
+from hpfracc.ops import caputo, grunwald_letnikov, riemann_liouville  # noqa: E402
 
 _OPERATORS = {
     "caputo": caputo,

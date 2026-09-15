@@ -74,12 +74,19 @@ The summary covers:
 - Implicit nonlinear residual convergence and expected-failure reporting.
 - Adaptive completion, budget exhaustion, non-finite and step-size/precision
   failures, including JIT-accessible status.
+- Selected scaled-tail SOE analytic, fitted-sum and order-gradient checks, plus
+  stable uniform coefficients and explicit/implicit solver checks.
+- A conditional full-history prescribed-forcing bound against an analytic solution.
 
 The existing CSV schema and baseline case names are preserved. `--check` writes
 the report and exits 1 if any row fails or the report is empty; omitting the flag
 retains report-only behavior. A solver-failure detection row has `passed=True`
 when the intentionally failing solve reports the expected failure, not when that
 trajectory should be accepted for research use.
+
+There are now 28 fixed rows: eight baseline, twelve original core-hardening and
+eight history/bounded-forcing extension rows. See the [capability matrix](capabilities.md) for
+which combinations still rely on their dedicated tests/audits.
 
 Run only the new fixed cases with:
 
@@ -117,6 +124,38 @@ The hardening workload stays float32 even when the caller has enabled x64; the
 report does not change that global setting. This extends the aggregate evidence
 but does not replace the complete unit/property/regression/performance suites,
 validate every Phase A feature, or establish general tolerance calibration.
+
+### Fixed history-extension cases
+
+```bash
+uv run --frozen python -m benchmarks.numerical.history_validation --check
+```
+
+These eight rows also stay float32 when x64 is enabled and do not change the
+caller's precision setting. They retain the shared CSV schema and fixed-case
+configuration semantics:
+
+| Case | Fixed configuration / check |
+| --- | --- |
+| Scaled-tail Caputo polynomial | Order 0.5, 257 nodes, 12 poles, `t^2`; analytic max error at most `5e-4`. |
+| Scaled-tail RL constant | Same order/nodes/poles; positive response and analytic relative error at most `0.02` for `t>=0.5`. |
+| SOE recursive fitted sum | 33 nodes, 8 poles, two signals; independent host float64 convolution of the actual fitted coefficients, max difference at most `5e-5`. This tests application, not fit optimality. |
+| SOE order gradient | Compiled Caputo mean on `t^2`, 33 nodes, 8 poles, order 0.5; centered difference step `1e-3`, absolute gradient error at most `2e-3`, and nonzero reference sensitivity. |
+| Stable uniform coefficients | Step 256, order 0.5; positive predictor/corrector history weights, correct future masks and max relative error at most `5e-6` against independent panel quadrature. |
+| Stable explicit solver | Compiled constant forcing, 65 nodes, order 0.5, trailing shape `(2,3)`; analytic max error at most `3e-6`. |
+| Stable implicit solver | Half-order decay at strength 1, 257 nodes, eight Newton updates; reported convergence and independent scaled residual at most one using `rtol=1e-5, atol=1e-7`, plus continuous max error at most `1e-3`. |
+| Bounded prescribed quadratic forcing | Half order, `q=t^2`, curvature 2, `atol=1e-3`, `rtol=0`, first step 1, 128 attempts; completed with rejections, accepted envelopes at most tolerance, analytic max error at most tolerance and enclosed up to `3e-6` roundoff slack. |
+
+Metadata/dtype checks and corruption tests ensure these cases are sensitive to
+wrong values, lost order gradients, a direct-weight substitution, and false
+implicit success and zeroed forcing envelopes. These are executable numerical gates, unlike measurement-only
+audits whose `--check` can accept large but finite approximation errors.
+
+The separate [bounded-forcing audit](bounded-forcing.md) evaluates 60 predeclared
+configurations in both precisions, with independent continuous references and
+panel-envelope reconstruction. Its checked command requires completion and
+selected-case accuracy. The mathematical bound is conditional on supplied
+global C2 curvature and excludes roundoff; its audit slack is not a solver bound.
 
 Run the component commands directly when detailed rows are needed:
 

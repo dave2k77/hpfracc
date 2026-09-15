@@ -197,6 +197,24 @@ array values and cannot recover precision already lost before that boundary.
 State/history buffers use the common initial-state and dynamics dtype, so a
 lower-precision dynamics result does not silently overflow a finite initial state.
 
+## Conditional Prescribed-Forcing Bound
+
+The experimental `BoundedForcing` / `AdaptiveForcingQuadrature` path restricts
+the right-hand side to prescribed C2 forcing `q(t, params)` with a supplied
+global componentwise curvature bound `M >= abs(q'')`. Linear interpolation on
+panel `j` has error at most `M*h_j^2/8`. Integrating this majorant against the
+positive fractional kernel over **all** accepted panels gives a conditional
+nodal interpolation-error envelope. A conservative relative scale implies the
+reference-relative tolerance in exact arithmetic. See the
+[full proof and calibration evidence](../validation/bounded-forcing.md).
+
+This path shares the nonuniform product-integration weights and freezes the
+realized mesh for state/parameter/order gradients. It takes real floating bounds
+and states, retains full history, and returns masked fixed-budget output. The
+envelope excludes roundoff and forcing-evaluation error; it is not a bound for
+arbitrary state-dependent or weak-startup forcing. The general adaptive PECE
+indicators above retain their existing semantics.
+
 ## Validation
 
 The first validation target is the scalar linear Caputo FDE:

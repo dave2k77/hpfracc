@@ -14,6 +14,22 @@ hardening, and remaining gates are separate.
 The Phase 2/6 plans are historical baselines, and the
 [release checklist](release-checklist.md) is a template, not release sign-off.
 
+## Locked check workflow
+
+```bash
+uv sync --locked --extra dev
+uv run --frozen ruff check .
+uv run --frozen python -m pytest
+uv run --frozen mkdocs build --strict
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
+```
+
+CI pins uv 0.11.21, uses the committed lockfile, and checks Python 3.11–3.13 on
+CPU. Lint and strict docs are gating; performance remains separate and non-gating.
+Dependency changes require an intentional `uv lock` update and review. The
+[capability matrix](../validation/capabilities.md) defines the supported/evidenced
+boundary; successful fixed checks do not close every Phase A gate.
+
 Before domain-model work starts (Phase C), review the
 [Domain Model Guardrails](domain-model-guardrails.md). Future neural mass,
 neural field, and phantom-brain modules must remain experimental until
@@ -43,4 +59,3 @@ operators and solvers should add to the relevant tiers as they land.
 
 Shared fixtures live in `tests/conftest.py`: `jax_mod` (skip if JAX is missing)
 and `enable_x64` (scoped float64 for refinement and gradient checks).
-

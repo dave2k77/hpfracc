@@ -7,7 +7,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-import hpfracc as hp
+import hpfracc as hp  # noqa: E402 -- optional backend guard
 
 
 def _mittag_leffler_two(alpha: float, beta: float, z: jax.Array, terms: int = 140):
@@ -20,7 +20,8 @@ def _mittag_leffler_two(alpha: float, beta: float, z: jax.Array, terms: int = 14
 def _analytic_fsde_variance(
     final_time: float, alpha: float, rate: float, sigma: float, n: int = 4000
 ) -> float:
-    # Var(y(T)) = sigma^2 * integral_0^T [tau^(alpha-1) E_{alpha,alpha}(rate tau^alpha)]^2 dtau.
+    # Var(y(T)) = sigma^2 * integral_0^T
+    # [tau^(alpha-1) E_{alpha,alpha}(rate tau^alpha)]^2 dtau.
     # The substitution tau = u^2 removes the mild tau^(2 alpha - 2) endpoint
     # singularity (integrable for alpha > 1/2), so a midpoint rule is accurate.
     root_t = final_time**0.5

@@ -22,18 +22,20 @@ This project uses `uv` with a committed lockfile. Always run via `uv run` so the
 reproducible environment is used.
 
 ```bash
-uv sync --extra dev                      # set up dev environment
-uv run python -m pytest                  # full test suite
+uv sync --locked --extra dev             # set up the locked dev environment
+uv run --frozen python -m pytest         # full test suite
 uv run python -m pytest tests/unit/test_caputo_solver.py            # one file
 uv run python -m pytest tests/unit/test_caputo_solver.py::test_name  # one test
-uv run ruff check .                      # lint (config in pyproject: E,F,I,UP,B; line 88)
-uv run mkdocs build --strict             # build docs (must pass --strict)
+uv run --frozen ruff check .             # locked dev tool; E,F,I,UP,B
+uv run --frozen mkdocs build --strict    # build docs (must pass --strict)
 ```
 
 Validation / benchmark entry points (all are `python -m` modules, not scripts):
 
 ```bash
-uv run python -m benchmarks.numerical.validation_summary           # aggregate summary
+uv run --frozen python -m benchmarks.numerical.validation_summary --check
+uv run --frozen python -m benchmarks.numerical.core_hardening --check
+uv run --frozen python -m benchmarks.numerical.history_validation --check
 uv run python -m benchmarks.numerical.operator_validation.report   # operator detail
 uv run python -m benchmarks.numerical.solver_validation.report     # solver detail
 uv run python -m benchmarks.numerical.operator_scaling             # scaling smoke test
@@ -42,6 +44,9 @@ uv run python -m benchmarks.numerical.baseline                     # CPU baselin
 
 Requires Python >=3.11. Only runtime dependency is `jax`; SciPy/mpmath/hypothesis
 are test-only validation dependencies and must not leak into the core runtime.
+Ruff is declared in the dev extra and locked. CI pins uv 0.11.21 and uses
+locked/frozen project commands for Python 3.11–3.13 CPU tests, lint and strict
+docs. Run `uv lock` only for intentional dependency changes and review its diff.
 
 ## Architecture
 
@@ -64,11 +69,13 @@ Public API is reached through `import hpfracc as hp`. Top-level namespaces map t
   `_jnp()`/`_jax()` helpers in `ops/fractional.py` and `solvers/`) so that
   import-time and non-numerical code paths don't hard-require JAX — preserve this
   pattern when adding operators/solvers.
-- **Full-history methods on purpose.** v0.1 operators (GL/RL/Caputo-L1) and the
-  predictor-corrector solver use exact full-history discretisations for
-  correctness, not optimized kernels. Any future approximation (short-memory,
-  sum-of-exponentials, FFT) must be **named and opt-in**, never silently
-  substituted for exact behavior.
+- **Full-history defaults on purpose.** GL/RL/Caputo-L1 and deterministic solvers
+  retain their full-history reference defaults. Uniform operators have named
+  opt-ins: FFT evaluates the same discrete convolution up to roundoff;
+  short-memory and SOE are approximations. Short-memory now uses windowed
+  execution, and SOE uses recursive application with legacy or opt-in
+  `scaled_tail` fitting. Solver histories remain uncompressed. Never silently
+  substitute an approximation or promote a selected-case validation claim.
 - **Structured results, not tuples.** Operators return `OperatorResult`
   (with `return_info=True`) carrying `OperatorInfo`; the solver returns
   `SimulationResult` carrying `SolverInfo`. Metadata objects are frozen
@@ -81,9 +88,13 @@ Public API is reached through `import hpfracc as hp`. Top-level namespaces map t
 - **Dynamics signature** is fixed: `f(t, state, params, *, rng_key=None,
   inputs=None)`. Randomness always uses explicit JAX PRNG keys, even where v0.1
   behavior is deterministic.
-- **Current numerical scope:** scalar fractional order `0 < alpha < 1`, uniform
-  time grids only. The solver validates grid uniformity and that `dt` matches the
-  grid spacing.
+- **Current numerical scope:** `0 < alpha < 1`. Uniform operators support scalar
+  or per-state orders for full/FFT/short-memory history; SOE remains scalar.
+  Nonuniform Caputo L1 supports scalar/full history only. Deterministic solvers
+  remain scalar-order: uniform explicit/implicit (matching `dt`), supplied
+  nonuniform, or adaptive meshes. Uniform solvers expose opt-in stable weight
+  evaluation; adaptive gradients freeze the realized mesh. Use
+  `docs/validation/capabilities.md` for the supported/evidenced combinations.
 - **Stability tiers** (`hpfracc.stability.StabilityTier`): every public object is
   stable / provisional / experimental / private. Most operator and solver APIs
   are *provisional*; neural/prob/brain APIs are *experimental* until validated.

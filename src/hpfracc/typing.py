@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Callable, Protocol, TypeAlias
+from collections.abc import Callable
+from typing import Any, Protocol, TypeAlias
 
 ArrayLike: TypeAlias = Any
 PyTree: TypeAlias = Any

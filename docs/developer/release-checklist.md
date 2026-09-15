@@ -63,10 +63,11 @@ print(json.dumps(hp.config.current_provenance().to_dict(), indent=2))
 PY
 ```
 
-Current reproducibility gaps: CI installs via pip rather than `uv.lock`, and
-Ruff is not declared in the dev extra. Align candidate tooling with the lockfile
-and resolve existing lint findings before claiming a reproducible, clean lint
-gate. A host/PATH-provided Ruff is not a locked project dependency.
+CI now pins uv 0.11.21 and uses the lockfile for its Python 3.11–3.13 CPU matrix,
+lint and docs. Ruff is declared in the dev extra. Record the candidate's actual
+tool/environment versions and executed CI results; configuration alone is not
+release sign-off. The [capability matrix](../validation/capabilities.md) identifies
+remaining scientific and hardware evidence gaps.
 
 ## 3. Tests and Lint
 
@@ -74,7 +75,7 @@ gate. A host/PATH-provided Ruff is not a locked project dependency.
   golden-regression tests. Performance tests are deselected by default.
 
 ```bash
-uv run python -m pytest tests/unit/test_docs_consistency.py
+uv run --frozen python -m pytest tests/unit/test_docs_consistency.py
 uv run --frozen python -m pytest tests/unit/test_development_status_docs.py
 uv run --frozen python -m pytest
 ```
@@ -86,11 +87,11 @@ uv run --frozen python -m pytest
 uv run --frozen python -m pytest -m performance
 ```
 
-- [ ] Run repository lint with the candidate's explicitly provisioned Ruff and
+- [ ] Run repository lint with the candidate's locked development Ruff and
   record its version. Do not describe changed-file lint as a clean full-repo run.
 
 ```bash
-uv run ruff check .
+uv run --frozen ruff check .
 ```
 
 - [ ] If failures occur, fix the underlying code or contract before continuing.
@@ -115,6 +116,7 @@ uv run --frozen mkdocs build --strict
 ```bash
 uv run --frozen python -m benchmarks.numerical.validation_summary --check
 uv run --frozen python -m benchmarks.numerical.core_hardening --check
+uv run --frozen python -m benchmarks.numerical.history_validation --check
 ```
 
 The `--check` flag makes failed or empty reports exit nonzero; report-only mode
@@ -220,10 +222,12 @@ candidate branch:
 
 ```bash
 uv sync --locked --extra dev
+uv run --frozen ruff check .
 uv run --frozen python -m pytest
 uv run --frozen mkdocs build --strict
 uv run --frozen python -m benchmarks.numerical.validation_summary --check
 uv run --frozen python -m benchmarks.numerical.core_hardening --check
+uv run --frozen python -m benchmarks.numerical.history_validation --check
 uv run --frozen python -m benchmarks.numerical.operator_validation.report
 uv run --frozen python -m benchmarks.numerical.solver_validation.report
 uv run --frozen python -m benchmarks.numerical.baseline

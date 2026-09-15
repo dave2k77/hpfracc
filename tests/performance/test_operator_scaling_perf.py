@@ -21,7 +21,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from hpfracc.ops import caputo
+from hpfracc.ops import caputo  # noqa: E402 -- optional backend guard
 
 pytestmark = pytest.mark.performance
 

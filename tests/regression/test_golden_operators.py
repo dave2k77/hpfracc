@@ -16,7 +16,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from hpfracc.ops import caputo, grunwald_letnikov
+from hpfracc.ops import caputo, grunwald_letnikov  # noqa: E402
 
 pytestmark = pytest.mark.regression
 

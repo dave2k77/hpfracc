@@ -23,7 +23,7 @@ import pytest
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from hpfracc.ops import (
+from hpfracc.ops import (  # noqa: E402 -- optional backend guard
     caputo,
     caputo_power_law,
     grunwald_letnikov,

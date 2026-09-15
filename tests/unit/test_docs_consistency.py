@@ -89,7 +89,8 @@ def test_release_version_metadata_is_consistent() -> None:
 def test_release_checklist_mentions_docs_consistency_test() -> None:
     checklist = _read(ROOT / "docs/developer/release-checklist.md")
 
-    assert "uv run python -m pytest tests/unit/test_docs_consistency.py" in checklist
+    command = "uv run --frozen python -m pytest tests/unit/test_docs_consistency.py"
+    assert command in checklist
 
 
 def test_domain_model_guardrails_are_documented() -> None:
@@ -109,7 +110,9 @@ def test_domain_model_guardrails_are_documented() -> None:
         "model-relative tests",
         "sensitivity checks",
     ]
-    missing_phrases = [phrase for phrase in required_phrases if phrase not in guardrails]
+    missing_phrases = [
+        phrase for phrase in required_phrases if phrase not in guardrails
+    ]
 
     assert missing_phrases == []
     assert "domain-model-guardrails.md" in developer_index

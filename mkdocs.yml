@@ -15,12 +15,14 @@ nav:
       - Contract: api/contract.md
   - Validation:
       - Status: validation/status.md
+      - Capability Matrix: validation/capabilities.md
       - Adaptive Calibration Audit: validation/adaptive-calibration.md
       - Adaptive Startup Scaling: validation/adaptive-startup.md
       - Subdivision Prototype: validation/adaptive-subdivision.md
       - Subdivision Runtime Audit: validation/adaptive-runtime.md
       - Dense Runtime Sweep: validation/adaptive-runtime-dense.md
       - Coupled Adaptive Audit: validation/adaptive-coupled.md
+      - Bounded Prescribed Forcing: validation/bounded-forcing.md
       - Windowed History: validation/windowed-history.md
       - Recursive SOE History: validation/soe-history.md
       - Nonlinear Implicit Audit: validation/implicit-nonlinear.md
@@ -33,6 +35,7 @@ nav:
       - Notes: developer/index.md
       - Roadmap: developer/roadmap.md
       - September Development Progress: developer/development-2026-09-14.md
+      - Consolidation Checkpoint: developer/consolidation-2026-09-15.md
       - Phase 2 Solver Plan: developer/phase-2-caputo-fde-solver.md
       - Phase 6 Alpha Backlog: developer/phase-6-research-ready-alpha.md
       - Domain Model Guardrails: developer/domain-model-guardrails.md

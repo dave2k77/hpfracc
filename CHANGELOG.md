@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Added experimental `BoundedForcing` and `AdaptiveForcingQuadrature` for
+  prescribed C2 forcing with a caller-supplied global curvature bound. Adaptive
+  product integration checks a componentwise full-history nodal interpolation
+  envelope, with conservative relative scaling, masked failure prefixes and
+  frozen-mesh gradients. Recorded 60 independent float32/float64 configurations
+  and added a fixed aggregate gate (28 rows total). The bound excludes roundoff
+  and does not calibrate the general adaptive FDE indicators.
+
+- Consolidated development gates: Ruff is declared and locked, CI uses pinned uv
+  and locked dependencies across Python 3.11–3.13, and intentional delayed test
+  imports have narrow lint annotations. Package/metadata imports no longer load
+  JAX; runtime provenance captures it lazily and records the x64 setting.
+  Added seven fixed SOE/stable-weight aggregate checks with corruption tests,
+  preserving the CSV schema and previous case names, plus a capability/evidence
+  matrix separating supported combinations from validated cases.
+
 - Added opt-in `weight_evaluation="stable"` for uniform explicit and implicit
   Caputo solvers, evaluating the same full-history weights with stable interval
   moments. Recorded high-precision coefficients, paired solver effects, JIT and
