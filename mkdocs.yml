@@ -22,6 +22,10 @@ nav:
       - Dense Runtime Sweep: validation/adaptive-runtime-dense.md
       - Coupled Adaptive Audit: validation/adaptive-coupled.md
       - Windowed History: validation/windowed-history.md
+      - Recursive SOE History: validation/soe-history.md
+      - Nonlinear Implicit Audit: validation/implicit-nonlinear.md
+      - Stable Uniform Weights: validation/uniform-weights.md
+      - Native Convolution Follow-up: validation/native-convolution.md
       - Development Checkpoint: validation/development-2026-09-14.md
       - Methodology: validation/methodology.md
       - v0.1.0a0 Report Bundle: validation/reports/v0.1.0a0/README.md

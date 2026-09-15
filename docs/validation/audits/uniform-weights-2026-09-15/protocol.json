@@ -1,0 +1,28 @@
+{
+  "scope": "local stable uniform-weight evaluation audit; same full-history method, not new stability or error-control guarantees",
+  "starting_revision": "37aaac6f800030f20a3dad97e46a2236a44bac8d",
+  "option": "weight_evaluation='direct' (default) or 'stable' on deterministic uniform explicit/implicit solvers",
+  "coefficient_matrix": {
+    "orders": [0.01, 0.1, 0.3, 0.5, 0.8, 0.9, 0.99],
+    "steps": [1, 3, 16, 256, 4096],
+    "dtypes": ["float32", "float64"],
+    "evaluations": ["direct", "stable"],
+    "reference": "host panel quadrature, with independent 70-digit interval-integral unit checks",
+    "stable_relative_tolerances": {"float32": 0.000005, "float64": 0.000000000005},
+    "metrics": "max relative predictor/corrector errors, positivity, future masks"
+  },
+  "solver_matrix": {
+    "cases": ["half_decay", "cubic", "coupled", "scaled"],
+    "orders": [0.3, 0.5, 0.8],
+    "half_decay_order": 0.5,
+    "strengths": [1.0, 30.0],
+    "sample_counts": [17, 65, 257],
+    "newton_iterations": 8,
+    "evaluations": ["direct", "stable"],
+    "dtypes": ["float32", "float64"],
+    "references_and_diagnostic_tolerances": "same as the prior implicit-2026-09-15 protocol",
+    "expected_configurations_per_precision": 120
+  },
+  "check_policy": "require complete unique matrices; stable coefficients meet their stated reference tolerance and masks; solver rows satisfy measurement contracts without demanding global accuracy, positivity, or independent residual <=1",
+  "stopping_rule": "one full sweep of each matrix per precision; retain all outcomes without changing solver grids, Newton counts or diagnostic tolerances"
+}

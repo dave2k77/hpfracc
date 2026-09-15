@@ -1,0 +1,58 @@
+{
+  "scope": "pure-JAX mixed-allocation diagnostic, not a performance report",
+  "kernel": "scan",
+  "repeats": 5,
+  "processes": 5,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.13",
+  "command": [
+    "C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\.venv\\Scripts\\python.exe",
+    "-u",
+    "-X",
+    "faulthandler",
+    "C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py",
+    "--child",
+    "--kernel",
+    "scan",
+    "--repeats",
+    "5"
+  ],
+  "runs": [
+    {
+      "index": 0,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare scan shape=(4096,4) window=32\nwarmup scan\nrepeat=0 execute=scan\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=scan\nrepeat=2 execute=dense\nrepeat=2 execute=scan\nrepeat=3 execute=scan\nrepeat=3 execute=dense\nrepeat=4 execute=scan\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    },
+    {
+      "index": 1,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare scan shape=(4096,4) window=32\nwarmup scan\nrepeat=0 execute=scan\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=scan\nrepeat=2 execute=dense\nrepeat=2 execute=scan\nrepeat=3 execute=scan\nrepeat=3 execute=dense\nrepeat=4 execute=scan\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    },
+    {
+      "index": 2,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare scan shape=(4096,4) window=32\nwarmup scan\nrepeat=0 execute=scan\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=scan\nrepeat=2 execute=dense\nrepeat=2 execute=scan\nrepeat=3 execute=scan\nrepeat=3 execute=dense\nrepeat=4 execute=scan\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    },
+    {
+      "index": 3,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare scan shape=(4096,4) window=32\nwarmup scan\nrepeat=0 execute=scan\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=scan\nrepeat=2 execute=dense\nrepeat=2 execute=scan\nrepeat=3 execute=scan\nrepeat=3 execute=dense\nrepeat=4 execute=scan\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    },
+    {
+      "index": 4,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare scan shape=(4096,4) window=32\nwarmup scan\nrepeat=0 execute=scan\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=scan\nrepeat=2 execute=dense\nrepeat=2 execute=scan\nrepeat=3 execute=scan\nrepeat=3 execute=dense\nrepeat=4 execute=scan\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": "7454352231f0f0861b9de8ada31f6ec6dcfcc5c3167cead6a13430b6fbb51608"
+}

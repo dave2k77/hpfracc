@@ -3,11 +3,19 @@
 Status: Unreleased implementation and local CPU evidence. `short_memory` remains
 an explicit approximation; full history remains the default.
 
+Implementation follow-up: the native batched-convolution call was replaced by
+an equivalent scan of shifted, weighted signals after a pure-JAX crash
+reduction. Both precision sweeps now complete; see the
+[native-convolution investigation and scan evidence](native-convolution.md).
+The original timing table and failure record below remain historical evidence
+for the first implementation.
+
 ## Same truncation, genuinely windowed application
 
 The previous implementation zeroed weights outside the configured window and
 then applied a dense history matrix. The new implementation computes only the
-retained weights and uses direct finite-kernel convolution per feature. It
+retained weights and evaluates direct finite-kernel convolution per feature
+with a shift-and-accumulate scan. It
 supports uniform Caputo, GL, and RL with scalar or broadcastable per-state orders,
 and real or complex signals. The API and metadata fields are unchanged.
 
@@ -89,7 +97,9 @@ The full matrix includes both window widths and dimensions. It covers forward
 Caputo execution with scalar order, not per-state-order performance, reverse-mode
 memory, GPU behavior, or a universal speedup. Host background activity and CPU
 frequency/affinity were not controlled; seven local samples are not confidence
-intervals. SOE still uses dense application and solver history is unchanged.
+intervals. SOE used dense application at this checkpoint; the later
+[recursive SOE extension](soe-history.md) has separate evidence. Solver history
+is unchanged.
 
 ### Float64 runtime blocker
 
@@ -119,8 +129,8 @@ Run without concurrent numerical workloads, using a new output directory:
 uv run --frozen python -m benchmarks.numerical.windowed_history --check --output-dir docs/validation/audits/windowed-new
 ```
 
-The default dtype is float32. `--dtype float64` requires x64 enabled and currently
-has the Windows repeated-run blocker above. `--check` requires all 24 rows,
+The default dtype is float32. `--dtype float64` requires x64 enabled; the current
+scan implementation completes the previously blocked sweep. `--check` requires all 24 rows,
 agreement, repeatability, positive finite timing samples, and available compiler
 buffer figures; it does not impose a speedup or a peak-memory bound.
 

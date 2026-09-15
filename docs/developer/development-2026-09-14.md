@@ -1,7 +1,13 @@
 # Numerical development progress: 2026-09-14
 
-Status: Local uncommitted development work on top of
-`c6c40784b90d244b3ec4ad49178c8bc323a2b274`. Phase A remains active.
+Status: Historical snapshot of the first development cycle on top of
+`c6c40784b90d244b3ec4ad49178c8bc323a2b274`, subsequently committed as `37aaac6`.
+Phase A remains active.
+
+The later [native-convolution follow-up](../validation/native-convolution.md)
+reduces the float64 failure to pure JAX and avoids that path with a windowed lag
+scan. Both precision benchmarks now complete and the full suite passes 508 tests.
+The baseline and open-work list below preserve the earlier checkpoint.
 
 The [starting checkpoint](../validation/development-2026-09-14.md) records the
 initial environment, baseline results, and pre-execution coupled-audit design.

@@ -134,3 +134,27 @@ def test_single_sample_gl_and_kernel_window_one():
     np.testing.assert_array_equal(
         kernels._short_memory_convolution(value, jnp.ones(1), window_steps=1), value,
     )
+
+
+def test_windowed_scan_supports_outer_batching_without_native_convolution(
+    monkeypatch, enable_x64,
+):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("native convolution must not be used by short memory")
+
+    monkeypatch.setattr(jnp, "convolve", forbidden)
+    values = jnp.sin(jnp.arange(2 * 31 * 3, dtype=jnp.float64)).reshape(2, 31, 3)
+    weights = jnp.asarray([[1., .5, .25], [.3, -.2, .1], [.1, .2, -.1]])
+
+    def apply(x, w):
+        return kernels._short_memory_convolution(x, w, window_steps=3)
+
+    out = jax.jit(jax.vmap(apply, in_axes=(0, None)))(values, weights)
+    padded = jnp.pad(weights, ((0, 28), (0, 0)))
+    expected = jax.vmap(kernels._full_history_convolution, in_axes=(0, None))(
+        values, padded,
+    )
+    np.testing.assert_allclose(out, expected, rtol=2e-13, atol=2e-13)
+    # The loop carry must promote real values when weights have higher precision.
+    mixed = apply(values[0].astype(jnp.float32), weights)
+    assert mixed.dtype == jnp.float64

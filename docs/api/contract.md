@@ -88,7 +88,10 @@ truncates the kernel to the most recent ``window_steps`` lags and, in the curren
 development tree, applies direct windowed convolution without a dense history
 matrix. See the [approximation contract](../validation/windowed-history.md).
 ``history="soe"`` fits a sum-of-exponentials approximation to the discrete
-kernel using ``soe_poles`` exponential terms:
+kernel using ``soe_poles`` exponential terms, now applied through recursive
+histories. The new optional ``soe_fit="scaled_tail"`` retains the first weight
+exactly and fits positive L1 or cumulative-GL tails; ``soe_fit="legacy"`` retains
+the released fitting policy. See the [SOE contract and evidence](../validation/soe-history.md):
 
 ```python
 dx = hp.ops.caputo(x, dt=0.01, order=0.5, history="fft")
@@ -98,8 +101,9 @@ dx = hp.ops.caputo(
     dt=0.01,
     order=0.5,
     history="soe",
-    soe_poles=8,
+    soe_poles=12,
     soe_t_max=1.0,
+    soe_fit="scaled_tail",
 )
 ```
 
@@ -139,6 +143,15 @@ f(t, state, params, *, rng_key=None, inputs=None)
 `result.latent_state` stores the simulated trajectory with the leading time
 axis. `result.solver_info` records the method name, fractional order, step
 size, step count, and diagnostics.
+
+### Uniform Weight Evaluation
+
+Both `hp.solvers.PredictorCorrector` and `hp.solvers.ImplicitPredictorCorrector`
+accept `weight_evaluation="direct"` (default) or `weight_evaluation="stable"`.
+The latter evaluates the same full-history coefficients through stable interval
+moments. The selected value is recorded as `weight_evaluation` in
+`solver_info.diagnostics`. Unknown values raise `ValueError`. See the
+[uniform-weight contract and evidence](../validation/uniform-weights.md).
 
 ### Implicit Corrector Diagnostics
 
@@ -302,3 +315,7 @@ predictive = hp.prob.posterior_predictive(
 
 `hp.prob.simulate_stochastic` returns `SimulationResult` with an experimental
 warning in `solver_info`.
+
+Its `PredictorCorrector` configuration must use `weight_evaluation="direct"`;
+requesting stable evaluation raises `NotImplementedError` pending separate
+validation of the stochastic drift/noise kernels.

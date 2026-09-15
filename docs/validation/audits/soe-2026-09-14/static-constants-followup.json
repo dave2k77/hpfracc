@@ -1,0 +1,7 @@
+{
+  "reason": "Initial float32 scaling checks failed against an eager fitted reference, including for the compiled dense application itself.",
+  "diagnosis": "At 4096 samples and 8 poles, eager/compiled pole factors differed by 2.98e-8 and coefficients by 2.39e-5. Compiled dense/recursive outputs differed by 4.77e-6, while eager/compiled dense outputs differed by 3.14e-4 on four-component sin(3t).",
+  "change": "Evaluate order-independent pole and Gram/normalization constants with jax.ensure_compile_time_eval in scaled_tail. The mathematical fit, iteration count, pole range, and accuracy/scaling matrices are unchanged.",
+  "evidence_policy": "Preserve the initial root-level accuracy and failed scaling artifacts. Rerun both matrices in consistent-poles/ after regression checks. Do not relax comparison tolerances or change the reference to hide eager/JIT differences.",
+  "scaling_checks": "Continue using rtol=atol=2e-5 for float32 and 2e-11 for float64 against the eager dense-fitted reference; seven shuffled rounds, all original configurations."
+}

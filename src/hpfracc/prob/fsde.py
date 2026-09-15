@@ -43,8 +43,18 @@ def simulate_stochastic(
     Mittag-Leffler solution. It is restricted to ``alpha > 1/2`` because the
     stochastic fractional integral of white noise is singular for
     ``alpha <= 1/2``.
+
+    The solver configuration must use ``weight_evaluation="direct"``. The
+    deterministic solvers' opt-in stable evaluation has not been extended to
+    this helper's separate drift/noise kernels; requesting it raises
+    ``NotImplementedError`` rather than silently ignoring the setting.
     """
 
+    if getattr(solver, "weight_evaluation", "direct") != "direct":
+        raise NotImplementedError(
+            "Stable weight evaluation is currently supported by deterministic "
+            "solvers only; stochastic drift/noise weights require separate validation."
+        )
     jax = _jax()
     jnp = _jnp()
     times = jnp.asarray(ts)

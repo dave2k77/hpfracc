@@ -138,8 +138,9 @@ def _short_memory_convolution(
     """Short-memory truncated causal convolution.
 
     Only the most recent ``window_steps`` weights are retained; earlier lags are
-    treated as zero. Direct finite-kernel convolution uses ``O(n * window * m)``
-    work for ``m`` features without constructing an ``n * n`` history matrix.
+    treated as zero. A scan of shifted, weighted signals uses
+    ``O(n * window * m)`` work for ``m`` features without constructing an
+    ``n * n`` history matrix or using the native batched-convolution path.
     The input/output remain length ``n``; this is a batch operator, not a streaming
     interface. Weights may contain just the retained window or a longer history.
 
@@ -159,13 +160,23 @@ def _short_memory_convolution(
     values_2d = jnp.reshape(values, (n, -1))
     retained = weights[:window]
 
-    def convolve(column: Any, kernel: Any) -> Any:
-        return jnp.convolve(column, kernel, mode="full")[:n]
+    indices = jnp.arange(n)
 
-    # Shared or per-feature kernels, with the same independent component
-    # semantics as the full/FFT paths. jnp.convolve also supports complex signals.
-    axes = (1, None) if weights.ndim == 1 else (1, 1)
-    result = jax.vmap(convolve, in_axes=axes, out_axes=1)(values_2d, retained)
+    def add_lag(total: Any, lag: Any) -> tuple[Any, None]:
+        source = indices - lag
+        shifted = jnp.where(
+            (source >= 0)[:, None], values_2d[jnp.maximum(source, 0)], 0,
+        )
+        # A scalar weight broadcasts over all features; per-state weights have
+        # one entry per flattened feature. Complex signals retain their dtype.
+        return total + shifted * retained[lag], None
+
+    # Batched jnp.convolve can fail natively on Windows CPU in float64 after
+    # mixed buffer allocations (see the pure-JAX diagnostic reproducer). This
+    # algebraically identical scan is backend-independent and also safe under
+    # an outer vmap, which could batch even an individually mapped convolution.
+    initial = jnp.zeros(values_2d.shape, dtype=jnp.result_type(values, weights))
+    result, _ = jax.lax.scan(add_lag, initial, jnp.arange(window))
     return jnp.reshape(result, values.shape)
 
 
@@ -177,18 +188,38 @@ def _soe_weights(
     t_max: float,
     kernel: str = "l1",
 ) -> Any:
-    """Sum-of-exponentials weights that approximate discrete L1 or GL weights.
+    """Materialize legacy fitted weights for reference/compatibility checks."""
+
+    rhos, coefficients = _soe_components(
+        alpha, n, n_poles=n_poles, t_max=t_max, kernel=kernel,
+    )
+    jnp = _jnp()
+    ks = jnp.arange(n, dtype=jnp.result_type(float))
+    return (rhos[None, :] ** ks[:, None]) @ coefficients
+
+
+def _soe_components(
+    alpha: float,
+    n: int,
+    *,
+    n_poles: int,
+    t_max: float,
+    kernel: str = "l1",
+) -> tuple[Any, Any]:
+    """Legacy SOE fit, retained without changing its objective or updates.
 
     The fractional operator is defined by a discrete causal weight vector
     ``w_k`` (L1 increments ``b_k`` for Caputo, binomial GL weights for RL/GL).
-    This routine fits a non-negative exponential sum
+    This routine fits an exponential sum
 
     ``w_k ~= sum_{j=1}^{M} c_j * rho_j^k``
 
     for ``k = 0, ..., n-1`` by choosing ``rho_j = exp(-lambda_j * dt)`` on a
-    logarithmic grid and solving a small non-negative least-squares problem for
-    the coefficients ``c_j``.  The returned array has length ``n`` and can be
-    used directly in the causal convolution path.
+    logarithmic grid. L1 uses projected non-negative least squares; GL uses
+    regularized normal equations with signed coefficients. Returns decay factors
+    and coefficients so callers can apply the fit recursively. The legacy fit
+    still builds a length-by-poles design matrix and has limited accuracy and
+    conditioning; the named ``scaled_tail`` fit lives in ``ops._soe``.
 
     This is a research-grade approximation; the operator result reports
     ``history="soe"`` and diagnostics so that downstream callers can compare
@@ -227,15 +258,14 @@ def _soe_weights(
     # Design matrix A[k, j] = rho_j ** k.
     ks = jnp.arange(n, dtype=jnp.result_type(float))
     A = rhos[None, :] ** ks[:, None]
-    # GL weights are signed (alternating), so use an unconstrained least-squares
+    # GL has a positive first weight and negative tail, so use signed least-squares
     # solve.  L1 weights are non-negative, so keep the projected NNLS solve.
     if kernel == "l1":
         coefficients = _nnls_projected(A, target, n_iter=400, step=0.005)
     else:
         coefficients = _least_squares_solve(A, target)
 
-    discrete_weights = A @ coefficients
-    return discrete_weights
+    return rhos, coefficients
 
 
 def _least_squares_solve(A: Any, b: Any) -> Any:
@@ -266,20 +296,24 @@ def _nnls_projected(
     x = jnp.zeros((n_features,), dtype=A.dtype)
     AtA = A.T @ A
     Atb = A.T @ b
-    for _ in range(n_iter):
-        grad = AtA @ x - Atb
-        x = jnp.clip(x - step * grad, 0.0, None)
-    return x
+
+    def update(_: Any, coefficients: Any) -> Any:
+        grad = AtA @ coefficients - Atb
+        return jnp.clip(coefficients - step * grad, 0.0, None)
+
+    # Preserve the legacy fixed-step iteration rule without unrolling hundreds
+    # of updates and their derivatives into the compiled graph.
+    return _jax().lax.fori_loop(0, n_iter, update, x)
 
 
 def _soe_convolution(
     values: Any,
     weights: Any,
 ) -> Any:
-    """Apply an SOE weight vector via the full-history path.
+    """Legacy dense reference application of a materialized SOE weight vector.
 
     The SOE approximation is fully captured by the discrete ``weights`` array;
-    this helper is a thin wrapper so that compression logic is explicit.
+    public operators now use the recursive application in ``ops._soe``.
     """
 
     return _full_history_convolution(values, weights)

@@ -1,0 +1,2591 @@
+{
+  "scope": "SOE accuracy; not universal error or performance bounds",
+  "provenance": {
+    "package_version": "0.1.0a1",
+    "commit_hash": "37aaac6f800030f20a3dad97e46a2236a44bac8d",
+    "backend": "jax",
+    "runtime_target": "cpu",
+    "timestamp_utc": "2026-09-14T18:21:53.093578+00:00",
+    "config": {
+      "jax_backend": "cpu",
+      "jax_version": "0.10.1",
+      "jax_devices": [
+        "cpu:0"
+      ],
+      "python_version": "3.13.13",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "report": "soe_audit",
+      "mode": "accuracy",
+      "dtype": "float32",
+      "accuracy_lengths": [
+        64,
+        256,
+        1024,
+        4096
+      ],
+      "orders": [
+        0.3,
+        0.5,
+        0.9
+      ],
+      "poles": [
+        8,
+        12
+      ],
+      "fit_methods": [
+        "legacy",
+        "scaled_tail"
+      ],
+      "signals": [
+        "constant",
+        "quadratic",
+        "oscillatory",
+        "transient"
+      ],
+      "operators": [
+        "caputo",
+        "grunwald_letnikov"
+      ],
+      "scaling_lengths": [
+        256,
+        1024,
+        4096
+      ],
+      "dimensions": [
+        1,
+        4
+      ],
+      "scaling_poles": [
+        8,
+        16
+      ],
+      "scaling_order": 0.5,
+      "scaling_fit": "scaled_tail",
+      "repeats": 7,
+      "seed": 1729,
+      "memory": "XLA compiler buffer accounting; not peak RSS/device memory"
+    }
+  },
+  "git_dirty": true,
+  "python": "3.13.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "jax": "0.10.1",
+  "jaxlib": "0.10.1",
+  "numpy": "2.4.6",
+  "scipy": "1.17.1",
+  "jax_enable_x64": false,
+  "devices": [
+    "cpu:0"
+  ],
+  "source_sha256": {
+    "benchmarks/numerical/adaptive_calibration.py": "f63bc29fa1db7918e30556a99f57aaabb9eb531ddcdeb8c09af24abb3b767210",
+    "src/hpfracc/solvers/predictor_corrector.py": "07f221c26c07a28a17fc78b6ae2d3cada81156b2c6284b8ff919b83a40a6f213",
+    "src/hpfracc/solvers/base.py": "e53384d792a899aafacc7496fcc8bc48a28c7332b2edf79b30df9b6ea2858ecf",
+    "src/hpfracc/ops/_quadrature.py": "5083889d88a725b12ebd630f535a92ce0b028c97f19f028df12a185c9f3a3d4a",
+    "src/hpfracc/ops/orders.py": "86185691bf0fa8249dd254294397ce8410ae6f75ebe6eb1ebe0b29a181e1359c",
+    "benchmarks/numerical/soe_audit.py": "2d1bf527fefea542902b6e730ae10f4064c242b80926bea5aa5137d978004322",
+    "src/hpfracc/ops/_soe.py": "c67ada4edf93fefb38a6554bacb7d513a53432f52a9e8b4a2eeff1133fd87c43",
+    "src/hpfracc/ops/fractional.py": "47df467de273813cd018019f071a0d1cfa72c6baf60e7a99014dc4389ac062d6",
+    "src/hpfracc/ops/kernels.py": "583d96287a20a201a8824a3eff5f5d2b43d1a31ca353471081dc73eb0754a73b",
+    "docs/validation/audits/soe-2026-09-14/protocol.json": "587acd5da73b76f1866131a70a9224ece2ae48f57966df5c30e8d3630b12b0d6"
+  },
+  "csv_sha256": "9ba047b90d21d671b662843c466688a64b4ad76d411a5312b951c56b7f09bc3c",
+  "rows": [
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.057705044746398926,
+      "kernel_relative_l2_error": 0.08044154942035675,
+      "signal_max_abs_errors": [
+        0.0,
+        0.021979544210744772,
+        0.08525815308180329,
+        0.22992598346683568
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.022011832029525384,
+        0.01923187940150856,
+        0.0837885656895223
+      ],
+      "quadratic_analytic_max_abs_error": 0.021732336465343116
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.12695759534835815,
+      "kernel_relative_l2_error": 0.12836956977844238,
+      "signal_max_abs_errors": [
+        0.0,
+        0.00729344489940198,
+        0.5426145666012481,
+        1.179194734286388
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.006392455599502651,
+        0.10160283873754253,
+        0.16576092908206386
+      ],
+      "quadratic_analytic_max_abs_error": 0.00638076635062701
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2830723226070404,
+      "kernel_relative_l2_error": 0.3912224769592285,
+      "signal_max_abs_errors": [
+        0.0,
+        0.15888607658180876,
+        5.991334810689612,
+        12.797840815212634
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.10831402143682273,
+        0.3161369379762934,
+        0.398841528177332
+      ],
+      "quadratic_analytic_max_abs_error": 0.1496905421052439
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0022759735584259033,
+      "kernel_relative_l2_error": 0.0029128524474799633,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0005952927423678034,
+        0.00611957400708274,
+        0.003815183696385338
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0004236879861757446,
+        0.0018175778615730574,
+        0.002737565653765983
+      ],
+      "quadratic_analytic_max_abs_error": 0.00035944431783369035
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0002542361617088318,
+      "kernel_relative_l2_error": 0.0006929023656994104,
+      "signal_max_abs_errors": [
+        0.0,
+        0.00010182258717028603,
+        0.0058441236578126166,
+        0.0022155362161597747
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        8.304909071794937e-05,
+        0.0009224600531971451,
+        0.0008447980544618476
+      ],
+      "quadratic_analytic_max_abs_error": 0.001014501135945256
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00017860904335975647,
+      "kernel_relative_l2_error": 0.0003648343263193965,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0002743747161320087,
+        0.0037869924088571594,
+        0.007726662022695674
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00013513298071335524,
+        0.0001708436095706592,
+        0.00033073276891235146
+      ],
+      "quadratic_analytic_max_abs_error": 0.009471639696803758
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.060822367668151855,
+      "kernel_relative_l2_error": 0.08744127303361893,
+      "signal_max_abs_errors": [
+        0.0,
+        0.025915000486684714,
+        0.0780642300852823,
+        0.24050747684452123
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.02614954220205098,
+        0.01997925915479502,
+        0.08869302038598681
+      ],
+      "quadratic_analytic_max_abs_error": 0.025667792741283058
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.12974023818969727,
+      "kernel_relative_l2_error": 0.1251469999551773,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0063554904127847145,
+        0.5671168018538459,
+        1.19728450555714
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.004858853158533302,
+        0.10408609962562856,
+        0.16159961296691858
+      ],
+      "quadratic_analytic_max_abs_error": 0.005442049115913061
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.28679659962654114,
+      "kernel_relative_l2_error": 0.38320568203926086,
+      "signal_max_abs_errors": [
+        0.0,
+        0.13217731760277007,
+        5.94002331776969,
+        12.917484980251697
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.09540120845299463,
+        0.3132068561766999,
+        0.390718034598729
+      ],
+      "quadratic_analytic_max_abs_error": 0.12298158180579755
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.002971544861793518,
+      "kernel_relative_l2_error": 0.004076316021382809,
+      "signal_max_abs_errors": [
+        0.0,
+        0.000850519831296026,
+        0.012469317481157205,
+        0.005351307477907241
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0006215573485717089,
+        0.003837299873765035,
+        0.0042088288935631605
+      ],
+      "quadratic_analytic_max_abs_error": 0.0006019332590050386
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00024247169494628906,
+      "kernel_relative_l2_error": 0.0003446626360528171,
+      "signal_max_abs_errors": [
+        0.0,
+        4.5825544520483597e-05,
+        0.0025749049709211658,
+        0.002149885319191025
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        3.771754284973591e-05,
+        0.0004507888514638539,
+        0.0004220530602252653
+      ],
+      "quadratic_analytic_max_abs_error": 0.0009569812161112079
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00018234923481941223,
+      "kernel_relative_l2_error": 0.00034498798777349293,
+      "signal_max_abs_errors": [
+        0.0,
+        0.00028426908716472354,
+        0.0070321892050078105,
+        0.007895998818502559
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00013840957080680014,
+        0.00035495315794097966,
+        0.00030562519557533936
+      ],
+      "quadratic_analytic_max_abs_error": 0.009481534067836472
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.07082504034042358,
+      "kernel_relative_l2_error": 0.07528550922870636,
+      "signal_max_abs_errors": [
+        0.0,
+        0.02150046927967164,
+        0.14156691420641043,
+        0.4147130463927917
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.020485983631298613,
+        0.046454048005011274,
+        0.08269817089169972
+      ],
+      "quadratic_analytic_max_abs_error": 0.021476357949957947
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.1276257038116455,
+      "kernel_relative_l2_error": 0.12692947685718536,
+      "signal_max_abs_errors": [
+        0.0,
+        0.006287104382280306,
+        0.3167483048540845,
+        2.323997636628465
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.004231149749691255,
+        0.06009430488762831,
+        0.1562195853384182
+      ],
+      "quadratic_analytic_max_abs_error": 0.006173671573872275
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.27993056178092957,
+      "kernel_relative_l2_error": 0.3881383240222931,
+      "signal_max_abs_errors": [
+        0.0,
+        0.04550876078858568,
+        4.415997792942424,
+        43.48874756360555
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.03417617398177493,
+        0.23869450293552594,
+        0.3910708593580342
+      ],
+      "quadratic_analytic_max_abs_error": 0.04353366266448111
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0016603469848632812,
+      "kernel_relative_l2_error": 0.0042226966470479965,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0009369791830662333,
+        0.019729854404213487,
+        0.00894433093855218
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0007310205743999587,
+        0.006569046179317065,
+        0.005261524838677723
+      ],
+      "quadratic_analytic_max_abs_error": 0.000912786472286431
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0007118880748748779,
+      "kernel_relative_l2_error": 0.00180261570494622,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0002268617898637526,
+        0.012968548924667367,
+        0.012887343929780748
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00012510306710017592,
+        0.002143842013712495,
+        0.0020014903901757557
+      ],
+      "quadratic_analytic_max_abs_error": 0.00034072682582886316
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00034553930163383484,
+      "kernel_relative_l2_error": 0.0007112582679837942,
+      "signal_max_abs_errors": [
+        0.0,
+        5.0580702865898886e-05,
+        0.011172348748005878,
+        0.053061825481031555
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        2.6183268496021176e-05,
+        0.0005192272698941333,
+        0.0007127265662160019
+      ],
+      "quadratic_analytic_max_abs_error": 0.0020337855640704117
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.07408148050308228,
+      "kernel_relative_l2_error": 0.07584663480520248,
+      "signal_max_abs_errors": [
+        0.0,
+        0.021425451226609882,
+        0.14875507563863533,
+        0.4334036324828796
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.02037242415071092,
+        0.049075578826794,
+        0.08435057026362612
+      ],
+      "quadratic_analytic_max_abs_error": 0.021401232668237125
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.13129949569702148,
+      "kernel_relative_l2_error": 0.12546920776367188,
+      "signal_max_abs_errors": [
+        0.0,
+        0.008632026239657975,
+        0.2939688698533083,
+        2.387601037812547
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00617480767698669,
+        0.05598356410274184,
+        0.15372861320135592
+      ],
+      "quadratic_analytic_max_abs_error": 0.008518688243337236
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2894551455974579,
+      "kernel_relative_l2_error": 0.3911949694156647,
+      "signal_max_abs_errors": [
+        0.0,
+        0.05202420295523469,
+        4.764924337131877,
+        44.926426854377034
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.038936889726952154,
+        0.2575842326909437,
+        0.39406924465033716
+      ],
+      "quadratic_analytic_max_abs_error": 0.050048383247979444
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0019014328718185425,
+      "kernel_relative_l2_error": 0.003966622520238161,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0008413998507517118,
+        0.012737400897975704,
+        0.007590590246413509
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0006200763010725784,
+        0.003995663726861636,
+        0.004163293284621129
+      ],
+      "quadratic_analytic_max_abs_error": 0.0008172445067264889
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00014895200729370117,
+      "kernel_relative_l2_error": 0.00017274633864872158,
+      "signal_max_abs_errors": [
+        0.0,
+        1.3481196548870145e-05,
+        0.0003881426551108902,
+        0.002679241818063005
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        8.354003703026753e-06,
+        6.154055210688802e-05,
+        0.00018946314852128938
+      ],
+      "quadratic_analytic_max_abs_error": 0.00012244428653829242
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00014125928282737732,
+      "kernel_relative_l2_error": 0.0002383135724812746,
+      "signal_max_abs_errors": [
+        0.0,
+        4.7987267739690864e-05,
+        0.006328843426585351,
+        0.021698815074537414
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        2.8913375099476757e-05,
+        0.00031556289405369184,
+        0.0002386623967207801
+      ],
+      "quadratic_analytic_max_abs_error": 0.001995951618154135
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.5830051898956299,
+      "kernel_relative_l2_error": 0.971864640712738,
+      "signal_max_abs_errors": [
+        0.0,
+        1.2802247100952422,
+        2.6278152199950795,
+        5.126481229425821
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.9866670307024173,
+        0.9676011691858705,
+        0.9215515432006792
+      ],
+      "quadratic_analytic_max_abs_error": 1.280227089059417
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2556304931640625,
+      "kernel_relative_l2_error": 0.6891077756881714,
+      "signal_max_abs_errors": [
+        0.0,
+        1.3559224577296067,
+        3.9271771444881463,
+        9.216826612044741
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.8874718433008001,
+        0.7531715141997336,
+        0.545763046497244
+      ],
+      "quadratic_analytic_max_abs_error": 1.355936836501877
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.28022241592407227,
+      "kernel_relative_l2_error": 0.3943032920360565,
+      "signal_max_abs_errors": [
+        0.0,
+        0.2642073598922998,
+        3.977474478084943,
+        151.0170861212863
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.11456837573544959,
+        0.18863323318381636,
+        0.39512259586226456
+      ],
+      "quadratic_analytic_max_abs_error": 0.2646363640989797
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0017470717430114746,
+      "kernel_relative_l2_error": 0.0027217057067900896,
+      "signal_max_abs_errors": [
+        0.0,
+        0.00040954287113104115,
+        0.01392956025282377,
+        0.015376801247592553
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00027910006005291014,
+        0.0044249155448712555,
+        0.0036266447976154082
+      ],
+      "quadratic_analytic_max_abs_error": 0.0004072664938854498
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0020256638526916504,
+      "kernel_relative_l2_error": 0.0040872832760214806,
+      "signal_max_abs_errors": [
+        0.0,
+        0.00024999450506291154,
+        0.032219734028783975,
+        0.07310075838842423
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00020293807905809622,
+        0.005524658060434538,
+        0.00482604926528461
+      ],
+      "quadratic_analytic_max_abs_error": 0.00026531226626191895
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.000779964029788971,
+      "kernel_relative_l2_error": 0.0014118208782747388,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0002723503061534682,
+        0.0334986158523618,
+        0.41935100357266464
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0001411487936290484,
+        0.0016265466824671561,
+        0.001411546900791126
+      ],
+      "quadratic_analytic_max_abs_error": 0.0007259753534252233
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.8413026928901672,
+      "kernel_relative_l2_error": 0.9897312521934509,
+      "signal_max_abs_errors": [
+        0.0,
+        1.2904437397118067,
+        2.6883593302244386,
+        7.397742683054361
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.9960395206765046,
+        0.9902834117127243,
+        0.970987334265388
+      ],
+      "quadratic_analytic_max_abs_error": 1.2904461186759815
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.32613682746887207,
+      "kernel_relative_l2_error": 0.735243022441864,
+      "signal_max_abs_errors": [
+        0.0,
+        1.4004268617976,
+        4.28770448582562,
+        11.75894659190314
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.9210990468937547,
+        0.8241266290643979,
+        0.6133522117583062
+      ],
+      "quadratic_analytic_max_abs_error": 1.40044124056987
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2776997983455658,
+      "kernel_relative_l2_error": 0.39007675647735596,
+      "signal_max_abs_errors": [
+        0.0,
+        0.3367273775162012,
+        3.3580878784831167,
+        149.66904840155973
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.15258129021653477,
+        0.15699379223968565,
+        0.3908327431126507
+      ],
+      "quadratic_analytic_max_abs_error": 0.3371563817228811
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0012377873063087463,
+      "kernel_relative_l2_error": 0.003825029358267784,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0008156889206305529,
+        0.01087908093270995,
+        0.005681758170132056
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0005969200994140803,
+        0.0033333236554991806,
+        0.003834621725354733
+      ],
+      "quadratic_analytic_max_abs_error": 0.0008135317526745123
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00018802285194396973,
+      "kernel_relative_l2_error": 0.0003170211857650429,
+      "signal_max_abs_errors": [
+        0.0,
+        4.024346765496567e-05,
+        0.0020723358639127554,
+        0.006787968471432038
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        3.016369315259469e-05,
+        0.00034676530479991715,
+        0.0003705765194989986
+      ],
+      "quadratic_analytic_max_abs_error": 5.6082859752448755e-05
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00014480575919151306,
+      "kernel_relative_l2_error": 0.00026311009423807263,
+      "signal_max_abs_errors": [
+        0.0,
+        0.00021911527406004438,
+        0.007447766122382404,
+        0.07781925003262558
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00010003097091682253,
+        0.0003673908373416556,
+        0.0002582405550098429
+      ],
+      "quadratic_analytic_max_abs_error": 0.0006727335515357424
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 1.0,
+      "kernel_relative_l2_error": 1.0,
+      "signal_max_abs_errors": [
+        0.0,
+        1.2947614318181733,
+        2.7137340945457336,
+        13.340707942887217
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "quadratic_analytic_max_abs_error": 1.2947616658554122
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.432392418384552,
+      "kernel_relative_l2_error": 0.8027285933494568,
+      "signal_max_abs_errors": [
+        0.0,
+        1.4650328941459694,
+        4.823694475945896,
+        31.214341817228117
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.9700337750939265,
+        0.9310104718327508,
+        0.7234280346137043
+      ],
+      "quadratic_analytic_max_abs_error": 1.4650346749036713
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.26979202032089233,
+      "kernel_relative_l2_error": 0.39396363496780396,
+      "signal_max_abs_errors": [
+        0.0,
+        0.4669297318977257,
+        3.3409149782652605,
+        505.8201202475881
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.2215321270162677,
+        0.14563040705062524,
+        0.3941655198034366
+      ],
+      "quadratic_analytic_max_abs_error": 0.46702286255021264
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0029837489128112793,
+      "kernel_relative_l2_error": 0.006219419185072184,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0007650375364327555,
+        0.0296667619550659,
+        0.03981804590583149
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0005915015451776019,
+        0.00937606784908715,
+        0.008756193138491944
+      ],
+      "quadratic_analytic_max_abs_error": 0.0007649361950641254
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00423845648765564,
+      "kernel_relative_l2_error": 0.008268678560853004,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0006521321926653556,
+        0.05741881480185973,
+        0.30607786364484113
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00043186919643966546,
+        0.01005098904617858,
+        0.009331352987781068
+      ],
+      "quadratic_analytic_max_abs_error": 0.0006508686891328885
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0011819899082183838,
+      "kernel_relative_l2_error": 0.0025155292823910713,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0002426359501870312,
+        0.08016068029904133,
+        2.214877126948352
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.00014796381213574462,
+        0.003966588759824665,
+        0.0025162546370325494
+      ],
+      "quadratic_analytic_max_abs_error": 0.00040144182447998666
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 1.0,
+      "kernel_relative_l2_error": 1.0,
+      "signal_max_abs_errors": [
+        0.0,
+        1.2947614318181733,
+        2.7137340945457336,
+        13.340707942887217
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "quadratic_analytic_max_abs_error": 1.2947616658554122
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.5848753452301025,
+      "kernel_relative_l2_error": 0.8549954295158386,
+      "signal_max_abs_errors": [
+        0.0,
+        1.4800022486413755,
+        4.952437295882035,
+        42.22205322775058
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.9813950791802435,
+        0.9566872581018174,
+        0.7985456715046207
+      ],
+      "quadratic_analytic_max_abs_error": 1.4800040293990775
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2748774290084839,
+      "kernel_relative_l2_error": 0.387128621339798,
+      "signal_max_abs_errors": [
+        0.0,
+        0.552124915651693,
+        2.9437519381593464,
+        515.3270172202443
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.26713316966523865,
+        0.15487806877470342,
+        0.38727730346469885
+      ],
+      "quadratic_analytic_max_abs_error": 0.5522180463041799
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0007181428372859955,
+      "kernel_relative_l2_error": 0.0033978724386543036,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0007607918166709915,
+        0.012912135194094843,
+        0.006219632475853221
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        0.0005681492337004341,
+        0.004174314561920544,
+        0.0035691579241066153
+      ],
+      "quadratic_analytic_max_abs_error": 0.0007606419952670418
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00017170608043670654,
+      "kernel_relative_l2_error": 0.00046108325477689505,
+      "signal_max_abs_errors": [
+        0.0,
+        9.46889067752199e-05,
+        0.002433694932111763,
+        0.01237942250942936
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        6.630382095385513e-05,
+        0.0003905429905459298,
+        0.0004999314248879274
+      ],
+      "quadratic_analytic_max_abs_error": 9.972611223219019e-05
+    },
+    {
+      "dtype": "float32",
+      "operator": "caputo",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "l1",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00012789666652679443,
+      "kernel_relative_l2_error": 0.00023792099091224372,
+      "signal_max_abs_errors": [
+        0.0,
+        0.0001799098444961178,
+        0.004420657961375696,
+        0.23961162401866432
+      ],
+      "signal_relative_l2_errors": [
+        null,
+        9.076162784981155e-05,
+        0.00021290243082172048,
+        0.0002374118455441277
+      ],
+      "quadratic_analytic_max_abs_error": 0.0003780852405255164
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.11921276152133942,
+      "kernel_relative_l2_error": 0.17988161742687225,
+      "signal_max_abs_errors": [
+        0.25848930606610754,
+        0.005033969236845515,
+        0.7921487340903819,
+        0.2582079983952048
+      ],
+      "signal_relative_l2_errors": [
+        0.12526285621124764,
+        0.003854086668030562,
+        0.22884013035383394,
+        0.192790695450825
+      ],
+      "quadratic_analytic_max_abs_error": 0.010060332282186613
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.17767035961151123,
+      "kernel_relative_l2_error": 0.24463233351707458,
+      "signal_max_abs_errors": [
+        0.8681330775010143,
+        0.016221205945445405,
+        2.5594896491201284,
+        0.8671003801445116
+      ],
+      "signal_relative_l2_errors": [
+        0.31217654344326623,
+        0.010240199654111234,
+        0.38979784078107804,
+        0.3481694384026506
+      ],
+      "quadratic_analytic_max_abs_error": 0.0248724302051484
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.352790892124176,
+      "kernel_relative_l2_error": 0.38859423995018005,
+      "signal_max_abs_errors": [
+        8.72676912493021,
+        0.14809742928237202,
+        23.54460337539388,
+        8.71433757685387
+      ],
+      "signal_relative_l2_errors": [
+        0.8452668378475285,
+        0.06640036767451396,
+        0.9842088222469376,
+        0.7228189277933341
+      ],
+      "quadratic_analytic_max_abs_error": 0.16300868435015547
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00248737633228302,
+      "kernel_relative_l2_error": 0.002926161279901862,
+      "signal_max_abs_errors": [
+        0.008620399382157862,
+        0.0006060447193947383,
+        0.005834713258235036,
+        0.0035634173774472533
+      ],
+      "signal_relative_l2_errors": [
+        0.00292607841599678,
+        0.0004185924790673851,
+        0.0017672916736436483,
+        0.0027667542548836816
+      ],
+      "quadratic_analytic_max_abs_error": 0.004625447784428305
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0004628896713256836,
+      "kernel_relative_l2_error": 0.0008393581956624985,
+      "signal_max_abs_errors": [
+        0.003674261660310929,
+        0.00013204148501366753,
+        0.005561654758982293,
+        0.0036329379857535926
+      ],
+      "signal_relative_l2_errors": [
+        0.000839359832893641,
+        0.0001057765645240436,
+        0.0008941523309512301,
+        0.0010539140837858595
+      ],
+      "quadratic_analytic_max_abs_error": 0.009068410894195633
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00040893256664276123,
+      "kernel_relative_l2_error": 0.0006922943866811693,
+      "signal_max_abs_errors": [
+        0.017023933381048906,
+        0.0003859663026046789,
+        0.006811478657157366,
+        0.016821474649609036
+      ],
+      "signal_relative_l2_errors": [
+        0.000692289332220638,
+        0.00019362873001546265,
+        0.00025118664656054624,
+        0.000673987363858484
+      ],
+      "quadratic_analytic_max_abs_error": 0.015392985459758535
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.05333392322063446,
+      "kernel_relative_l2_error": 0.09821772575378418,
+      "signal_max_abs_errors": [
+        0.14937068491671202,
+        0.002947556942553886,
+        0.5813204751048011,
+        0.14653672034317478
+      ],
+      "signal_relative_l2_errors": [
+        0.0807807661327616,
+        0.0022555511436545524,
+        0.16394660458309224,
+        0.13079413431170364
+      ],
+      "quadratic_analytic_max_abs_error": 0.006126517820159494
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.08353348076343536,
+      "kernel_relative_l2_error": 0.13871385157108307,
+      "signal_max_abs_errors": [
+        0.5002465455538931,
+        0.009644915741462201,
+        1.9441984684896374,
+        0.49089612779408914
+      ],
+      "signal_relative_l2_errors": [
+        0.20775393763027958,
+        0.006120666053684799,
+        0.2891109222479351,
+        0.24391660528630738
+      ],
+      "quadratic_analytic_max_abs_error": 0.014543025181027791
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.18270644545555115,
+      "kernel_relative_l2_error": 0.23822534084320068,
+      "signal_max_abs_errors": [
+        5.147475374192206,
+        0.09278562217637076,
+        19.259876948784893,
+        5.201507867195309
+      ],
+      "signal_relative_l2_errors": [
+        0.6013340700230861,
+        0.04199305195070272,
+        0.7858375177271836,
+        0.5420186855432867
+      ],
+      "quadratic_analytic_max_abs_error": 0.08623822547012128
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0032464414834976196,
+      "kernel_relative_l2_error": 0.004096807446330786,
+      "signal_max_abs_errors": [
+        0.011251109983964502,
+        0.000869378040012414,
+        0.012326787304256737,
+        0.0052450431005719444
+      ],
+      "signal_relative_l2_errors": [
+        0.004096726660573189,
+        0.0006190103293837617,
+        0.003849797773989543,
+        0.004273145404674889
+      ],
+      "quadratic_analytic_max_abs_error": 0.004362114463810629
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0004528164863586426,
+      "kernel_relative_l2_error": 0.0005438923253677785,
+      "signal_max_abs_errors": [
+        0.0035943914363119056,
+        7.462516323863966e-05,
+        0.003777714079022554,
+        0.0035556903661246864
+      ],
+      "signal_relative_l2_errors": [
+        0.0005438922283738218,
+        6.183215849762704e-05,
+        0.0006951786204034699,
+        0.0006987323227814245
+      ],
+      "quadratic_analytic_max_abs_error": 0.009007971784393387
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 64,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0003822892904281616,
+      "kernel_relative_l2_error": 0.0006396785611286759,
+      "signal_max_abs_errors": [
+        0.015914810151068437,
+        0.0004011058823776281,
+        0.01257901013183016,
+        0.01574090204447598
+      ],
+      "signal_relative_l2_errors": [
+        0.0006396703687146619,
+        0.00020138615182984087,
+        0.0006479057194361476,
+        0.0006129363561668065
+      ],
+      "quadratic_analytic_max_abs_error": 0.015407886620952382
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.19172972440719604,
+      "kernel_relative_l2_error": 0.27868619561195374,
+      "signal_max_abs_errors": [
+        0.7647083921393447,
+        0.024600151584087238,
+        1.7094655396695897,
+        0.7655316707031785
+      ],
+      "signal_relative_l2_errors": [
+        0.31498740941309883,
+        0.020528487870346366,
+        0.5242840953876886,
+        0.46709217541463854
+      ],
+      "quadratic_analytic_max_abs_error": 0.02574479035523125
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.27142131328582764,
+      "kernel_relative_l2_error": 0.3658394515514374,
+      "signal_max_abs_errors": [
+        3.2885942757859263,
+        0.10031905725949564,
+        6.969281065340846,
+        3.291935295640692
+      ],
+      "signal_relative_l2_errors": [
+        0.9173873639266786,
+        0.0687748891543667,
+        1.1250834693507503,
+        0.9542435157995844
+      ],
+      "quadratic_analytic_max_abs_error": 0.10234490355994974
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.4825791120529175,
+      "kernel_relative_l2_error": 0.5398133993148804,
+      "signal_max_abs_errors": [
+        54.002131481726366,
+        1.4540748455232126,
+        100.93469105815927,
+        54.04977451941294
+      ],
+      "signal_relative_l2_errors": [
+        2.4235090343814956,
+        0.7032301014562441,
+        4.444131659839042,
+        2.0068416520350314
+      ],
+      "quadratic_analytic_max_abs_error": 1.4577199790762279
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0018235892057418823,
+      "kernel_relative_l2_error": 0.004245004151016474,
+      "signal_max_abs_errors": [
+        0.009617648613106877,
+        0.000943410594621108,
+        0.019696359164230737,
+        0.009298633392248679
+      ],
+      "signal_relative_l2_errors": [
+        0.004245560654067674,
+        0.0007327043065647758,
+        0.006566908183098958,
+        0.005348742418356247
+      ],
+      "quadratic_analytic_max_abs_error": 0.0008455248525259251
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.001026242971420288,
+      "kernel_relative_l2_error": 0.0019973800517618656,
+      "signal_max_abs_errors": [
+        0.016387481288018257,
+        0.00021084420062500442,
+        0.012339646434851304,
+        0.016520029360209243
+      ],
+      "signal_relative_l2_errors": [
+        0.0019974082140898205,
+        0.00011491343970374487,
+        0.0020273352009298915,
+        0.0023071335745530773
+      ],
+      "quadratic_analytic_max_abs_error": 0.0024223737924500277
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.000716719776391983,
+      "kernel_relative_l2_error": 0.0012906137853860855,
+      "signal_max_abs_errors": [
+        0.10501148397922222,
+        0.0001850331367210245,
+        0.013507214803064826,
+        0.10470518473802048
+      ],
+      "signal_relative_l2_errors": [
+        0.0012906117388208572,
+        0.00010896500692133076,
+        0.00025343083942581414,
+        0.0012987586823836736
+      ],
+      "quadratic_analytic_max_abs_error": 0.0035725499357717183
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.10065300762653351,
+      "kernel_relative_l2_error": 0.14676707983016968,
+      "signal_max_abs_errors": [
+        0.29848561058403933,
+        0.011641421897408799,
+        1.0093973818136561,
+        0.28263009752202617
+      ],
+      "signal_relative_l2_errors": [
+        0.15813207974751153,
+        0.008353589500557116,
+        0.2825564652821957,
+        0.22733297820745216
+      ],
+      "quadratic_analytic_max_abs_error": 0.010437315889672671
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.1515699326992035,
+      "kernel_relative_l2_error": 0.2025420367717743,
+      "signal_max_abs_errors": [
+        1.288384107594919,
+        0.050317688465173926,
+        4.359823782184863,
+        1.2739900060288756
+      ],
+      "signal_relative_l2_errors": [
+        0.4872420846197797,
+        0.029706905588618767,
+        0.6424014931279247,
+        0.4918435182231019
+      ],
+      "quadratic_analytic_max_abs_error": 0.04821694086711892
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.3071708381175995,
+      "kernel_relative_l2_error": 0.3315521776676178,
+      "signal_max_abs_errors": [
+        23.094557781775194,
+        0.8301731406390405,
+        72.10802348300241,
+        23.079357496707864
+      ],
+      "signal_relative_l2_errors": [
+        1.4685365829543426,
+        0.3454288988294925,
+        2.8960881439156867,
+        1.1807777511513933
+      ],
+      "quadratic_analytic_max_abs_error": 0.8265047750301324
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0020920485258102417,
+      "kernel_relative_l2_error": 0.003995209466665983,
+      "signal_max_abs_errors": [
+        0.011032960903298528,
+        0.0008479930402842673,
+        0.012758929036276623,
+        0.007670234496985007
+      ],
+      "signal_relative_l2_errors": [
+        0.0039956717419576595,
+        0.0006213154883930986,
+        0.0040108754248312445,
+        0.004238688341117223
+      ],
+      "quadratic_analytic_max_abs_error": 0.0008993285342661084
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0003369450569152832,
+      "kernel_relative_l2_error": 0.0003359454858582467,
+      "signal_max_abs_errors": [
+        0.005381561761018894,
+        3.267175711774151e-05,
+        0.0010604429289782225,
+        0.0053677118422887915
+      ],
+      "signal_relative_l2_errors": [
+        0.00033595826919341026,
+        1.8061549592765505e-05,
+        0.00019080713344792112,
+        0.0004053882811176968
+      ],
+      "quadratic_analytic_max_abs_error": 0.0021789484231873324
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 256,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0003354661166667938,
+      "kernel_relative_l2_error": 0.0005630633677355945,
+      "signal_max_abs_errors": [
+        0.04915191824435894,
+        0.0001684764338407696,
+        0.012706884955302034,
+        0.04901632670579392
+      ],
+      "signal_relative_l2_errors": [
+        0.0005630585291850613,
+        0.00010008872277334213,
+        0.0006418897839949622,
+        0.000564838336789449
+      ],
+      "quadratic_analytic_max_abs_error": 0.003547158357097402
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2677677273750305,
+      "kernel_relative_l2_error": 0.34723955392837524,
+      "signal_max_abs_errors": [
+        1.5471395714796357,
+        0.06598235605955527,
+        3.166355729505146,
+        1.5479452233346125
+      ],
+      "signal_relative_l2_errors": [
+        0.6771995811373414,
+        0.056298193960093675,
+        0.9846335804511989,
+        0.984771652639856
+      ],
+      "quadratic_analytic_max_abs_error": 0.06623314591128726
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.37206733226776123,
+      "kernel_relative_l2_error": 0.44658419489860535,
+      "signal_max_abs_errors": [
+        8.63456153962818,
+        0.3462710244088384,
+        16.61410433863913,
+        8.638863663675474
+      ],
+      "signal_relative_l2_errors": [
+        2.3729198235002613,
+        0.24249618475155219,
+        2.7191256299993225,
+        2.360187285979472
+      ],
+      "quadratic_analytic_max_abs_error": 0.34673168976243696
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.6350429058074951,
+      "kernel_relative_l2_error": 0.6304193139076233,
+      "signal_max_abs_errors": [
+        238.08974943095538,
+        8.20794068929931,
+        393.72135356355705,
+        238.19541224319065
+      ],
+      "signal_relative_l2_errors": [
+        6.306279141724393,
+        4.049142670006775,
+        17.55815179210962,
+        5.1560578225066145
+      ],
+      "quadratic_analytic_max_abs_error": 8.20883580544809
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.002284407615661621,
+      "kernel_relative_l2_error": 0.0027531550731509924,
+      "signal_max_abs_errors": [
+        0.01826932926368574,
+        0.0004159034073614176,
+        0.014009319008762677,
+        0.018268197610638026
+      ],
+      "signal_relative_l2_errors": [
+        0.0027524990768333867,
+        0.00028344484829579623,
+        0.004453820474302127,
+        0.0037103520039668404
+      ],
+      "quadratic_analytic_max_abs_error": 0.0002162534782806924
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.002951711416244507,
+      "kernel_relative_l2_error": 0.0044808946549892426,
+      "signal_max_abs_errors": [
+        0.09440851141656026,
+        0.00025123692332451597,
+        0.03269551702278051,
+        0.09439405382450161
+      ],
+      "signal_relative_l2_errors": [
+        0.0044808743956562935,
+        0.00020444763439892642,
+        0.0056134905227844195,
+        0.005375924896318329
+      ],
+      "quadratic_analytic_max_abs_error": 0.0007689964885730927
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0008344389498233795,
+      "kernel_relative_l2_error": 0.0017871898598968983,
+      "signal_max_abs_errors": [
+        0.426856455626595,
+        0.00034249450705736706,
+        0.038252559377438544,
+        0.4266047437730798
+      ],
+      "signal_relative_l2_errors": [
+        0.0017871792236022468,
+        0.00019143672757035256,
+        0.001821421083353467,
+        0.0017855040150439013
+      ],
+      "quadratic_analytic_max_abs_error": 0.0012906038053186464
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.13242600858211517,
+      "kernel_relative_l2_error": 0.2115974724292755,
+      "signal_max_abs_errors": [
+        0.7792586548841767,
+        0.010275525469308655,
+        2.164592081164116,
+        0.7793037514718195
+      ],
+      "signal_relative_l2_errors": [
+        0.32412143113703146,
+        0.009403897311256643,
+        0.6299216328588387,
+        0.4953172504728491
+      ],
+      "quadratic_analytic_max_abs_error": 0.010570028297262501
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.1960439682006836,
+      "kernel_relative_l2_error": 0.28426089882850647,
+      "signal_max_abs_errors": [
+        4.516662598588141,
+        0.05696868397105603,
+        11.98235170822764,
+        4.516921143533873
+      ],
+      "signal_relative_l2_errors": [
+        1.1983723345816963,
+        0.042692171274038425,
+        1.8353141775889439,
+        1.2525363960416878
+      ],
+      "quadratic_analytic_max_abs_error": 0.0572621295993232
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.38402265310287476,
+      "kernel_relative_l2_error": 0.44024449586868286,
+      "signal_max_abs_errors": [
+        135.0374575608382,
+        1.5325798611694426,
+        322.4369304944301,
+        135.04285487014377
+      ],
+      "signal_relative_l2_errors": [
+        3.616949859369831,
+        0.8091423109232038,
+        13.458820855353409,
+        3.107368255680631
+      ],
+      "quadratic_analytic_max_abs_error": 1.5317001942289294
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0013620778918266296,
+      "kernel_relative_l2_error": 0.0038359712343662977,
+      "signal_max_abs_errors": [
+        0.010886755226068967,
+        0.0008173241208773163,
+        0.010861801637229718,
+        0.005353838369586583
+      ],
+      "signal_relative_l2_errors": [
+        0.003835052822955289,
+        0.000596938161060909,
+        0.0033274897085998506,
+        0.0038655311304703227
+      ],
+      "quadratic_analytic_max_abs_error": 0.0004996831809254143
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0003730654716491699,
+      "kernel_relative_l2_error": 0.00045647696242667735,
+      "signal_max_abs_errors": [
+        0.011932849185114947,
+        4.614707271399787e-05,
+        0.002313426648782979,
+        0.011925067313271143
+      ],
+      "signal_relative_l2_errors": [
+        0.00045647258307199,
+        3.462289506673974e-05,
+        0.000393933726575597,
+        0.0005459612837917879
+      ],
+      "quadratic_analytic_max_abs_error": 0.0005973351116199677
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 1024,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00033353641629219055,
+      "kernel_relative_l2_error": 0.000566738483030349,
+      "signal_max_abs_errors": [
+        0.17061942559729815,
+        0.0003377917930631469,
+        0.01208109920978373,
+        0.17050122814807978
+      ],
+      "signal_relative_l2_errors": [
+        0.0005667206559943101,
+        0.00015927204506696366,
+        0.0006121262523177543,
+        0.0005628477641309497
+      ],
+      "quadratic_analytic_max_abs_error": 0.0012850009687097597
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.32742249965667725,
+      "kernel_relative_l2_error": 0.39904141426086426,
+      "signal_max_abs_errors": [
+        2.762289737065135,
+        0.21936420546597213,
+        5.658977301876012,
+        2.7627940923230714
+      ],
+      "signal_relative_l2_errors": [
+        1.2939626998702425,
+        0.13213326804445036,
+        1.7952576771697535,
+        1.7804389385275765
+      ],
+      "quadratic_analytic_max_abs_error": 0.21928357263946086
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.44932156801223755,
+      "kernel_relative_l2_error": 0.5060169100761414,
+      "signal_max_abs_errors": [
+        20.121216058760186,
+        1.4927738101102426,
+        38.50701025601413,
+        20.12473225916636
+      ],
+      "signal_relative_l2_errors": [
+        5.537840306532259,
+        0.7378426339195255,
+        6.429478084730137,
+        5.107683639327178
+      ],
+      "quadratic_analytic_max_abs_error": 1.4926360435278014
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.7453811764717102,
+      "kernel_relative_l2_error": 0.6920372843742371,
+      "signal_max_abs_errors": [
+        942.5414283653606,
+        58.731868292291885,
+        1514.5218048475674,
+        942.688254976123
+      ],
+      "signal_relative_l2_errors": [
+        14.928064115122952,
+        20.438940613431697,
+        68.89284420139192,
+        11.615474653826071
+      ],
+      "quadratic_analytic_max_abs_error": 58.731637391928246
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0038814544677734375,
+      "kernel_relative_l2_error": 0.006248499732464552,
+      "signal_max_abs_errors": [
+        0.04706233226863166,
+        0.000758322795740396,
+        0.02966732016088791,
+        0.047064730221272555
+      ],
+      "signal_relative_l2_errors": [
+        0.0062494833651461305,
+        0.0005884169261407905,
+        0.009379352798764486,
+        0.008836979067015659
+      ],
+      "quadratic_analytic_max_abs_error": 0.0006783983726452725
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.005530178546905518,
+      "kernel_relative_l2_error": 0.0088480394333601,
+      "signal_max_abs_errors": [
+        0.3538911938448983,
+        0.0006391487816739261,
+        0.05832372842158051,
+        0.3539176465922189
+      ],
+      "signal_relative_l2_errors": [
+        0.008848000567243728,
+        0.00042506236092038963,
+        0.010221078665059044,
+        0.010127944984110467
+      ],
+      "quadratic_analytic_max_abs_error": 0.0005025668046318987
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 8,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.001187346875667572,
+      "kernel_relative_l2_error": 0.002673061564564705,
+      "signal_max_abs_errors": [
+        2.1164498068344955,
+        0.0003160818221175088,
+        0.08453775820689557,
+        2.115165851043116
+      ],
+      "signal_relative_l2_errors": [
+        0.0026730147691031805,
+        0.0002019865769493916,
+        0.00418584394474789,
+        0.0026739815142369392
+      ],
+      "quadratic_analytic_max_abs_error": 0.0006252742424173174
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.17923283576965332,
+      "kernel_relative_l2_error": 0.26694634556770325,
+      "signal_max_abs_errors": [
+        1.6567466004684555,
+        0.04771078622559877,
+        3.874876362901802,
+        1.6568475514905519
+      ],
+      "signal_relative_l2_errors": [
+        0.6743373426107897,
+        0.03915479780766187,
+        1.1602101888989946,
+        0.9715139212624497
+      ],
+      "quadratic_analytic_max_abs_error": 0.04778317759013073
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.2546285390853882,
+      "kernel_relative_l2_error": 0.3517693281173706,
+      "signal_max_abs_errors": [
+        12.455513238935968,
+        0.34003583453688635,
+        27.6522352274275,
+        12.456218007457377
+      ],
+      "signal_relative_l2_errors": [
+        3.0256435727111497,
+        0.2290442282193962,
+        4.357556891449444,
+        2.922623651060611
+      ],
+      "quadratic_analytic_max_abs_error": 0.3401621651943547
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "legacy",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.4561808407306671,
+      "kernel_relative_l2_error": 0.5232643485069275,
+      "signal_max_abs_errors": [
+        625.3774269005169,
+        15.106477887638983,
+        1228.6924384269505,
+        625.4074322222167
+      ],
+      "signal_relative_l2_errors": [
+        9.214889225472932,
+        7.164251835716595,
+        52.74938921757257,
+        7.509147983805296
+      ],
+      "quadratic_analytic_max_abs_error": 15.106749263792725
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.30000001192092896,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.0007897540926933289,
+      "kernel_relative_l2_error": 0.003401849651709199,
+      "signal_max_abs_errors": [
+        0.009620040229093907,
+        0.000751440438297335,
+        0.012881274548761867,
+        0.006211956136256802
+      ],
+      "signal_relative_l2_errors": [
+        0.003407423741104788,
+        0.0005626561909746785,
+        0.004163527078029896,
+        0.0035829662285565226
+      ],
+      "quadratic_analytic_max_abs_error": 0.0006721477927076336
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.5,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00027620792388916016,
+      "kernel_relative_l2_error": 0.0005202552420087159,
+      "signal_max_abs_errors": [
+        0.0176771282931405,
+        9.556617745043461e-05,
+        0.002403544106560851,
+        0.01767115611370329
+      ],
+      "signal_relative_l2_errors": [
+        0.0005202108407877488,
+        6.699926179736619e-05,
+        0.0003822171103420188,
+        0.0005784804742958435
+      ],
+      "quadratic_analytic_max_abs_error": 0.00023434876923933423
+    },
+    {
+      "dtype": "float32",
+      "operator": "grunwald_letnikov",
+      "fit_method": "scaled_tail",
+      "n_samples": 4096,
+      "poles": 12,
+      "order": 0.8999999761581421,
+      "target_kernel": "gl_prefix",
+      "fit_finite": true,
+      "measurement_ok": true,
+      "kernel_max_abs_error": 0.00031856074929237366,
+      "kernel_relative_l2_error": 0.0005225261556915939,
+      "signal_max_abs_errors": [
+        0.567838472194552,
+        0.00012569446164278908,
+        0.007502279582617177,
+        0.567729648224045
+      ],
+      "signal_relative_l2_errors": [
+        0.0005225067426721342,
+        7.218688239045507e-05,
+        0.0003814146876555143,
+        0.0005228347981700461
+      ],
+      "quadratic_analytic_max_abs_error": 0.00045461760441711796
+    }
+  ]
+}

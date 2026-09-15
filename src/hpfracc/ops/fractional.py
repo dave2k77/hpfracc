@@ -10,12 +10,9 @@ from __future__ import annotations
 from typing import Any
 
 from hpfracc.ops._quadrature import _power_interval_moments, _time_difference
+from hpfracc.ops._soe import _apply_soe, _fit_soe, _soe_info, _validate_soe_config
 from hpfracc.ops.base import HistoryMethod, OperatorFamily, OperatorInfo, OperatorResult
-from hpfracc.ops.kernels import (
-    _history_convolution,
-    _soe_convolution,
-    _soe_weights,
-)
+from hpfracc.ops.kernels import _history_convolution
 from hpfracc.ops.orders import as_order
 
 _SOE_VECTOR_MSG = (
@@ -48,6 +45,7 @@ def grunwald_letnikov(
     window_steps: int = 64,
     soe_poles: int = 8,
     soe_t_max: float | None = None,
+    soe_fit: str = "legacy",
     return_info: bool = False,
 ) -> Any:
     """Approximate a Grunwald-Letnikov fractional derivative.
@@ -82,8 +80,15 @@ def grunwald_letnikov(
     soe_poles:
         Number of exponential poles when ``history="soe"``.
     soe_t_max:
-        Physical horizon used for SOE fitting.  Defaults to the signal duration
-        ``n_steps * dt``.
+        Finite positive physical horizon, defaulting to ``n_steps * dt``. The
+        dimensionless pole construction cancels this horizon mathematically;
+        it is not an independent fit-accuracy control.
+    soe_fit:
+        ``"legacy"`` retains the released fit; ``"scaled_tail"`` uses an exact
+        lag-zero term and a normalized nonnegative fit to the positive cumulative
+        GL kernel, applied to increments including the initial value. Both use
+        recursive exponential histories. SOE remains scalar-order and approximate;
+        fixed pole/iteration counts do not guarantee convergence or fit accuracy.
 
     Returns
     -------
@@ -111,14 +116,17 @@ def grunwald_letnikov(
 
     n_time = values.shape[0]
     alpha_w, alpha_s, is_vector = _prepare_order(alpha, values.shape[1:])
+    soe_details = {}
     if HistoryMethod(history) is HistoryMethod.SOE:
         if is_vector:
             raise NotImplementedError(_SOE_VECTOR_MSG)
         t_max = (n_time * dt) if soe_t_max is None else float(soe_t_max)
-        weights = _soe_weights(
-            alpha, n_time, n_poles=soe_poles, t_max=t_max, kernel="gl"
+        fit = _fit_soe(
+            alpha, n_time, n_poles=soe_poles, t_max=t_max, kernel="gl", method=soe_fit,
         )
-        conv = _soe_convolution(values, weights)
+        conv = _apply_soe(values, fit)
+        if return_info:
+            soe_details = _soe_info(fit, alpha)
     else:
         n_weights = (
             max(1, min(int(window_steps), n_time))
@@ -140,6 +148,7 @@ def grunwald_letnikov(
                 n_steps=n_time,
                 history=history,
                 diagnostics={
+                    **soe_details,
                     "history": str(history),
                     "window_steps": window_steps,
                     "soe_poles": soe_poles,
@@ -162,6 +171,7 @@ def riemann_liouville(
     window_steps: int = 64,
     soe_poles: int = 8,
     soe_t_max: float | None = None,
+    soe_fit: str = "legacy",
     return_info: bool = False,
 ) -> Any:
     """Approximate a Riemann-Liouville fractional derivative.
@@ -180,6 +190,10 @@ def riemann_liouville(
     ``hp.ops.riemann_liouville_power_law`` -- including the constant case, where
     the RL derivative is ``t**(-order) / Gamma(1 - order)`` and is nonzero,
     distinguishing it from the Caputo derivative.
+
+    SOE uses the same ``soe_fit`` policies and recursive application as
+    :func:`grunwald_letnikov`; ``"scaled_tail"`` fits the positive cumulative GL
+    kernel and applies it to increments including the initial value.
     """
 
     if t is not None:
@@ -192,8 +206,12 @@ def riemann_liouville(
         window_steps=window_steps,
         soe_poles=soe_poles,
         soe_t_max=soe_t_max,
+        soe_fit=soe_fit,
+        return_info=return_info,
     )
     if return_info:
+        diagnostics = result.operator_info.diagnostics
+        result = result.values
         return OperatorResult(
             values=result,
             operator_info=_operator_info(
@@ -207,16 +225,7 @@ def riemann_liouville(
                     "v0.1 Riemann-Liouville is computed through the first-order "
                     "GL full-history uniform-grid discretisation.",
                 ),
-                diagnostics={
-                    "history": str(history),
-                    "window_steps": window_steps,
-                    "soe_poles": soe_poles,
-                    "soe_t_max": (
-                        (result.shape[0] * dt)
-                        if soe_t_max is None
-                        else float(soe_t_max)
-                    ),
-                },
+                diagnostics=diagnostics,
             ),
         )
     return result
@@ -232,6 +241,7 @@ def caputo(
     window_steps: int = 64,
     soe_poles: int = 8,
     soe_t_max: float | None = None,
+    soe_fit: str = "legacy",
     return_info: bool = False,
 ) -> Any:
     """Approximate a Caputo fractional derivative with the L1 scheme.
@@ -276,8 +286,15 @@ def caputo(
     soe_poles:
         Number of exponential poles when ``history="soe"``.
     soe_t_max:
-        Physical horizon used for SOE fitting.  Defaults to the signal duration
-        ``n_steps * dt``.
+        Finite positive physical horizon, defaulting to ``n_steps * dt``. The
+        dimensionless pole construction cancels this horizon mathematically;
+        it is not an independent fit-accuracy control.
+    soe_fit:
+        ``"legacy"`` retains the released fit; ``"scaled_tail"`` uses an exact
+        lag-zero term and a normalized nonnegative fit to the positive L1 tail.
+        Both apply the fitted kernel recursively to signal increments. SOE is
+        scalar-order and approximate; fixed pole/iteration counts do not guarantee
+        convergence or fit accuracy.
 
     Returns
     -------
@@ -306,6 +323,12 @@ def caputo(
 
     _validate_dt(dt)
     if n_time == 1:
+        if HistoryMethod(history) is HistoryMethod.SOE:
+            _validate_soe_config(
+                soe_poles, n_time * dt if soe_t_max is None else soe_t_max, soe_fit,
+            )
+            if jnp.asarray(alpha).ndim != 0:
+                raise NotImplementedError(_SOE_VECTOR_MSG)
         result = jnp.zeros_like(values)
         if return_info:
             return OperatorResult(
@@ -318,6 +341,8 @@ def caputo(
                     n_steps=n_time,
                     history=history,
                     diagnostics={
+                        **({"soe_fit": soe_fit, "soe_application": "empty_history"}
+                           if HistoryMethod(history) is HistoryMethod.SOE else {}),
                         "grid": "uniform",
                         "history": str(history),
                         "window_steps": window_steps,
@@ -332,15 +357,18 @@ def caputo(
 
     alpha_w, alpha_s, is_vector = _prepare_order(alpha, values.shape[1:])
     increments = values[1:] - values[:-1]
+    soe_details = {}
     if HistoryMethod(history) is HistoryMethod.SOE:
         if is_vector:
             raise NotImplementedError(_SOE_VECTOR_MSG)
         t_max = (n_time * dt) if soe_t_max is None else float(soe_t_max)
         n_inc = n_time - 1
-        weights = _soe_weights(
-            alpha, n_inc, n_poles=soe_poles, t_max=t_max, kernel="l1"
+        fit = _fit_soe(
+            alpha, n_inc, n_poles=soe_poles, t_max=t_max, kernel="l1", method=soe_fit,
         )
-        tail = _soe_convolution(increments, weights)
+        tail = _apply_soe(increments, fit)
+        if return_info:
+            soe_details = _soe_info(fit, alpha)
     else:
         n_weights = (
             max(1, min(int(window_steps), n_time - 1))
@@ -364,6 +392,7 @@ def caputo(
                 n_steps=n_time,
                 history=history,
                 diagnostics={
+                    **soe_details,
                     "grid": "uniform",
                     "history": str(history),
                     "window_steps": window_steps,

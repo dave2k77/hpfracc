@@ -1,0 +1,31 @@
+{
+  "scope": "local pre-execution SOE accuracy/scaling design, not a release gate",
+  "basis": "legacy retained; scaled_tail fits positive L1/GL-prefix tails with exact lag zero",
+  "accuracy": {
+    "dtypes": ["float32", "float64"],
+    "operators": ["caputo", "grunwald_letnikov"],
+    "fit_methods": ["legacy", "scaled_tail"],
+    "sample_counts": [64, 256, 1024, 4096],
+    "pole_counts": [8, 12],
+    "orders": [0.3, 0.5, 0.9],
+    "signals": ["constant", "quadratic", "oscillatory", "transient"],
+    "bounds": [0, 1],
+    "retain_nonfinite_failures": true,
+    "metrics": "per-signal absolute/relative L2 errors against full discrete convolution; analytic quadratic error; fitted-kernel error"
+  },
+  "scaling": {
+    "dtypes": ["float32", "float64"],
+    "operator": "caputo",
+    "fit_method": "scaled_tail",
+    "applications": ["dense_fitted", "recursive"],
+    "sample_counts": [256, 1024, 4096],
+    "state_dimensions": [1, 4],
+    "pole_counts": [8, 16],
+    "order": 0.5,
+    "repeats": 7,
+    "seed": 1729,
+    "timing": "serial shuffled rounds; dynamic inputs/order; fit plus application; whole-output synchronization; host checks excluded",
+    "memory": "XLA compiler buffer accounting, not peak RSS/device memory"
+  },
+  "interpretation": "Do not select configurations by favorable error or speed. Fixed poles/iterations need not preserve full-history convergence order; fit residuals are not universal relative derivative-error bounds. Report all rows and limitations."
+}

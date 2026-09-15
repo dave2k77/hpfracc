@@ -8,6 +8,7 @@ from typing import Any
 
 from hpfracc.ops._quadrature import _power_interval_moments, _time_difference
 from hpfracc.ops.orders import as_order
+from hpfracc.solvers._weights import _stable_pece_weights, _validate_weight_evaluation
 from hpfracc.solvers.base import SimulationResult, SolverInfo
 from hpfracc.typing import DynamicsFn, PyTree
 
@@ -18,13 +19,20 @@ class PredictorCorrector:
 
     The implementation targets scalar Caputo initial value problems with
     ``0 < order < 1`` on a positive, uniform timestep grid.
+
+    ``weight_evaluation="stable"`` evaluates the same full-history weights
+    through stable interval moments. ``"direct"`` retains the released power
+    formulas and remains the default. Stable evaluation improves roundoff, not
+    the method's discretization order or stability region.
     """
 
     dt: float
     order: float
+    weight_evaluation: str = "direct"
 
     def __post_init__(self) -> None:
         _validate_dt(self.dt)
+        _validate_weight_evaluation(self.weight_evaluation)
         # as_order (not validate_order) so a PredictorCorrector can be built with
         # a traced order inside jax.grad/jax.jit; concrete orders are still
         # validated against the open interval.
@@ -47,6 +55,11 @@ class ImplicitPredictorCorrector:
     they do not change the fixed iteration count or update rule. Diagnostics
     report per-step convergence and scaled residuals, including under JIT.
 
+    ``weight_evaluation="stable"`` evaluates the same predictor/corrector weights
+    with stable interval moments instead of cancelling power differences. The
+    default ``"direct"`` path, Newton iteration rule and diagnostic criterion are
+    preserved. This option does not guarantee positive states or global accuracy.
+
     Provisional: targets Caputo initial value problems with ``0 < order < 1`` on a
     positive, uniform timestep grid. Adaptive stepping is a future extension.
     """
@@ -56,9 +69,11 @@ class ImplicitPredictorCorrector:
     newton_iterations: int = 3
     newton_rtol: float = 1e-6
     newton_atol: float = 1e-8
+    weight_evaluation: str = "direct"
 
     def __post_init__(self) -> None:
         _validate_dt(self.dt)
+        _validate_weight_evaluation(self.weight_evaluation)
         as_order(self.order)
         if int(self.newton_iterations) < 1:
             msg = (
@@ -347,9 +362,12 @@ def _simulate_explicit(
         rng_key=rng_key,
         inputs=inputs,
     )
+    evaluation = getattr(solver, "weight_evaluation", "direct")
+    _validate_weight_evaluation(evaluation)
+    weight_fn = _stable_pece_weights if evaluation == "stable" else _pece_weights
 
     def step_fn(history: PyTree, step: PyTree) -> tuple[PyTree, PyTree]:
-        predictor_weights, corrector_weights = _pece_weights(
+        predictor_weights, corrector_weights = weight_fn(
             step, indices, alpha, history0.dtype
         )
         predicted = y0 + predictor_scale * _history_dot(predictor_weights, history)
@@ -381,7 +399,8 @@ def _simulate_explicit(
         fractional_order=alpha,
         step_size=float(solver.dt),
         n_steps=int(n_time - 1),
-        diagnostics={"history": "full", "grid": "uniform"},
+        diagnostics={"history": "full", "grid": "uniform",
+                     "weight_evaluation": evaluation},
     )
     return SimulationResult(ts=times, latent_state=values, solver_info=info)
 
@@ -411,9 +430,12 @@ def _simulate_implicit(
         inputs=inputs,
     )
     iterations = int(solver.newton_iterations)
+    evaluation = getattr(solver, "weight_evaluation", "direct")
+    _validate_weight_evaluation(evaluation)
+    weight_fn = _stable_pece_weights if evaluation == "stable" else _pece_weights
 
     def step_fn(history: PyTree, step: PyTree) -> tuple[PyTree, PyTree]:
-        predictor_weights, corrector_weights = _pece_weights(
+        predictor_weights, corrector_weights = weight_fn(
             step, indices, alpha, history0.dtype
         )
         # Explicit predictor seeds the Newton solve; ``known`` is the part of the
@@ -476,6 +498,7 @@ def _simulate_implicit(
             "history": "full",
             "grid": "uniform",
             "scheme": "implicit",
+            "weight_evaluation": evaluation,
             "newton_iterations": iterations,
             "newton_rtol": float(solver.newton_rtol),
             "newton_atol": float(solver.newton_atol),

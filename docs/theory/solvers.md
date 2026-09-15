@@ -97,6 +97,16 @@ rounded to the same number or guarantee accuracy for every long-history problem;
 extreme lag/width scales can still underflow or overflow intermediate quantities.
 Float64 and problem-specific refinement studies remain important.
 
+## Uniform Weight Evaluation
+
+Uniform explicit and implicit solvers now offer `weight_evaluation="stable"` as
+an opt-in alternative to the default direct power differences. It combines the
+same interval moments described above on unit lag intervals, preserving the
+full-history method and separate current-endpoint coefficient. The
+[coefficient and paired solver evidence](../validation/uniform-weights.md) shows
+the improvement in float32 roundoff; discretization error, coarse-grid positivity
+loss and working-precision model/accumulation effects remain separate limits.
+
 ## Implicit Residual Criterion
 
 The implicit solver still executes a fixed number of Newton iterations. After
@@ -125,6 +135,15 @@ This is an algebraic residual check, not a local truncation-error estimate or
 a guarantee of proximity to a unique root. Poor conditioning can make a small
 residual misleading. Newton damping, condition estimation, convergence-driven
 termination, and automatic failure recovery remain future work.
+
+The [nonlinear/stiff audit](../validation/implicit-nonlinear.md) provides broader
+case-specific evidence and an important counterexample. For `f=-k*y`, the first
+implicit step is `(1-alpha*mu)/(1+mu)`, with `mu=k*dt^alpha/Gamma(alpha+2)` and
+`y0=1`. It can be negative on a coarse grid despite a positive continuous solution
+and a converged algebraic solve. The audit also separates working-precision
+residuals from independent float64 reconstruction; cancellation in uniform
+history weights can matter in float32. Neither increasing Newton iterations nor
+tightening diagnostic tolerances alone fixes these integration/precision limits.
 
 ## Adaptive Termination
 

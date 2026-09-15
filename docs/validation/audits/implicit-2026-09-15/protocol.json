@@ -1,0 +1,26 @@
+{
+  "scope": "local implicit accuracy and algebraic-convergence audit; not a stiffness or positivity guarantee",
+  "starting_revision": "37aaac6f800030f20a3dad97e46a2236a44bac8d",
+  "working_tree": "includes the uncommitted native-convolution and SOE work",
+  "design_basis": "informed by exploratory float64 17-node probes, before the full sweep",
+  "cases": {
+    "half_decay": {"orders": [0.5], "reference": "erfcx(strength*sqrt(t))", "scales": [1.0]},
+    "cubic": {"orders": [0.3, 0.5, 0.8], "reference": "1+t^2", "scales": [1.0]},
+    "coupled": {"orders": [0.3, 0.5, 0.8], "reference": "(1+t^2, 0.5+t^3)", "scales": [1.0, 1.0]},
+    "scaled": {"orders": [0.3, 0.5, 0.8], "reference": "scales*(1+t^2, 0.5+t^3)", "scales": [0.001, 1000.0]}
+  },
+  "strengths": [1.0, 30.0],
+  "sample_counts": [17, 65, 257],
+  "newton_iterations": [1, 3, 8],
+  "bounds": [0.0, 1.0],
+  "dtypes": ["float32", "float64"],
+  "newton_rtol": {"float32": 0.00001, "float64": 0.0000000001},
+  "newton_atol_over_rtol": 0.01,
+  "expected_configurations_per_precision": 180,
+  "nonlinear_feedback": "-strength*(y^3-u^3) for the scalar; -S*R*((S^-1*y)^3-u^3) for coupled cases, R=[[strength+1,-strength],[-strength,strength+1]]",
+  "independent_discrete_residual": "float64 panel quadrature: 32-point Gauss-Legendre away from the singular endpoint, exact beta moments on the newest panel; no imported solver weight helpers",
+  "measurements": "finite trajectory, self-reported convergence/failure counts, max and endpoint dimensionless error, minimum dimensionless state, independent scaled residual and flag disagreements",
+  "failure_policy": "retain all runs; finite but unconverged trajectories retain labeled accuracy measurements; nonfinite trajectories have empty accuracy/residual fields",
+  "check_policy": "require the complete unique matrix and coherent output/diagnostic shapes, flags and counts; do not require all solves to converge or satisfy an accuracy threshold",
+  "stopping_rule": "one full sweep per precision; retain unfavorable cases without changing grids, iteration counts, diagnostic tolerances or solver defaults"
+}

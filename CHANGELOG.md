@@ -2,6 +2,37 @@
 
 ## Unreleased
 
+- Added opt-in `weight_evaluation="stable"` for uniform explicit and implicit
+  Caputo solvers, evaluating the same full-history weights with stable interval
+  moments. Recorded high-precision coefficients, paired solver effects, JIT and
+  state/parameter/order gradients. Direct evaluation remains default; coarse-grid
+  positivity and model/accumulation limits remain. The stochastic helper rejects
+  this setting rather than silently ignoring it.
+
+- Added independent nonlinear/stiff implicit validation: scalar and coupled
+  manufactured solutions, strong half-order decay, panel-quadrature residuals,
+  refinement and state/parameter/order gradients. Recorded all 360 precision/
+  grid/strength/iteration configurations, including nonfinite and unconverged
+  trajectories. Documented converged-but-negative coarse steps and float32
+  uniform-weight roundoff as separate limits; solver updates are unchanged.
+
+- Replaced dense SOE operator application with recursive exponential histories.
+  Added the opt-in `soe_fit="scaled_tail"` policy: streamed fitting statistics,
+  normalized nonnegative positive tails, exact lag zero, and a cumulative GL
+  kernel applied to increments. Legacy fitting retains its original policy and
+  remains the fit default; its projected updates now use a bounded JAX loop.
+  Added fit-residual metadata, independent analytic/gradient/recurrence checks,
+  and recorded accuracy/scaling evidence. Consistent evaluation of static pole
+  constants fixes an observed long-float32 eager/JIT discrepancy. Fixed-pole
+  approximation floors and poor legacy regimes remain documented limitations.
+
+- Reduced the Windows float64 crash to a pure-JAX batched-convolution probe and
+  replaced short-memory's native convolution call with an equivalent lag scan.
+  Preserved the truncated sum, complex/per-state support and outer batching;
+  added a no-native-convolution regression and retained every diagnostic child
+  outcome. New seven-repeat windowed benchmark sweeps complete in both
+  precisions. The upstream native defect's internal cause remains unresolved.
+
 - Replaced dense short-memory operator application with direct windowed
   convolution and retained-window-only weights, preserving the explicit
   truncation rule and scalar/per-state order support. Added independent

@@ -81,6 +81,28 @@ tolerances leaves the trajectory and its gradients unchanged. This evidence
 concerns algebraic residual reporting, not general nonlinear solver robustness
 or global error control.
 
+The [nonlinear/stiff audit](implicit-nonlinear.md) adds independent scalar and
+coupled manufactured references, exact half-order decay at strong rates, and
+host panel-quadrature residual reconstruction. Its 360 measured configurations
+separate finite trajectories, reported Newton convergence and continuous error.
+Tests add selected nonlinear refinement, rescaling, state/parameter/order
+gradients, and a converged-but-negative first-step counterexample. Float32
+uniform weight/history precision remains a limitation even after the working-
+precision residual converges. The audit's checked command validates complete
+measurements, not convergence or accuracy of every configuration.
+
+### Stable Uniform Weight Evaluation
+
+`PredictorCorrector` and `ImplicitPredictorCorrector` now accept the opt-in
+`weight_evaluation="stable"`, reusing stable interval moments for the same
+full-history coefficients. The default direct formulas remain available and
+unchanged. [Uniform-weight validation](uniform-weights.md) records 140 coefficient
+cases and 240 paired implicit configurations, alongside 70-digit references and
+explicit/implicit JIT and gradient tests. The option substantially reduces the
+identified float32 weight error, while model/accumulation precision and
+coarse-grid positivity limitations remain. Stochastic simulation rejects the new
+setting until its separate kernels are validated.
+
 ### Adaptive Completion Diagnostics
 
 `tests/unit/test_adaptive_diagnostics.py` checks JIT-accessible completion flags
@@ -146,9 +168,29 @@ application with direct finite-kernel convolution and builds only retained
 weights. Independent truncated sums, signal-dependent discarded-tail bounds,
 analytic cutoff cases, complex signals, vector orders, and input/order gradients
 are tested. Local float32 timings and XLA buffer accounting show the measured
-forward scaling; they are not peak-memory or accelerator measurements. Repeated
-float64 benchmarking encountered a native Windows JAX access violation despite
-passing numerical tests. SOE remains dense, and solver histories remain full.
+forward scaling; they are not peak-memory or accelerator measurements. A native
+Windows float64 convolution failure was reduced to pure JAX and avoided by a
+shift-and-accumulate scan. The [follow-up](native-convolution.md) records all
+diagnostic outcomes and complete float32/float64 benchmark sweeps with the scan.
+The native defect's internal cause remains unresolved. Solver histories remain
+full; the SOE operator extension is described below.
+
+### Recursive SOE and Scaled-Tail Fitting
+
+SOE operators now apply exponential histories recursively. The optional
+`soe_fit="scaled_tail"` uses streamed fitting statistics, normalized nonnegative
+tail fitting, an exact lag-zero term, and a positive cumulative-kernel rewrite for
+GL/RL. The legacy fit remains available and is still the default fit policy.
+Independent fitted-sum, analytic/refinement, conditional error-bound,
+input/order-gradient, JIT and constant-response checks are in
+`tests/unit/test_soe_recursive.py`.
+
+The [SOE audit](soe-history.md) records 192 complete final accuracy configurations
+and 48 final scaling configurations across both precisions. It retains severe
+legacy-fit errors and the initial failed float32 scaling experiment, whose
+eager/JIT pole inconsistency was corrected without relaxing tolerances. Fixed
+poles/iterations do not guarantee a fit tolerance or full-history convergence
+order. The new reports remain separate from the aggregate hardening summary.
 
 ## Provisional Capabilities
 
@@ -161,10 +203,11 @@ research infrastructure yet:
   (multiplicative) diffusion, and `alpha <= 1/2` noise are not validated.
 - Broad Bayesian inference workflows beyond scalar-grid Gaussian calibration.
 - Performance claims outside the local benchmark context.
-- SOE memory-efficiency claims: it still applies approximate weights through
-  dense full-history kernels. Short-memory now uses windowed execution, but
-  selected forward CPU measurements do not establish reverse-mode/accelerator
-  memory bounds or universal truncation/compression error bounds.
+- Broader history-compression claims: windowed short-memory and recursive SOE
+  have selected forward CPU evidence, not reverse-mode/accelerator peak-memory
+  bounds or universal relative-error guarantees. Legacy SOE fitting retains its
+  design-matrix cost and documented poor regimes; scaled-tail fitting is an
+  explicit opt-in. Solver histories remain uncompressed.
 - Biological, neural, EEG, clinical, diagnostic, or subject-specific realism.
 - Placeholder domain namespaces such as `hpfracc.brain`, `hpfracc.observe`,
   `hpfracc.train`, `hpfracc.data`, and `hpfracc.viz`.

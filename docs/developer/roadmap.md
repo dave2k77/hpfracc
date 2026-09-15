@@ -252,7 +252,25 @@ the SciML and brain layers before any domain code depends on it.
 - Short-memory operators now build retained weights only and use direct windowed
   convolution. Independent truncation/gradient tests and local float32 forward
   timing/XLA buffer measurements are recorded in
-  [windowed history](../validation/windowed-history.md). SOE remains dense.
+  [windowed history](../validation/windowed-history.md).
+- A pure-JAX reproducer isolates the Windows float64 native-convolution failure.
+  Windowed application now uses an equivalent lag scan, with complete benchmark
+  sweeps in both precisions; see [the follow-up](../validation/native-convolution.md).
+- SOE operator application is now recursive, with a named `scaled_tail` fit using
+  streamed sufficient statistics and a positive GL-prefix/increment identity.
+  Independent analytic/gradient checks and full accuracy/scaling matrices are
+  recorded in [SOE history](../validation/soe-history.md). Legacy fitting remains
+  selectable and default, with its poor long-sequence regimes explicitly recorded.
+- A [nonlinear/stiff implicit audit](../validation/implicit-nonlinear.md) adds
+  independent continuous and discrete-residual references, 360 measured cases,
+  and selected coupled state/parameter/order gradients. It documents coarse-grid
+  positivity loss and float32 uniform-weight roundoff separately from Newton
+   convergence; solver updates and defaults are unchanged.
+- Uniform explicit/implicit solvers now expose `weight_evaluation="stable"` as
+  an opt-in evaluation of the same coefficients, with direct evaluation still
+  default. The [paired evidence](../validation/uniform-weights.md) addresses the
+  float32 weight-roundoff issue with independent coefficient, solver and gradient
+  checks. Model/accumulation precision and method-level positivity limits remain.
 
 The implementation and regression evidence live in the source tree and are
 described in [validation status](../validation/status.md) and the changelog's
@@ -267,7 +285,11 @@ sign-off, accelerator validation, or a complete Phase A evidence dossier.
    gradient, and JIT requirements below. Record supported combinations and
    case-specific tolerances; selected smoke tests or report rows are not blanket
    coverage. In particular, extend independent adaptive tolerance-calibration
-   and nonlinear/stiff implicit evidence beyond the currently documented cases.
+   and nonlinear/stiff implicit evidence beyond the controlled manufactured and
+   half-order cases. Stable uniform weight evaluation now addresses the identified
+   coefficient-roundoff target through an explicit opt-in. Extend precision
+   evidence beyond these cases, including mixed-scale model/accumulation effects;
+   reported Newton convergence alone does not certify positivity or global error.
    The [initial adaptive audit](../validation/adaptive-calibration.md) now
    demonstrates first-panel indicator underestimation and separates global
    errors from operational completion; a justified calibration correction
@@ -278,11 +300,13 @@ sign-off, accelerator validation, or a complete Phase A evidence dossier.
    now uses additional quarter-step information behind an explicit opt-in.
    Broader calibration, nonlinear/stiff evidence, and matched-work evaluation
    remain gates before promotion; the default and the phase status are unchanged.
-2. Complete the memory-efficiency deliverable: replace dense SOE application with
-   recursive execution and validate its fitting/approximation contract. Windowed
-   short-memory execution is implemented with selected CPU evidence; extend
-   per-state/reverse-mode/accelerator and peak-memory measurements and investigate
-   the recorded Windows float64 repeated-benchmark crash. Selected signal bounds
+2. Complete the memory-efficiency evidence: windowed short-memory and recursive
+   SOE application are implemented with selected CPU evidence. Extend
+   approximation calibration, tolerance-driven fitting/selection, and
+   reverse-mode/accelerator and peak-memory measurements. SOE remains scalar-order;
+   do not infer per-state support from other operator histories. The Windows
+   native crash is avoided by the lag scan; its pure-JAX reproducer remains
+   available for upstream investigation. Selected signal bounds
    are not universal error guarantees. Solver histories remain uncompressed.
 3. Reconcile any remaining grid/order and differentiation scope with the actual
    supported combinations. Per-state solver orders are not implemented; do not

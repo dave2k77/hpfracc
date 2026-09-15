@@ -1,0 +1,58 @@
+{
+  "scope": "pure-JAX mixed-allocation diagnostic, not a performance report",
+  "kernel": "convolution",
+  "repeats": 5,
+  "processes": 5,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.13",
+  "command": [
+    "C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\.venv\\Scripts\\python.exe",
+    "-u",
+    "-X",
+    "faulthandler",
+    "C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py",
+    "--child",
+    "--kernel",
+    "convolution",
+    "--repeats",
+    "5"
+  ],
+  "runs": [
+    {
+      "index": 0,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare convolution shape=(4096,4) window=32\nwarmup convolution\nrepeat=0 execute=convolution\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=convolution\nrepeat=2 execute=dense\nrepeat=2 execute=convolution\nrepeat=3 execute=convolution\nrepeat=3 execute=dense\nrepeat=4 execute=convolution\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    },
+    {
+      "index": 1,
+      "returncode": 3221225477,
+      "returncode_hex": "0xc0000005",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare convolution shape=(4096,4) window=32\nwarmup convolution\nrepeat=0 execute=convolution\n",
+      "stderr": "Windows fatal exception: access violation\n\nThread 0x0000812c (most recent call first):\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\.venv\\Lib\\site-packages\\jax\\_src\\api.py\", line 2564 in try_to_block\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\.venv\\Lib\\site-packages\\jax\\_src\\api.py\", line 2581 in block_until_ready\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py\", line 81 in child\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py\", line 98 in main\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py\", line 131 in <module>\n"
+    },
+    {
+      "index": 2,
+      "returncode": 3221225477,
+      "returncode_hex": "0xc0000005",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare convolution shape=(4096,4) window=32\nwarmup convolution\n",
+      "stderr": "Windows fatal exception: access violation\n\nThread 0x00001354 (most recent call first):\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\.venv\\Lib\\site-packages\\jax\\_src\\api.py\", line 2564 in try_to_block\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\.venv\\Lib\\site-packages\\jax\\_src\\api.py\", line 2581 in block_until_ready\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py\", line 71 in child\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py\", line 98 in main\n  File \"C:\\Users\\davia\\biomedical_engineering\\fractional_models\\hpfracc\\benchmarks\\numerical\\jax_convolution_probe.py\", line 131 in <module>\n"
+    },
+    {
+      "index": 3,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare convolution shape=(4096,4) window=32\nwarmup convolution\nrepeat=0 execute=convolution\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=convolution\nrepeat=2 execute=dense\nrepeat=2 execute=convolution\nrepeat=3 execute=convolution\nrepeat=3 execute=dense\nrepeat=4 execute=convolution\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    },
+    {
+      "index": 4,
+      "returncode": 0,
+      "returncode_hex": "0x0",
+      "stdout": "{\"jax\": \"0.10.1\", \"devices\": [\"cpu:0\"], \"x64_enabled\": true}\nprepare dense shape=(256,4) window=8\nwarmup dense\nprepare convolution shape=(4096,4) window=32\nwarmup convolution\nrepeat=0 execute=convolution\nrepeat=0 execute=dense\nrepeat=1 execute=dense\nrepeat=1 execute=convolution\nrepeat=2 execute=dense\nrepeat=2 execute=convolution\nrepeat=3 execute=convolution\nrepeat=3 execute=dense\nrepeat=4 execute=convolution\nrepeat=4 execute=dense\ncompleted; all repeated outputs equal\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": "7454352231f0f0861b9de8ada31f6ec6dcfcc5c3167cead6a13430b6fbb51608"
+}
