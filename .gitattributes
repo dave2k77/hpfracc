@@ -1,3 +1,8 @@
 # Audit digests identify exact bytes; do not normalize on add or checkout.
 # Recognize preserved CRLF endings without suppressing other whitespace checks.
+
+# Normalize line endings: LF in the repo and on checkout everywhere.
+* text=auto eol=lf
+
+# Exception (must come after the rule above: last match wins).
 docs/validation/audits/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

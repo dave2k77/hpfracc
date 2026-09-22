@@ -9,3 +9,4 @@ build/
 dist/
 site/
 hpfracc_design_specification.pdf
+.agent/
