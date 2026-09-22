@@ -1,6 +1,16 @@
-# CLAUDE.md
+# Repository agent guidance
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides shared guidance for any coding agent working in this repository.
+
+## Agent-neutral collaboration and attribution
+
+- Keep shared instructions in `AGENTS.md` and use agent-neutral names and wording
+  for project files and documentation.
+- Credit human contributors only. Do not add AI assistants, models, or vendors as
+  authors, co-authors, or contributors in commit trailers, project metadata, or
+  contributor lists. Preserve legitimate human attribution.
+- Do not append agent branding or generated-by signatures to commit messages,
+  pull request descriptions, or project documentation.
 
 ## What this is
 

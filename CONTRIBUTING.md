@@ -12,6 +12,14 @@ v0.1 priority order:
 Public scientific functionality should include mathematical assumptions,
 validation evidence, known failure modes, and a stability-tier designation.
 
+## Coding agents and attribution
+
+Shared guidance for any coding agent lives in [AGENTS.md](AGENTS.md). Keep project
+files and documentation agent-neutral, without agent-specific instruction files
+or branding. Authorship and contributor credits are for human contributors;
+do not add AI assistants, models, or vendors as authors or co-authors, including
+in commit trailers. Preserve legitimate human attribution.
+
 ## Reproducible development checks
 
 From the repository root:
