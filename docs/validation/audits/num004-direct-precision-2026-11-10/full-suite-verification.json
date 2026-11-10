@@ -1,0 +1,32 @@
+{
+  "scope": "Full local Python 3.13.13 suite on captured numerical/benchmark/test source; later documentation edits verified separately",
+  "source_manifest": "suite-source-inputs.json",
+  "source_inputs_verified": 116,
+  "runs": [
+    {
+      "backend": "cpu",
+      "artifact": "full-cpu.xml",
+      "tests": 850,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "deselected_per_pytest_stdout": 1,
+      "exit_code": 0,
+      "pytest_reported_seconds": 779.95,
+      "sha256": "7fcbb81291fe60c842e7174b7fe57cefbebfc92199daa7e1187c3667181b6140"
+    },
+    {
+      "backend": "gpu",
+      "artifact": "full-cuda.xml",
+      "tests": 850,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "deselected_per_pytest_stdout": 1,
+      "exit_code": 0,
+      "pytest_reported_seconds": 1400.75,
+      "sha256": "44889432d2c9cfe38e0125a7f670f22699c9f2153d8d42a472fb8cc7cebcecdf"
+    }
+  ],
+  "cuda_full_suite_status": "complete; process exit zero confirmed"
+}

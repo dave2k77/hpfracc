@@ -1,0 +1,27 @@
+{
+  "scope": "Full CPU suite collected before the later documentation-consistency regression; unchanged numerical/benchmark/policy-test inputs verified",
+  "numerical_source_reference_tree": "26d778a342224cf24877bbf3d0df4ce217876404",
+  "source_reference_scope": "Later staged reference with matching numerical/benchmark/policy-test inputs; not a claim about the Git index at test collection",
+  "source_state": "Dirty development tree, not release-candidate evidence",
+  "source_inputs_verified_against_final_case_reports": 61,
+  "command": "JAX_PLATFORMS=cpu uvx --from 'uv==0.11.21' uv run --frozen --extra dev python -m pytest --junitxml=\"$TMPDIR/hpfracc-scientific-acceptance-final-cpu.xml\"",
+  "junit": "full-cpu.xml",
+  "junit_sha256": "0da50402ea714bdbfc3766d465f0697e426acc645ac0c5fe1d653ba4bb3acf68",
+  "junit_attributes": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "818",
+    "time": "670.670",
+    "timestamp": "2026-11-10T19:43:11.037092+00:00",
+    "hostname": "drc-GB-AERO-X16"
+  },
+  "deselected_per_pytest_output": 1,
+  "process_exit_code": 0,
+  "limits": [
+    "The later documentation-consistency regression is checked separately, not counted in these 818 tests",
+    "Only targeted CUDA tests were rerun for this increment",
+    "No remote CI or release sign-off is established"
+  ]
+}

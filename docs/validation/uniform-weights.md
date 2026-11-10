@@ -1,8 +1,11 @@
-# Stable Uniform Solver Weight Evaluation
+# Uniform Solver Weight Evaluation
 
-Status: Unreleased, opt-in numerical hardening. Solver APIs remain provisional;
-`"stable"` describes roundoff evaluation, not an API tier or a larger integration
-stability region.
+Status: Unreleased numerical hardening: opt-in interval moments and the NUM-004
+direct-arithmetic repair. Selected-gate and local full CPU/CUDA verification is
+recorded in the repair bundle; review and release gates are separate. Solver
+APIs remain provisional; `"stable"`
+describes roundoff evaluation, not an API tier or a larger integration stability
+region.
 
 ## Select explicitly
 
@@ -22,12 +25,14 @@ Both uniform deterministic configurations accept `"direct"` (the default) and
 names raise `ValueError`. Existing positional configuration arguments retain
 their meaning; the option is appended to the dataclass fields.
 
-The default still calls the original direct power-difference formulas. Stable
-evaluation uses the same full-history PECE discretization and separate endpoint
-coefficient, with the same timestep/gamma normalization, time-grid requirements,
-Newton update count and residual criterion. It does not truncate history or
-enable float64 globally. No runtime speedup is claimed: stable interval evaluation
-does more weight arithmetic, and total history work remains quadratic.
+The default remains `"direct"`, but NUM-004 replaces its cancellation-prone
+power differences with cancellation-safe evaluation of the same Diethelm
+coefficients. **Legacy direct floating-point roundoff is not preserved.**
+The explicit `"stable"` interval-moment route is unchanged. Both settings retain
+the full-history PECE discretization and separate endpoint coefficient, with
+the same timestep/Gamma normalization, time-grid requirements, Newton updates
+and residual criteria. Neither truncates history nor enables float64 globally.
+No runtime speedup is claimed; total history work remains quadratic.
 
 This option is for deterministic uniform explicit/implicit solvers. Nonuniform
 and adaptive solvers already use stable interval moments and have no new selector.
@@ -54,9 +59,9 @@ are algebraically the original Diethelm weights. The implementation reuses the
 including its bounded series for narrow lag intervals and safe endpoint branches.
 Combining positive moments avoids cancellation of large, nearly equal powers.
 
-## Coefficient evidence
+## Historical coefficient evidence — original stable opt-in
 
-The [protocol](audits/uniform-weights-2026-09-15/protocol.json) fixes orders
+The historical [protocol](audits/uniform-weights-2026-09-15/protocol.json) fixes orders
 `0.01,0.1,0.3,0.5,0.8,0.9,0.99`, steps `1,3,16,256,4096`, both evaluations and
 both precisions. The 140 rows compare predictor/corrector arrays to independent
 host panel quadrature. Unit tests additionally use 70-digit interval integrals
@@ -67,21 +72,23 @@ and `5e-12` for float64. The largest measured stable corrector relative errors
 were approximately `6.4e-7` and `2.0e-15`, respectively. These concern weights
 before timestep/gamma normalization, not global trajectory errors.
 
-Selected float32 maximum relative corrector errors:
+These measurements predate the direct-arithmetic repair. Here and in the paired
+solver table below, direct means the **legacy power-difference implementation**,
+not the current repaired default. Selected float32 maximum relative corrector errors:
 
-| Order | Elapsed intervals | Direct | Stable |
+| Order | Elapsed intervals | Legacy direct | Stable |
 | --- | --- | --- | --- |
 | 0.1 | 256 | 0.1401 | 2.82e-7 |
 | 0.5 | 256 | 0.01153 | 3.25e-7 |
 | 0.5 | 4,096 | 3.647 | 3.25e-7 |
 | 0.99 | 4,096 | 1.206 | 1.27e-7 |
 
-Some direct long-history float32 weights become zero or negative. These are
-retained as measurements, not counted as evidence of accurate direct evaluation.
+Some legacy direct long-history float32 weights became zero or negative. These
+are retained as historical measurements, not current direct-evaluation results.
 The stable path has positive historical weights in the tested matrix without
 clipping negative coefficients after calculation.
 
-## Paired solver evidence
+## Historical paired solver evidence
 
 The solver matrix repeats the [implicit audit's](implicit-nonlinear.md) half-order
 decay and scalar/coupled/mixed-scale manufactured problems, at both strengths
@@ -98,12 +105,13 @@ For half-order decay at strength 30 and 257 nodes:
 
 | Precision / evaluation | Independent max scaled residual | Disagreeing step flags | Endpoint absolute error |
 | --- | --- | --- | --- |
-| Float32 direct | 673.78 | 235 | 6.469e-5 |
+| Float32 legacy direct | 673.78 | 235 | 6.469e-5 |
 | Float32 stable | 0.966 | 0 | 1.626e-5 |
-| Float64 direct | 0.180 | 0 | 1.618e-5 |
+| Float64 legacy direct | 0.180 | 0 | 1.618e-5 |
 | Float64 stable | 2.54e-4 | 0 | 1.618e-5 |
 
-This addresses the dominant weight-roundoff discrepancy in that case. It does
+The historical stable opt-in addressed the dominant weight-roundoff discrepancy
+in that recorded case. It does
 not guarantee that every independent residual or continuous error improves.
 For the mixed-scale coupled case at strength 30, order 0.5 and 257 nodes in
 float32, the independent scaled residual rises from `0.496` to `1.112` while the
@@ -151,6 +159,59 @@ The [local CUDA follow-up bundle](audits/gpu-normalization-2026-11-10/README.md)
 records source/runtime provenance, paired old/new coefficients and checked CPU/
 GPU aggregates. The selected independent cubic residual falls from `1.795` to
 `0.0783` without relaxing its threshold. This is not a global accuracy guarantee.
+
+## NUM-004 — cancellation-safe default direct arithmetic
+
+The deterministic uniform `_pece_weights` predictor now evaluates the power
+difference with `expm1`/`log1p`. Its boundary corrector uses a positive binomial
+series through degree `K=28` in float32 or `K=56` in float64. Interior correctors
+retain `M=14` or `M=28` even terms, respectively. Computation uses the actual
+working dtype, without global x64 changes or a fallback to the stable selector.
+The separate stochastic drift/noise weight helper is untouched.
+
+For `0 < alpha < 1`, normalize each series by its positive leading term. For
+boundary steps or interior lags at least two, let `r` be the reciprocal step or
+lag, so `r <= 1/2`. Boundary successive terms have ratio at most `r`; interior
+even terms have ratio at most `r**2`. Since the normalized sum is at least one,
+geometric tails give conservative relative truncation bounds:
+
+```text
+interior: r**(2*M) / (1-r**2)
+boundary: r**(K-1) / (1-r)
+```
+
+At `r=1/2` these bounds are approximately `4.9671e-9` / `1.4901e-8` for
+float32 and `1.8504e-17` / `5.5511e-17` for float64 (interior / boundary), below
+their respective machine epsilons. These bound **exact-arithmetic series
+truncation only**, not floating-point accumulation, order derivatives or solver
+error. First-step/lag-one cases have separate formulas. Inactive branches use
+finite operands before `where`, with safe step/lag values at least two, so masked
+future entries and singleton cases do not evaluate singular inactive powers or
+logarithms.
+
+The [new repair bundle](audits/num004-direct-precision-2026-11-10/README.md)
+records eight new executions under the unchanged `implicit-scientific-v1`
+manifest and budgets. All 32 required-success cases are accepted and all 16
+negative controls remain rejected with passing policy flags. For float32
+weak decay, direct independent maximum scaled residuals are
+`0.016331607987060983` on CPU and `0.01743271498279139` on CUDA, below the
+unchanged threshold of one. The stable path reproduces its prior residuals
+`0.052358017489466745` / `0.01643224778294578`. The
+[pre-repair scientific bundle](audits/scientific-acceptance-2026-11-10/README.md)
+and all older tables retain the original failing arithmetic as historical
+evidence; they are not overwritten or relabelled as repaired results.
+
+`tests/unit/test_direct_weight_precision.py` targets independent coefficients
+and default-path residuals. The stable-improvement comparison in
+`test_uniform_weights.py` explicitly uses frozen legacy arithmetic, not the
+repaired direct path. Default versus explicitly selected direct remains the
+same configuration; neither is promised to reproduce old direct trajectories
+bitwise. Local Python 3.13.13 full suites pass 850 tests on each CPU/CUDA backend
+with one performance case deselected and confirmed zero process exits.
+Independent review, remote multi-version CI and release gates are separate.
+This repair does not establish arbitrary nonlinear/stiff float32
+accuracy or remove normalization, model-evaluation, accumulation or coarse-grid
+positivity limitations. Phase A remains open.
 
 ## Tests and compatibility boundary
 
@@ -201,7 +262,10 @@ The records identify local Windows CPU execution, Python 3.13.13, JAX/jaxlib
 no timing or accelerator claim is made. Earlier audit bundles remain historical.
 This is dirty-tree development evidence, not release sign-off or Phase A closure.
 
-## Final development checks
+## Historical development checks — original stable opt-in
+
+The following counts and source checkpoint belong to the original opt-in
+implementation, not the NUM-004 repair or its pending candidate verification.
 
 - `uv run python -m pytest`: **653 passed**, 1 performance test deselected,
   in 996.88 s; confirmed process exit 0.
@@ -212,7 +276,7 @@ This is dirty-tree development evidence, not release sign-off or Phase A closure
   **20 baseline/hardening rows passed**. The new matrices are separate reports.
 - Strict docs, Ruff 0.16.7 on changed Python files, and whitespace checks passed.
 
-The targeted coefficient-roundoff issue now has an opt-in implementation and
+The targeted coefficient-roundoff issue received an opt-in implementation and
 independent evidence. Broader mixed-scale arithmetic, error control, performance
-and release-readiness gates remain open. This work remains local and uncommitted
-on top of `37aaac6` and the preceding development changes.
+and release-readiness gates remain open. That historical work was local and
+uncommitted on top of `37aaac6` and the preceding development changes.

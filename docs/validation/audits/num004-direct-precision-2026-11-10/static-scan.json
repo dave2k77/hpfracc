@@ -1,0 +1,6 @@
+{
+  "scope": "Heuristic scan of added staged source/configuration lines; not a security guarantee",
+  "added_lines_scanned": 1498,
+  "findings": [],
+  "staged_tree_at_scan": "c268f0570f8e9ad8756d708a4c934e8b7a73f90c"
+}

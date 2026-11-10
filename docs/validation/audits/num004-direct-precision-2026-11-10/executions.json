@@ -1,0 +1,58 @@
+[
+  {
+    "backend": "cpu",
+    "dtype": "float32",
+    "weight_evaluation": "direct",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.scientific_acceptance --dtype float32 --weight-evaluation direct --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "cpu",
+    "dtype": "float32",
+    "weight_evaluation": "stable",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.scientific_acceptance --dtype float32 --weight-evaluation stable --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "cpu",
+    "dtype": "float64",
+    "weight_evaluation": "direct",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.scientific_acceptance --dtype float64 --weight-evaluation direct --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "cpu",
+    "dtype": "float64",
+    "weight_evaluation": "stable",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.scientific_acceptance --dtype float64 --weight-evaluation stable --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "gpu",
+    "dtype": "float32",
+    "weight_evaluation": "direct",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.scientific_acceptance --dtype float32 --weight-evaluation direct --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "gpu",
+    "dtype": "float32",
+    "weight_evaluation": "stable",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.scientific_acceptance --dtype float32 --weight-evaluation stable --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "gpu",
+    "dtype": "float64",
+    "weight_evaluation": "direct",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.scientific_acceptance --dtype float64 --weight-evaluation direct --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  },
+  {
+    "backend": "gpu",
+    "dtype": "float64",
+    "weight_evaluation": "stable",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.scientific_acceptance --dtype float64 --weight-evaluation stable --check --output-dir /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num004-direct-precision-2026-11-10",
+    "exit_code": 0
+  }
+]

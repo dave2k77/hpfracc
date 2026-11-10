@@ -1,0 +1,22 @@
+[
+  {
+    "file": "tdd-cli-red.xml.gz",
+    "raw_sha256": "5fc7db5d8bcdc069a55dabcbe6381f15491955f9891ff6ec0e569f384223fa63",
+    "compressed_sha256": "670c4914c1ad4a7e5ff5de6f2294f303632c5cf9c0170c4d26ad3b178e44823f"
+  },
+  {
+    "file": "tdd-coherence-red.xml.gz",
+    "raw_sha256": "7243182e1230821b19a0ac809e39d6d8fa518a1628284e2f666eecf56afece8d",
+    "compressed_sha256": "6332afe6f393c2033d65484bcc7345e249e009e5fcf72065163380574034137d"
+  },
+  {
+    "file": "tdd-first-red.xml.gz",
+    "raw_sha256": "6a8653735841de62d04ade16334cb5a1a602ee913e75e33b89f877bae75768e2",
+    "compressed_sha256": "2027f6230eff85de0c6dd6db7e9ee148464e76892eac77855e13496ed6a17410"
+  },
+  {
+    "file": "tdd-flag-types-red.xml.gz",
+    "raw_sha256": "a3ca0ca9a916bd2527b2cddab9e82a709e2c8171f6bc1f7b908532ec045e0cd5",
+    "compressed_sha256": "2789ef85af9cfaa7a671d15d38fc040567b31a5fb805d546f80b479c86503d29"
+  }
+]

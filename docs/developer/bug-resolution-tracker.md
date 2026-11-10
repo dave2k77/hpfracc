@@ -35,12 +35,17 @@ and historical evidence instead of rewriting them after a fix.
 | VAL-001 | Validation gap | FFT/full comparison conflated two independent rounding errors | Fixed for the selected regression |
 | ENV-003 | Environment | CUDA-only backend disabled CPU debug callbacks | Resolved by backend configuration |
 | NUM-003 | Numerical defect | Float32 Gamma normalization biased an implicit corrector equation | Fixed; independent residual gate passes |
+| NUM-004 | Numerical precision defect | Direct float32 history-weight cancellation failed an independent residual gate | Fixed for the selected scope; full local CPU/CUDA suites pass |
+| NUM-005 | Numerical / diagnostic limitation | Stable float32 stiff decay can disagree with the independent residual criterion | Reproduced before and after NUM-004; cause under investigation |
+| API-001 | Metadata contract limitation | Strong array orders prevent plain JSON export of SolverInfo | Reproduced before and after NUM-004; open |
 | VAL-002 | Validation gap | No dedicated FFT order-gradient finite-difference matrix | Selected coverage verified after VAL-004 correction |
 | DOC-001 | Documentation | Nonuniform solver missing from API stability table | Fixed |
 | SCI-001 | Research limitation | General adaptive tolerance indicator is not a calibrated error bound | Open |
 | SCI-002 | Research / validation gap | History selection and measured reverse/peak-memory evidence incomplete | Open |
-| VAL-003 | Validation semantics | Measurement-integrity checks are insufficient scientific acceptance | Open; next work package |
+| VAL-003 | Validation semantics | Measurement-integrity checks are insufficient scientific acceptance | Implemented for selected implicit cases; broader gates open |
 | VAL-004 | Validation defect | x64-enabled fixture masked nominal float32 FFT execution | Fixed; corrected CPU/CUDA matrices pass |
+| VAL-005 | Validation defect caught before commit | Numeric value equality weakened configuration identity | Fixed; strict canonical types and regressions |
+| VAL-006 | Evidence documentation | Current citations retained superseded CUDA measurements | Corrected; ten report-to-documentation checks |
 | ENV-004 | Environment / delivery | GitHub write authentication was unavailable | Resolved; authenticated push verified |
 
 ## ENV-001 — Local development environment and CI context
@@ -313,4 +318,225 @@ Impact: a green audit process can be misread as a scientific accuracy gate.
 Preserve those existing semantics and add a separately named scientific policy
 with independently defined required-success/error criteria, expected-failure
 classification, exact coverage and corruption sensitivity. This is the next
-Phase A work package; no new scientific-acceptance implementation is claimed here.
+Phase A work package; it does not change the meaning of the existing reports.
+
+Implementation started 2026-11-10 in
+`benchmarks/numerical/scientific_acceptance.py`. The first regression uses the
+existing independent half-order decay oracle: a finite, Newton-converged coarse
+float64 trajectory has dimensionless error above 0.3 despite an acceptable
+independent algebraic residual. The new decision rejects it. Separate real
+regressions reject nonfinite and finite under-iterated trajectories.
+
+- Fix: a [separate frozen policy](../validation/scientific-acceptance.md) defines
+  exact required-success and rejection-control coverage, continuous-error
+  budgets and strict reported/independent residual requirements. Decisions and
+  booleans are recomputed, not trusted from supplied result flags. Multiple
+  rejection reasons are retained; invalid measurements cannot pass as expected
+  numerical failures. Original measurement-report semantics remain unchanged.
+- Verification so far: observed red/green cycles, 81 focused CPU tests and 103
+  focused CUDA tests pass, both processes exited zero. Deliberately corrupted
+  metrics/flags/metadata are regression inputs, not benchmark data. Eight
+  executable reports preserve 48 measured configurations: 30 accepted
+  required-success trajectories, two required-success failures and 16 correctly
+  rejected controls. Both direct float32 gates exit one; six other report
+  variants exit zero. Raw trajectories/diagnostics reconstruct every reported
+  row and decision on the host; all 61 source-input hashes per run and all
+  manifest/CSV/NPZ digests match. See the
+  [development evidence](../validation/audits/scientific-acceptance-2026-11-10/README.md).
+- Review correction: the inherited float32 accuracy evidence used stable, not
+  direct weights. Evaluation mode is now an explicit manifest dimension, with
+  no automatic stable substitution. New float32 nonlinear budgets are labelled
+  policy choices, not borrowed evidence. Fully coherent fabricated data cannot
+  be authenticated by a row-only checker; raw arrays/digests support numerical
+  reinspection, not execution attestation.
+- Additional verification: the replacement full CPU suite passed 818 tests,
+  one performance case deselected, with process exit zero. Ten later
+  documentation-consistency checks are not counted in that run; all 21
+  documentation/status guards pass separately. Initial review found only
+  documentation drift (VAL-006), corrected against the final measurements.
+- Remaining: the default direct precision limit is separately tracked as
+  NUM-004. Adaptive calibration, broader nonlinear/stiff scope and release
+  sign-off remain open Phase A work; local passes do not imply new remote CI.
+- Prevention: freeze configuration-specific criteria before measurements, test
+  corruption and exact coverage, and report accepted trajectories separately
+  from verified rejection controls and measurement integrity.
+- Evidence-handling lesson: raw pytest failure XML contains trailing whitespace
+  that triggered `git diff --cached --check`. Preserve red JUnit as gzip with
+  verified raw/compressed hashes instead of stripping historical evidence or
+  disabling repository-wide whitespace checks.
+
+### VAL-005 — Canonical configuration identity
+
+Discovery: 2026-11-10, pre-review corruption testing of the new policy. This was
+caught in development before the policy was committed or published.
+
+- Symptom: Python/dataclass equality treated boolean `True` as strength `1.0`
+  and floating `129.0` as integer node count `129`. Four new mutation cases
+  passed the original configuration comparison instead of failing closed.
+- Impact: a forged or malformed manifest/measurement could appear to match
+  the fixed protocol even though its canonical types differed. Immutability
+  and value equality were not sufficient configuration identity checks.
+- Cause: field and dataclass equality compare numeric values across these
+  types. Earlier strict boolean-result tests did not cover configuration fields.
+- Fix: match both exact canonical field types and values against the separately
+  authoritative manifest, for specifications and measurement identities; keep
+  explicit boolean-result checks and decision recomputation.
+- Verification: four expected failures in the 81-case CPU regression, then all
+  81 focused CPU and 103 targeted CUDA tests pass with zero process exits.
+  Archive the pre-correction reports/source snapshots and regenerate all eight
+  reports after the fix; host/raw/hash verification still preserves the two
+  scientifically failing direct float32 cases. The earlier full CPU run was
+  stopped as superseded; its pytest summary is not final process-exit evidence.
+- Limits: type/coverage/digest checks are not authentication of fully coherent
+  fabricated observations; raw-data reconstruction and scope disclosure remain
+  necessary. The replacement full CPU suite passed 818 tests; later
+  documentation guards are recorded separately, not counted in that run.
+- Prevention: test Python numeric coercion edge cases in scientific metadata,
+  not just modified numerical values or truthy result flags.
+
+### VAL-006 — Current-outcome citations drifted after regeneration
+
+Discovery: 2026-11-10, independent review of staged tree
+`26d778a342224cf24877bbf3d0df4ce217876404`; no numerical-code or security blocker
+was found, but the current-evidence citations did not match the final bundle.
+
+- Symptom and impact: two rounded README cells and two full-precision CUDA
+  citations in NUM-004 still used the pre-type-guard report values. Scientific
+  decisions were unchanged, but the displayed measurements had the wrong
+  evidence identity. Historical values remain valid only for their archived run.
+- Cause: reports were regenerated after the configuration-type fix while
+  manually copied outcome text retained the previous CUDA measurements.
+- Fix: derive current values from the final bundled JSON; retain the old
+  reports/source snapshots unchanged. Add ten lightweight checks comparing
+  every README outcome/exit code, verification summary and current NUM-004
+  CPU/CUDA residual citations against the actual report rows.
+- Verification: four failed/six passed checks against stale citations, then
+  all 21 documentation/status guards pass. The numerical inputs and all 61
+  source hashes per report remain unchanged. Red/green evidence is archived
+  alongside the initial failed review and the full-suite record.
+- Prevention: regenerate all displayed outcomes from the final evidence set
+  after a rerun, and test the publication surface as well as raw artifacts.
+
+### NUM-004 — Direct float32 history-weight cancellation repair
+
+Discovery: 2026-11-10, the new separately named scientific-acceptance gate;
+consistent with the older direct-weight limitation, not a new solver regression.
+
+- Historical symptom: the pre-repair 257-node, order-0.5, strength-1 decay case
+  reported Newton convergence and met its 1e-3 continuous-error budget, but its
+  independent maximum scaled residuals were 12.453928382961097 on CPU and
+  8.497625302550595 on CUDA, above the frozen threshold of one. These remain
+  historical failures in the immutable
+  [pre-repair bundle](../validation/audits/scientific-acceptance-2026-11-10/README.md),
+  not measurements of the repaired arithmetic.
+- Impact: small trajectory error and a converged reported equation do not imply
+  an independently converged product-integration equation. Stable-path or older
+  aggregate passes cannot establish default-path acceptance.
+- Evidence-backed cause: the original direct power-difference formulas suffer
+  working-precision cancellation. The archived dynamic-JIT CPU probe at step 256
+  compares five positions with the existing 70-digit interval-integral oracle:
+  legacy direct corrector max relative error was 0.0019559953760854842 versus
+  5.843177619535567e-08 for stable evaluation. This probe diagnoses the original
+  arithmetic; it is not a current coefficient measurement.
+- Applied repair: `_pece_weights` evaluates the same Diethelm coefficients with
+  an `expm1`/`log1p` predictor and positive binomial corrector series, in the
+  working dtype. Boundary degrees 28/56 and 14/28 interior even terms bound
+  exact-arithmetic truncation below float32/float64 epsilon. Inactive operands
+  are finite before selection, including singleton/masked cases. See
+  [uniform weights](../validation/uniform-weights.md) for the bounds and limits.
+  The full-history discretization, default `direct` selector, timestep/Gamma
+  normalization, Newton updates and tolerances are unchanged. **Legacy direct
+  floating-point roundoff is not preserved.** The explicit `stable`
+  interval-moment route and separate stochastic kernel are unchanged.
+- Selected verification: two pre-repair regressions failed on each CPU/CUDA
+  backend; source checkpoint and raw red evidence are retained in the
+  [NUM-004 repair bundle](../validation/audits/num004-direct-precision-2026-11-10/README.md).
+  Its eight finalized reports all pass the unchanged `implicit-scientific-v1`
+  policy: all 32 required-success trajectories are accepted, and all 16 negative
+  controls have `accepted=False`, `policy_passed=True`. Current direct independent
+  maximum scaled residuals are 0.016331607987060983 on CPU and 0.01743271498279139 on CUDA,
+  below the unchanged limit of one. Current stable residuals are
+  0.052358017489466745 on CPU and 0.01643224778294578 on CUDA.
+  These two stable values are unchanged from the archived baseline. Host replay
+  verifies the 48 raw configurations, protocol/artifact digests and 61 source
+  hashes per report; this is not universal scientific acceptance.
+- Verification completion: both captured-source full CPU/CUDA processes exited
+  zero with 850 passing tests and one performance case deselected per backend.
+  Both backends also passed the 187-test
+  existing selection and the 14-test expanded precision/gradient selection.
+  Independent final review and remote CI are recorded separately from these
+  local runs; neither release nor Phase A closure is inferred.
+  No general arbitrary-nonlinear/stiff float32 accuracy claim follows. Working-
+  precision model evaluation, normalization and accumulation still matter, and
+  neither evaluation cures the coarse-grid stiff-decay positivity/inaccuracy
+  control. Phase A remains open.
+- Prevention: always identify weight evaluation and effective precision in
+  numerical claims, and verify against an independently evaluated equation
+  rather than only the residual of the computed working-precision weights.
+- Evidence-drift prevention: derive current citations from the final bundled
+  JSON rows after reruns, preserving superseded evidence unchanged. The docs
+  consistency regression keeps all eight historical README checks, adds eight
+  repair-bundle outcome checks, and binds this entry's two current paired
+  residual claims and their evidence attribution to the new bundle.
+
+### NUM-005 — Stable float32 stiff-case independent residual disagreement
+
+Discovery: 2026-11-10, while preserving the historical stable-versus-legacy
+comparison during the NUM-004 repair.
+
+- Symptom: for CPU float32 half-order decay, strength 30, 257 nodes, eight
+  Newton iterations, `rtol=1e-5`, `atol=1e-7`, the explicitly selected stable option
+  reports convergence but its independently reconstructed maximum scaled
+  residual is 1.1998344389138271, above one. This occurs with both the archived
+  pre-repair source and the repaired source; the stable kernel is unchanged.
+- Impact: the historical improvement relative to legacy direct arithmetic is
+  real, but does not establish an absolute independent residual pass. This
+  exploratory case is outside the frozen six-case matrix and provides no
+  continuous-accuracy acceptance or general stiffness guarantee. NUM-004's
+  selected success must not be generalized to this different configuration.
+- Cause: not yet isolated. Working-precision coefficient, model and accumulation
+  roundoff are hypotheses, not an established complete explanation.
+- Intervention: preserve the historical comparison using an explicitly frozen
+  legacy evaluator, retain the unchanged 5% relative-improvement assertion, and
+  separately require the repaired direct result's independent residual to be
+  at most one. No stable-path arithmetic or tolerance has been changed.
+- Verification: the archived
+  [float64-reference observation](../validation/audits/num004-direct-precision-2026-11-10/stiff-residual-float64-reference.json)
+  records the before/after runs. Legacy direct residual 673.7955854875966 becomes
+  0.20526358291781596; the stable value above is unchanged. The corresponding
+  updated regression passes in both 187-test CPU/CUDA selections.
+- Instrumentation correction: the first exploratory caller did not cast states
+  to host float64 before the half-decay RHS. It is explicitly superseded in
+  `stiff-probe-history.json`; original files remain unchanged. Frozen-policy
+  collectors already cast reference states and all eight reports are unaffected.
+- Remaining: isolate and repair or explicitly bound this stable-mode limitation;
+  it is not silently accepted, deferred from Phase A, or fixed by NUM-004.
+- Prevention: compare independently evaluated absolute criteria as well as
+  relative improvement, and establish the reference dtype before evaluating
+  the RHS rather than promoting an already rounded residual afterwards.
+
+### API-001 — Strong-order solver metadata is not plain-JSON serializable
+
+Discovery: 2026-11-10, additional metadata inspection during precision tests.
+
+- Symptom: both uniform deterministic solver classes accept a strong float32
+  scalar array order, but `json.dumps(result.solver_info.to_dict())` raises
+  `TypeError: Object of type ArrayImpl is not JSON serializable`. The equivalent
+  Python-float order exports successfully. Numerical trajectories are unaffected.
+- Cause: `SolverInfo.to_dict()` uses `dataclasses.asdict` without converting
+  the array stored in `fractional_order` to a JSON scalar. This qualifies the
+  JSON-compatible-export expectation; numerical array-order support is not
+  evidence of metadata serialization support.
+- Intervention: no metadata implementation change in the weight repair.
+  Record the failure separately; the selector test compares metadata identity,
+  history and diagnostics without claiming successful JSON export.
+- Verification: the
+  [metadata observation](../validation/audits/num004-direct-precision-2026-11-10/metadata-export-observation.json)
+  reproduces all four class/order-type combinations on the pre-repair source
+  and repaired source. `solvers/base.py` is byte-identical across checkpoints;
+  only the two strong-array cases fail in each checkpoint.
+- Remaining: provide and test host-side JSON normalization without introducing
+  array-to-Python conversion into numerical JIT/gradient paths. This issue remains
+  open; it is neither a new NUM-004 regression nor a completed contract fix.
+- Prevention: test metadata export using actual supported scalar-array orders,
+  not only Python configuration scalars, independently of numerical dtype tests.

@@ -11,6 +11,7 @@ import pytest
 from scipy.special import erfcx
 
 import hpfracc as hp
+import hpfracc.solvers.predictor_corrector as pc
 from benchmarks.numerical.implicit_validation import independent_residuals
 from hpfracc.solvers._weights import _stable_pece_weights
 from hpfracc.solvers.predictor_corrector import _pece_weights
@@ -171,7 +172,19 @@ def test_explicit_matches_nonuniform_uniform_mesh_and_refines(enable_x64):
     assert 1.4 < observed < 1.8 and errors[1] < 5e-4
 
 
-def test_float32_implicit_residual_improvement():
+def test_float32_residuals_against_frozen_legacy_arithmetic(monkeypatch):
+    """Retain the historical comparison, not a claim of stable residual <= 1."""
+    def legacy(step, indices, alpha, dtype):
+        # Frozen pre-NUM-004 arithmetic, not the current direct implementation.
+        valid = indices < step
+        lag = jnp.where(valid, (step - indices).astype(dtype), 1.)
+        n = step.astype(dtype)
+        pred = jnp.where(valid, lag**alpha - pc._safe_pow(lag - 1., alpha), 0.)
+        boundary = pc._safe_pow(n - 1., alpha + 1.) - (n - 1. - alpha)*n**alpha
+        interior = ((lag + 1.)**(alpha + 1.)
+                    + pc._safe_pow(lag - 1., alpha + 1.) - 2.*lag**(alpha + 1.))
+        return pred, jnp.where(valid, jnp.where(indices == 0, boundary, interior), 0.)
+
     n = 257
     times = jnp.linspace(0., 1., n, dtype=jnp.float32)
     alpha = jnp.asarray(.5, dtype=jnp.float32)
@@ -180,11 +193,15 @@ def test_float32_implicit_residual_improvement():
     def model(t, state, params, *, rng_key=None, inputs=None):
         return -params * state
 
-    independent = []
-    for evaluation in ("direct", "stable"):
+    independent = {}
+    current_direct = pc._pece_weights
+    for evaluation in ("legacy", "direct", "stable"):
+        monkeypatch.setattr(pc, "_pece_weights",
+                            legacy if evaluation == "legacy" else current_direct)
         solver = hp.solvers.ImplicitPredictorCorrector(
             dt=1/(n-1), order=alpha, newton_iterations=8,
-            newton_rtol=1e-5, newton_atol=1e-7, weight_evaluation=evaluation,
+            newton_rtol=1e-5, newton_atol=1e-7,
+            weight_evaluation="direct" if evaluation == "legacy" else evaluation,
         )
         result = hp.solvers.simulate(model=model, ts=times, solver=solver,
                                      initial_state=jnp.ones(1), params=rate)
@@ -194,8 +211,9 @@ def test_float32_implicit_residual_improvement():
             np.asarray(result.latent_state, dtype=float),
             30., .5, np.ones(1), 1e-5, 1e-7,
         )
-        independent.append(np.max(residuals))
-    assert independent[1] < .05 * independent[0]
+        independent[evaluation] = np.max(residuals)
+    assert independent["stable"] < .05 * independent["legacy"]
+    assert independent["direct"] <= 1.
 
 
 def test_stable_evaluation_does_not_repair_coarse_grid_positivity(enable_x64):

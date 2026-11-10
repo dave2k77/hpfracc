@@ -1,0 +1,7 @@
+{
+  "file": "pre-type-guard-evidence.tar.gz",
+  "sha256": "6a695afe4ee19149f73777eae486a0d5c187dfd1d5f9da141931c38a9b13d4ad",
+  "historical_data_files": 68,
+  "historical_source_snapshots": 2,
+  "scope": "Pre type-guard-correction measurements; not final candidate evidence"
+}

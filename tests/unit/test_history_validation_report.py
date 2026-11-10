@@ -9,7 +9,6 @@ import numpy as np
 import pytest
 
 from benchmarks.numerical import history_validation as report
-from hpfracc.solvers.predictor_corrector import _pece_weights
 
 EXPECTED_CASES = {
     "soe_caputo_scaled_tail_float32", "soe_rl_constant_scaled_tail_float32",
@@ -70,8 +69,14 @@ def test_order_gradient_check_rejects_stopped_derivative(monkeypatch):
     assert not report.soe_gradient_row().passed
 
 
-def test_stable_weight_check_rejects_direct_formula(monkeypatch):
-    monkeypatch.setattr(report, "_stable_pece_weights", _pece_weights)
+def test_stable_weight_check_rejects_corrupted_coefficients(monkeypatch):
+    original = report._stable_pece_weights
+
+    def corrupt(*args, **kwargs):
+        predictor, corrector = original(*args, **kwargs)
+        return predictor, .99 * corrector
+
+    monkeypatch.setattr(report, "_stable_pece_weights", corrupt)
     assert not report.stable_weight_row().passed
 
 

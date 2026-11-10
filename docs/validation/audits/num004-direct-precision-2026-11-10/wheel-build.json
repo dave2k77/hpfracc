@@ -1,0 +1,24 @@
+{
+  "scope": "Built wheel and hash-locked runtime-only isolated environment; not multi-platform release sign-off",
+  "wheel": "/home/davianc/.hermes/cache/scratch/hpfracc-num004-dist/hpfracc-0.1.0a1-py3-none-any.whl",
+  "wheel_sha256": "cc5ea7c5eefc47a01794d9a3e9bbbe0fc57a8989d77f9e9e731745cd6836168f",
+  "lockfile_sha256": "5f138c397f98f325c2bffcda43ffdb4e51d2a85a931ca21d93b28860e74ebb7b",
+  "requirements_sha256": "94f37ac477998611a3ee2309509a44a21d59ed9e3128ace31ac5154dcab125db",
+  "runtime_packages": [
+    "jax",
+    "jaxlib",
+    "ml-dtypes",
+    "numpy",
+    "opt-einsum",
+    "scipy"
+  ],
+  "commands": [
+    "uv build --wheel --out-dir $TMPDIR/hpfracc-num004-dist",
+    "uv export --frozen --no-dev --no-emit-project --format requirements.txt --output-file $TMPDIR/hpfracc-num004-runtime-requirements.txt",
+    "uv venv --python .venv/bin/python $TMPDIR/hpfracc-num004-wheel-env",
+    "uv pip install --python $TMPDIR/hpfracc-num004-wheel-env/bin/python --require-hashes -r $TMPDIR/hpfracc-num004-runtime-requirements.txt",
+    "uv pip install --python $TMPDIR/hpfracc-num004-wheel-env/bin/python --no-deps $TMPDIR/hpfracc-num004-dist/hpfracc-0.1.0a1-py3-none-any.whl",
+    "JAX_PLATFORMS=cpu $TMPDIR/hpfracc-num004-wheel-env/bin/python -I docs/validation/audits/num004-direct-precision-2026-11-10/wheel-smoke.py"
+  ],
+  "all_process_exit_codes": 0
+}

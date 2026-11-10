@@ -61,6 +61,21 @@ are supported where the model and documented input convention support them.
 The stable uniform setting is a precision option, not an API stability-tier
 promotion. Uniform direct/stable evidence is in [uniform weights](uniform-weights.md);
 nonlinear limitations are in [the implicit audit](implicit-nonlinear.md).
+The [selected scientific-acceptance policy](scientific-acceptance.md) separately
+checks coherent measurements, reported/independent residuals and continuous
+errors. Its historical direct float32 weak-decay failures are retained in the
+[pre-repair bundle](audits/scientific-acceptance-2026-11-10/README.md). After
+NUM-004's cancellation-safe direct-weight repair, all eight
+[new report variants](audits/num004-direct-precision-2026-11-10/README.md) pass
+the unchanged policy: 32 required-success cases are accepted, and 16 negative
+controls remain rejected with passing policy flags. **Legacy direct
+floating-point roundoff is not preserved.** The default direct selector,
+full-history method, normalization, Newton updates/tolerances and explicit
+stable interval-moment path are unchanged; the separate stochastic kernel is
+untouched. This is selected-gate evidence, not arbitrary nonlinear/stiff
+float32 accuracy. Local full CPU/CUDA suites pass; independent review and remote
+multi-version/release gates are separate. Expected
+rejections are never counted as accepted trajectories.
 Adaptive limitations and paired-work evidence are in
 [calibration](adaptive-calibration.md), [startup](adaptive-startup.md),
 [subdivision](adaptive-subdivision.md), [runtime](adaptive-runtime.md),

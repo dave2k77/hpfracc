@@ -1,0 +1,9 @@
+{
+  "file": "tdd-config-types-red.xml.gz",
+  "raw_sha256": "cec0dbeffb08cbb2c850504cd764c799596fc859ecd082b5265710f98514837a",
+  "compressed_sha256": "af148ca6b25d2eb64beb72e17dd41df209356f3f00852141cfab9cee5e18c004",
+  "red_tests": 81,
+  "red_failures": 4,
+  "green_cpu_tests": 81,
+  "green_cuda_tests": 103
+}

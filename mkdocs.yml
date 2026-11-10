@@ -26,6 +26,7 @@ nav:
       - Windowed History: validation/windowed-history.md
       - Recursive SOE History: validation/soe-history.md
       - Nonlinear Implicit Audit: validation/implicit-nonlinear.md
+      - Scientific Acceptance: validation/scientific-acceptance.md
       - Stable Uniform Weights: validation/uniform-weights.md
       - Native Convolution Follow-up: validation/native-convolution.md
       - Development Checkpoint: validation/development-2026-09-14.md

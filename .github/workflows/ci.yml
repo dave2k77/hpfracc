@@ -30,6 +30,14 @@ jobs:
         run: uv run --frozen python -m pytest
       - name: Check aggregate numerical validation
         run: uv run --frozen python -m benchmarks.numerical.validation_summary --check
+      - name: Check selected implicit scientific acceptance
+        # Both weight evaluations face the same frozen scientific criteria.
+        # Negative controls pass policy only as rejected trajectories.
+        run: |
+          uv run --frozen python -m benchmarks.numerical.scientific_acceptance --dtype float32 --weight-evaluation direct --check
+          uv run --frozen python -m benchmarks.numerical.scientific_acceptance --dtype float32 --weight-evaluation stable --check
+          uv run --frozen python -m benchmarks.numerical.scientific_acceptance --dtype float64 --weight-evaluation direct --check
+          uv run --frozen python -m benchmarks.numerical.scientific_acceptance --dtype float64 --weight-evaluation stable --check
 
   lint:
     runs-on: ubuntu-latest

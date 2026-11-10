@@ -1,0 +1,23 @@
+{
+  "scope": "Selected dynamic-JIT float32 weights versus the existing 70-digit interval-integral oracle; not a global error bound",
+  "backend": "cpu",
+  "order": 0.5,
+  "step": 256,
+  "positions": [0, 1, 128, 252, 255],
+  "measurements": [
+    {
+      "mode": "direct",
+      "predictor_max_relative_error": 1.7045723989861372e-05,
+      "corrector_max_relative_error": 0.0019559953760854842,
+      "dtype": "float32"
+    },
+    {
+      "mode": "stable",
+      "predictor_max_relative_error": 1.1601919225334711e-07,
+      "corrector_max_relative_error": 5.843177619535567e-08,
+      "dtype": "float32"
+    }
+  ],
+  "reference": "reference_samples in tests/unit/test_uniform_weights.py",
+  "reference_source_sha256": "67c70c1d185242580a800c3b9415e6eba96a2d0702f6394252abc027528e0556"
+}

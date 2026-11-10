@@ -63,6 +63,26 @@ that rejects finite, Newton-converged but independently inaccurate results,
 missing/duplicate required cases and nonfinite required-success trajectories.
 Expected-failure cases must remain separate from required-success cases.
 
+The first selected implicit policy is now implemented in
+`benchmarks.numerical.scientific_acceptance`; its
+[frozen protocol and limits](../validation/scientific-acceptance.md) define the
+six-case manifest per precision/evaluation/backend. The
+[pre-repair bundle](../validation/audits/scientific-acceptance-2026-11-10/README.md)
+preserves the direct float32 independent-residual failures on both backends.
+NUM-004 repairs cancellation in the same direct Diethelm coefficients; the
+default direct selector, full-history method, normalization, Newton updates and
+tolerances are unchanged, but legacy direct floating-point roundoff is not
+preserved. The explicit stable interval-moment route and separate stochastic
+kernel are untouched. Eight
+[new reports](../validation/audits/num004-direct-precision-2026-11-10/README.md)
+pass the unchanged policy: all 32 required-success cases are accepted, while
+all 16 negative controls remain scientifically rejected with passing policy
+flags. This verifies the selected-gate repair, not arbitrary nonlinear/stiff
+float32 accuracy, adaptive error calibration or A1 closure. Local Python 3.13.13
+full CPU/CUDA suites each pass 850 tests with one performance case deselected
+and confirmed zero process exits. Independent final review, remote multi-version
+CI and release gates remain separate from this local evidence.
+
 For any claimed tolerance-controlled case, test accepted-node errors against
 the stated componentwise reference scale, not just decreasing errors. Require
 an independently justified error-control contract before extending a bound to

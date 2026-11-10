@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+- Add a separately named, frozen-case implicit scientific-acceptance report with
+  independent continuous-error/residual criteria, explicit required-success and
+  expected-rejection roles, exact coverage and corruption checks, raw trajectory
+  artifacts and source provenance. Selected CPU/CUDA direct/stable float32/64
+  results preserve the pre-repair direct float32 failures as historical evidence.
+  After NUM-004, eight new reports pass the unchanged policy: all 32 required-
+  success cases are accepted and all 16 negative controls remain rejected with
+  passing policy flags. Stable evaluation remains an explicit opt-in; existing
+  measurement-audit semantics, selector defaults and runtime dependencies are
+  unchanged. Local full CPU/CUDA suites pass; independent review and remote
+  multi-version/release gates are separate, not Phase A closure.
+
+- Repair cancellation in the uniform deterministic solver's default direct
+  Diethelm weights using `expm1`/`log1p` and positive binomial corrector series in
+  the working dtype. The full-history method, normalization, Newton updates and
+  tolerances are unchanged; legacy direct floating-point roundoff is not
+  preserved. The stable interval-moment route and separate stochastic kernel are
+  untouched. Selected independent residual gates pass without threshold
+  relaxation; arbitrary nonlinear/stiff float32 accuracy is not established.
+
 - Stabilize uniform deterministic solver Gamma normalization in working precision
   using a differentiable reciprocal-Gamma series on the supported order interval.
   This addresses a CUDA float32 case where a small reported Newton residual hid

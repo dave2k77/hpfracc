@@ -57,6 +57,25 @@ remain separate evidence.
 
 ## Unreleased Hardening Evidence
 
+### Selected Implicit Scientific Acceptance
+
+The [scientific-acceptance policy](scientific-acceptance.md) leaves existing
+measurement-audit `--check` semantics unchanged. Its fixed six-case manifest
+separates four required-success cases from two explicit rejection controls.
+The immutable [pre-repair bundle](audits/scientific-acceptance-2026-11-10/README.md)
+preserves the two historical float32 direct weak-decay failures. Following
+NUM-004's direct-weight arithmetic repair, eight new CPU/CUDA precision/evaluation
+runs preserve 48 raw configurations and pass the unchanged selected policy:
+all 32 required-success trajectories are accepted; all 16 negative controls
+have `accepted=False`, `policy_passed=True`. The
+[repair bundle](audits/num004-direct-precision-2026-11-10/README.md) records the
+actual reports, source/artifact digests and host reconstruction. Local Python
+3.13.13 full CPU/CUDA suites each pass 850 tests, one performance case deselected,
+with confirmed zero process exits. Independent review and remote multi-version
+CI/release gates are separate. This is not arbitrary nonlinear/stiff float32
+validation or Phase A
+closure, and expected rejections are not successful trajectories.
+
 ### Input and Grid Validation
 
 `tests/unit/test_solver_input_validation.py` covers finite, strictly increasing
@@ -101,13 +120,16 @@ measurements, not convergence or accuracy of every configuration.
 
 `PredictorCorrector` and `ImplicitPredictorCorrector` now accept the opt-in
 `weight_evaluation="stable"`, reusing stable interval moments for the same
-full-history coefficients. The default direct formulas remain available and
-unchanged. [Uniform-weight validation](uniform-weights.md) records 140 coefficient
-cases and 240 paired implicit configurations, alongside 70-digit references and
-explicit/implicit JIT and gradient tests. The option substantially reduces the
-identified float32 weight error, while model/accumulation precision and
-coarse-grid positivity limitations remain. Stochastic simulation rejects the new
-setting until its separate kernels are validated.
+full-history coefficients. The default selector remains `direct`; NUM-004 now
+evaluates its coefficients with cancellation-safe power differences and positive
+binomial series in the working dtype. **Legacy direct floating-point roundoff
+is not preserved.** The stable interval-moment route, timestep/Gamma
+normalization, Newton updates and tolerances are unchanged.
+[Uniform-weight validation](uniform-weights.md) distinguishes its historical
+140 coefficient cases and 240 paired implicit configurations from the new
+selected repair evidence. Model/accumulation precision and coarse-grid
+positivity limitations remain. The separate stochastic kernel is untouched;
+stochastic simulation still rejects `stable` until separately validated.
 
 ### Adaptive Completion Diagnostics
 

@@ -1,0 +1,59 @@
+{
+  "scope": "Pre-existing stable-mode stiff residual observation; not a newly introduced NUM-004 regression",
+  "runs": [
+    {
+      "scope": "Exploratory stiff case, outside frozen scientific matrix; not continuous accuracy validation",
+      "backend": "cpu",
+      "order": 0.5,
+      "strength": 30.0,
+      "n_samples": 257,
+      "newton_iterations": 8,
+      "rtol": 1e-05,
+      "atol": 1e-07,
+      "source_file": "/home/davianc/.hermes/cache/scratch/hpfracc-num004-before-g38ti332/src/hpfracc/solvers/predictor_corrector.py",
+      "source_sha256": "35f241022820da7a7143a47ef01fb8e6814e1051644593920e67618e36dc99a9",
+      "rows": [
+        {
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 673.8001894158812,
+          "newton_converged": true,
+          "effective_trajectory_dtype": "float32"
+        },
+        {
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 1.194290215360957,
+          "newton_converged": true,
+          "effective_trajectory_dtype": "float32"
+        }
+      ],
+      "source_checkpoint": "before"
+    },
+    {
+      "scope": "Exploratory stiff case, outside frozen scientific matrix; not continuous accuracy validation",
+      "backend": "cpu",
+      "order": 0.5,
+      "strength": 30.0,
+      "n_samples": 257,
+      "newton_iterations": 8,
+      "rtol": 1e-05,
+      "atol": 1e-07,
+      "source_file": "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/src/hpfracc/solvers/predictor_corrector.py",
+      "source_sha256": "506e1d8f9ab6bafb9ee9f9c79b88459c819eb4f479610f13a4ee84b9e6c789bf",
+      "rows": [
+        {
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.19727219461225207,
+          "newton_converged": true,
+          "effective_trajectory_dtype": "float32"
+        },
+        {
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 1.194290215360957,
+          "newton_converged": true,
+          "effective_trajectory_dtype": "float32"
+        }
+      ],
+      "source_checkpoint": "after"
+    }
+  ]
+}

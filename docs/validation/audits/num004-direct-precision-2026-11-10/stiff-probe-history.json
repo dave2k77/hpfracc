@@ -1,0 +1,7 @@
+{
+  "superseded": "stiff-residual-observation.json",
+  "superseded_probe_source": "stiff-probe-before.py.txt",
+  "replacement": "stiff-residual-float64-reference.json",
+  "replacement_probe_source": "stiff-residual-probe.py",
+  "reason": "Initial exploratory caller supplied float32 states to independent_residuals, so the half_decay host_rhs multiplication remained float32; corrected caller casts reference states to float64. All frozen scientific report collectors already cast states to float64 and are unaffected. Original exploratory files are preserved, not overwritten."
+}

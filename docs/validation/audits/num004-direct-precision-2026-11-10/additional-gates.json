@@ -1,0 +1,53 @@
+{
+  "scope": "Existing aggregate/hardening/history gates, not general scientific acceptance or Phase A sign-off",
+  "runs": [
+    {
+      "backend": "cpu",
+      "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.validation_summary --check",
+      "exit_code": 0,
+      "checks": 28,
+      "all_passed": true,
+      "artifact": "aggregate-cpu.csv"
+    },
+    {
+      "backend": "cpu",
+      "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.core_hardening --check",
+      "exit_code": 0,
+      "checks": 12,
+      "all_passed": true,
+      "artifact": "hardening-cpu.csv"
+    },
+    {
+      "backend": "cpu",
+      "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.history_validation --check",
+      "exit_code": 0,
+      "checks": 8,
+      "all_passed": true,
+      "artifact": "history-cpu.csv"
+    },
+    {
+      "backend": "gpu",
+      "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.validation_summary --check",
+      "exit_code": 0,
+      "checks": 28,
+      "all_passed": true,
+      "artifact": "aggregate-gpu.csv"
+    },
+    {
+      "backend": "gpu",
+      "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.core_hardening --check",
+      "exit_code": 0,
+      "checks": 12,
+      "all_passed": true,
+      "artifact": "hardening-gpu.csv"
+    },
+    {
+      "backend": "gpu",
+      "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.history_validation --check",
+      "exit_code": 0,
+      "checks": 8,
+      "all_passed": true,
+      "artifact": "history-gpu.csv"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "scope": "Documentation consistency correction only; no numerical source or archived case data changed",
+  "red": {
+    "file": "docs-consistency-red.xml.gz",
+    "tests": 10,
+    "failures": 4,
+    "raw_sha256": "14807cd25cacab430c32ca4519e839222686f9fe55ad836b1146e51000c3b647",
+    "compressed_sha256": "311dc9a60da0c292761f7f6c287e625f0e2fc5aef673612a70e2acbf32b08f62"
+  },
+  "green": {
+    "file": "docs-consistency-green.xml",
+    "tests": 21,
+    "failures": 0,
+    "sha256": "f906c54a0b768fdb43dfbed81e7706d75dca112f226805bdae0de125bf272a17",
+    "process_exit_code": 0
+  },
+  "test_source": "tests/unit/test_docs_consistency.py",
+  "test_source_sha256": "250e75a22f821f715801c04d7ca101846dacc05668817d7370820647937ee369",
+  "limit": "The ten new documentation checks were collected after the separate 818-test CPU run"
+}

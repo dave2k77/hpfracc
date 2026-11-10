@@ -1,0 +1,24 @@
+{
+  "scope": "Expected pre-repair TDD failures, not accepted numerical results",
+  "runs": [
+    {
+      "backend": "cpu",
+      "file": "cpu-red.xml.gz",
+      "tests": 2,
+      "failures": 2,
+      "process_exit_code": 1,
+      "raw_sha256": "5faddf49f58d7d7252cd1f47c7ec75969353a2639c24df8f6124cde5d0e37219",
+      "compressed_sha256": "ecd19e158cc18379d712a3f3f2efb1f13a8d7d9690f3d361756375b8da67b4be"
+    },
+    {
+      "backend": "cuda",
+      "file": "cuda-red.xml.gz",
+      "tests": 2,
+      "failures": 2,
+      "process_exit_code": 1,
+      "raw_sha256": "455713f1d4c6b4ef075cc04f5b4f98b158d591f790016e740ece8058505d11b3",
+      "compressed_sha256": "e02755d465dfe93f5652bfd9eb1d271ee7d4702db65ccd4c637bbc36c29ca704"
+    }
+  ],
+  "test_source_sha256": "365256f253c5a95e01c4772b2dedd8487e62fb5c238cf1f90339885c6db6657a"
+}

@@ -1,0 +1,61 @@
+{
+  "scope": "Development red/green and targeted existing-suite evidence, not final full-suite or release sign-off",
+  "initial_regression_source": "initial-red-test-source.py.txt",
+  "initial_regression_source_sha256": "365256f253c5a95e01c4772b2dedd8487e62fb5c238cf1f90339885c6db6657a",
+  "runs": [
+    {
+      "file": "policy-red.xml.gz",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "process_exit_code": 1,
+      "raw_sha256": "5f5c2cd5a0c222a15d23f123b6e738fc51fd170e8db8a9a72c2989cb0788cf65",
+      "archived_sha256": "e63698d67a70f41ab48fe47dfe8c292269c3bae3f7cfc4dee078beee08406312"
+    },
+    {
+      "file": "obsolete-comparison-red.xml.gz",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "process_exit_code": 1,
+      "raw_sha256": "646f8d2ed10609f620525001e5fbc60db7f65cb07d9940821f51fb353f69d455",
+      "archived_sha256": "94fe6722aecfd27846577477f52c2ff5153a10abb6e57b2154e91a8d4a6ffc2f"
+    },
+    {
+      "file": "initial-cpu-green.xml",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "process_exit_code": 0,
+      "raw_sha256": "a593643a7079dcf462462026ff9ef861f1c13c61bee60d87c19f83b39cf88c96",
+      "archived_sha256": "a593643a7079dcf462462026ff9ef861f1c13c61bee60d87c19f83b39cf88c96"
+    },
+    {
+      "file": "initial-cuda-green.xml",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "process_exit_code": 0,
+      "raw_sha256": "7d4a3a57628a40d130cd7ac69598f50e222f472c3b85636c0ec25595a81c7c0e",
+      "archived_sha256": "7d4a3a57628a40d130cd7ac69598f50e222f472c3b85636c0ec25595a81c7c0e"
+    },
+    {
+      "file": "existing-cpu.xml",
+      "tests": 187,
+      "failures": 0,
+      "errors": 0,
+      "process_exit_code": 0,
+      "raw_sha256": "5b2993090b90dbee0daa64bfffef4285201975cddab4ca192ac0dab630d695de",
+      "archived_sha256": "5b2993090b90dbee0daa64bfffef4285201975cddab4ca192ac0dab630d695de"
+    },
+    {
+      "file": "existing-cuda.xml",
+      "tests": 187,
+      "failures": 0,
+      "errors": 0,
+      "process_exit_code": 0,
+      "raw_sha256": "c6e13150bd6548e8056746db0460ac884914e26fce58b6cc7b09b1239bfa9d13",
+      "archived_sha256": "c6e13150bd6548e8056746db0460ac884914e26fce58b6cc7b09b1239bfa9d13"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "reviewed_tree": "26d778a342224cf24877bbf3d0df4ce217876404",
+  "security_concerns": [],
+  "logic_errors": [
+    "[P2] Current-evidence documentation cites superseded CUDA float32 measurements. docs/validation/audits/scientific-acceptance-2026-11-10/README.md:19-20 reports direct/stable weak-decay residuals of 8.49739 and 0.0171303; docs/developer/bug-resolution-tracker.md:395,406 gives their unrounded values. Those values match the archived pre-type-guard runs, not the final bundled reports. Current JSON/CSV/NPZ replay and verification.json agree on 8.497625302550595 (direct) and 0.01643224778294578 (stable). Update the current-outcome claims or explicitly label the historical measurements. Pass/fail classifications are unaffected."
+  ],
+  "suggestions": [
+    "Add a reproducible evidence-consistency check that compares published outcome tables with the final report data, preventing stale measurements after report regeneration."
+  ],
+  "summary": "Reviewed the complete staged diff against 90400c5. All 48 raw configurations replay exactly; manifests, 61 source hashes per run, artifact digests, archived snapshots and JUnit counts verify. Independently passed 81 new and 22 existing focused CPU tests, Ruff, and all three scientific CI selections locally. Coverage, canonical-type checks, rejection semantics and precision restoration appear sound. Both direct float32 scientific failures remain correctly exposed. Approval is blocked by stale documentation measurements. No repository files modified; final git write-tree is unchanged. No full-suite run performed."
+}

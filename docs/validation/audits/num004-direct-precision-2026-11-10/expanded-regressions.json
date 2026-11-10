@@ -1,0 +1,27 @@
+{
+  "scope": "Expanded coefficient, dtype, mask, moment, nonlinear-gradient and selector tests; not full-suite evidence",
+  "test_source_sha256": "cd99e145191370fccfd113edebb09d63c26b9c138da954955d296f55d381b449",
+  "kernel_sha256": "506e1d8f9ab6bafb9ee9f9c79b88459c819eb4f479610f13a4ee84b9e6c789bf",
+  "runs": [
+    {
+      "backend": "cpu",
+      "file": "expanded-cpu.xml",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "process_exit_code": 0,
+      "sha256": "ff6066b6fac083df44bd4a940cd8db83205293a3ecc38f9013f578a2ffcfc3bd"
+    },
+    {
+      "backend": "cuda",
+      "file": "expanded-cuda.xml",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "process_exit_code": 0,
+      "sha256": "4997b4448c834fc89a96423f84de305baf569fc385681d8f9f280b8fd444a6fa"
+    }
+  ]
+}

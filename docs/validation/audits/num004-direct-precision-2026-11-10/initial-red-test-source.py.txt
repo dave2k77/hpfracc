@@ -1,0 +1,37 @@
+"""Direct uniform weights must meet independent working-precision criteria."""
+
+import jax
+import jax.numpy as jnp
+import numpy as np
+
+from benchmarks.numerical import implicit_validation as implicit
+from benchmarks.numerical.uniform_weight_validation import reference_row
+from hpfracc.solvers.predictor_corrector import _pece_weights
+
+
+def test_direct_float32_coefficients_match_independent_panel_integrals():
+    step = 256
+    with jax.enable_x64(False):
+        alpha = jnp.asarray(.5, dtype=jnp.float32)
+        indices = jnp.arange(step + 3, dtype=jnp.int32)
+        actual = jax.jit(lambda a: _pece_weights(
+            jnp.asarray(step, dtype=jnp.int32), indices, a, jnp.float32,
+        ))(alpha)
+        expected = reference_row(step, float(alpha))
+        for values, truth in zip(actual, expected, strict=True):
+            assert values.dtype == jnp.float32
+            np.testing.assert_allclose(np.asarray(values[:step]), truth,
+                                       rtol=5e-6, atol=0.)
+            np.testing.assert_array_equal(values[step:], 0.)
+            assert np.all(np.asarray(values[:step]) > 0.)
+
+
+def test_default_direct_float32_decay_meets_independent_residual():
+    with jax.enable_x64(False):
+        row = implicit.run_case("half_decay", 257, 8, 1., .5, "float32")
+    assert row.measurement_ok and row.newton_converged
+    assert row.max_dimensionless_error is not None
+    assert row.independent_max_scaled_residual is not None
+    assert row.max_dimensionless_error <= 1e-3
+    assert row.independent_max_scaled_residual <= 1.
+    assert row.residual_flag_disagreements == 0

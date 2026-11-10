@@ -1,0 +1,81 @@
+{
+  "scope": "Confirmed pre-existing strong-order JSON export limitation; not introduced by direct-weight repair",
+  "runs": [
+    {
+      "scope": "Metadata export observation, not numerical validation",
+      "backend": "cpu",
+      "source_file": "/home/davianc/.hermes/cache/scratch/hpfracc-num004-before-g38ti332/src/hpfracc/solvers/base.py",
+      "source_sha256": "e8cd61edfcbb5df7cc74a4a8d27f9761965a1ade2479d0348bc2ababe50be617",
+      "probe_source_sha256": "05c4bc40f0bf6884b2f06f8179cc57806564f25ff34ce0964544b04e8fd554b4",
+      "rows": [
+        {
+          "solver": "PredictorCorrector",
+          "strong_array_order": false,
+          "json_export_succeeded": true,
+          "exported_order_type": "float",
+          "error": null
+        },
+        {
+          "solver": "PredictorCorrector",
+          "strong_array_order": true,
+          "json_export_succeeded": false,
+          "exported_order_type": "ArrayImpl",
+          "error": "Object of type ArrayImpl is not JSON serializable"
+        },
+        {
+          "solver": "ImplicitPredictorCorrector",
+          "strong_array_order": false,
+          "json_export_succeeded": true,
+          "exported_order_type": "float",
+          "error": null
+        },
+        {
+          "solver": "ImplicitPredictorCorrector",
+          "strong_array_order": true,
+          "json_export_succeeded": false,
+          "exported_order_type": "ArrayImpl",
+          "error": "Object of type ArrayImpl is not JSON serializable"
+        }
+      ],
+      "source_checkpoint": "before"
+    },
+    {
+      "scope": "Metadata export observation, not numerical validation",
+      "backend": "cpu",
+      "source_file": "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/src/hpfracc/solvers/base.py",
+      "source_sha256": "e8cd61edfcbb5df7cc74a4a8d27f9761965a1ade2479d0348bc2ababe50be617",
+      "probe_source_sha256": "05c4bc40f0bf6884b2f06f8179cc57806564f25ff34ce0964544b04e8fd554b4",
+      "rows": [
+        {
+          "solver": "PredictorCorrector",
+          "strong_array_order": false,
+          "json_export_succeeded": true,
+          "exported_order_type": "float",
+          "error": null
+        },
+        {
+          "solver": "PredictorCorrector",
+          "strong_array_order": true,
+          "json_export_succeeded": false,
+          "exported_order_type": "ArrayImpl",
+          "error": "Object of type ArrayImpl is not JSON serializable"
+        },
+        {
+          "solver": "ImplicitPredictorCorrector",
+          "strong_array_order": false,
+          "json_export_succeeded": true,
+          "exported_order_type": "float",
+          "error": null
+        },
+        {
+          "solver": "ImplicitPredictorCorrector",
+          "strong_array_order": true,
+          "json_export_succeeded": false,
+          "exported_order_type": "ArrayImpl",
+          "error": "Object of type ArrayImpl is not JSON serializable"
+        }
+      ],
+      "source_checkpoint": "after"
+    }
+  ]
+}

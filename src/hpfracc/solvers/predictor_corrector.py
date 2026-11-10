@@ -26,9 +26,10 @@ class PredictorCorrector:
     ``0 < order < 1`` on a positive, uniform timestep grid.
 
     ``weight_evaluation="stable"`` evaluates the same full-history weights
-    through stable interval moments. ``"direct"`` retains the released power
-    formulas and remains the default. Stable evaluation improves roundoff, not
-    the method's discretization order or stability region.
+    through interval moments. The default ``"direct"`` evaluates their closed
+    forms with cancellation-safe power differences and positive binomial
+    series. Neither choice changes the discretization order or stability region;
+    direct evaluation no longer preserves the original floating-point roundoff.
     """
 
     dt: float
@@ -61,9 +62,10 @@ class ImplicitPredictorCorrector:
     report per-step convergence and scaled residuals, including under JIT.
 
     ``weight_evaluation="stable"`` evaluates the same predictor/corrector weights
-    with stable interval moments instead of cancelling power differences. The
-    default ``"direct"`` path, Newton iteration rule and diagnostic criterion are
-    preserved. This option does not guarantee positive states or global accuracy.
+    with interval moments. The default ``"direct"`` uses cancellation-safe closed
+    forms, not the original subtractive arithmetic. Both preserve the Newton
+    iteration rule and diagnostic criterion. Neither choice guarantees positive
+    states or global accuracy.
 
     Provisional: targets Caputo initial value problems with ``0 < order < 1`` on a
     positive, uniform timestep grid. Adaptive stepping is a future extension.
@@ -321,29 +323,59 @@ def _pece_weights(
 ) -> tuple[PyTree, PyTree]:
     """Diethelm predictor (Adams-Bashforth) and corrector (Adams-Moulton) weights.
 
-    Shared by the explicit and implicit paths so the validated weight formulas are
-    defined once. Future (masked) lags are clamped to ``>= 1`` before fractional
-    powers so ``jnp.where`` never evaluates a negative base.
+    Evaluate the closed forms without subtracting nearly equal powers. For
+    ``0 < alpha < 1``, the normalized binomial expansions of the boundary and
+    interior corrector coefficients have positive terms and ratio below ``1/2``
+    and ``1/4`` respectively. Retaining degrees 28/56 and 14/28 even terms bounds
+    their relative truncation below float32/float64 epsilon. This bounds series
+    truncation, not floating-point accumulation or solver error.
+
+    All inactive operands remain finite before selection, including step zero,
+    lag one and masked future entries, so reverse-mode gradients stay finite.
     """
 
     jnp = _jnp()
+    weight_dtype = jnp.result_type(jnp.zeros((), dtype=dtype).real, alpha, float)
+    a = jnp.asarray(alpha, dtype=weight_dtype)
+    wide = jnp.finfo(weight_dtype).bits > 32
     valid = indices < step
-    lag = jnp.where(valid, (step - indices).astype(dtype), 1.0)
-    step_f = step.astype(dtype)
+    lag = jnp.where(valid, (step - indices).astype(weight_dtype), 1.)
+    safe_lag = jnp.maximum(lag, 2.)
+    inv_lag = 1. / safe_lag
 
     predictor_weights = jnp.where(
-        valid, lag**alpha - _safe_pow(lag - 1.0, alpha), 0.0
+        valid,
+        jnp.where(lag == 1., 1.,
+                  -safe_lag**a * jnp.expm1(a * jnp.log1p(-inv_lag))),
+        0.,
     )
-    boundary = _safe_pow(step_f - 1.0, alpha + 1.0) - (
-        step_f - 1.0 - alpha
-    ) * step_f**alpha
-    interior = (
-        (lag + 1.0) ** (alpha + 1.0)
-        + _safe_pow(lag - 1.0, alpha + 1.0)
-        - 2.0 * lag ** (alpha + 1.0)
+
+    # Boundary: sum_{k>=2} binom(1+a,k)*(-1/n)**k, normalized
+    # by a*(a+1)/(2*n**2). The first-step coefficient is exactly a.
+    safe_step = jnp.maximum(step.astype(weight_dtype), 2.)
+    boundary_term = jnp.ones((), dtype=weight_dtype)
+    boundary_sum = boundary_term
+    for k in range(3, (56 if wide else 28) + 1):
+        boundary_term = boundary_term * ((k - 2. - a) / k) / safe_step
+        boundary_sum = boundary_sum + boundary_term
+    boundary = jnp.where(
+        step == 1, a,
+        .5 * a * (a + 1.) * safe_step**(a - 1.) * boundary_sum,
+    )
+
+    # Interior: even binomial terms, normalized by a*(a+1)/lag**2.
+    interior_term = jnp.ones_like(safe_lag)
+    interior_sum = interior_term
+    for m in range(2, (28 if wide else 14) + 1):
+        ratio = (2*m - 3. - a) * (2*m - 2. - a) / ((2*m - 1) * (2*m))
+        interior_term = interior_term * ratio * inv_lag**2
+        interior_sum = interior_sum + interior_term
+    interior = jnp.where(
+        lag == 1., 2. * jnp.expm1(a * jnp.log(jnp.asarray(2., weight_dtype))),
+        a * (a + 1.) * safe_lag**(a - 1.) * interior_sum,
     )
     corrector_weights = jnp.where(
-        valid, jnp.where(indices == 0, boundary, interior), 0.0
+        valid, jnp.where(indices == 0, boundary, interior), 0.,
     )
     return predictor_weights, corrector_weights
 

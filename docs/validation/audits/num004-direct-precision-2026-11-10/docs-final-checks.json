@@ -1,0 +1,12 @@
+{
+  "scope": "Documentation-only verification after full-suite collection; not a new full-suite run",
+  "tests": 29,
+  "failures": 0,
+  "exit_code": 0,
+  "artifact": "docs-final.xml",
+  "sha256": "b529ef4f3cb3ec22bd50074c30e5257606f1cea865ebb63a92bd7ec73bf46f87",
+  "checker_sha256": "f00d82486e19452bc53cd579dbd8d5b423b9026789e68467ab6bbbf4861dd20c",
+  "ruff_exit_code": 0,
+  "strict_mkdocs_exit_code": 0,
+  "whitespace_exit_code": 0
+}
