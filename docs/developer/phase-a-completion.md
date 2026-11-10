@@ -9,8 +9,10 @@ version, tag, publication or remote write is authorized by this document.
 
 ## Baseline and verified first increment
 
-- Local `main` and freshly fetched `origin/main` agree at `6f5d3d3`.
-- Intentional uncommitted environment/GPU hardening is preserved. The separate
+- At programme start, local `main` and freshly fetched `origin/main` agreed at
+  `6f5d3d3`; reviewed environment/GPU hardening and the first coverage increment
+  are now committed as `ec75960` on `fix/phase-a-gpu-hardening` and pushed.
+- The separate
   [GPU normalization bundle](../validation/audits/gpu-normalization-2026-11-10/README.md)
   records the pre-programme baseline: 713 default tests on each backend, both
   28-row aggregates, examples, versions and source hashes. It is evidence for
@@ -25,6 +27,10 @@ version, tag, publication or remote write is authorized by this document.
   dtypes; all 24 corrected cases passed on each backend. The
   [precision-correction bundle](../validation/audits/fft-order-gradients-2026-11-10/README.md)
   preserves both the red regression and corrected evidence (tracker VAL-004).
+- Replacement full suites passed 737 tests on each CPU/CUDA backend with one
+  performance case deselected and confirmed zero process exits. Raw JUnit and
+  source verification are in the same precision-correction bundle. Remote CI
+  and the remaining Phase A gates are separate; this is not phase closure.
 
 ## A1: Numerical correctness and error control — open
 

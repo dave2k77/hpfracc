@@ -41,7 +41,7 @@ and historical evidence instead of rewriting them after a fix.
 | SCI-002 | Research / validation gap | History selection and measured reverse/peak-memory evidence incomplete | Open |
 | VAL-003 | Validation semantics | Measurement-integrity checks are insufficient scientific acceptance | Open; next work package |
 | VAL-004 | Validation defect | x64-enabled fixture masked nominal float32 FFT execution | Fixed; corrected CPU/CUDA matrices pass |
-| ENV-004 | Environment / delivery | GitHub write authentication is not configured | Open; user authentication required |
+| ENV-004 | Environment / delivery | GitHub write authentication was unavailable | Resolved; authenticated push verified |
 
 ## ENV-001 — Local development environment and CI context
 
@@ -250,7 +250,10 @@ matrix; reproduced independently on CPU before accepting a fix.
   forward/objective outputs with x64 enabled and float32 outputs with it disabled.
   The new assertions first produced 12 failed/12 passed cases. After correction,
   all 24 cases passed on each CPU/CUDA backend, with forward/objective and
-  gradient dtypes checked. Full-suite reruns are pending. The two pre-review
+  gradient dtypes checked. Replacement full suites passed 737 tests on each
+  backend, one performance case deselected, with both process exits zero.
+  Independent review approved tree `a7b1ac4e2d1b3cbab24d83124637157a448d9299`,
+  subsequently committed as `ec75960`. The two pre-review
   full-suite processes were deliberately stopped as superseded, not reported
   as successful checks. Raw red/green results and corrected source/runtime
   provenance are preserved in the [FFT precision bundle](../validation/audits/fft-order-gradients-2026-11-10/README.md).
@@ -258,9 +261,7 @@ matrix; reproduced independently on CPU before accepting a fix.
   gradient dtypes; test each precision mode explicitly rather than inferring it
   from parameter labels.
 
-## Open findings and next work
-
-### ENV-004 — GitHub write authentication
+## ENV-004 — GitHub write authentication
 
 Discovery: 2026-11-10, authorized push preflight.
 
@@ -268,15 +269,22 @@ Discovery: 2026-11-10, authorized push preflight.
   because a username could not be read with prompts disabled. A read-only SSH
   probe with strict host checking also failed because no trusted GitHub host key
   was configured.
-- Impact: local review and commits can proceed, but a remote push and candidate
-  CI verification cannot be completed with the current authentication setup.
+- Impact at discovery: local review and commits could proceed, but a remote push
+  and candidate CI verification were blocked by the authentication setup.
 - Cause: public read access does not establish authenticated repository write
   access; neither tested transport supplied a usable authenticated path.
-- Resolution: pending user-completed authentication through their own trusted
-  Git/GitHub CLI workflow. No credentials were requested in chat, credential
-  stores read, remote URLs changed, SSH host keys accepted, or keys generated.
+- Resolution: the user completed their trusted GitHub authentication workflow.
+  `gh auth status` and the push dry run succeeded; `ec75960` was pushed to
+  `origin/fix/phase-a-gpu-hardening` and the exact remote SHA was verified using
+  `git ls-remote`. No credentials were requested in chat or manually extracted
+  from stores; no remote URL, SSH host key or key generation workaround was
+  applied. [Remote CI](https://github.com/dave2k77/hpfracc/actions/runs/42880342249)
+  was observed in progress; its result is not implied by authentication or the
+  local test passes.
 - Prevention: test write access with a non-mutating push preflight early, and
   never infer push permission from a successful public fetch.
+
+## Open findings and next work
 
 ### SCI-001 — General adaptive error calibration
 

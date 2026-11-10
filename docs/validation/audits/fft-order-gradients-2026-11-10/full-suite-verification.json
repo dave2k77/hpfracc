@@ -1,0 +1,63 @@
+{
+  "scope": "Corrected local CPU/CUDA development suites; not Phase A or release sign-off",
+  "parent_commit_at_run": "6f5d3d390352de93a3bf90033c79b72e0ca14682",
+  "reviewed_source_tree": "a7b1ac4e2d1b3cbab24d83124637157a448d9299",
+  "subsequent_source_commit": "ec75960fe49294a7c1a4b9cd81d10a03a5e0eb20",
+  "source_state_at_run": "Staged development tree; subsequently committed without numerical changes",
+  "source_input_hashes_verified_per_backend": 113,
+  "independent_review": {
+    "passed": true,
+    "reviewed_tree": "a7b1ac4e2d1b3cbab24d83124637157a448d9299",
+    "security_concerns": [],
+    "logic_errors": [],
+    "nonblocking_suggestion": "Clarify eager/JIT FFT versus eager-only full-history reference gradients; applied in documentation follow-up"
+  },
+  "full_suites": {
+    "cpu": {
+      "command": "JAX_PLATFORMS=cpu uvx --from 'uv==0.11.21' uv run --frozen --extra dev python -m pytest --junitxml=/home/davianc/.hermes/cache/scratch/hpfracc-pre-push-corrected-cpu.xml",
+      "junit": "cpu-full-suite.xml",
+      "junit_sha256": "7fbb4ede048d41c92a49e5c91034eaa4f5f5649247cab77c2d06926681e410a3",
+      "environment": "cpu-environment.json",
+      "tests": 737,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "deselected_per_pytest_output": 1,
+      "junit_duration_seconds": 703.251,
+      "process_exit_code": 0
+    },
+    "gpu": {
+      "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uvx --from 'uv==0.11.21' uv run --frozen --extra dev --extra cuda13 python -m pytest --junitxml=/home/davianc/.hermes/cache/scratch/hpfracc-pre-push-corrected-gpu.xml",
+      "junit": "gpu-full-suite.xml",
+      "junit_sha256": "837076d3056976667ecf633ec66b6f7d20057906a0a6193724b028ec28ed264a",
+      "environment": "gpu-environment.json",
+      "tests": 737,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "deselected_per_pytest_output": 1,
+      "junit_duration_seconds": 1275.25,
+      "process_exit_code": 0
+    }
+  },
+  "timing_limit": "Concurrent CPU/CUDA runs are not comparable performance measurements; JAX teardown extends process duration beyond pytest timing",
+  "installed_wheel_smoke": {
+    "artifact": "hpfracc-0.1.0a1-py3-none-any.whl",
+    "sha256": "fae353e0e0c36245a7ade23e506a0cbc983d735bc61a9eeccd9f5dba5660d5ee",
+    "artifact_location": "Local scratch only; not a published release",
+    "build_command": "uvx --from 'uv==0.11.21' uv build --wheel --out-dir \"$TMPDIR/hpfracc-pre-push-dist\"",
+    "runtime_requirements_command": "uvx --from 'uv==0.11.21' uv export --frozen --no-dev --no-emit-project --format requirements-txt --output-file \"$TMPDIR/hpfracc-wheel-runtime-requirements.txt\"",
+    "environment": "Fresh Python 3.13.13 venv, exported locked runtime requirements and built wheel; Python -I ignores the source checkout",
+    "verified": "Import resolved to the isolated installed wheel; JIT reciprocal-Gamma normalization was finite float32 on CPU",
+    "process_exit_code": 0,
+    "limit": "Narrow packaging smoke, not an isolated-wheel full test suite or complete release-candidate evidence"
+  },
+  "delivery": {
+    "verified_remote_source_commit": "ec75960fe49294a7c1a4b9cd81d10a03a5e0eb20",
+    "branch": "fix/phase-a-gpu-hardening",
+    "verification": "git ls-remote origin refs/heads/fix/phase-a-gpu-hardening matched local HEAD after push",
+    "ci_observed_status": "in_progress",
+    "ci_run": "https://github.com/dave2k77/hpfracc/actions/runs/42880342249",
+    "limit": "CI status is a historical observation, not a claimed successful remote run"
+  }
+}
