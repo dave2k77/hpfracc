@@ -565,7 +565,7 @@ def _caputo_nonuniform(increments: Any, t: Any, alpha: Any) -> Any:
     )
     weights = (1.0 - a) * integral / spacing
     inc_2d = jnp.reshape(increments, (n - 1, -1))
-    out_2d = weights @ inc_2d
+    out_2d = jnp.matmul(weights, inc_2d, precision="highest")
     return jnp.reshape(out_2d, (n, *increments.shape[1:]))
 
 

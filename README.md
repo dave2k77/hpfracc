@@ -115,6 +115,22 @@ Ruff is included in the dev extra. CI uses the lockfile for its Python 3.11–3.
 CPU checks, lint, and strict docs. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
 matching local workflow.
 
+For an optional NVIDIA CUDA 13 development environment on Linux x86-64, use a
+separate environment and explicitly select both extras when running commands:
+
+```bash
+export UV_PROJECT_ENVIRONMENT="$HOME/.local/share/hpfracc/venv-cuda13"
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+uv sync --locked --extra dev --extra cuda13 --python 3.13
+JAX_PLATFORMS=cuda,cpu uv run --frozen --extra dev --extra cuda13 python -c 'import jax; print(jax.devices())'
+```
+
+The CUDA extra installs GPU libraries; it does not install an NVIDIA driver.
+Driver/device compatibility and GPU numerical evidence must be checked separately.
+`JAX_PLATFORMS=cuda,cpu` requires CUDA and retains CPU for JAX debug callbacks.
+Unset `UV_PROJECT_ENVIRONMENT` to return to the default project environment. A sync or
+run without the CUDA extra may remove GPU packages from the selected environment.
+
 ## Validation
 
 Run the test suite:

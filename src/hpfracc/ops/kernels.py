@@ -65,7 +65,11 @@ def _full_history_convolution(values: Any, weights: Any) -> Any:
     values_2d = jnp.reshape(values, (n, -1))
     if weights.ndim == 1:
         history = _lower_triangular_history_matrix(weights)
-        out_2d = jnp.tensordot(history, values_2d, axes=([1], [0]))
+        # Full history is the reference path; reduced-precision accelerator
+        # matrix products can dominate its float32 discretization error.
+        out_2d = jnp.tensordot(
+            history, values_2d, axes=([1], [0]), precision="highest",
+        )
         return jnp.reshape(out_2d, original_shape)
 
     # Per-feature weights: weights[:, j] convolves values_2d[:, j].
@@ -73,7 +77,7 @@ def _full_history_convolution(values: Any, weights: Any) -> Any:
 
     def _per_feature(w_col: Any, v_col: Any) -> Any:
         history = _lower_triangular_history_matrix(w_col)
-        return history @ v_col
+        return jnp.matmul(history, v_col, precision="highest")
 
     out_2d = jax.vmap(_per_feature, in_axes=(1, 1), out_axes=1)(weights, values_2d)
     return jnp.reshape(out_2d, original_shape)
@@ -272,8 +276,8 @@ def _least_squares_solve(A: Any, b: Any) -> Any:
     """Solve a small dense least-squares problem via the normal equations."""
 
     jnp = _jnp()
-    AtA = A.T @ A
-    Atb = A.T @ b
+    AtA = jnp.matmul(A.T, A, precision="highest")
+    Atb = jnp.matmul(A.T, b, precision="highest")
     return jnp.linalg.solve(AtA + 1e-8 * jnp.eye(AtA.shape[0]), Atb)
 
 
@@ -294,11 +298,11 @@ def _nnls_projected(
     jnp = _jnp()
     n_features = A.shape[1]
     x = jnp.zeros((n_features,), dtype=A.dtype)
-    AtA = A.T @ A
-    Atb = A.T @ b
+    AtA = jnp.matmul(A.T, A, precision="highest")
+    Atb = jnp.matmul(A.T, b, precision="highest")
 
     def update(_: Any, coefficients: Any) -> Any:
-        grad = AtA @ coefficients - Atb
+        grad = jnp.matmul(AtA, coefficients, precision="highest") - Atb
         return jnp.clip(coefficients - step * grad, 0.0, None)
 
     # Preserve the legacy fixed-step iteration rule without unrolling hundreds

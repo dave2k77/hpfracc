@@ -36,6 +36,7 @@ Current assignments:
 | `hp.ops.OperatorResult`, `hp.ops.OperatorInfo`, `hp.ops.OperatorFamily`, `hp.ops.FractionalOrder` | Provisional | Structured result and metadata contracts may evolve with provenance needs. |
 | `hp.solvers.PredictorCorrector`, `hp.solvers.simulate` | Provisional | First fixed-step Caputo FDE solver surface. |
 | `hp.solvers.ImplicitPredictorCorrector` | Provisional | Fixed-step implicit corrector with configurable residual diagnostics; fixed Newton iteration count. |
+| `hp.solvers.NonUniformPredictorCorrector` | Provisional | Explicit full-history Caputo PECE on supplied strictly increasing nodes; scalar fractional order. |
 | `hp.solvers.AdaptivePredictorCorrector` | Provisional | Adaptive explicit PECE with bounded attempts, padded output, and JIT-accessible completion/failure diagnostics. |
 | `hp.solvers.BoundedForcing`, `hp.solvers.AdaptiveForcingQuadrature` | Experimental | Prescribed C2 forcing with a supplied global curvature bound; conditional full-history nodal interpolation envelope, excluding roundoff. |
 | `hp.solvers.SimulationResult`, `hp.solvers.SolverInfo` | Provisional | Result metadata is public but may expand during Phase 6 provenance work. |

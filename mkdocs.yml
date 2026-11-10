@@ -34,6 +34,8 @@ nav:
   - Developer:
       - Notes: developer/index.md
       - Roadmap: developer/roadmap.md
+      - Phase A Completion Programme: developer/phase-a-completion.md
+      - Bug Resolution Tracker: developer/bug-resolution-tracker.md
       - September Development Progress: developer/development-2026-09-14.md
       - Consolidation Checkpoint: developer/consolidation-2026-09-15.md
       - Phase 2 Solver Plan: developer/phase-2-caputo-fde-solver.md

@@ -19,7 +19,7 @@ the time axis. RL uses the GL discretization with zero prehistory.
 | --- | --- | --- | --- |
 | Uniform Caputo L1 | `full` | Scalar or per-state | Constants, power laws, selected `2-alpha` convergence, input/order gradients and JIT. Dense reference application. |
 | Uniform GL/RL | `full` | Scalar or per-state | Independent RL constants/power laws, first-order convergence, input/order gradients and JIT. Dense reference application. |
-| Uniform Caputo/GL/RL | `fft` | Scalar or per-state | Forward equivalence to the reference and selected JIT/input-gradient checks. Real-input FFT implementation. Dedicated FFT order-gradient finite-difference coverage remains a gap. |
+| Uniform Caputo/GL/RL | `fft` | Scalar or per-state | Forward equivalence to the reference, selected JIT/input gradients, and dedicated scalar/per-state order-gradient finite differences in explicitly checked float32/float64 execution on CPU/CUDA. Real-input FFT implementation; selected cases do not establish arbitrary-shape or long-horizon coverage. |
 | Uniform Caputo/GL/RL | `short_memory` | Scalar or per-state | Independent truncated sums, discarded-tail bounds, real/complex signals, JIT/outer batching, and Caputo/GL input/per-state-order gradients. Windowed execution; physical history shrinks if `dt` is refined at fixed window. |
 | Uniform Caputo/GL/RL | `soe`, `soe_fit="legacy"` | Scalar only | Recursive fitted-sum consistency and selected scalar input/order gradients. Original fitting policy remains default and has documented poor long-sequence/conditioning regimes. |
 | Uniform Caputo/GL/RL | `soe`, `soe_fit="scaled_tail"` | Scalar only | Streamed fitting, independent fitted-sum and analytic checks, conditional absolute bounds, real/complex application and selected scalar input/order gradients. Exact first weight; GL/RL uses a positive-prefix/increment identity. Fixed poles/iterations do not imply an error tolerance. |
@@ -36,6 +36,10 @@ Source evidence:
   `test_alpha_gradients.py`, `test_vector_orders.py`;
 - `tests/unit/test_fft_history.py`, `test_nonuniform_grids.py`,
   `test_graded_mesh_precision.py`, `test_integer_time_grids.py`;
+- `tests/unit/test_fft_order_gradients.py` checks selected scalar/per-state FFT
+  order derivatives against finite differences and full-history derivatives;
+- The [FFT precision correction](audits/fft-order-gradients-2026-11-10/README.md)
+  preserves the initially failing dtype assertions and corrected CPU/CUDA runs;
 - [Windowed history](windowed-history.md), [recursive SOE](soe-history.md),
   `tests/unit/test_windowed_history.py` and `test_soe_recursive.py`.
 
@@ -74,7 +78,7 @@ is not supplied automatically.
 | Concern | Current boundary |
 | --- | --- |
 | Float32 / float64 | Both have case-specific CPU evidence. Float64 requires JAX x64 enabled. Input/order/default-dtype promotion can affect actual execution dtype; inspect returned arrays and record the x64 setting. Legacy SOE fitting uses JAX's default floating dtype. |
-| Accelerator execution | JAX-native code targets a single accelerator, but the archived evidence cited here is local CPU evidence. CPU tolerances/timings are not GPU/TPU validation. |
+| Accelerator execution | JAX-native code targets a single accelerator. Selected CUDA float32 dense GL/RL history checks use independent discrete sums; dense histories and legacy SOE fitting request highest matmul precision. Uniform solver normalization has independent value, order-gradient and implicit residual checks in float32/float64. CPU tolerances/timings and selected checks are not general GPU/TPU validation. |
 | JIT validation | Shape checks can run while tracing. Value-dependent order/grid checks generally require eager inputs; compiled callers must supply validated values. |
 | Whole results | Frozen dataclasses are not registered whole-result JAX pytrees. Return numerical array fields and numeric diagnostics from compiled wrappers. |
 | Serialization | Metadata has `to_dict()` exports where values are concrete; trajectory arrays need explicit serialization. Runtime context is captured explicitly with `current_provenance()`. |

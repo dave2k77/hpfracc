@@ -13,6 +13,10 @@ and [validation status](../validation/status.md). Tagged features, unreleased
 hardening, and remaining gates are separate.
 The Phase 2/6 plans are historical baselines, and the
 [release checklist](release-checklist.md) is a template, not release sign-off.
+The [Phase A completion programme](phase-a-completion.md) tracks the open gates
+and verified increments without changing the milestone's exit criteria.
+The [bug-resolution tracker](bug-resolution-tracker.md) records issue impact,
+root causes, fixes, verification and prevention lessons for ongoing work.
 
 ## Locked check workflow
 

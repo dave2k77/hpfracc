@@ -14,6 +14,7 @@ pytest.importorskip("jax")
 
 import jax
 import jax.numpy as jnp
+import numpy as np
 
 from hpfracc.ops import caputo, grunwald_letnikov, riemann_liouville
 
@@ -93,7 +94,17 @@ def test_fft_grunwald_letnikov_matches_full_history_power_law(alpha: float) -> N
 
     full = grunwald_letnikov(x, dt=dt, order=alpha, history="full")
     fft = grunwald_letnikov(x, dt=dt, order=alpha, history="fft")
-    assert jnp.max(jnp.abs(full - fft)) < 1e-5
+    # Compare both implementations against an independent float64 discrete sum.
+    # GPU float32 FFT and dense accumulation have different rounding errors.
+    weights = np.empty(len(x), dtype=np.float64)
+    weights[0] = 1.0
+    for k in range(1, len(x)):
+        weights[k] = weights[k - 1] * (k - 1 - alpha) / k
+    expected = np.convolve(np.asarray(x, dtype=np.float64), weights)[:len(x)]
+    expected /= dt**alpha
+    np.testing.assert_allclose(full, expected, rtol=0, atol=1.5e-5)
+    np.testing.assert_allclose(fft, expected, rtol=0, atol=1.5e-5)
+    assert jnp.max(jnp.abs(full - fft)) < 2e-5
 
 
 @pytest.mark.parametrize("alpha", [0.4, 0.6, 0.8])

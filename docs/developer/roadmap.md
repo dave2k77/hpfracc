@@ -291,6 +291,9 @@ sign-off, accelerator validation, or a complete Phase A evidence dossier.
 
 ### Remaining Phase A gates
 
+The [completion work programme](phase-a-completion.md) tracks execution against
+these gates; it does not approve scope deferrals or declare phase completion.
+
 1. Audit each new scheme/history path against the analytic, convergence,
    gradient, and JIT requirements below. Record supported combinations and
    case-specific tolerances; selected smoke tests or report rows are not blanket

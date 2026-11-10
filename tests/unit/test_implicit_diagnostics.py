@@ -181,12 +181,13 @@ def test_nonfinite_newton_is_failure_with_strict_json_export():
 
 
 def test_singular_newton_jacobian_is_reported():
-    from jax.scipy.special import gamma
+    from hpfracc.ops._special import _rgamma1p
 
     # Make the corrector coefficient exactly one at working precision. With
     # f(y)=y, the residual Jacobian is zero and the nonzero RHS is inconsistent.
-    dt = float(gamma(2.5)) ** 2
-    assert float(dt**0.5 / gamma(2.5)) == 1.0
+    normalization = _rgamma1p(0.5)
+    dt = float(1.5 / normalization) ** 2
+    assert float(dt**0.5 * normalization / 1.5) == 1.0
     solver = hp.solvers.ImplicitPredictorCorrector(
         dt=dt, order=0.5, newton_iterations=1
     )

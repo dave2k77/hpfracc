@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Stabilize uniform deterministic solver Gamma normalization in working precision
+  using a differentiable reciprocal-Gamma series on the supported order interval.
+  This addresses a CUDA float32 case where a small reported Newton residual hid
+  a coefficient-roundoff error against an independent equation. Newton iteration
+  counts, residual thresholds, history defaults and discretizations are unchanged.
+
+- Request highest precision for dense operator history and legacy SOE fitting
+  matrix products to avoid reduced-precision GPU contractions in selected
+  float32 cases.
+  Add an independent discrete-sum regression and a Linux x86-64 CUDA 13 optional
+  development extra. Selected GPU evidence does not validate all GPU operations.
+
 - Added experimental `BoundedForcing` and `AdaptiveForcingQuadrature` for
   prescribed C2 forcing with a caller-supplied global curvature bound. Adaptive
   product integration checks a componentwise full-history nodal interpolation

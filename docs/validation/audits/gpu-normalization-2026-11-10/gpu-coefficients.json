@@ -1,0 +1,235 @@
+{
+  "backend": "gpu",
+  "scales": [
+    {
+      "order_actual_float32": 0.009999999776482582,
+      "reference_scales": [
+        0.9987596060952921,
+        0.9888708973428931
+      ],
+      "old_scales": [
+        0.9987598657608032,
+        0.9888707399368286
+      ],
+      "new_scales": [
+        0.9987596273422241,
+        0.9888709187507629
+      ],
+      "old_relative_errors": [
+        2.599879986853182e-07,
+        -1.5917756801542282e-07
+      ],
+      "new_relative_errors": [
+        2.1273319328329876e-08,
+        2.1648801640239412e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.10000000149011612,
+      "reference_scales": [
+        0.9807455049338192,
+        0.8915868214593191
+      ],
+      "old_scales": [
+        0.9807450175285339,
+        0.8915867805480957
+      ],
+      "new_scales": [
+        0.9807454943656921,
+        0.8915867805480957
+      ],
+      "old_relative_errors": [
+        -4.969742739557859e-07,
+        -4.58858547824903e-08
+      ],
+      "new_relative_errors": [
+        -1.0775605852053616e-08,
+        -4.58858547824903e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.30000001192092896,
+      "reference_scales": [
+        0.9050461420365696,
+        0.6961893336441123
+      ],
+      "old_scales": [
+        0.9050461649894714,
+        0.6961889266967773
+      ],
+      "new_scales": [
+        0.9050461649894714,
+        0.6961893439292908
+      ],
+      "old_relative_errors": [
+        2.5361029276638192e-08,
+        -5.845354349442999e-07
+      ],
+      "new_relative_errors": [
+        2.5361029276638192e-08,
+        1.4773536394230291e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.49000000953674316,
+      "reference_scales": [
+        0.8036898308180758,
+        0.5393891447476913
+      ],
+      "old_scales": [
+        0.8036892414093018,
+        0.5393886566162109
+      ],
+      "new_scales": [
+        0.8036898970603943,
+        0.5393891930580139
+      ],
+      "old_relative_errors": [
+        -7.33378414663477e-07,
+        -9.049709011055285e-07
+      ],
+      "new_relative_errors": [
+        8.242274063263721e-08,
+        8.956487751454745e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.5,
+      "reference_scales": [
+        0.7978845608028654,
+        0.5319230405352435
+      ],
+      "old_scales": [
+        0.7978842258453369,
+        0.5319228768348694
+      ],
+      "new_scales": [
+        0.7978845834732056,
+        0.5319230556488037
+      ],
+      "old_relative_errors": [
+        -4.1980700582477937e-07,
+        -3.0775198978094664e-07
+      ],
+      "new_relative_errors": [
+        2.8413057906462313e-08,
+        2.8413057906462313e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.5099999904632568,
+      "reference_scales": [
+        0.7920471788360202,
+        0.5245345588333586
+      ],
+      "old_scales": [
+        0.792047381401062,
+        0.5245341062545776
+      ],
+      "new_scales": [
+        0.7920472025871277,
+        0.5245345830917358
+      ],
+      "old_relative_errors": [
+        2.5574870687883333e-07,
+        -8.628197577520424e-07
+      ],
+      "new_relative_errors": [
+        2.9986985783381215e-08,
+        4.624743366044015e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.699999988079071,
+      "reference_scales": [
+        0.677466402247967,
+        0.3985096511756306
+      ],
+      "old_scales": [
+        0.6774659752845764,
+        0.39850914478302
+      ],
+      "new_scales": [
+        0.6774663925170898,
+        0.3985096216201782
+      ],
+      "old_relative_errors": [
+        -6.302355203269272e-07,
+        -1.2707160518266036e-06
+      ],
+      "new_relative_errors": [
+        -1.4363630507219227e-08,
+        -7.416496006218409e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.8999999761581421,
+      "reference_scales": [
+        0.5571904583178917,
+        0.2932581396366899
+      ],
+      "old_scales": [
+        0.5571900010108948,
+        0.29325753450393677
+      ],
+      "new_scales": [
+        0.557190477848053,
+        0.2932581603527069
+      ],
+      "old_relative_errors": [
+        -8.207373082269598e-07,
+        -2.0634815247611016e-06
+      ],
+      "new_relative_errors": [
+        3.5051140878650244e-08,
+        7.06408935791103e-08
+      ]
+    },
+    {
+      "order_actual_float32": 0.9900000095367432,
+      "reference_scales": [
+        0.5055945627579357,
+        0.25406761825877305
+      ],
+      "old_scales": [
+        0.5055938959121704,
+        0.25406748056411743
+      ],
+      "new_scales": [
+        0.5055945515632629,
+        0.25406762957572937
+      ],
+      "old_relative_errors": [
+        -1.3189338144981022e-06,
+        -5.41960666122776e-07
+      ],
+      "new_relative_errors": [
+        -2.214160033098267e-08,
+        4.454308810686314e-08
+      ]
+    }
+  ],
+  "implicit_checks": [
+    {
+      "case": "implicit_nonlinear_converged",
+      "metric": "independent_scaled_residual",
+      "value": 0.07831858308372763,
+      "passed": true,
+      "details": "order=0.7; rate=-2.0; dt=0.5; precision=float32; iterations=8; rtol=1e-06; atol=1e-08; threshold=1; expected_success=True; reported_scaled_residual=0.02472064644098282; reference=float64_first_step_equation; agreement_rtol=1e-05; agreement_atol=1.0"
+    },
+    {
+      "case": "implicit_nonlinear_failure_detected",
+      "metric": "independent_scaled_residual",
+      "value": 306731.3973629993,
+      "passed": true,
+      "details": "order=0.7; rate=-2.0; dt=0.5; precision=float32; iterations=1; rtol=1e-06; atol=1e-08; threshold=1; expected_success=False; reported_scaled_residual=306731.4375; reference=float64_first_step_equation; agreement_rtol=1e-05; agreement_atol=1.0"
+    },
+    {
+      "case": "implicit_jit_failure_detected",
+      "metric": "failure_count",
+      "value": 1.0,
+      "passed": true,
+      "details": "order=0.7; rate=-2.0; dt=0.5; precision=float32; iterations=1; expected_failure_count=1; independent_scaled_residual=306731.3973629993; reported_scaled_residual=306731.4375; reference=float64_first_step_equation; agreement_rtol=1e-05; agreement_atol=1.0"
+    }
+  ]
+}

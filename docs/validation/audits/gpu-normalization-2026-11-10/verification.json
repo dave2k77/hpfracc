@@ -1,0 +1,62 @@
+{
+  "scope": "Dirty-tree local CPU/CUDA development validation, not release sign-off or general accelerator validation.",
+  "tests": {
+    "cpu": {
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "713",
+        "time": "642.853",
+        "timestamp": "2026-11-10T14:49:45.052762+00:00",
+        "hostname": "drc-GB-AERO-X16"
+      },
+      "process_exit_code": 0,
+      "performance_tests_deselected": 1,
+      "junit": "cpu-tests.xml"
+    },
+    "gpu": {
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "713",
+        "time": "1205.854",
+        "timestamp": "2026-11-10T14:49:45.368888+00:00",
+        "hostname": "drc-GB-AERO-X16"
+      },
+      "process_exit_code": 0,
+      "performance_tests_deselected": 1,
+      "junit": "gpu-tests.xml"
+    }
+  },
+  "aggregate": {
+    "cpu": {
+      "command": "JAX_PLATFORMS=cpu uvx --from 'uv==0.11.21' uv run --frozen --extra dev python -m benchmarks.numerical.validation_summary --check",
+      "exit_code": 0,
+      "rows": 28,
+      "csv": "cpu-aggregate.csv"
+    },
+    "gpu": {
+      "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uvx --from 'uv==0.11.21' uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.validation_summary --check",
+      "exit_code": 0,
+      "rows": 28,
+      "csv": "gpu-aggregate.csv"
+    }
+  },
+  "additional_checks": {
+    "ruff": "passed",
+    "strict_mkdocs": "passed",
+    "git_diff_check": "passed",
+    "cpu_package_compatibility": "passed",
+    "gpu_package_compatibility": "passed",
+    "gpu_examples": [
+      "caputo_operator",
+      "caputo_solver",
+      "train_neural_fode",
+      "probabilistic_calibration"
+    ]
+  }
+}

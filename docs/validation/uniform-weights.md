@@ -117,6 +117,41 @@ order 0.5 and 17 nodes, stable evaluation still produces the first state near
 The integration method's startup/discretization error is separate from weight
 roundoff; changing evaluation alone cannot fix it.
 
+## Working-precision normalization follow-up
+
+Uniform deterministic explicit and implicit solvers also share an improved
+evaluation of `dt**alpha / Gamma(1+alpha)` and its recurrence-derived corrector
+scale, `predictor_scale / (1+alpha)`. Both direct and stable weight settings use
+it. This changes floating-point normalization, not the quadrature scheme, Newton
+iteration count, diagnostic thresholds, or the default history/weight selector.
+Earlier audit matrices below and above predate this follow-up.
+
+The CUDA float32 cubic first-step check exposed the distinction: Newton solved
+its working-precision equation with a reported scaled residual near `0.033`,
+while the host-float64 equation gave `1.795` against the unchanged limit of one.
+The corrector scale's relative error was approximately `1.27e-6`, traced to
+general-purpose float32 Gamma evaluation rather than an unconverged Newton solve.
+
+The private normalization uses [DLMF 5.7.3](https://dlmf.nist.gov/5.7.E3) for
+`log Gamma(1+alpha)`, evaluated in Horner form. On `0 <= alpha <= 1`, the
+alternating-series remainder through degree 24 (float32) or 56 (float64) is
+bounded by the first omitted term, below `1.2e-9` or `1.3e-19` respectively.
+These are exact-arithmetic truncation bounds, not total floating-point or solver
+error guarantees. No runtime mpmath/SciPy dependency, host conversion of traced
+orders, or hidden enabling of x64 is introduced.
+
+`tests/unit/test_solver_normalization.py` checks the constants against 80-digit
+references, values and order derivatives against 70-digit references across the
+supported interval, eager/JIT coefficients, dtype preservation, and an
+independently reconstructed float32 cubic residual. The singular-Newton fixture
+uses the actual normalization to keep its Jacobian exactly singular at working
+precision rather than depending on the previous special function's roundoff.
+
+The [local CUDA follow-up bundle](audits/gpu-normalization-2026-11-10/README.md)
+records source/runtime provenance, paired old/new coefficients and checked CPU/
+GPU aggregates. The selected independent cubic residual falls from `1.795` to
+`0.0783` without relaxing its threshold. This is not a global accuracy guarantee.
+
 ## Tests and compatibility boundary
 
 The new tests cover high-precision coefficient references, positive moments,

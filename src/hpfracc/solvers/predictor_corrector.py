@@ -7,6 +7,7 @@ from math import isfinite
 from typing import Any
 
 from hpfracc.ops._quadrature import _power_interval_moments, _time_difference
+from hpfracc.ops._special import _rgamma1p
 from hpfracc.ops.orders import as_order
 from hpfracc.solvers._weights import _stable_pece_weights, _validate_weight_evaluation
 from hpfracc.solvers.base import SimulationResult, SolverInfo
@@ -299,10 +300,9 @@ def _setup(
     jnp = _jnp()
     alpha = as_order(solver.order)
     n_time = int(times.shape[0])
-    gamma = _gamma()
     dt_alpha = float(solver.dt) ** alpha
-    predictor_scale = dt_alpha / gamma(alpha + 1.0)
-    corrector_scale = dt_alpha / gamma(alpha + 2.0)
+    predictor_scale = dt_alpha * _rgamma1p(alpha)
+    corrector_scale = predictor_scale / (alpha + 1.0)
     indices = jnp.arange(n_time)
 
     f0 = model(

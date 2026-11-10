@@ -35,6 +35,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+cuda13 = [
+  "jax[cuda13]>=0.4.30; sys_platform == 'linux' and platform_machine == 'x86_64'"
+]
 test = [
   "hypothesis>=6.100",
   "mpmath>=1.3",

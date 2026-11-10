@@ -111,6 +111,13 @@ Public API is reached through `import hpfracc as hp`. Top-level namespaces map t
 
 ## Validation is part of the contract
 
+Maintain `docs/developer/bug-resolution-tracker.md` as issues are investigated.
+Record symptoms and impact, evidence-backed root cause, the applied fix,
+verification commands/results, remaining limits and a prevention lesson. Label
+hypotheses and open research limitations honestly; do not present a passing
+measurement-integrity check as scientific accuracy or a scoped fix as general
+validation. Preserve prior failures and historical evidence, and exclude secrets.
+
 Tests in `tests/unit/` are the scientific contract, not just dev hygiene. New
 operators/solvers need analytic/limiting-case validation, finite-difference
 gradient checks, and `jit`/`grad` smoke tests (contract §9). Validation reports
