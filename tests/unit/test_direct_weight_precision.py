@@ -235,9 +235,9 @@ def test_repaired_default_and_explicit_direct_selector_metadata(solver_class):
         assert default.latent_state.dtype == explicit.latent_state.dtype == jnp.float32
         np.testing.assert_array_equal(default.latent_state, explicit.latent_state)
         np.testing.assert_array_equal(default.ts, explicit.ts)
-        # Compare metadata without adding a serialization contract: a strongly
-        # typed JAX order remains an array in SolverInfo.to_dict(). Both selectors
-        # must identify the same algorithm, history and Newton diagnostics.
+        # Compare selector identity separately from the JSON-export regressions.
+        # API-001 normalizes the concrete order only on host export; both selectors
+        # must still identify the same algorithm, history and Newton diagnostics.
         assert default.solver_info is not None
         assert explicit.solver_info is not None
         default_info = default.solver_info.to_dict()

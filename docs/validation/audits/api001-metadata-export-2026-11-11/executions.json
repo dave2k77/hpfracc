@@ -1,0 +1,36 @@
+{
+  "scope": "API-001 local process completion evidence; not remote CI for the later commit",
+  "source_manifest": "source-snapshot.json",
+  "cancelled_precleanup_runs": [
+    {"backend": "cpu", "session_id": "proc_0c37ede29a3d", "status": "killed", "termination_source": "process.kill", "reason": "Reconcile stale metadata comment and recapture final source; no test outcome inferred"},
+    {"backend": "cuda", "session_id": "proc_ae25f0fda7e2", "status": "killed", "termination_source": "process.kill", "reason": "Reconcile stale metadata comment and recapture final source; no test outcome inferred"}
+  ],
+  "completed_runs": [
+    {
+      "backend": "cpu",
+      "session_id": "proc_a9032397fc7e",
+      "status": "exited",
+      "exit_code": 0,
+      "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m pytest --junitxml=docs/validation/audits/api001-metadata-export-2026-11-11/full-cpu.xml",
+      "tests_passed": 900,
+      "performance_deselected": 1
+    },
+    {
+      "backend": "cuda",
+      "session_id": "proc_0fa92e306f49",
+      "status": "exited",
+      "exit_code": 0,
+      "command": "UV_PROJECT_ENVIRONMENT=/home/davianc/.local/share/hpfracc/venv-cuda13 JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m pytest --junitxml=docs/validation/audits/api001-metadata-export-2026-11-11/full-cuda.xml",
+      "tests_passed": 900,
+      "performance_deselected": 1,
+      "completion_note": "Fresh process readback confirmed zero exit after the pytest summary and delayed CUDA teardown"
+    }
+  ],
+  "review": {
+    "delegation_id": "deleg_f739e3de",
+    "reviewed_tree": "c199fe1390f73ce1d075d3720c8d4e2cd37398e6",
+    "passed": true,
+    "post_review_code_change": "Only archive verifier strengthened to compare recorded RED raw/compressed hashes; runtime/test source unchanged",
+    "full_suite_outcomes": "Verified separately by parent after review"
+  }
+}

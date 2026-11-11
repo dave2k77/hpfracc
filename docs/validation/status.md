@@ -98,8 +98,22 @@ emitters; selection cause and historical emitter identity remain unresolved.
 Independent review and source delivery are separate records. This is not
 continuous-accuracy acceptance, cross-compilation bitwise reproducibility or
 Phase A closure.
-The prior NUM-004 commit's remote Python 3.11–3.13 CI is separately verified
-successful and does not validate this later uncommitted repair.
+The independently reviewed NUM-005 repair is delivered as `7a11d2d`; remote
+Python 3.11–3.13 CI, lint, strict docs and the separate performance job all pass
+for that exact revision. These records do not validate later source changes.
+
+### Host Metadata Export
+
+API-001 reproduces a JSON-export defect for supported strong scalar-array
+orders. The correction normalizes the order only in host-side
+`SolverInfo.to_dict()`; stored arrays and numerical JIT/gradient paths are
+unchanged. The original two regressions go from RED to GREEN, and 150 targeted
+tests pass on each CPU/CUDA backend before final comment/style cleanup. Final
+full suites each pass 900 tests, one performance case deselected, with confirmed
+zero exits and 119 source inputs unchanged. Source review passes without blocking
+findings; tree-specific review and separately verified later evidence are in the
+[API-001 bundle](audits/api001-metadata-export-2026-11-11/README.md). This does not
+introduce per-state solver support or remove whole-result JIT limitations.
 
 ### Input and Grid Validation
 

@@ -1,0 +1,37 @@
+"""Host metadata export must not alter scalar-array numerical execution."""
+
+import json
+
+import jax
+import jax.numpy as jnp
+import pytest
+
+from hpfracc.solvers import ImplicitPredictorCorrector, PredictorCorrector, simulate
+
+
+def _constant(t, state, params, *, rng_key=None, inputs=None):
+    return params * jnp.ones_like(state)
+
+
+@pytest.mark.parametrize("solver_type", [PredictorCorrector, ImplicitPredictorCorrector])
+def test_strong_scalar_order_metadata_exports_plain_json(solver_type):
+    with jax.enable_x64(False):
+        order = jnp.asarray(0.6, dtype=jnp.float32)
+        result = simulate(
+            model=_constant,
+            ts=jnp.linspace(0.0, 0.5, 3, dtype=jnp.float32),
+            initial_state=jnp.ones(1, dtype=jnp.float32),
+            params=jnp.asarray(0.25, dtype=jnp.float32),
+            solver=solver_type(dt=0.25, order=order),
+        )
+        info = result.solver_info
+        assert info is not None
+        original_order = info.fractional_order
+        assert isinstance(original_order, jax.Array)
+        assert original_order.dtype == jnp.float32
+        payload = info.to_dict()
+        decoded = json.loads(json.dumps(payload, allow_nan=False))
+        assert type(payload["fractional_order"]) is float
+        assert decoded["fractional_order"] == float(order)
+        assert info.fractional_order is original_order
+        assert result.latent_state.dtype == jnp.float32

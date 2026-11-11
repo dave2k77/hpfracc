@@ -1,0 +1,18 @@
+{
+  "scope": "Metadata repair/full tests, not new scientific acceptance",
+  "source_inputs_verified": 119,
+  "only_existing_runtime_change": "SolverInfo.to_dict",
+  "selector_test_comment_only_change_verified": true,
+  "original_regression_ast_unchanged": true,
+  "full_suites": {
+    "cpu": {
+      "tests": 900,
+      "xml_sha256": "b438445c5e69fedff7391157b098c4d53263597ba6ab21d82628e3518c86cd9f"
+    },
+    "cuda": {
+      "tests": 900,
+      "xml_sha256": "4eb758da76985a6522da8303ec87984300b8bdd5a5c6f3d619bc3cba0bb4cc19"
+    }
+  },
+  "prior_num005_ci_verified": "https://github.com/dave2k77/hpfracc/actions/runs/42971612268"
+}

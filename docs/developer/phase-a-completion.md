@@ -95,8 +95,17 @@ unchanged. VAL-007 retains both passing CUDA pairs and captures different
 optimized reduction emitters for identical f32-only StableHLO/configuration.
 Emitter selection cause remains unresolved; review and delivery are separate
 records. No A1 gate or general stiffness/reproducibility claim is closed here.
-Remote Python 3.11–3.13 CI for the prior NUM-004 commit is verified green, not
-evidence for this later uncommitted source.
+The independently reviewed NUM-005 repair is delivered as `7a11d2d`; its exact
+revision now passes remote Python 3.11–3.13 CI, lint, strict docs and the separate
+performance job. Later changes require their own verification.
+
+API-001 corrects host-side `SolverInfo.to_dict()` export for supported strong
+scalar-array orders without changing numerical execution. Its original two
+failures are preserved; the correction passes the targeted selection and full
+900-test suites on CPU/CUDA with confirmed zero exits and 119 captured source
+inputs unchanged. Source review passes; review scope, later evidence and delivery
+are recorded separately. This does not resolve the per-state solver-order scope
+decision or any broader A1 gate.
 
 For any claimed tolerance-controlled case, test accepted-node errors against
 the stated componentwise reference scale, not just decreasing errors. Require

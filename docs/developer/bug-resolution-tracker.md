@@ -37,7 +37,7 @@ and historical evidence instead of rewriting them after a fix.
 | NUM-003 | Numerical defect | Float32 Gamma normalization biased an implicit corrector equation | Fixed; independent residual gate passes |
 | NUM-004 | Numerical precision defect | Direct float32 history-weight cancellation failed an independent residual gate | Fixed for the selected scope; full local CPU/CUDA suites pass |
 | NUM-005 | Numerical precision defect | CPU float32 history accumulation can hide an independent residual failure | Selected-case repair passes full CPU/CUDA suites; review/delivery separate |
-| API-001 | Metadata contract limitation | Strong array orders prevent plain JSON export of SolverInfo | Reproduced before and after NUM-004; open |
+| API-001 | Metadata contract defect | Strong array orders prevent plain JSON export of SolverInfo | Host-scope fix; full CPU/CUDA verification passes, review recorded separately |
 | VAL-002 | Validation gap | No dedicated FFT order-gradient finite-difference matrix | Selected coverage verified after VAL-004 correction |
 | DOC-001 | Documentation | Nonuniform solver missing from API stability table | Fixed |
 | SCI-001 | Research limitation | General adaptive tolerance indicator is not a calibrated error bound | Open |
@@ -576,6 +576,11 @@ comparison during the NUM-004 repair.
   an instrumented trace to attribute roundoff. The complete matching replay,
   basis-coefficient decomposition and counterfactuals are preserved verbatim in
   `independent-analysis.tar.gz`, with 42 file digests in its manifest.
+- Delivery follow-up: the independently reviewed repair is committed and pushed
+  as `7a11d2d`. Remote run `42971612268` is now read back successful for that
+  exact SHA: Python 3.11–3.13, lint, strict docs and the separate performance job.
+  The readback is retained in the subsequent API-001 bundle, not retroactively
+  relabelled as evidence for the later metadata changes. Phase A remains open.
 - Citation prevention: retain NUM-004 values as checkpoint-specific history and
   publish the changed NUM-005 weak-case values separately. The archive replay
   checker first failed on the missing current-evidence section, then binds all
@@ -650,8 +655,36 @@ Discovery: 2026-11-10, additional metadata inspection during precision tests.
   reproduces all four class/order-type combinations on the pre-repair source
   and repaired source. `solvers/base.py` is byte-identical across checkpoints;
   only the two strong-array cases fail in each checkpoint.
-- Remaining: provide and test host-side JSON normalization without introducing
-  array-to-Python conversion into numerical JIT/gradient paths. This issue remains
-  open; it is neither a new NUM-004 regression nor a completed contract fix.
+- Remaining at discovery: provide and test host-side JSON normalization without
+  introducing array-to-Python conversion into numerical JIT/gradient paths. At
+  that checkpoint the issue was open, not a new NUM-004 regression or a completed
+  contract fix.
+- Applied correction: `SolverInfo.to_dict()` now converts a non-missing concrete
+  scalar order to a Python float only in its exported payload. The stored order,
+  dataclass fields, diagnostic normalization and all numerical functions are
+  unchanged. The method explicitly documents its host-only boundary.
+- Regression evidence: two CPU tests first fail on the original `ArrayImpl`
+  JSON error, then both pass after the correction. A 150-test targeted selection
+  passes on CPU and CUDA, including scalar float32/float64 export through shared
+  uniform/nonuniform/adaptive paths, direct/stable selectors, immutable metadata,
+  independent analytic state/parameter/order gradients and lazy metadata import.
+  These targeted runs precede final comment/style cleanup; their source and XML
+  remain distinct from the final full-suite evidence now being collected.
+- Final full suites each pass 900 tests on CPU/CUDA, one performance case
+  deselected, with fresh process readbacks confirming zero exits after teardown.
+  All 119 source inputs match the final capture and all enumerated test identities
+  match collection and each other. Two initial full-suite launches were cancelled
+  before completion to correct a stale selector-test comment; no test result is
+  inferred from those runs. Their source snapshot is retained separately. The
+  final capture records 119 source inputs and 900 selected tests. AST checks
+  verify the original RED regression is unchanged, the selector edit is comment-
+  only, and the only existing runtime change is the host export method.
+- Independent source review passes without blocking findings. Its non-blocking
+  suggestion to verify raw/compressed RED hashes is applied to the archive
+  checker and exercised by the final host replay. Tree-specific review, later
+  evidence additions and delivery are separate records, not Phase A closure.
+- Boundary: this repair does not add per-state orders or whole-result JIT
+  returns, and does not serialize arbitrary user-supplied diagnostic objects.
+  Evidence is in the [API-001 bundle](../validation/audits/api001-metadata-export-2026-11-11/README.md).
 - Prevention: test metadata export using actual supported scalar-array orders,
   not only Python configuration scalars, independently of numerical dtype tests.

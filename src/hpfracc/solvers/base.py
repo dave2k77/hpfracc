@@ -22,9 +22,15 @@ class SolverInfo:
     warnings: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
-        """Return a JSON-compatible representation where possible."""
+        """Export concrete metadata on the host, outside JIT/gradient tracing.
+
+        Supported scalar-array orders become Python floats in the exported
+        payload only; the stored order and numerical execution are unchanged.
+        """
 
         payload = asdict(self)
+        if self.fractional_order is not None:
+            payload["fractional_order"] = float(self.fractional_order)
         payload["warnings"] = list(self.warnings)
         return payload
 

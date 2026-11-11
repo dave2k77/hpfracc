@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Normalize supported concrete scalar-array orders to Python floats only in
+  host-side `SolverInfo.to_dict()` export. Stored metadata and numerical
+  JIT/gradient paths are unchanged; Python-float and missing-order exports retain
+  their behavior. This does not add per-state solver orders, whole-result JIT
+  support or serialization of arbitrary user-supplied metadata.
+
 - Replace shared solver history contraction with an explicit working-dtype
   weighted reduction. This addresses a demonstrated CPU float32 accumulation
   failure hidden by small internal Newton residuals; the full-history method,

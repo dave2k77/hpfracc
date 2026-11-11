@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    {
+      "file": "docs/validation/audits/api001-metadata-export-2026-11-11/verify.py",
+      "suggestion": "Non-blocking evidence hardening: verification mode should compare the compressed and decompressed RED XML hashes against the recorded manifest fields. Both match in this review, but the verifier currently checks only the RED failure counts."
+    }
+  ],
+  "summary": "The scoped scalar-order host-export repair passes independent code review. No blocking security or logic defects were found. This verdict does not certify the parent-managed full CPU/CUDA suites, whose completion and results require separate verification.",
+  "reviewed_tree": "c199fe1390f73ce1d075d3720c8d4e2cd37398e6",
+  "verification": {
+    "baseline_head": "7a11d2d62546470119618a75d15640e69e940a8d",
+    "scope": "Read AGENTS.md, engineering contract, staged changes, referenced solver definitions, tests, static scan and evidence artifacts.",
+    "logic": [
+      "The only existing runtime AST change is SolverInfo.to_dict().",
+      "Concrete scalar-array orders become Python floats only in the exported payload; stored metadata remains unchanged.",
+      "No eager JAX import or conversion was introduced into numerical construction, JIT or AD paths.",
+      "Documentation preserves scalar-only solver scope, whole-result JIT limitations, arbitrary-metadata serialization limits and open Phase A boundaries."
+    ],
+    "executed_checks": [
+      {
+        "command": "env JAX_PLATFORMS=cpu PYTHONDONTWRITEBYTECODE=1 uv run --frozen --no-sync python -m pytest -q -p no:cacheprovider --basetemp=/home/davianc/.hermes/cache/scratch/api001-review-pytest tests/unit/test_solver_info_export.py",
+        "result": "21 passed in 15.24s; covers float32/float64 export, metadata preservation, numerical dtype, analytic eager/JIT gradients and JAX-blocked lazy import."
+      },
+      {
+        "check": "Ruff on all four staged Python files and git diff --cached --check",
+        "result": "Passed."
+      }
+    ],
+    "evidence_checks": [
+      "Reproduced the static-scan diff hash, 22 pre-report files and 1814 added lines; independent added-line screening found no matches.",
+      "All 23 staged files match working-tree bytes.",
+      "Final source manifest and archive match all 119 current source inputs; collection contains 900 unique test identities.",
+      "Preserved RED XML contains two JSON-serialization failures; original GREEN contains two passes; targeted CPU/CUDA XML each contains 150 unique passing cases without errors or skips.",
+      "Original regression AST is preserved; intermediate targeted-test AST matches final; existing selector-test change is comment-only.",
+      "Prior NUM-005 CI readback identifies the baseline SHA and successful jobs; it was inspected as retained evidence, not independently fetched remotely."
+    ],
+    "parent_full_suite_verification": "Still pending separate parent verification. No full suite or GPU workload was launched, and no full-suite completion is claimed.",
+    "repository_unchanged": {
+      "confirmed_at_end": true,
+      "final_head": "7a11d2d62546470119618a75d15640e69e940a8d",
+      "final_index_tree": "c199fe1390f73ce1d075d3720c8d4e2cd37398e6",
+      "tracked_unstaged_changes": [],
+      "writes": "Scratch review script and scratch test directory only; no repository, dependency or configuration edits."
+    }
+  }
+}

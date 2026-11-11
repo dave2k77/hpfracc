@@ -1,0 +1,15 @@
+{
+  "scope": "Added text screening and staged byte equality, not security proof",
+  "diff_command": [
+    "git",
+    "diff",
+    "--cached",
+    "--no-ext-diff",
+    "--unified=0"
+  ],
+  "staged_diff_sha256": "1ebab390b7da7dc98178830951a169c63485f7068c80f16be076a9621b441df3",
+  "staged_files_verified": 28,
+  "added_lines_screened": 1967,
+  "findings": [],
+  "report_added_separately": true
+}
