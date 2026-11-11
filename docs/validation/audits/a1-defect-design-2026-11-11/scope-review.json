@@ -1,0 +1,13 @@
+{
+  "artifact_review_passed": true,
+  "a1_acceptance_passed": false,
+  "blocking_artifact_issues": [],
+  "remaining_a1_gates": [
+    "Implement complete supplied-trajectory piecewise-linear/affine-power defect evaluation, including PECE nodal mismatch, continuum-cell enclosures, every retained panel, and componentwise propagation/tail diagnostics.",
+    "Establish the declared weak-forcing and feedback domains. Broader nonlinear/stiff scopes require justified tube/continuation or alternative propagation bounds, or explicitly reviewed scope limitations; no such deferral is approved here.",
+    "Provide verified arithmetic and complete input, RHS, evaluation and output error accounting before total working-precision certification.",
+    "Execute the frozen independent-reference, tolerance/work, dtype and mixed-scale/nonlinear/stiff acceptance matrix, preserving unsuccessful certification and failure paths.",
+    "Separately review any opt-in controller/JAX integration and verify initial-state, parameter and order derivatives, eager/JIT agreement and frozen-mesh semantics. The per-state solver-order decision remains separate and unresolved."
+  ],
+  "summary": "Safe to archive solely as the explicitly limited, non-certified mathematical design and private constant-candidate diagnostic; no scoped artifact blocker was identified. Both archive checksums match, archive members are safe, 15 private tests pass, mathematical-check output reproduces byte-for-byte, and all five invalid-shortcut controls fail as intended. Recovered feature-test source is correctly labelled as authoring-input recovery, not a pre-run byte snapshot. The original initial-review.json passed=false verdict remains preserved, and all dossier bytes are unchanged. Execution and generated files were confined to scratch. This artifact-only pass does not approve A1 acceptance, scope deferral, solver certification or phase completion."
+}

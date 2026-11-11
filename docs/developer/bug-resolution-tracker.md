@@ -302,6 +302,31 @@ as an accuracy guarantee. Resolution requires a justified scoped error-control
 contract and independent evidence, or explicitly reviewed scope deferral; more
 passing sweeps alone are insufficient. See the [Phase A programme](phase-a-completion.md).
 
+- Reconstruction finding: a checked one-panel PECE feedback example differs from
+  the fractional integral of its corrected-state RHS interpolant by
+  -0.0099770623402870312. This is an 80-digit mathematical design check, not a
+  newly observed production regression. PECE corrects with the predictor RHS,
+  then stores the corrected RHS; that fractional reconstruction need not pass
+  through the actual stored state. Ignoring the nodal mismatch could invalidate
+  a proposed error certificate.
+- Intervention: preserve a [private Volterra-defect design and feedback tracer](../validation/audits/a1-defect-design-2026-11-11/README.md).
+  The design uses a continuous reconstruction through stored states and retains
+  all old-panel defect/propagation contributions. The scalar constant-candidate
+  helper demonstrates nonzero feedback propagation; it is not a controller or
+  general supplied-trajectory enclosure implementation.
+- Verification: independent high-precision checks reproduce, the missing-helper
+  feature test goes RED to GREEN, and 15 private tests pass. Independent review
+  reproduces those tests and 27 additional scalar probes. Five intentionally
+  incorrect shortcut assertions fail as design negative controls, not production
+  failures. The original nondiscriminating old-panel fixture and its versioned
+  preimplementation correction are both retained.
+- Limits and prevention: artifact review passes only for the explicit private
+  diagnostic; A1 acceptance remains false. Verified arithmetic, complete
+  continuum-defect enclosures, nonlinear/stiff propagation, acceptance matrices
+  and reviewed controller/JAX integration remain open. Check which trajectory
+  an oracle actually encloses; never promote high-precision agreement or a raw
+  unpropagated defect into total working-precision certification.
+
 ### SCI-002 — Approximation selection and memory evidence
 
 Fixed SOE poles/iterations do not certify a requested error budget; forward

@@ -1,0 +1,59 @@
+{
+  "passed": false,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    "Keep the private tracer explicitly separate from scientific acceptance: its formulas and classifications are supported, but it does not calibrate or certify an hpfracc solver.",
+    "Preserve the exact original feature-test source alongside its RED XML. The archived current test includes a top-level helper import added after the missing-helper assertion run.",
+    "Before verified certification, enclose input conversion, gamma/powers, arithmetic and comparison margins; ambiguous contraction or budget boundaries must not produce certified acceptance."
+  ],
+  "summary": "Archive integrity and the stated scalar conditional mathematics check out; the private prototype reproduces successfully. passed=false reflects unresolved A1 acceptance blockers, not an identified error in the scoped formulas.",
+  "verification": {
+    "integrity": {
+      "protocol_archive_sha256": "55c13478f42ef199e2a41fd0c37c097a1349498d8ed62e4d620a923219a721e6",
+      "prototype_archive_sha256": "4034a898ffd788c23ddd8ff8bedaa5a76b8907cf1483bfe08583d999d6cdc892",
+      "result": "Both match SHA256SUMS using repository-root-relative paths. All 12 archive members have safe relative paths, unique names and regular-file types; no traversal, links or special files were found. Extraction occurred only in scratch.",
+      "limits": "Checksums establish consistency with the supplied manifest, not independent authenticity."
+    },
+    "execution": {
+      "archived_math_checks": "Exit 0; regenerated check-output.json matches the archived output byte-for-byte.",
+      "current_private_tests": "15 passed, exit 0.",
+      "deliberate_shortcut_controls": "All five failed by their intended assertions, exit 1. These are mathematical negative controls, not production regressions.",
+      "historical_feature_evidence": "Archived XML records one missing-helper assertion failure, followed by one passing feature test and the later 15-test compatibility run.",
+      "independent_probes": "27 scalar combinations across three orders, signed/zero feedback and signed/zero initial values passed comparison with a separately evaluated 320-term solution series. Additional probes distinguished represented binary order 0.3 from decimal 0.3 and classified contraction factors on either side of one.",
+      "arithmetic_limit": "All numerical reproductions remain non-interval diagnostics, not verified arithmetic."
+    },
+    "mathematical_findings": [
+      "The raw Volterra defect is not the propagated solution-error bound: 0.28209479177387814347 < actual endpoint error 0.35864237010472211521 < propagated bound 0.39294155905472337601. Budget 0.3 is correctly rejected and 0.4 passes only conditionally.",
+      "The strict weighted contraction condition kappa<1 justifies the supremum bound and stated constant-matrix Neumann remainder. kappa>=1 means this protocol is inapplicable, not that the equation or solver is unstable.",
+      "E<=(atol+rtol*abs(Y))/(1+rtol) is sufficient for E<=atol+rtol*abs(y), by the reverse triangle inequality. The prototype implements this conservative budget.",
+      "Finite/domain checks and scalar amplitude scaling are implemented. The report's positive-diagonal component scaling is mathematically consistent, but coupled propagation is not implemented by this scalar helper.",
+      "The PL hinge integral, weak-power/Hölder treatment, retained-history reasoning and PECE reconstruction-mismatch warning are consistent with their stated assumptions. Nonlinear domains require independent bounds and tube closure.",
+      "Both arithmetic_verified and total_numerical_certified remain false, appropriately excluding working-precision certification."
+    ],
+    "historical_distinctions": [
+      "The original [0,1/2,1] old-panel fixture does not discriminate against the newest-panel curvature envelope. The preserved [0,3/4,1] correction does. This is an explicitly recorded design-fixture correction, not a completed or retuned scientific-acceptance experiment.",
+      "REPORT.md's no-implementation statement describes the initial design artifact. The later separately archived constant-candidate helper is real, but does not implement the report's complete proposed certifier."
+    ],
+    "open_a1_gates": [
+      "Implement complete supplied-trajectory PL/affine-power defect evaluation, including PECE nodal mismatch, continuum-cell enclosures, all retained panels and componentwise propagation/tail diagnostics.",
+      "Establish the declared weak-forcing and feedback domains; broader nonlinear/stiff scopes require justified tube/continuation or alternative propagation bounds, or explicitly reviewed scope limitations.",
+      "Provide verified arithmetic and complete input/RHS/evaluation/output error accounting before total working-precision certification.",
+      "Execute the frozen independent reference, tolerance/work, dtype and mixed-scale/nonlinear/stiff acceptance matrix, preserving unsuccessful certification and failure paths.",
+      "Separately review any opt-in controller/JAX integration and verify initial-state, parameter and order derivatives plus eager/JIT agreement and frozen-mesh semantics. The per-state solver-order decision remains separate."
+    ],
+    "workspace": {
+      "staged_tree_unchanged": "24d09fbd171fbe76f77591926ec7d1afaebbd2c0",
+      "changes": "Created only scratch review scripts, extracted copies, logs, JSON and JUnit results; no source/index/config/dependency edits, commits, pushes, full suites, GPU work or task transitions.",
+      "scope_deviation": "An initial inspection invoked git write-tree, which can create a Git object and therefore was inappropriate under the no-repository-writes restriction. Subsequent independent read-only reconstruction confirmed the staged tree remained unchanged."
+    }
+  },
+  "artifact_handles": {
+    "dossier": "docs/validation/audits/a1-defect-design-2026-11-11/",
+    "review_scratch": "/home/davianc/.hermes/cache/scratch/a1-independent-review-eu89cn4a/",
+    "math_rerun": "/home/davianc/.hermes/cache/scratch/a1-independent-review-eu89cn4a/checks-rerun.log",
+    "prototype_junit": "/home/davianc/.hermes/cache/scratch/a1-independent-review-eu89cn4a/feedback-prototype-rerun.xml",
+    "negative_controls_junit": "/home/davianc/.hermes/cache/scratch/a1-independent-review-eu89cn4a/protocol-and-checks-rerun.xml",
+    "independent_probes": "/home/davianc/.hermes/cache/scratch/a1-independent-review-eu89cn4a/independent-probes.json"
+  }
+}

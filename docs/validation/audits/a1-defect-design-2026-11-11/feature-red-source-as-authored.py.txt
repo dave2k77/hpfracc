@@ -1,0 +1,22 @@
+"""First A1 tracer: feedback must propagate a nonzero Volterra defect."""
+
+import importlib
+from pathlib import Path
+
+import mpmath as mp
+
+
+def test_constant_feedback_encloses_reference_and_keeps_precision_limit_visible():
+    assert Path(__file__).with_name("feedback_enclosure.py").is_file(), (
+        "Private feedback-propagation prototype is not implemented"
+    )
+    evaluate = importlib.import_module("feedback_enclosure").constant_candidate_envelope
+    result = evaluate(order="0.5", feedback="0.25", initial="1", horizon="1",
+                      atol="0.4")
+    with mp.workdps(80):
+        actual_error = mp.exp(mp.mpf(1) / 16) * mp.erfc(-mp.mpf(1) / 4) - 1
+        assert mp.mpf(result.raw_defect) < actual_error
+        assert actual_error < mp.mpf(result.model_error_bound) < mp.mpf("0.4")
+        assert result.conditional_within_budget is True
+        assert result.arithmetic_verified is False
+        assert result.total_numerical_certified is False

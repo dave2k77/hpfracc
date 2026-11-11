@@ -114,6 +114,14 @@ nonlinear feedback. General feedback control requires a trajectory reconstructio
 an enclosed Volterra defect and a valid propagation bound; Jacobian sampling or
 additional trial subdivisions alone do not supply those assumptions.
 
+The next [private defect-control investigation](../validation/audits/a1-defect-design-2026-11-11/README.md)
+preserves checked reconstruction/propagation derivations, weak-forcing controls
+and a working constant-candidate feedback tracer with 15 passing private tests.
+Independent review distinguishes an archiveable scoped artifact from A1
+acceptance: the latter remains false. No solver/controller, verified working-
+precision certificate, narrower completion scope or per-state decision is
+introduced by this investigation.
+
 ## A2: History approximation and memory — open
 
 Required work:
