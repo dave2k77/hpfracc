@@ -1,0 +1,114 @@
+{
+  "v2/REPORT.md": {
+    "bytes": 7310,
+    "sha256": "d8e1233827b790aec4cff0ffdf39b893aaf040d7730dca7476a4996bd909d63c"
+  },
+  "v2/baseline-inputs.json": {
+    "bytes": 2078,
+    "sha256": "39bc74421b3be6bae72bb5131f6c00143aedeeedfed29ace95c56071439a41a6"
+  },
+  "v2/baseline.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "v2/baseline.stdout": {
+    "bytes": 10991,
+    "sha256": "c5e3c1469ecc4bc302bdef2f60ea8dbfcc86030e44b8f44481110240ad716b69"
+  },
+  "v2/baseline.xml": {
+    "bytes": 17133,
+    "sha256": "a1f96e62838273850335a0e21d78a7dfad0f0aa01c2be9e03ee5ee959b9956ee"
+  },
+  "v2/check_oracles.py": {
+    "bytes": 2719,
+    "sha256": "2e5a0f51593eb7bdd6ea229890921399297b73791be16f264ee8e38bc68d9472"
+  },
+  "v2/classification.json": {
+    "bytes": 10333,
+    "sha256": "325150399d5b289cc44dab7fb45ee1c2619a3199ed06a7886ec6d3f11a4c7c5b"
+  },
+  "v2/classify.py": {
+    "bytes": 4835,
+    "sha256": "0310b3bacbccb25041f720aaf201263fc9b5345089112c79b6e0a3c6c872d257"
+  },
+  "v2/executed-inputs.json": {
+    "bytes": 64400,
+    "sha256": "796773344ff8cda52acf5f6f39f0cd5a3b8f5b5a0775d6ba6ca4e6376cf10f8b"
+  },
+  "v2/execution.json": {
+    "bytes": 16416,
+    "sha256": "687dedb0d65cecdf3679c1e19e2372c6c46b0d892557c99c6920f9431b3f1e50"
+  },
+  "v2/observations.jsonl": {
+    "bytes": 128993,
+    "sha256": "47618b6c3a4c1a5afc07eec4b0e534256f2b184f009234276d702b4825dac3c8"
+  },
+  "v2/oracle-checks.json": {
+    "bytes": 1147,
+    "sha256": "7be544e139888fa30f952eaa83954e23b283bca56779d396e83611652fdb990a"
+  },
+  "v2/pinned/_volterra_defect.py": {
+    "bytes": 13310,
+    "sha256": "fa8398b6a82b8b8937188697d5f92cd41d1f05aadf0bad1181a92c230fd849a1"
+  },
+  "v2/pre-execution.json": {
+    "bytes": 1783,
+    "sha256": "af9e46687700e577e47ea03290f7c2ee9bee8e8097fcc9fd02e20e440cd63dc9"
+  },
+  "v2/run_baseline.py": {
+    "bytes": 5257,
+    "sha256": "fe672ca30db0500daf191a8090b443f8c16ce641bfa42b4e51327f0365d720ab"
+  },
+  "v2/test_arithmetic_adversarial.py": {
+    "bytes": 17748,
+    "sha256": "e92b4d1bb03a234fc9a3e3af2d265da3e54687cef773222322b45632a3b54c0b"
+  },
+  "v2/SHA256SUMS.json": {
+    "sha256": "e6cdc3348db1afc086aa885be45b51c50581dba084564be0da9da775f196c186",
+    "bytes": 2358
+  },
+  "v1/baseline-inputs.json": {
+    "sha256": "39bc74421b3be6bae72bb5131f6c00143aedeeedfed29ace95c56071439a41a6",
+    "bytes": 2078
+  },
+  "v1/baseline.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "v1/baseline.stdout": {
+    "sha256": "fae3a367a54116ce3d3ab21f89df36b9257342c29a64be74565e51bc5289ea72",
+    "bytes": 10394
+  },
+  "v1/baseline.xml": {
+    "sha256": "5033288aa833ab0ad952dfba1b98a70b88cb77b958cc88cd4f840adab7eda6fd",
+    "bytes": 15731
+  },
+  "v1/executed-inputs.json": {
+    "sha256": "02a12aacaff8ac6a1dc22ea79bb9179a8886ada341cb6f29003363a692b7500a",
+    "bytes": 60517
+  },
+  "v1/execution.json": {
+    "sha256": "e37f829beca87986f63bde179d125e6b8fbfd078e66633d2f15ed0d58a959f97",
+    "bytes": 13808
+  },
+  "v1/observations.jsonl": {
+    "sha256": "0ac9186e8249dbbbed5feae61c7e3358e49ff71865cdab048edc45f2554e76ed",
+    "bytes": 123431
+  },
+  "v1/pinned/_volterra_defect.py": {
+    "sha256": "fa8398b6a82b8b8937188697d5f92cd41d1f05aadf0bad1181a92c230fd849a1",
+    "bytes": 13310
+  },
+  "v1/pre-execution.json": {
+    "sha256": "94d18a326100616628ba5de4264e4b39ceccced957c5f7a3d2f1e5308cb45552",
+    "bytes": 1073
+  },
+  "v1/run_baseline.py": {
+    "sha256": "d89907c948fcfdfb0f088861479e01ae773576bee68b943ef34d941a261540c7",
+    "bytes": 4632
+  },
+  "v1/test_arithmetic_adversarial.py": {
+    "sha256": "07a2bfde3896e7499ade84e4eba6682f745da99dbed358d80d6c4b4663d8a3e1",
+    "bytes": 17404
+  }
+}

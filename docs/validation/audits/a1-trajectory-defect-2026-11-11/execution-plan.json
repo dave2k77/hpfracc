@@ -1,0 +1,24 @@
+{
+  "source_tree": "bf3d4fa06026f4f2efedcf9d899c75ebca53cdbd",
+  "source_count": 126,
+  "expected_selected_tests": 1017,
+  "scope": "Actual started full-suite processes; this is not their completion record",
+  "full_runs": [
+    {
+      "backend": "cpu",
+      "session_id": "proc_41182075d0c0",
+      "pid": 1002085,
+      "status_at_recording": "started",
+      "exit_record": "/home/davianc/.hermes/cache/scratch/a1-arithmetic-20261111/arithmetic-final-exit-cpu.txt"
+    },
+    {
+      "backend": "cuda",
+      "session_id": "proc_2ef2416891e4",
+      "pid": 1002115,
+      "status_at_recording": "started",
+      "exit_record": "/home/davianc/.hermes/cache/scratch/a1-arithmetic-20261111/arithmetic-final-exit-cuda.txt"
+    }
+  ],
+  "current_source_completion_verified": false,
+  "a1_acceptance_passed": false
+}

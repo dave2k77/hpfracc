@@ -1,0 +1,14 @@
+{
+  "reviewed_tree": "92ff3dceb217f6097bae8ccde6cf159d8daa8d14",
+  "indexed_review_files_verified": 33,
+  "review_sha256": "5b14e642fa73325d93ac77394d9df72fb21b175355a0d13685f28bc253e71625",
+  "parent_blocking_tests": 6,
+  "parent_failures": 6,
+  "parent_errors": 0,
+  "parent_pytest_exit_code": 1,
+  "parent_xml_raw_sha256": "c7dd49045ad84a453cf5a7c4448d4347e3de985ff52d8ca1efe0cc0d6e7737bc",
+  "parent_xml_gzip_sha256": "32e72e1cd9dccc1f2552a2626296c8e5a32be1fe1b140f5e5393f0ab9edfafc7",
+  "artifact_approved": false,
+  "a1_acceptance_passed": false,
+  "action": "repair loop stopped; owner decision required; no commit/push"
+}

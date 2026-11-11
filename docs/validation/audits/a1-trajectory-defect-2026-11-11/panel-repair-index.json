@@ -1,0 +1,50 @@
+{
+  "feature6-green-implementation.py.txt": {
+    "sha256": "6e146bd1d757144e09203a991d9f30d6b5c30ef1147f517cfe04716d405371bd"
+  },
+  "feature7-red-source.py.txt": {
+    "sha256": "38e02dd82689712f3a996d95117677286b8e1242c93c474a010f76676bf2302d"
+  },
+  "feature7-red.xml": {
+    "sha256": "a07450f951a702efa5edf674ec94219987f6d41acb49359b7d8848d17c0a20de",
+    "tests": 5,
+    "failures": 5,
+    "errors": 0
+  },
+  "feature7-green.xml": {
+    "sha256": "2965725b46e815b26e66e152c9f471e81ced25d5684723e4bb25fa77e2eff5c9",
+    "tests": 69,
+    "failures": 0,
+    "errors": 0
+  },
+  "panel-targeted-cpu.xml": {
+    "sha256": "499d6752d63f67a49cc811880d15dbbcd966f110fb0b78d7916359cba1835862",
+    "tests": 81,
+    "failures": 0,
+    "errors": 0
+  },
+  "panel-targeted-cuda.xml": {
+    "sha256": "6a5ebb7a2fe9004dbf0355fa52cffc6a967c04d4d4ca49b4d7281528a381aebf",
+    "tests": 81,
+    "failures": 0,
+    "errors": 0
+  },
+  "panel-design-check.py": {
+    "sha256": "d25fdeeab1f2b1f30d4486bdd8459f74042f9f3fe304e606188083a38c36dc28"
+  },
+  "panel-design-check.json": {
+    "sha256": "c94c3d4384a6b56f507a87d5d40b95dcedb257c9fbad8414c2b9a63a5d979c91"
+  },
+  "panel-design-before-near-one.py.txt": {
+    "sha256": "2c223c12626472c294c456ed01002e13e2a194b96dc96c9290b94303a35b1ff4"
+  },
+  "panel-design-initial.stdout.txt": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "panel-design-initial.stderr.txt": {
+    "sha256": "771c97100b29d814f92dac58d9497412ecc375547c186f2dd5aa85c280abd926"
+  },
+  "panel-design-initial-exit.txt": {
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "red-before.json": {
+    "sha256": "355ca05a6cda307b2eb221342b9e166a6ed451eb5f163e8c4762c11cbf26c006",
+    "bytes": 14755
+  },
+  "red-result.json": {
+    "sha256": "5fd3b7ef45d20dd4e07e0f73f2981ec059732b2fef9c2af4414a2f3a7a20242d",
+    "bytes": 14991
+  },
+  "red.xml": {
+    "sha256": "d5f86bed29241b953c6ce56ed3839ab76352fd57ad3270235f3507dc10e16e3b",
+    "bytes": 17072
+  },
+  "red.stdout": {
+    "sha256": "cd5bcaf6cc2a1503bf8ffbb04bc3b0bb2be8d71eb4443cb5bf494c82da9572d2",
+    "bytes": 10062
+  },
+  "red.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "red-observations.jsonl": {
+    "sha256": "47618b6c3a4c1a5afc07eec4b0e534256f2b184f009234276d702b4825dac3c8",
+    "bytes": 128993
+  },
+  "red-test-source.py.txt": {
+    "sha256": "6789c254fa0e4eab5152e926212f44b96c2d23726689123fb07fb379e098155b",
+    "bytes": 18146
+  },
+  "red-implementation.py.txt": {
+    "sha256": "fa8398b6a82b8b8937188697d5f92cd41d1f05aadf0bad1181a92c230fd849a1",
+    "bytes": 13310
+  },
+  "test-port-record.json": {
+    "sha256": "abb6aa97732ce422f46cf5627c3e05bdbe8b13eef5301938979fa8eee71ef79d",
+    "bytes": 520
+  },
+  "run_stage.py": {
+    "sha256": "a002c70f22ae6015c66572fe6a0d3e0496e8091d4fd1bae6758a37b6f255692c",
+    "bytes": 3452
+  }
+}

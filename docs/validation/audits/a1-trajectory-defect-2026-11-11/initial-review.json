@@ -1,0 +1,37 @@
+{
+  "passed": false,
+  "security_concerns": [],
+  "logic_errors": [
+    {
+      "severity": "blocking",
+      "locations": [
+        "benchmarks/numerical/_volterra_defect.py:119-120",
+        "benchmarks/numerical/_volterra_defect.py:173-175"
+      ],
+      "issue": "Catastrophic cancellation in the forcing Gamma-ratio coefficient affects both pointwise and cell paths.",
+      "reproducer": "Finite inputs alpha=0.5, beta=1e300, ts=[0.0,1.0], states=[[0.0],[0.0]], A=[[0.0]], initial_state=[0.0], forcing coefficient=[[1.0]], evaluate t=1.0.",
+      "observed": "fractional_rhs=1.0; final signed forcing coefficient=-1.0; cell model_lower=-1.0.",
+      "expected": "Gamma(beta+1)/Gamma(beta+1.5) is approximately 1e-150 (400-digit mpmath and reciprocal scipy.special.poch agree).",
+      "cause": "The two large gammaln arguments/results round together, producing exp(0)=1 instead of the small Gamma ratio.",
+      "impact": "Supported finite nonnegative-power inputs return catastrophically incorrect point values and model coefficients. False certification flags do not make this a permissible numerical diagnostic result.",
+      "evidence": "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/blocking-large-power.json"
+    }
+  ],
+  "suggestions": [
+    "Repair both forcing-coefficient paths with a stable ratio evaluation such as reciprocal Pochhammer; add large-power pointwise and cell-coefficient regressions and separately review the corrected delta.",
+    "Keep arithmetic_verified and total_numerical_certified false. The separate approximately 1.53e-17 adjacent-float under-enclosure is an honestly documented limitation, unlike the blocking catastrophic point-value error.",
+    "Keep A1 acceptance false: componentwise feedback/tail propagation, verified arithmetic/error budgets, nonlinear-domain closure, required matrix and solver/controller JAX/gradient gates remain open."
+  ],
+  "summary": "Initial frozen-tree code/artifact review FAILED: independently reproduced a blocking large-power Gamma-ratio error in both paths from exact staged bytes. The 55 focused CPU tests, 15 earlier independent probe groups and 39 historical RED-to-current replay cases passed but missed this input regime; no full-suite or corrected-source result is claimed.",
+  "reviewed_tree": "6e7a156f025e08b31a314c5bda59183d6a96bf32",
+  "evidence_paths": [
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/initial-review-evidence-index.json",
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/blocking_large_power_probe.py",
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/blocking-large-power.json",
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/initial-review-metrics.json",
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/targeted.xml",
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/independent-results.json",
+    "/home/davianc/.hermes/cache/scratch/a1-independent-code-review-rznn_1kr/historical-replay.json"
+  ],
+  "a1_acceptance_passed": false
+}

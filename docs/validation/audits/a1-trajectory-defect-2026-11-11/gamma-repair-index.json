@@ -1,0 +1,26 @@
+{
+  "feature5-green-implementation.py.txt": {
+    "sha256": "a496b4d1b64d4f50df485a151284e90909d08f0435895b25b629359f806162da"
+  },
+  "feature6-red-source.py.txt": {
+    "sha256": "cb473fe25ff592e130d64ddf3581a75b42d35d87efd734b91d96f99ee6449be6"
+  },
+  "feature6-red.xml": {
+    "sha256": "80e3cc3fda785bd0038f24886abb8a0e32f74c7889356005ecbf892f3a5c2d49",
+    "tests": 9,
+    "failures": 9,
+    "errors": 0
+  },
+  "feature6-green.xml": {
+    "sha256": "859e693a5ec5f5a44376376acaca1121852903d6012ef9a5a31349c229f3bf5c",
+    "tests": 64,
+    "failures": 0,
+    "errors": 0
+  },
+  "after-gamma-cuda.xml": {
+    "sha256": "b789da718bca3386ed11d54b13573377a2cf7a4865687269f497e861c1024933",
+    "tests": 64,
+    "failures": 0,
+    "errors": 0
+  }
+}

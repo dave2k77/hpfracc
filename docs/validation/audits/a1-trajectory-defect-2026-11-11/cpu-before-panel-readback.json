@@ -1,0 +1,9 @@
+{
+  "backend": "cpu",
+  "tests": 964,
+  "exit_code": 0,
+  "source_inputs_verified": 125,
+  "exact_identities_verified": true,
+  "xml_sha256": "fb27b4015c9cb608656bbf01e5dcf11f47761bbcb223ad36e23f302dbe0fcd9b",
+  "scope": "local source-bound test evidence, not A1 scientific acceptance"
+}

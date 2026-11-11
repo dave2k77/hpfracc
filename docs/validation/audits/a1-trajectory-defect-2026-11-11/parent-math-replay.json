@@ -1,0 +1,24 @@
+{
+  "executions": [
+    {
+      "script": "audit_probe.py",
+      "exit_code": 0
+    },
+    {
+      "script": "precision_crosscheck.py",
+      "exit_code": 0
+    },
+    {
+      "script": "arithmetic_counterexample.py",
+      "exit_code": 0
+    }
+  ],
+  "byte_matches": {
+    "probe-results.json": true,
+    "cell-ranges.json": true,
+    "precision-crosscheck.json": true,
+    "arithmetic-counterexample.json": true,
+    "frozen-fixtures.json": true
+  },
+  "scope": "ordinary high precision replay, not verified arithmetic or A1 acceptance"
+}

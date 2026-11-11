@@ -1,0 +1,240 @@
+{
+  "passed": false,
+  "security_concerns": [],
+  "logic_errors": [
+    {
+      "id": "B1",
+      "severity": "blocking",
+      "location": "benchmarks/numerical/_volterra_defect.py:102-104; point call at 176; cell call at 255",
+      "summary": "The new np.interp reconstruction still cancels a normal, representable PL tail to zero in both APIs.",
+      "reproduction": {
+        "ts": [
+          -2.0,
+          -1.0,
+          1e-17
+        ],
+        "states": [
+          [
+            0.0
+          ],
+          [
+            1e+20
+          ],
+          [
+            0.0
+          ]
+        ],
+        "target": 0.0,
+        "order": 0.5,
+        "matrix": [
+          [
+            0.0
+          ]
+        ],
+        "initial_state": [
+          0.0
+        ],
+        "verification_mesh": [
+          -2.0,
+          -1.0,
+          0.0,
+          1e-17
+        ]
+      },
+      "actual": "Point reconstruction and defect are 0; last cell model range is [0,0]. No exception.",
+      "expected": "Exact represented-input PL reconstruction and defect at t=0 are 1000.000000000000061542424054621923...; the last positive-width cell must not lose this entire contribution.",
+      "root_cause": "np.interp uses slope/intercept-style arithmetic on these represented inputs; its local evaluation cancels the endpoint tail. Finiteness and false certification flags do not detect or justify a 100% point-value error.",
+      "evidence": "blocking.xml: test_local_reconstruction_must_not_erase_normal_tail[point/cells]; independent-probes.json; supplemental-probes.json"
+    },
+    {
+      "id": "B2",
+      "severity": "blocking",
+      "location": "benchmarks/numerical/_volterra_defect.py:102-104,175-176,254-255",
+      "summary": "np.errstate(under=\"raise\") does not trap intermediate underflow inside np.interp, so the advertised explicit-underflow rejection fails in both APIs.",
+      "reproduction": {
+        "ts": [
+          0.0,
+          1e+300
+        ],
+        "states": [
+          [
+            0.0
+          ],
+          [
+            1e-100
+          ]
+        ],
+        "target": 5e+299,
+        "order": 0.5,
+        "matrix": [
+          [
+            0.0
+          ]
+        ],
+        "initial_state": [
+          0.0
+        ],
+        "verification_mesh": [
+          0.0,
+          5e+299,
+          1e+300
+        ]
+      },
+      "actual": "Point reconstruction and defect are 0; the first cell model range is [0,0]. No FloatingPointError is raised.",
+      "expected": "The exact represented-input midpoint value/defect is 5.000000000000000099959499013...e-101, a normal float64 result. Explicitly reject the unsafe intermediate arithmetic or preserve that result; silent zero is not permitted.",
+      "root_cause": "The interpolation slope is about 1e-400. The same NumPy scalar division raises underflow inside errstate, but np.interp returns zero silently. The outer errstate and final finiteness checks are therefore not a complete failure guard.",
+      "evidence": "blocking.xml: test_interpolation_underflow_must_raise_or_preserve_normal_result[point/cells]; supplemental-probes.json: root_cause_checks"
+    },
+    {
+      "id": "B3",
+      "severity": "blocking",
+      "location": "benchmarks/numerical/_volterra_defect.py:119-127,139-140; cell reuse at 147-148,262",
+      "summary": "The clipped active-panel left-basis conversion subtracts a rounded fraction from one and loses an independently resolvable terminal gap.",
+      "reproduction": {
+        "ts": [
+          -2.0,
+          -1.0,
+          1e-17
+        ],
+        "states": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1e+20
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "target": 0.0,
+        "order": 1e-20,
+        "matrix": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "initial_state": [
+          0.0,
+          0.0
+        ],
+        "verification_mesh": [
+          -2.0,
+          -1.0,
+          0.0,
+          1e-17
+        ]
+      },
+      "actual": "Component-0 point defect and last-cell lower endpoint are -1.3862943611198906.",
+      "expected": "The exact represented-input component-0 defect at t=0 is approximately -1001.38629436112; the last cell excludes it by about 1000.",
+      "root_cause": "For the active panel left=-1, right=1e-17, t=0, rounded width=tau=cut=1 gives fraction=1 and 1-fraction=0, despite right-t=1e-17. The computed left weight is 1e-20 instead of approximately 1.001e-17. The protected old-panel z calculation does not protect this sibling active-panel complement. The accepted order 1e-20 satisfies 0<alpha<1; no documented arithmetic rejection occurs.",
+      "evidence": "blocking.xml: test_active_basis_must_retain_independently_resolved_right_gap[point/cells]; independent-probes.json; supplemental-probes.json"
+    }
+  ],
+  "suggestions": [
+    "Escalate this rejection to the parent/user: this is the second and final repair cycle. Do not start another repair loop or commit/push these bytes as approved.",
+    "Retain all six independent RED assertions and exact binary input handles. A future explicitly authorized change must either preserve these representable values or reject the unsafe configurations explicitly, without changing the accepted mathematical order/input scope silently.",
+    "Keep A1 acceptance, arithmetic verification and total numerical certification false. Passing selected tests/probes does not close propagated error budgets, verified arithmetic/evaluation/input/output, nonlinear domains, science calibration or controller integration."
+  ],
+  "summary": "Rejected final repair tree: 81/81 focused CPU tests pass and selected positive-basis/near-limit/extrema/history checks agree, but three distinct blocking numerical defects reproduce as six independent RED cases across both APIs. 90 selected panel-weight comparisons pass (maximum measured relative error 8.7e-16); this is not a general accuracy or enclosure guarantee. Current archive has 125 matching immutable inputs, the original frozen fixture is unchanged, and no security findings were detected.",
+  "reviewed_tree": "92ff3dceb217f6097bae8ccde6cf159d8daa8d14",
+  "evidence_paths": [
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/identity-checks.json",
+      "sha256": "c029ecd0c70d20a09a94883a30ab0c9b8411368fc6b7e0eeaa82607c0b6570b4"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/post-execution-identities.json",
+      "sha256": "27954ab431a39c30830c0a8023607ea92d3dec1331cf02b6ad19d6dc7cfea11e"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/execution-record.json",
+      "sha256": "df5b459263cff08e53cb9ed762fb4d3ded8aa7929749899b0e5bfe3a8267f70f"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/aggregate-checks.json",
+      "sha256": "8419fedcfa134a5ee834c54ad4a0bc587875b886dcb2d8428a5fa913bac718b6"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/focused-result.json",
+      "sha256": "011f275e107a622a2a1b51cac4e1c82b917a6e85fb95942ccd087caeda3b959e"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/focused.stdout",
+      "sha256": "c06cc4b8910f50f050c26a32566534859ebcf372cef5b943c644ed1ca0fd727b"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/focused.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/focused.xml",
+      "sha256": "dfc87b635478641bda9bbfd1b2e9357dfc717d571e49e31ac132df06b334ec8f"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/blocking-result.json",
+      "sha256": "70229609ed78d14c5a068e47e6cbb66b89f1052725d9ec4c54ad25f9158b60dd"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/blocking.stdout",
+      "sha256": "6aca04caab97113e7d1250c663fa42abadc4984ee9a70030ace2befe088f2487"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/blocking.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/blocking.xml",
+      "sha256": "e6f1f0348282982d850faeb34e1a30372362733f3fdad58ae63984ef04e0b93d"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/test_independent_blockers.py",
+      "sha256": "c07d45f10b14f0854878fd47d7a7678edaa7015dac78ae07371181bd7fa8f699"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/independent-probes.json",
+      "sha256": "53b3d88cf2c3c59f1cd79a08c5bfcfc4c776999dc4f2e3b3674ebfb893309148"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/independent.stdout",
+      "sha256": "6249f78f419c695eb9d59b8ad4af7f18c977485b97d5101d2ba1f46282d73faf"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/independent.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/independent_probes.py",
+      "sha256": "76b2bb1d010e8c3b92f12f417d50801d84967476df37c8da025141b3ecf30e6b"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/supplemental-probes.json",
+      "sha256": "f3ba761ac3d908fa08777cccfeab4f0ee80f9df9ff0e4a339ce91b362e58298f"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/supplemental.stdout",
+      "sha256": "569c995ccf33548e6268017a546036dbbf8f88e843772d50b8b01fd3d6c12701"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/supplemental.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/supplemental-first.stderr",
+      "sha256": "609f92c315bd75f7b40175b3f9b40da8e58a8926ba9d5cc1b23eee713e9bc60f"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-review-3p6sl2bk/supplemental_probes.py",
+      "sha256": "e673b53ef19ba58d628fc19007625cec84f984ae2b1251469e0ae4aa2a1f1469"
+    }
+  ],
+  "a1_acceptance_passed": false
+}

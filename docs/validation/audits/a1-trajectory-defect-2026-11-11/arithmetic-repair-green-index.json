@@ -1,0 +1,62 @@
+{
+  "green-before.json": {
+    "sha256": "7ef9bf7a7c98f64c19ccdad99f6889133df82ba29e68fc16a7b6396334ffcc35",
+    "bytes": 14843
+  },
+  "green-result.json": {
+    "sha256": "d9fa71445884867a31c38e82c7217e938e6728a442e86d55e58defe9eb054d15",
+    "bytes": 15079
+  },
+  "green.xml": {
+    "sha256": "1dd438e79e495f4ca7b82d2413fcbb16299e8b7dd47be4efeaf0ed5dea4ba507",
+    "bytes": 18123
+  },
+  "green.stdout": {
+    "sha256": "84b97d03a2063aed5b3012cc802140860090e3a8abb076b31329d72572410d6b",
+    "bytes": 180
+  },
+  "green.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "green-observations.jsonl": {
+    "sha256": "938c9808cfb5dc1616be0fd1ba774e4c07eed5ab4fedebd040d01af994825987",
+    "bytes": 129368
+  },
+  "green-implementation.py.txt": {
+    "sha256": "08d7f7fb8b9e6563d8a2d13c1567c0f90049a021f1a94e94c5cfd61f04d87eba",
+    "bytes": 21038
+  },
+  "green-test-source.py.txt": {
+    "sha256": "6789c254fa0e4eab5152e926212f44b96c2d23726689123fb07fb379e098155b",
+    "bytes": 18146
+  },
+  "implementation-exact.diff": {
+    "sha256": "f3b8d1d6c31440dd1dd737cab403039e9a77ed590a4721b2800ee959f055b198",
+    "bytes": 15405
+  },
+  "implementation-readback.json": {
+    "sha256": "a78a8bdfe3539d4ab13a8a3c0c16bc74bab2cb2f47a64927bbfdcc6577e45ef4",
+    "bytes": 1409
+  },
+  "focused-ruff.stdout": {
+    "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "bytes": 19
+  },
+  "focused-ruff.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "source-diff-check.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "source-diff-check.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "parent-conditioning-probe.json": {
+    "sha256": "cf6bb47709b378096ea05526ac42ec5976cd97b6dc4d8a8148e52142b650ff4b",
+    "bytes": 880
+  }
+}

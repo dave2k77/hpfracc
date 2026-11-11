@@ -122,6 +122,83 @@ acceptance: the latter remains false. No solver/controller, verified working-
 precision certificate, narrower completion scope or per-state decision is
 introduced by this investigation.
 
+The next [supplied-trajectory increment](../validation/audits/a1-trajectory-defect-2026-11-11/README.md)
+implements full-history PL/affine-power defect evaluation and signed continuum-
+cell model ranges in a private host-only benchmark module. It preserves the
+PECE nodal mismatch, weak-power and coupled/mixed-scale inputs, old-history
+negative controls and explicit cell-work exhaustion. After the separate Gamma,
+positive-panel and underflow repairs (VAL-008/009/010), 81 focused cases pass in
+each CPU/CUDA process; the diagnostics themselves run on the host in float64.
+The Gamma-only checkpoint's two 964-test full-suite passes did not clear its
+failed independent review; that source and both failures remain preserved.
+An independent fixed cell actually under-encloses in ordinary floating arithmetic,
+so all verification/certification flags stay false. Source snapshots, RED/GREEN
+failures, independent mathematical audit and parent replay are retained. Full
+suites and code review are separate records, not implied by these focused passes.
+No controller/default/public API, per-state scope or phase boundary changes.
+
+The final repair-cycle review of source
+`92ff3dceb217f6097bae8ccde6cf159d8daa8d14` is **rejected** (VAL-011): local
+interpolation still cancels a representable tail, internal interpolation
+underflow bypasses the outer trap, and the active basis conversion loses an
+independently resolvable terminal gap. Parent replay reproduces all six additional
+independent RED cases across both APIs. The 981-case CPU default suite passes
+with actual exit zero and matching source/identities, but does not contain those
+six assertions and cannot clear the review. At this rejection checkpoint the
+current CUDA full-suite completion was not yet verified. Verdict, exact inputs,
+pinned code and raw failures are archived; numerical implementation is paused
+for an owner decision after the bounded repair loop. No artifact approval,
+commit/push, acceptance-threshold relaxation, narrower scope or Phase A closure
+is inferred. A1 remains open, and the current helper must not be used as an
+approved validation oracle.
+
+Subsequent full-suite completion readback confirms 981 passes and one performance
+deselection in each CPU/CUDA process, with actual exit zero, exact frozen test
+identities and 125 unchanged source inputs. These completed measurements remain
+rejected-checkpoint evidence alongside the three blockers and six independent
+RED failures. They do not reopen the paused repair loop or imply source approval,
+numerical certification, a scope decision or A1 completion.
+
+The owner subsequently authorized the
+[arithmetic-contract-first repair plan](../validation/audits/a1-trajectory-defect-2026-11-11/arithmetic-contract.md)
+and one new bounded implementation/review cycle. Independent technical review of
+the contract passed before numerical changes. A new default regression file
+preserves the independently designed 36-case matrix; parent RED reproduces
+13 failures and 23 passes with unchanged comparisons. Ten are inaccurate-return
+cases, three are masked intermediate-underflow policy failures, not gross final
+accuracy failures. The shared repair and scoped source review pass; whole-project
+CPU/CUDA suites each complete with 1,017 passes, one deselection and actual exit
+zero. Completion-linkage correction and separate independent artifact re-review
+pass. Prior
+rejected source, full-suite successes and all RED evidence remain historical
+records, not retroactive
+approval. This authorization does not alter the per-state solver-order question,
+the accepted mathematical scope or any A1/A2/A3/A4 completion gate.
+
+The bounded implementation now passes 117 focused checks per CPU/CUDA-configured
+process on frozen reference `bf3d4fa06026f4f2efedcf9d899c75ebca53cdbd`; its
+126-input snapshot and 1,017 selected default identities are recorded. The final
+independent review passed the approved range-checking contract and explicitly
+classified the extra exact-input cancellation probe as SCI-003: a substantive
+false-zero limitation, not underflow. Its condition number is about `2e20`;
+checked fixed-order arithmetic does not control that cancellation. Computed zero
+feedback/defect/cell widths are not proof of exact zeros or small exact residuals.
+Independent conditioning/evaluation-error control remains required for scientific
+acceptance. Both full CPU/CUDA process exits are confirmed, with all 126 inputs
+unchanged and exact selected XML identities matched. Neither those outcomes nor
+scoped code approval supply numerical certification, an arbitrary-input validation
+oracle, a scope deferral or A1 completion. The initial artifact audit failed on a
+stale historical-source label and missing completion-readback cross-links
+(VAL-012); its original evidence is preserved separately. Documentation correction
+and metadata-only linkage repair do not change the reviewed numerical source.
+The shared evidence validator and repository-relative capture CLI pass 125
+controlled integrity/portability tests, separately from the 1,017 default cases;
+the failed original audit and RED/mutation evidence remain preserved. Corrected
+artifact review passes with 313 indexed raw proof files and 43 independent
+copied-record CLI controls. This closes only this increment's artifact-integrity
+gate, not A1 or a broader Phase A boundary. Git delivery and remote CI remain
+separate commit-bound observations.
+
 ## A2: History approximation and memory — open
 
 Required work:

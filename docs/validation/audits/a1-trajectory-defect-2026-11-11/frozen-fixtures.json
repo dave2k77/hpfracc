@@ -1,0 +1,650 @@
+{
+  "input_semantics": "Each float is the exact binary64 value in hex; all oracle conversions use as_integer_ratio.",
+  "cases": [
+    {
+      "id": "manifest_v2_quadratic_pl_exact_nodes",
+      "source": "protocol/manifest-v2.json old_panel_mesh and manifest.json old_panel equation",
+      "alpha": {
+        "hex": "0x1.0000000000000p-1",
+        "decimal_display": "0.5"
+      },
+      "ts": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        },
+        {
+          "hex": "0x1.8000000000000p-1",
+          "decimal_display": "0.75"
+        },
+        {
+          "hex": "0x1.0000000000000p+0",
+          "decimal_display": "1.0"
+        }
+      ],
+      "states": [
+        [
+          {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.2c3287b67ac5cp-2",
+            "decimal_display": "0.29316150714175193"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.341f6bc02c7ecp-1",
+            "decimal_display": "0.6018022224509401"
+          }
+        ]
+      ],
+      "initial_state": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        }
+      ],
+      "A": [
+        [
+          {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          }
+        ]
+      ],
+      "forcing": [
+        {
+          "beta": {
+            "hex": "0x1.0000000000000p+1",
+            "decimal_display": "2.0"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.0000000000000p+0",
+              "decimal_display": "1.0"
+            }
+          ]
+        }
+      ],
+      "probe_t": {
+        "hex": "0x1.8000000000000p-2",
+        "decimal_display": "0.375"
+      },
+      "frozen_requirements": {
+        "max_nodal_abs_defect_lt": {
+          "hex": "0x1.203af9ee75616p-50",
+          "decimal_display": "1e-15"
+        },
+        "abs_interior_defect_gt": {
+          "hex": "0x1.47ae147ae147bp-7",
+          "decimal_display": "0.01"
+        },
+        "full_vs_newest_only_endpoint_difference_gt": {
+          "hex": "0x1.999999999999ap-5",
+          "decimal_display": "0.05"
+        },
+        "full_vs_reset_endpoint_difference_gt": {
+          "hex": "0x1.47ae147ae147bp-7",
+          "decimal_display": "0.01"
+        }
+      }
+    },
+    {
+      "id": "translated_full_history",
+      "alpha": {
+        "hex": "0x1.0000000000000p-1",
+        "decimal_display": "0.5"
+      },
+      "ts": [
+        {
+          "hex": "0x1.0000000000000p+1",
+          "decimal_display": "2.0"
+        },
+        {
+          "hex": "0x1.2000000000000p+1",
+          "decimal_display": "2.25"
+        },
+        {
+          "hex": "0x1.6000000000000p+1",
+          "decimal_display": "2.75"
+        },
+        {
+          "hex": "0x1.8000000000000p+1",
+          "decimal_display": "3.0"
+        }
+      ],
+      "states": [
+        [
+          {
+            "hex": "0x1.0000000000000p+0",
+            "decimal_display": "1.0"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.4000000000000p+0",
+            "decimal_display": "1.25"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.c000000000000p-1",
+            "decimal_display": "0.875"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.8000000000000p+0",
+            "decimal_display": "1.5"
+          }
+        ]
+      ],
+      "initial_state": [
+        {
+          "hex": "0x1.0000000000000p+0",
+          "decimal_display": "1.0"
+        }
+      ],
+      "A": [
+        [
+          {
+            "hex": "0x1.0000000000000p-2",
+            "decimal_display": "0.25"
+          }
+        ]
+      ],
+      "forcing": [
+        {
+          "beta": {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.0000000000000p-3",
+              "decimal_display": "0.125"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.0000000000000p+0",
+            "decimal_display": "1.0"
+          },
+          "coefficient": [
+            {
+              "hex": "-0x1.0000000000000p-1",
+              "decimal_display": "-0.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "represented_nondyadic_origin_and_alpha",
+      "alpha": {
+        "hex": "0x1.3333333333333p-2",
+        "decimal_display": "0.3"
+      },
+      "ts": [
+        {
+          "hex": "0x1.3333333333333p-2",
+          "decimal_display": "0.3"
+        },
+        {
+          "hex": "0x1.999999999999ap-2",
+          "decimal_display": "0.4"
+        },
+        {
+          "hex": "0x1.4cccccccccccdp-1",
+          "decimal_display": "0.65"
+        },
+        {
+          "hex": "0x1.199999999999ap+0",
+          "decimal_display": "1.1"
+        }
+      ],
+      "states": [
+        [
+          {
+            "hex": "0x1.999999999999ap-3",
+            "decimal_display": "0.2"
+          }
+        ],
+        [
+          {
+            "hex": "-0x1.3333333333333p-3",
+            "decimal_display": "-0.15"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.6666666666666p-1",
+            "decimal_display": "0.7"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.999999999999ap-4",
+            "decimal_display": "0.1"
+          }
+        ]
+      ],
+      "initial_state": [
+        {
+          "hex": "0x1.999999999999ap-3",
+          "decimal_display": "0.2"
+        }
+      ],
+      "A": [
+        [
+          {
+            "hex": "-0x1.999999999999ap-3",
+            "decimal_display": "-0.2"
+          }
+        ]
+      ],
+      "forcing": [
+        {
+          "beta": {
+            "hex": "0x1.0000000000000p-2",
+            "decimal_display": "0.25"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.6666666666666p-1",
+              "decimal_display": "0.7"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.8000000000000p+1",
+            "decimal_display": "3.0"
+          },
+          "coefficient": [
+            {
+              "hex": "-0x1.3333333333333p-3",
+              "decimal_display": "-0.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "weak_beta_quarter",
+      "alpha": {
+        "hex": "0x1.8000000000000p-1",
+        "decimal_display": "0.75"
+      },
+      "ts": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        },
+        {
+          "hex": "0x1.0000000000000p-3",
+          "decimal_display": "0.125"
+        },
+        {
+          "hex": "0x1.8000000000000p-1",
+          "decimal_display": "0.75"
+        },
+        {
+          "hex": "0x1.0000000000000p+0",
+          "decimal_display": "1.0"
+        }
+      ],
+      "states": [
+        [
+          {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.999999999999ap-3",
+            "decimal_display": "0.2"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.6666666666666p-2",
+            "decimal_display": "0.35"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.3333333333333p-1",
+            "decimal_display": "0.6"
+          }
+        ]
+      ],
+      "initial_state": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        }
+      ],
+      "A": [
+        [
+          {
+            "hex": "-0x1.0000000000000p-3",
+            "decimal_display": "-0.125"
+          }
+        ]
+      ],
+      "forcing": [
+        {
+          "beta": {
+            "hex": "0x1.0000000000000p-2",
+            "decimal_display": "0.25"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.0000000000000p+0",
+              "decimal_display": "1.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "archived_cubic_represented_coefficients",
+      "alpha": {
+        "hex": "0x1.0000000000000p-1",
+        "decimal_display": "0.5"
+      },
+      "ts": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        },
+        {
+          "hex": "0x1.0000000000000p-1",
+          "decimal_display": "0.5"
+        },
+        {
+          "hex": "0x1.0000000000000p+0",
+          "decimal_display": "1.0"
+        }
+      ],
+      "states": [
+        [
+          {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.999999999999ap-4",
+            "decimal_display": "0.1"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.00c4d9cacfbefp-2",
+            "decimal_display": "0.250750926021225"
+          }
+        ]
+      ],
+      "initial_state": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        }
+      ],
+      "A": [
+        [
+          {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          }
+        ]
+      ],
+      "forcing": [
+        {
+          "beta": {
+            "hex": "0x1.0000000000000p+1",
+            "decimal_display": "2.0"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.0000000000000p+0",
+              "decimal_display": "1.0"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.8000000000000p+1",
+            "decimal_display": "3.0"
+          },
+          "coefficient": [
+            {
+              "hex": "-0x1.5555555555555p-1",
+              "decimal_display": "-0.6666666666666666"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manifest_mixed_scale_coupled",
+      "alpha": {
+        "hex": "0x1.0000000000000p-1",
+        "decimal_display": "0.5"
+      },
+      "ts": [
+        {
+          "hex": "0x0.0p+0",
+          "decimal_display": "0.0"
+        },
+        {
+          "hex": "0x1.0000000000000p-3",
+          "decimal_display": "0.125"
+        },
+        {
+          "hex": "0x1.0000000000000p-1",
+          "decimal_display": "0.5"
+        },
+        {
+          "hex": "0x1.0000000000000p+0",
+          "decimal_display": "1.0"
+        }
+      ],
+      "states": [
+        [
+          {
+            "hex": "0x1.0000000000000p-10",
+            "decimal_display": "0.0009765625"
+          },
+          {
+            "hex": "0x1.0000000000000p+9",
+            "decimal_display": "512.0"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.35d13f32b5a76p-10",
+            "decimal_display": "0.0011818594763803015"
+          },
+          {
+            "hex": "0x1.0d744fccad69dp+9",
+            "decimal_display": "538.9086852881188"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.9837f0518db8bp-10",
+            "decimal_display": "0.0015572300366224225"
+          },
+          {
+            "hex": "0x1.9837f0518db8bp+9",
+            "decimal_display": "816.4370214406966"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.0000000000000p-9",
+            "decimal_display": "0.001953125"
+          },
+          {
+            "hex": "0x1.8000000000000p+10",
+            "decimal_display": "1536.0"
+          }
+        ]
+      ],
+      "initial_state": [
+        {
+          "hex": "0x1.0000000000000p-10",
+          "decimal_display": "0.0009765625"
+        },
+        {
+          "hex": "0x1.0000000000000p+9",
+          "decimal_display": "512.0"
+        }
+      ],
+      "A": [
+        [
+          {
+            "hex": "-0x1.0000000000000p-3",
+            "decimal_display": "-0.125"
+          },
+          {
+            "hex": "0x1.0000000000000p-23",
+            "decimal_display": "1.1920928955078125e-07"
+          }
+        ],
+        [
+          {
+            "hex": "0x1.0000000000000p+16",
+            "decimal_display": "65536.0"
+          },
+          {
+            "hex": "-0x1.0000000000000p-3",
+            "decimal_display": "-0.125"
+          }
+        ]
+      ],
+      "scales": [
+        {
+          "hex": "0x1.0000000000000p-10",
+          "decimal_display": "0.0009765625"
+        },
+        {
+          "hex": "0x1.0000000000000p+10",
+          "decimal_display": "1024.0"
+        }
+      ],
+      "forcing": [
+        {
+          "beta": {
+            "hex": "0x0.0p+0",
+            "decimal_display": "0.0"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.0000000000000p-14",
+              "decimal_display": "6.103515625e-05"
+            },
+            {
+              "hex": "0x0.0p+0",
+              "decimal_display": "0.0"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.0000000000000p-2",
+            "decimal_display": "0.25"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.03935d6ad84ddp-10",
+              "decimal_display": "0.0009902025000985617"
+            },
+            {
+              "hex": "0x0.0p+0",
+              "decimal_display": "0.0"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.8000000000000p-1",
+            "decimal_display": "0.75"
+          },
+          "coefficient": [
+            {
+              "hex": "0x1.0000000000000p-13",
+              "decimal_display": "0.0001220703125"
+            },
+            {
+              "hex": "-0x1.0000000000000p+6",
+              "decimal_display": "-64.0"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.4000000000000p+0",
+            "decimal_display": "1.25"
+          },
+          "coefficient": [
+            {
+              "hex": "0x0.0p+0",
+              "decimal_display": "0.0"
+            },
+            {
+              "hex": "0x1.6b67e92f2ed35p+10",
+              "decimal_display": "1453.623607440689"
+            }
+          ]
+        },
+        {
+          "beta": {
+            "hex": "0x1.c000000000000p+0",
+            "decimal_display": "1.75"
+          },
+          "coefficient": [
+            {
+              "hex": "-0x1.0000000000000p-13",
+              "decimal_display": "-0.0001220703125"
+            },
+            {
+              "hex": "0x1.0000000000000p+7",
+              "decimal_display": "128.0"
+            }
+          ]
+        }
+      ],
+      "note": "Manufactured coefficients and states rounded to f64 before freeze; interpreted at these represented values, not as exact gamma coefficients."
+    }
+  ],
+  "preserved_bad_old_panel_fixture": {
+    "mesh": [
+      {
+        "hex": "0x0.0p+0",
+        "decimal_display": "0.0"
+      },
+      {
+        "hex": "0x1.0000000000000p-1",
+        "decimal_display": "0.5"
+      },
+      {
+        "hex": "0x1.0000000000000p+0",
+        "decimal_display": "1.0"
+      }
+    ],
+    "claim": "total quadratic interpolation error exceeds newest curvature bound",
+    "expected_claim_valid": false
+  },
+  "source_archive_sha256": "55c13478f42ef199e2a41fd0c37c097a1349498d8ed62e4d620a923219a721e6"
+}

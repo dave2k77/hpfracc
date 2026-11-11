@@ -1,0 +1,17 @@
+{
+  "scope": "record/source replay, not A1 acceptance or certification",
+  "source_count": 125,
+  "current_source_verified": true,
+  "full_suites": {
+    "cpu": {
+      "tests": 964,
+      "sha256": "fb27b4015c9cb608656bbf01e5dcf11f47761bbcb223ad36e23f302dbe0fcd9b"
+    },
+    "cuda": {
+      "tests": 964,
+      "sha256": "4bd0eb172b00a99ce3637833143c4b1b1ca7d0ac0f5128bb5a63c548952b832f"
+    }
+  },
+  "preserved_arithmetic_under_enclosure": true,
+  "a1_acceptance_passed": false
+}

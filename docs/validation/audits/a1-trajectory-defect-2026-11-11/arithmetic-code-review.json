@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    "Retain the conditioning counterexample and explicitly distinguish rounded zero coefficients from exact algebraic zero feedback. Any cancellation-robust redesign needs separate authorization; this review made no fixes.",
+    "Do not strengthen the guarantee to trapping all C-library internal range events or bounding special-function, summation or cancellation error. Postconditions and local traps are expression-level safeguards, not verified arithmetic.",
+    "Treat remaining authorized whole-project CPU/CUDA verification as separate gates. This scoped source/artifact pass is not A1 acceptance, numerical certification, JAX/AD or GPU diagnostic validation."
+  ],
+  "summary": "Scoped complete source/math review PASSED with no blocking findings: all six canonical recoveries independently succeed, all 117 focused CPU tests pass with actual exit 0, and additional signed/coupled/shifted/extreme-scale, extrema, history and range-guard probes pass or explicitly reject unsafe intermediates as required. All four pinned sources, 126 frozen archive inputs and the fixture are verified unchanged. The parent cancellation probe is a quantified nonblocking conditioning limitation, not evidence of accurate zero residuals.",
+  "reviewed_tree": "bf3d4fa06026f4f2efedcf9d899c75ebca53cdbd",
+  "evidence_paths": [
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/final-identity-verification.json",
+      "sha256": "9f783b00896a27e74676987eefcc002e93e0a0eebb29c8e2e2cfcbcc1dd538c8"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/source-math-review.json",
+      "sha256": "fc1a74d6485c4b43625b57e98005caa8ec39d8213ec8289380841be990c416c7"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/conditioning-probe.json",
+      "sha256": "d2ec5e82cd56cb6b20e2a56f27dc67fc6012acb6f7cfddb5ec725185542d45da"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/focused-result.json",
+      "sha256": "deba3d9a6b5b11a0e65ec3f560cb4931e7478e1eec17e1811645b47c40f278f4"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/execution-record.json",
+      "sha256": "5cb598887995a1bbc12be0f35cbef07996acc3dafef15da22e9df8d4c7738f2a"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/independent-summary.json",
+      "sha256": "10aa23d60837dfdce4b4f5ebd7372f220d2d7c6b942534046bfd2bd177d030db"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/additional-summary.json",
+      "sha256": "9385e87c0f8679503ad980be4f281cc04b7ba696dff13f64c64fc6a9e70ed500"
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-final-arithmetic-review-isc3fve8/hash-index.json",
+      "scope": "All scratch evidence including verdict and four compact pinned sources; excludes index itself"
+    }
+  ],
+  "a1_acceptance_passed": false,
+  "conditioning_probe_classification": {
+    "blocking": false,
+    "category": "Ill-conditioned fixed-order float64 summation; false-zero diagnostic limitation, not underflow",
+    "observed": "Point component-0 defect is 0; cell component-0 range is [0,0]; exact represented-input endpoint defect is -1.12837916709551257389615890312154517...",
+    "quantitative_reason": "Feedback sum is exactly 1, sumabs is 200000000000000000001, kappa is approximately 2e20 and kappa*2^-53 is approximately 22204.46. The lost 1 is approximately 5e-21 of sumabs, consistent with ordinary floating addition and far inside its standard absolute-error bound. Permuting unchanged components restores it.",
+    "contract_reason": "The approved contract explicitly permits fixed-order checked additions and excludes conditioning/summation bounds and global relative accuracy. A 100% relative error in this exceptionally ill-conditioned output alone is not a violation of that scoped promise. Classification does not rely on certificate flags.",
+    "required_limitation": "Preserve and disclose this counterexample. Checked range arithmetic is not cancellation-safe; computed zero feedback, zero defect and zero-width cells do not establish exact zeros or small exact residuals. These outputs must not support scientific acceptance without independent conditioning/error control."
+  }
+}

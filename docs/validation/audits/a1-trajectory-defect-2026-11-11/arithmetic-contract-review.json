@@ -1,0 +1,12 @@
+{
+  "scope": "Parent-recorded structured delegation verdict: technical contract review only",
+  "passed": true,
+  "logic_errors": [],
+  "contract_sha256": "b98f781ae2a64131345640997b2ee563f7e1526cccdbfefdc838fc8d28a293f9",
+  "reviewed_tree": "92ff3dceb217f6097bae8ccde6cf159d8daa8d14",
+  "verified_evidence_files": 6,
+  "source_artifact_approved": false,
+  "a1_acceptance_passed": false,
+  "nonblocking_clarification": "Finite nonnegative forcing exponents; arbitrary finite signed coefficients",
+  "provenance_limit": "Earlier probe-harness mistakes are described in execution.json; no original raw XML is asserted for those non-pytest probes"
+}

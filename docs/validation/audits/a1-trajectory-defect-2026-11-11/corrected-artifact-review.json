@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    "Progress-only clarification: docs/developer/bug-resolution-tracker.md:54 still says 'full verification running'. State that numerical CPU/CUDA suites completed and identify the separate artifact-review gate; the detailed body and raw records already report the correct completed outcomes.",
+    "Historical-tense clarification: qualify the opening status at docs/developer/bug-resolution-tracker.md:834 as the historical 92ff rejection checkpoint. Preserve the rejected verdict and subsequent owner-authorization chronology; do not reinterpret the old pause as the current numerical-source status."
+  ],
+  "summary": "Corrected cycle-1 ARTIFACT/DOC/EVIDENCE integrity review PASSED: DOC-01/EVID-01 are resolved against the preserved failed audit. All 85 pinned files, 126 source inputs, four immutable source-tree files and original fixture match. The 125 explicit metadata controls pass; 43 independently authored copied-record CLI controls behave as expected, and historical v1 replay reproduces four failures/two passes with unchanged assertions. All 87 repair-archive entries, 49 original implementation proofs, 19 raw mutant XML records, failed-doc 54-entry preservation/original 41-file index, three failed numerical-source reviews and separate historical 54-file manifest replay intact. Fresh native process polls corroborate the exact CPU/CUDA session/PID/zero-exit records; each XML has the exact 1,017 selected identities. Both verifier modes, Ruff, strict documentation and diff checks pass. No detected secrets or personal Telegram identifiers in the scanned delivery/source/nested-evidence scope. This is not another source/math approval, observation authentication, scientific acceptance, numerical certification or Phase A closure; SCI-003 and all broader gates remain open.",
+  "evidence_paths": [
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/hash-index.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/final-invariants.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/archive-replay.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/historical-preservation.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/metadata-125.xml",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/metadata-cli-raw.json.gz",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/independent-controls.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/portable-test-lineage.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/source-and-completion-binding.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/native-poll-readback.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/scope-privacy-static.json",
+    "/home/davianc/.hermes/cache/scratch/a1-corrected-artifact-review-cycle1/quality-executions.json"
+  ],
+  "reviewed_manifest_sha256": "1267f6dc7b2fcb464a14d85c5dd1dd74122c4c481af825531c364d4d75ff6396",
+  "bounded_post_review_updates_allowed": [
+    "Add this verdict and its raw-proof archive/hash index as new, separately identified artifacts. Preserve this reviewed manifest and every prior failed verdict, original index, source snapshot, numerical XML and 54-/87-entry historical archive byte-for-byte.",
+    "Update only current approval/progress documentation or status fields in README, tracker, Phase A ledger, candidate-status and verification records, including the two wording suggestions. Keep historical started-plan fields and historical source-review suggestions as historical records, not mutable completion targets.",
+    "After those bounded additions/progress edits, perform a fresh privacy/static scan, current delivery-checksum generation and actual read-only verification in both appropriate modes. Bind any new manifest to this frozen review rather than claiming modified files were reviewed under the original digest.",
+    "Leave all numerical/helpers/tests, 126 source inputs, fixtures, arithmetic contract, acceptance criteria, tolerances, precision, public API, dependencies and scope unchanged. Keep arithmetic_verified, total_numerical_certified and a1_acceptance_passed false; SCI-003, A1/A2/A3/A4 and the per-state solver-order owner decision remain open. No new numerical repair, cancellation redesign, full/GPU job, commit, push or release is authorized by this verdict."
+  ],
+  "a1_acceptance_passed": false
+}

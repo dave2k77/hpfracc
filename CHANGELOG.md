@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add private host-only supplied-trajectory Volterra-defect diagnostics and
+  independent exact-input regressions. Checked endpoint-distance interpolation,
+  active-panel gaps and per-product range guards repair selected cancellation
+  and silent-underflow failures without changing the public solver/runtime,
+  dependencies, tolerances or working precision. Fixed-order signed reductions
+  can still return false zero under severe cancellation; conditioning/error
+  control, numerical enclosures and A1/controller acceptance remain open.
+
 - Normalize supported concrete scalar-array orders to Python floats only in
   host-side `SolverInfo.to_dict()` export. Stored metadata and numerical
   JIT/gradient paths are unchanged; Python-float and missing-order exports retain

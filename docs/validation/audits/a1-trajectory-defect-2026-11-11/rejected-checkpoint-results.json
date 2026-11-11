@@ -1,0 +1,39 @@
+{
+  "source_tree": "92ff3dceb217f6097bae8ccde6cf159d8daa8d14",
+  "scope": "Completed default-suite evidence for a code-review-rejected private host diagnostic; not artifact approval or scientific acceptance",
+  "declared_source_inputs_verified": 125,
+  "full_runs": [
+    {
+      "backend": "cpu",
+      "session_id": "proc_743901085093",
+      "tests_passed": 981,
+      "performance_deselected": 1,
+      "actual_process_exit_code": 0,
+      "xml_exact_identities_verified": true,
+      "xml_sha256": "67080539f707d528e25e2c1d1633aac5eac769861d39a6ed291494933150d57b"
+    },
+    {
+      "backend": "cuda",
+      "session_id": "proc_cd9f4e47ba43",
+      "tests_passed": 981,
+      "performance_deselected": 1,
+      "actual_process_exit_code": 0,
+      "xml_exact_identities_verified": true,
+      "xml_sha256": "ba9cfd1b5dbff80b566b45e456ac402e3c55ce885f0973cadb195581ac01bdca"
+    }
+  ],
+  "independent_code_review": "final-code-review-rejected.json",
+  "code_review_passed": false,
+  "remaining_blocking_defects": 3,
+  "additional_independent_RED_failures": 6,
+  "parent_RED_pytest_exit_code": 1,
+  "independent_RED_cases_in_default_full_selection": false,
+  "arithmetic_verified": false,
+  "total_numerical_certified": false,
+  "a1_acceptance_passed": false,
+  "implementation_paused": true,
+  "owner_decision": "unanswered; clarification timed out",
+  "scope_deferral_approved": false,
+  "phase_a_closed": false,
+  "commit_or_push_performed": false
+}

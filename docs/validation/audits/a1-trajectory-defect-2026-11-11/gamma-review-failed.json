@@ -1,0 +1,133 @@
+{
+  "passed": false,
+  "security_concerns": [],
+  "logic_errors": [
+    {
+      "severity": "blocking",
+      "introduced_by_repair_delta": false,
+      "locations": [
+        "benchmarks/numerical/_volterra_defect.py:116-127"
+      ],
+      "issue": "Catastrophic cancellation in global slope-jump reconstruction/integration returns a zero defect for a nonzero full-history residual.",
+      "reproducer": "ts=[0,1e-17,1], states=[[0],[1],[1]], alpha=.5, A=[[1]], initial=[0], no forcing, target=1. Both immutable old and corrected trees return reconstruction=rhs=defect=0.",
+      "expected": "The represented PL state is 1 at t=1; independent mp130 two-panel quadrature gives rhs=1.12837916709551257107521098538 and defect=-0.12837916709551257107521098538. A=0 also returns reconstruction=0 instead of stored endpoint 1.",
+      "cause": "Huge opposite slope-jump terms cancel after t-epsilon rounds to t. All arrays remain finite; no exception is raised.",
+      "scope": "No code-level history truncation found, but finite arithmetic numerically erases the retained trajectory/history. This is a point-value failure, not the accepted tiny cell-rounding caveat.",
+      "evidence": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/blocking-pl-feedback.json"
+    },
+    {
+      "severity": "blocking",
+      "introduced_by_repair_delta": false,
+      "locations": [
+        "benchmarks/numerical/_volterra_defect.py:124-126",
+        "benchmarks/numerical/_volterra_defect.py:212-215"
+      ],
+      "issue": "Time powers underflow before finite coefficient scaling in point and cell paths.",
+      "reproducer": "ts=[0,1], zero states/A/initial, alpha=.5, beta=1100, forcing coefficient=1e300, target=.5 and mesh=[0,.5,1]. Both immutable old and corrected trees return rhs=0 and first cell range=[0,0].",
+      "expected": "Finite representable rhs=1.5690812007270112e-33 and right-end defect=-1.5690812007270112e-33; mp180 direct Gamma, integer-beta recurrence and independent transformed quadrature agree.",
+      "cause": "Intermediate power rounds to zero before multiplication by a large finite coefficient; isfinite and over/invalid/divide traps miss the loss.",
+      "scope": "100% relative point-value error and zero cell range, separate from ordinary approximately 1.53e-17 endpoint under-enclosure.",
+      "evidence": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/blocking-underflow.json"
+    }
+  ],
+  "suggestions": [
+    "Keep the Gamma-ratio repair: both sibling paths share reciprocal Pochhammer and the nine original cases are independently RED-to-GREEN; 201 represented-input coefficient comparisons pass with zero absolute slack. These observations are not a global accuracy bound.",
+    "Stabilize PL reconstruction and retained-panel integration, or explicitly reject unsafe configurations. Add the nonuniform constant-tail case and premature-underflow point/cell cases as RED regressions before repair; do not hide them using global precision promotion or relaxed tolerances. A conservative underflow failure is preferable to silent zero.",
+    "Retain arithmetic_verified=false, total_numerical_certified=false and the known adjacent-float under-enclosure regression. A1 acceptance remains false; feedback propagation/tails, verified arithmetic/input/output budgets, nonlinear domains and controller/JAX/gradient gates are still unestablished."
+  ],
+  "summary": "FAIL-CLOSED complete three-file private-host review: the scoped Gamma-ratio repair is correct on exercised cases; 64 focused CPU tests, lint and 15 independent-control groups pass, with no tolerance relaxation, precision-policy change or source-level history truncation. Two newly reproduced pre-existing arithmetic failures still return incorrect finite point values, so the corrected complete host diagnostic is not approved. Original failed review preserved separately; no repository/index/docs/fixture writes, full suite, commit or push.",
+  "reviewed_tree": "8dcbfafd1a5373088e75437551692a85fd7f7b77",
+  "evidence_paths": [
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/review-metrics.json",
+      "sha256": "bbb3ea7795de7f8c1fe0bd88b64378edeb85ff40d2b87f8f76955a54ea5a6ed7",
+      "bytes": 1480
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/identity-before.json",
+      "sha256": "cc5a7666778bd2e3eceacfc856b6094a26b3fcc1978e1e1cf67cd1eb913f4a66",
+      "bytes": 39107
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/identity-after.json",
+      "sha256": "56f51f1f41fc08f6bb8e20675feaf1da3c82adc96a932ddd362c400a776bbf9c",
+      "bytes": 862
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/repair-delta.patch",
+      "sha256": "ead97d2fe732fb4580c7a3a85562f1e3a5a1448b37fb440bd6fc92a1771166f4",
+      "bytes": 3649
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/targeted.xml",
+      "sha256": "3b267a3f3c8b9aaa71de08b35ab8c4a191faa9969e0e5b0185e9cdfec0a984fb",
+      "bytes": 9865
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/independent-results.json",
+      "sha256": "39cd8ee2aee10d11a6ebcc85434d876aaf289d4d8c51c3ecd846dcd10a00d2c4",
+      "bytes": 6459
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/coefficient-cases.json",
+      "sha256": "478c70ab0975369dbdd511cd1151586d90a843eb370504c0284fedf24f650073",
+      "bytes": 106121
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/complete-scope-controls.json",
+      "sha256": "addb2f3149e9010d70e2b34a6956f1945db09bcdd049aa0d0867693dd8ff96ab",
+      "bytes": 26976
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/blocking-pl-feedback.json",
+      "sha256": "3992401da7d9082eeab8d7161ba5ac259430fb2d19a843f08c7ad71625c739ac",
+      "bytes": 2035
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/blocking-pl-reconstruction.json",
+      "sha256": "9804c264cbdc729f05d3b3cefa4ec6b066b07ac9d1b0ff269d7d3bcfedfd52c1",
+      "bytes": 7445
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/blocking-underflow.json",
+      "sha256": "7b84b56be6f197b22c373ec42fd1abc854702baefa4a7f9f961112b8ad5f2055",
+      "bytes": 3805
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/old-tree-failure-replay.json",
+      "sha256": "2ab2498f01849251877a228f082e83125d1e3ca38ab035fa9dec6478816b783f",
+      "bytes": 4778
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/harness-adaptation.json",
+      "sha256": "0eaa87f95b98e964956cb10b34412eb4cab85272156c0701a240ef0886247b5b",
+      "bytes": 1682
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/controls-adaptation.json",
+      "sha256": "35576c4b0c9a6a5342b333187d6962b3028c69a420b24615ee0941b299fe0094",
+      "bytes": 792
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/run_checks.py",
+      "sha256": "1bed3e939b3ecb8ba893d9214f59fdd0a1f08dc02a776b8d3363142f7bed6ff5",
+      "bytes": 4310
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/pl_feedback_probe.py",
+      "sha256": "faf781985a1edf118a8da0b6419d734b5aaa54fc52c36bd059b6dfe2c9647587",
+      "bytes": 2691
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/blocking_underflow_reproducer.py",
+      "sha256": "9f89570e1d9a2fdbbf7f018709005138f64f400016275441a54a5aa578a444a6",
+      "bytes": 4734
+    },
+    {
+      "path": "/home/davianc/.hermes/cache/scratch/a1-gamma-corrected-independent-piy8b6xv/preserved-original/initial-review-verdict.json",
+      "sha256": "29d58fdaf8100919b226ce2da9c28c9da257e51ba2e0ab34ef63872fcc3254d4",
+      "bytes": 3147
+    }
+  ],
+  "a1_acceptance_passed": false
+}

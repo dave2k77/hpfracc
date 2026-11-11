@@ -42,11 +42,17 @@ and historical evidence instead of rewriting them after a fix.
 | DOC-001 | Documentation | Nonuniform solver missing from API stability table | Fixed |
 | SCI-001 | Research limitation | General adaptive tolerance indicator is not a calibrated error bound | Open |
 | SCI-002 | Research / validation gap | History selection and measured reverse/peak-memory evidence incomplete | Open |
+| SCI-003 | Research / arithmetic limitation | Cancellation-dominated signed reductions can return false-zero private diagnostics | Open; nonblocking only for the scoped range-checking contract, not scientific residual acceptance |
 | VAL-003 | Validation semantics | Measurement-integrity checks are insufficient scientific acceptance | Implemented for selected implicit cases; broader gates open |
 | VAL-004 | Validation defect | x64-enabled fixture masked nominal float32 FFT execution | Fixed; corrected CPU/CUDA matrices pass |
 | VAL-005 | Validation defect caught before commit | Numeric value equality weakened configuration identity | Fixed; strict canonical types and regressions |
 | VAL-006 | Evidence documentation | Current citations retained superseded CUDA measurements | Corrected; ten report-to-documentation checks |
 | VAL-007 | Evidence bookkeeping / reproducibility scope | Exact isolated/full-suite CUDA residual equality was assumed | Bookkeeping corrected; emitter variation reproduced, selection cause unresolved |
+| VAL-008 | Private validation defect | Large finite forcing powers cancelled the defect oracle's gamma ratio | Shared ratio repair; focused CPU/CUDA checks pass, full verification separate |
+| VAL-009 | Private validation defect | Global slope jumps erased a graded PL trajectory and history | Selected repair reviewed; later arithmetic findings tracked in VAL-011 |
+| VAL-010 | Private validation defect | Intermediate time-power underflow hid a representable scaled contribution | Selected power path rejects; sibling guard repairs reviewed in VAL-011 |
+| VAL-011 | Private validation defect | Local interpolation and active basis arithmetic erase representable contributions | Scoped source review and 1,017-case CPU/CUDA suites pass; separate artifact review passed, SCI-003 remains open |
+| VAL-012 | Delivery evidence integrity | Stale historical source label and incomplete completion-readback binding | Corrected; 125 integrity/portability controls and independent artifact re-review pass |
 | ENV-004 | Environment / delivery | GitHub write authentication was unavailable | Resolved; authenticated push verified |
 
 ## ENV-001 — Local development environment and CI context
@@ -326,6 +332,25 @@ passing sweeps alone are insufficient. See the [Phase A programme](phase-a-compl
   and reviewed controller/JAX integration remain open. Check which trajectory
   an oracle actually encloses; never promote high-precision agreement or a raw
   unpropagated defect into total working-precision certification.
+- Subsequent implementation: the [supplied-trajectory diagnostic](../validation/audits/a1-trajectory-defect-2026-11-11/README.md)
+  evaluates the complete PL/affine-power defect and signed continuum-cell model
+  ranges without changing any library runtime or controller. Five actual feature
+  RED/GREEN cycles are retained. After VAL-008/009/010 hardening, 81 focused cases
+  pass in each CPU/CUDA process. Diagnostic arithmetic is host float64, including when
+  represented float32 solver outputs are supplied; this is not GPU-kernel or
+  float32-diagnostic arithmetic evidence. Full-suite/review records are separate.
+- Arithmetic finding: an independent fixed positive-width cell for `Y=0`,
+  `A=0`, `q=1`, half order misses the true endpoint residual by approximately
+  `1.53e-17` using ordinary float64 natural-extension arithmetic. Root cause:
+  nearest-rounded gamma, powers, coefficients and sums do not meet the exact
+  inclusion theorem's enclosing-arithmetic premises. Impact: even an
+  exact-arithmetic enclosure formula is not a numerical error certificate.
+- Applied guardrail: name the outputs model ranges, keep both verification/
+  certification flags false, fail explicitly on invalid/nonfinite inputs or
+  cell-work exhaustion, and preserve the under-enclosure as a limitation
+  regression. No arbitrary padding, tolerance relaxation or global x64 repair
+  is substituted. Verified arithmetic and feedback propagation remain open;
+  preventing a false claim does not fix the arithmetic limitation itself.
 
 ### SCI-002 — Approximation selection and memory evidence
 
@@ -713,3 +738,325 @@ Discovery: 2026-11-10, additional metadata inspection during precision tests.
   Evidence is in the [API-001 bundle](../validation/audits/api001-metadata-export-2026-11-11/README.md).
 - Prevention: test metadata export using actual supported scalar-array orders,
   not only Python configuration scalars, independently of numerical dtype tests.
+
+## VAL-008 — Private A1 oracle forcing-ratio cancellation
+
+- Discovery and impact: an additional pre-commit edge probe of the new private
+  PL/affine-power diagnostic uses `Y=0`, `A=0`, `q=t**beta`, half order,
+  `beta=1e300`, horizon one. It returns a fractional RHS of 1 instead of about
+  `1e-150`. This is a new validation-helper defect caught before commit, not a
+  production solver regression. Unverified arithmetic flags do not excuse a
+  catastrophically wrong point diagnostic within the declared finite-power scope.
+- Root cause: subtracting `gammaln(beta+1)` and `gammaln(beta+alpha+1)` loses the
+  increment at large beta and produces zero, so exponentiation produces one.
+  The same expression occurs in both pointwise and cell-term evaluation.
+- Fix: both paths use one shared reciprocal-Pochhammer gamma-ratio helper,
+  `1/poch(beta+1,alpha)`, without large log-gamma subtraction. No tolerance,
+  working precision, library runtime, dependency or solver setting changes.
+- Verification: nine represented-input cases (three large finite powers and
+  three orders) fail before the repair. Independent log-gamma references use
+  sufficient mpmath precision for the large arguments; comparisons have zero
+  absolute slack so tiny nonzero coefficients cannot pass as zero. The Gamma-only
+  checkpoint passes 64 focused cases per CPU/CUDA process, including both paths
+  and the distinct float64 under-enclosure limitation regression.
+- Evidence handling: the first two full-suite processes were explicitly killed
+  to replace their numerical/test source snapshot after this discovery. They are
+  cancellations, not passing or failing full suites. Their source, collection,
+  static scan and original focused XML are preserved before the repair. Final
+  full suites and corrected-tree implementation review are separate records in
+  the [A1 trajectory bundle](../validation/audits/a1-trajectory-defect-2026-11-11/README.md).
+- Remaining and prevention: ordinary reciprocal-Pochhammer evaluation is still
+  not outward-rounded proof; both certification flags remain false. Check extreme
+  finite arguments and tiny expected coefficients with relative tests and no
+  permissive absolute floor. Prefer specialized ratios over cancellation-prone
+  differences of large special-function values, and fix all sibling call paths.
+
+## VAL-009 — Global PL hinge cancellation in the private defect diagnostic
+
+- Discovery: the second independent code review rejects the Gamma-only tree
+  `8dcbfafd1a5373088e75437551692a85fd7f7b77`, despite both full 964-test suites
+  passing with zero exits and matching source/identity checks. On times
+  `[0,1e-17,1]`, states `[0,1,1]`, half order and unit feedback, it reports zero
+  reconstructed endpoint, history integral and defect. The endpoint must be one;
+  independent 130-digit panel quadrature gives an integral about 1.128379 and
+  defect about -0.128379. This is a pre-commit private-helper bug, not a solver bug.
+- Root cause: large opposite global slope-jump terms lose the tiny time offset
+  and cancel after rounding. Merely retaining every panel symbolically does not
+  ensure its contribution survives arithmetic; finite-output guards miss this.
+- Applied repair: local interpolation and positive per-panel PL basis integrals
+  replace global hinges in point evaluation. Cell ranges use those same basis
+  weights, retaining the active left weight's interior maximum and old-panel
+  decay. A direct near-one hypergeometric prototype is rejected after a
+  relative error above `2e-5`; equivalent log1p/expm1 expressions handle that
+  regime. The failed design probe is preserved, not a claimed library failure.
+- Verification: three graded-history regressions go RED before repair. The
+  combined five new failure cases then pass within a 69-case selection; twelve
+  compatibility cases bring the focused count to 81 in each CPU/CUDA process.
+  Eighteen separate high-precision design checks corroborate selected basis
+  formulas. Final source, suites and review are separate from the earlier
+  passing-but-rejected checkpoint; all historical failures remain in the
+  [trajectory bundle](../validation/audits/a1-trajectory-defect-2026-11-11/README.md).
+- Limits/prevention: basis formulas and model ranges are not outward-rounded
+  proofs. Check reconstruction at stored states and severe grading, compare
+  independent panel quadrature, and validate special functions at both kernel
+  limits before using a formally exact global expansion as a numerical oracle.
+  The final review also rejects the replacement implementation for the distinct
+  interpolation and active-gap cases in VAL-011; the selected repair is not a
+  general numerical clearance.
+
+## VAL-010 — Premature underflow before finite forcing scaling
+
+- Discovery and impact: the same independent review uses half order,
+  `beta=1100`, forcing coefficient `1e300`, zero candidate/feedback and target
+  one half. Both point RHS and first-cell range silently return zero, although
+  the true integral is representable, about `1.5690812007270112e-33`. Independent
+  high-precision Gamma, integer-beta recurrence and transformed quadrature agree.
+- Root cause: the time power underflows before multiplication by the large
+  coefficient. Overflow/invalid/divide traps and final isfinite checks do not
+  detect a finite zero that has lost the entire contribution.
+- Applied guardrail: both host paths also trap intermediate underflow and raise
+  explicitly. This conservatively rejects the unsafe calculation; it does not
+  compute the rescued value or certify the remaining outputs. No global
+  precision promotion, relaxed tolerance or approved scope deferral is implied.
+- Verification: point/cell failure-path regressions both go RED, then pass with
+  explicit FloatingPointError behavior. The old zero-output evidence and rejected
+  review stay intact. All 81 focused cases pass per CPU/CUDA process; final
+  full-suite and review evidence has its own source identity.
+- Limits/prevention: a future stable scaled evaluation or verified arithmetic
+  budget is still needed to accept this finite case. Test intermediate range,
+  not just final finiteness, and prefer a clear unsupported-arithmetic failure
+  over a plausible-looking zero used as evidence of accuracy.
+  The outer trap does not cover `np.interp` internals: VAL-011 demonstrates a
+  separate silent interpolation underflow in both APIs. Thus this guardrail
+  covers the tested power path, not every operation in the diagnostic.
+
+## VAL-011 — Final-cycle interpolation and active-panel arithmetic rejection
+
+- Historical 92ff rejection checkpoint: implementation was paused after the
+  then-final repair cycle. Independent review rejects immutable source tree
+  `92ff3dceb217f6097bae8ccde6cf159d8daa8d14`. These are three remaining
+  pre-commit private-helper defects, not regressions in the public solver. The
+  helper is not an approved validation oracle; false certification flags do not
+  excuse its incorrect point values or cell ranges.
+- B1, local cancellation: times `[-2,-1,1e-17]`, scalar states `[0,1e20,0]`,
+  zero feedback/forcing and target zero produce reconstruction/defect zero and
+  last-cell range `[0,0]`. The exact represented-input PL value is approximately
+  1000. `np.interp` still uses arithmetic that cancels this resolvable endpoint
+  tail; replacing a global expansion by a local library primitive was insufficient.
+- B2, silent internal underflow: times `[0,1e300]`, states `[0,1e-100]` and
+  midpoint target `5e299` produce zero instead of the normal representable
+  `5e-101` in both APIs. The internal interpolation slope is about `1e-400`.
+  `np.errstate(under='raise')` catches scalar division but does not trap this
+  internal `np.interp` operation; final finiteness checks also miss it.
+- B3, active complement: for active panel `[-1,1e-17]`, target zero and accepted
+  order `1e-20`, the fraction rounds to one. Forming `1-fraction` erases the
+  independently represented gap `right-target`. The left weight is about
+  `1e-20` instead of `1.001e-17`. A coupled-state probe returns component defect
+  `-1.3862943611198906` instead of approximately `-1001.38629436112`, and the
+  cell range excludes the reference. Protecting the old-panel complement did
+  not protect this sibling active-panel conversion.
+- Applied action, not a numerical fix: freeze the rejected bytes, retain all
+  three failed source reviews and preserve all six independent RED cases. Do
+  not initiate another repair loop, commit/push as approved, narrow the accepted
+  mathematical input/order scope or claim A1 completion without an owner decision.
+- Verification: all 33 indexed review files match their hash/size handles; the
+  original fixture and all 125 current source inputs still match the frozen
+  snapshot. Parent execution of the archived `test_independent_blockers.py`
+  independently reproduces six assertion failures, no errors, actual exit one.
+  It uses `PYTHONDONTWRITEBYTECODE=1 JAX_PLATFORMS=cpu uv run --frozen --extra dev
+  python -m pytest`, the scratch review test path, `-c pyproject.toml -q -p
+  no:cacheprovider --tb=short`, and a separate parent JUnit destination. Exact
+  binary-input references and original executable driver are retained in
+  `final-code-review-rejected.tar.gz`; raw parent XML is preserved byte-for-byte
+  in `final-blocking-parent.xml.gz`, with hashes in
+  `final-review-preservation.json` in the
+  [trajectory audit bundle](../validation/audits/a1-trajectory-defect-2026-11-11/README.md).
+- Test boundary: the existing 81 focused CPU tests pass in the reviewer process;
+  selected 90 panel-weight comparisons also pass. The default CPU full suite
+  passes 981 cases with one performance deselection, actual exit zero and exact
+  source/identity checks. These default tests do not contain the six additional
+  independent RED assertions and do not override the rejection. At the rejection
+  checkpoint, completion of the current CUDA full suite was not yet verified.
+- Subsequent historical 92ff completion readback: both CPU/CUDA full processes
+  exit zero
+  with 981 passing cases and one performance deselection each. Both XML identity
+  sets match the frozen collection; all 125 declared source inputs are unchanged.
+  `rejected-checkpoint-results.json` and `pre-arithmetic-checkpoint.tar.gz` members
+  `cpu-readback.json`, `cuda-readback.json` and `executions.json` retain this
+  completed evidence for the rejected source. The mutable root filenames are
+  now current-candidate completion targets, not historical references. This
+  evidence neither supersedes the six independent RED failures nor authorizes
+  another implementation cycle, commit/push, scope deferral or A1 acceptance.
+- Remaining/prevention: review the arithmetic/input-domain contract before more
+  implementation. Audit library primitives as well as explicit scalar formulas,
+  and compute/check sibling gap and scaling paths independently. No tolerances,
+  global precision, core runtime, dependencies or public API were changed. Working
+  arithmetic verification, total numerical certification and A1 acceptance remain
+  false; no scope deferral or phase boundary change is implied by the pause.
+
+- Owner-authorized next step, 2026-11-11: "okay, agreed. proceed with your
+  recommendation." This approves the proposed arithmetic-contract review followed
+  by one new bounded repair/review cycle, not the existing rejected bytes. The
+  [contract](../validation/audits/a1-trajectory-defect-2026-11-11/arithmetic-contract.md)
+  passed independent technical review before numerical implementation. Its exact
+  reviewed draft and six hash-verified evidence files are archived separately;
+  technical clearance is not source approval. Canonical failures must recover
+  their reference values, while
+  genuinely unsafe intermediate arithmetic must fail explicitly. No tolerance
+  relaxation, global precision promotion, mathematical-domain exclusion or
+  history truncation is authorized. `pre-arithmetic-checkpoint.tar.gz` and its
+  layout preserve the previous mutable evidence and original 54-file manifest.
+  A further blocking final-source review must again stop for an owner decision.
+
+- Expanded regression evidence: the independently designed 36-case matrix has
+  13 actual RED failures and 23 passes on the pinned rejected source, exit one.
+  The failures comprise six canonical and four signed-state inaccurate-return
+  cases, plus three masked intermediate-underflow policy failures. The latter
+  do not demonstrate gross final-value error: a dominant retained term can hide
+  a tiny product while leaving the rounded final value unchanged. The compact
+  `arithmetic-test-design.tar.gz` also preserves its earlier scratch test-design
+  run without combining counts or treating an overly strict failure control as
+  a scientific accuracy defect.
+- Default-suite port: `tests/unit/test_volterra_arithmetic.py` preserves all
+  reference/test logic, inputs and tolerances, with only the current-module
+  loader, formatting, a local variable rename and dispatch typing adapted.
+  AST comparison verifies those declared non-numerical adaptations. Parent RED
+  independently reproduces 36 tests / 13 failures / no errors, actual exit one;
+  exact pre/post bytes for 126 inputs match. Raw XML, source, observations and
+  the port record are retained in `arithmetic-regression-red.tar.gz` and its
+  index. At that RED checkpoint, the fresh implementation context was applying
+  the approved shared repair; GREEN, source approval and full suites were still
+  pending. Subsequent results are separate steps below, not changes to the RED.
+
+- Implementation GREEN checkpoint, before source approval: a fresh context
+  changes only the benchmark
+  helper. Shared checked float64 primitive operations replace opaque interpolation
+  and contractions; both endpoint distances and the active-panel right gap are
+  independent, stored-knot identity is exact, and products are checked before
+  fixed-order accumulation. All 117 focused cases pass in parent CPU/CUDA-
+  configured processes, actual exits zero; only the helper differs from RED.
+  All 126 source inputs match the frozen four-file reference
+  `bf3d4fa06026f4f2efedcf9d899c75ebca53cdbd`. This is GREEN evidence, not approval.
+- Pre-review parent probe, classification then pending: constant represented states
+  `[1e20,1,-1e20]` with a feedback row of ones produce zero point defect/cell
+  range versus an exact-input component defect about `-1.1283791670955126` at
+  time one, half order. This is fixed-order cancellation, not underflow, and is
+  outside the 117-case focused selection. The final reviewer has the exact raw
+  probe and must adjudicate the contract's conditioning limits versus a blocking
+  point-diagnostic failure without using false certification flags as an excuse.
+  No further numerical changes occurred during that one final review. At that
+  stage current-source full suites were deliberately deferred until its verdict,
+  to avoid spending resources on another potentially rejected source. Prior 981-case successes
+  remain historical evidence for the rejected 92ff checkpoint only.
+
+- Final scoped source review: `bf3d4fa06026f4f2efedcf9d899c75ebca53cdbd` passes
+  with empty security/logic-error lists. All six canonical recoveries independently
+  succeed; 117 focused CPU cases and additional mathematical/range probes pass
+  or reject unsafe intermediates as required. All 38 indexed review files,
+  four pinned sources, 126 archive inputs and the fixture match their handles.
+  The parent cancellation probe is explicitly classified as SCI-003, not ignored
+  or repaired by this cycle. Current CPU/CUDA full suites subsequently completed
+  with 1,017 passes, one deselection and confirmed exit zero each. Exact selected
+  XML identities and all 126 input hashes match. The separate VAL-012 artifact-
+  linkage correction is implemented and exercised; corrected independent artifact
+  review passes separately;
+  no scientific acceptance or numerical certificate is implied.
+
+## SCI-003 — Cancellation-dominated private diagnostic values
+
+- Status/impact: open research/arithmetic limitation. A constant represented
+  trajectory `[1e20,1,-1e20]`, feedback row `[1,1,1]`, half order and time one
+  returns zero component defect and cell range `[0,0]`, versus exact-input
+  defect about `-1.1283791670955126`. These are substantive false-zero values,
+  not evidence of exact zeros or a small scientific residual.
+- Evidence-backed cause: checked products are finite and no underflow occurs.
+  Fixed-order addition loses the unit term between opposite `1e20` contributions.
+  The exact feedback is one; the absolute product sum is
+  `200000000000000000001`, condition number about `2e20`, and its product with
+  binary64 unit roundoff about 22,204.46. The unit loss is about `5e-21` of that
+  absolute sum and consistent with ordinary floating addition. Reordering the
+  unchanged components restores the term. Range guards do not control this error.
+- Review distinction: the independent reviewer classifies this as nonblocking
+  only for the owner-approved contract, which explicitly permits checked fixed-
+  order additions and excludes conditioning/summation/global relative-accuracy
+  bounds. That does not endorse the inaccurate value, use false certification
+  flags as an excuse, narrow the mathematical domain or close A1. A source pass
+  is not scientific residual acceptance.
+- Applied action: preserve the exact binary inputs, output, high-precision
+  reference, condition calculation and permutation controls in the final source
+  review archive. Disclose the limitation in the audit/programme/changelog. No
+  cancellation-robust numerical redesign is applied in this bounded cycle.
+- Verification: parent independently reproduced the false zero; the final
+  reviewer reproduced and quantified it while all 117 focused cases passed.
+  `arithmetic-code-review.tar.gz` retains `conditioning-probe.json`, executable
+  checks and raw results. This probe is not one of the 117 focused tests and
+  must not disappear behind their passing count.
+- Remaining/prevention: require independent conditioning and evaluation-error
+  control before treating these outputs as a scientific acceptance oracle.
+  Distinguish computed zero coefficients from exact algebraic zeros, intermediate
+  range safety from cancellation accuracy, and ordinary floating model ranges
+  from certified enclosures. A cancellation-robust redesign requires separate
+  authorization; all arithmetic/certification flags and A1 acceptance stay false.
+
+## VAL-012 — Delivery documentation and completion-readback linkage
+
+- Status/impact: resolved at the artifact-integrity gate. The initial artifact
+  audit failed independently of the scoped source pass; its delivery block was
+  retained until corrected checks and independent re-review passed. This is not
+  scientific acceptance. The reviewed numerical source, its 126 inputs and
+  1,017 selected tests are not
+  changed by this issue. No numerical repair or source-approval cycle is reopened.
+- Symptoms: DOC-01 found an old paragraph calling rejected `92ff...` the current
+  source. EVID-01 found that finalization could accept a readback with an incorrect
+  `xml_sha256` and zero `source_inputs_verified`; the verifier did not inspect
+  current backend readbacks. Regenerating checksums would preserve those fields
+  without validating their meaning.
+- Evidence-backed causes: chronological documentation retained an unqualified
+  current-tense label after a later source freeze. Completion checks validated
+  selected counters/flags independently but omitted their cross-record binding
+  to raw XML, the complete source snapshot and the originating process plan.
+  The audit executed the existing readback predicates against deliberately bad
+  synthetic metadata and observed acceptance. This is controlled integrity-test
+  evidence, not a fabricated candidate run or a candidate numerical failure.
+- Preservation: all 41 indexed audit proof files, the ten frozen review inputs
+  and original pre-fix CPU readback are hash/size checked and archived in
+  `document-integrity-audit-failed.tar.gz`; the preservation index retains the
+  original failed verdict. The historical 54-file numerical manifest is separate
+  and unchanged.
+- Applied documentation fix: label 92ff explicitly as the rejected historical
+  panel-repair checkpoint; cite historical 981-case readbacks inside
+  `pre-arithmetic-checkpoint.tar.gz` rather than mutable root targets. Mark
+  earlier pending steps as chronological checkpoints instead of current status.
+- Evidence fix: both completion CLIs use the same standard-library validator for
+  XML digest/counts/exact identities, every source-input hash/count, reviewed tree,
+  canonical types and backend/session/PID/exit-path observations. Actual local
+  exit bytes are preserved and hashed. Artifact-only replay checks the preserved
+  bytes; current-source mode additionally checks actual local inputs/exit files.
+  A parent portability RED exposed a remaining unshipped scratch-producer
+  dependency in the controlled tests; the byte-identical capture CLI is now
+  included in the audit and selected through a repository-relative path.
+- Verification: initial strict pre-fix controls have four failures/two passes,
+  exit one. Expanded original-script replay has 101 failures/23 passes, exit one;
+  corrected scripts have 124 passes/exit zero and catch all 19 guard-removal
+  mutants. Parent portability RED fails once as expected, then all 125 controlled
+  metadata/portability tests pass. These synthetic controls are not candidate
+  numerical outcomes. The early no-op XML mutation and corrected replay are
+  preserved honestly, not counted as an implementation regression. All 49 indexed
+  implementation files and 19 raw mutation XML files are verified in the 87-entry
+  `completion-integrity-repair.tar.gz` archive/index. Fresh actual CPU/CUDA
+  readbacks pass the new capture checks, retaining 1,017 exact selected identities
+  per backend, all 126 inputs and actual zero exits. Both verifier modes pass,
+  including isolated portable replay without local source files. Corrected
+  independent artifact review passes with empty security/logic lists, 125 passing
+  controls and 43 additional copied-record CLI controls. Its 313 indexed proof
+  files and the exact original 85-file manifest are hash/size checked and retained
+  in `corrected-artifact-review.tar.gz` and the preservation record. Status-only
+  clarifications/new review artifacts/fresh delivery records are separately bound
+  after that frozen review; no numerical helper, test, contract or acceptance
+  criterion changes. Passing numerical suites alone did not supply this clearance.
+- Remaining/prevention: validate the relationships represented by metadata before
+  checksumming it, including canonical types and exact process/source identities.
+  Require actual process completion, not a printed pytest summary. Preserve failed
+  audits and synthetic-control labels; record integrity, scientific acceptance
+  and numerical source approval remain separate gates. SCI-003 and all negative
+  certification/A1 flags remain unchanged.

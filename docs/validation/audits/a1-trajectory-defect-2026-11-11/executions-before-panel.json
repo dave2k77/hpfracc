@@ -1,0 +1,22 @@
+{
+  "full_runs": [
+    {
+      "backend": "cpu",
+      "session_id": "proc_56f553b2206d",
+      "pid": 790492,
+      "status": "exited",
+      "exit_code": 0,
+      "tests_passed": 964
+    },
+    {
+      "backend": "cuda",
+      "session_id": "proc_04099e396eda",
+      "pid": 790522,
+      "status": "exited",
+      "exit_code": 0,
+      "tests_passed": 964
+    }
+  ],
+  "superseded_runs_record": "superseded-runs.json",
+  "scope": "Source-bound local suites; backend process exits checked separately with process_manage before running this finalizer. Not A1 scientific acceptance."
+}

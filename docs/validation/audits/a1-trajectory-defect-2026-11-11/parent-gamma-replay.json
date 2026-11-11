@@ -1,0 +1,22 @@
+{
+  "scope": "trusted immutable-tree replay, not a working-precision certificate",
+  "records": [
+    {
+      "tree": "6e7a156f025e08b31a314c5bda59183d6a96bf32",
+      "source_sha256": "a496b4d1b64d4f50df485a151284e90909d08f0435895b25b629359f806162da",
+      "point_rhs": 1.0,
+      "cell_model_lower": -1.0,
+      "mp400_reference": "9.9999999999999997374761987239779090942895925563103e-151",
+      "relative_point_error": "1.000000000000000026252380127602209779759e+150"
+    },
+    {
+      "tree": "8dcbfafd1a5373088e75437551692a85fd7f7b77",
+      "source_sha256": "6e146bd1d757144e09203a991d9f30d6b5c30ef1147f517cfe04716d405371bd",
+      "point_rhs": 1e-150,
+      "cell_model_lower": -1e-150,
+      "mp400_reference": "9.9999999999999997374761987239779090942895925563103e-151",
+      "relative_point_error": "3.254773835977517394223751979531424770039e-17"
+    }
+  ],
+  "a1_acceptance_passed": false
+}

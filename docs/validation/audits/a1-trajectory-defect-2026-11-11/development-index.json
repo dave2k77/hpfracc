@@ -1,0 +1,113 @@
+{
+  "compatibility-cpu.xml": {
+    "sha256": "87c536113e0ef16d3d10f579a68184d849cd01df5821d1ffbf295863110cbcba",
+    "tests": 55,
+    "failures": 2,
+    "errors": 0
+  },
+  "feature1-green-implementation.py.txt": {
+    "sha256": "1e9604db824c72225008ccb4cdb218197b2881d93e6b25f44db6d607359cb625"
+  },
+  "feature1-green.xml": {
+    "sha256": "5200a03a57a2f942ccee28f11a9cbc6d3ecb6f9d20088ea57a4c66eab4316606",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0
+  },
+  "feature1-red-source.py.txt": {
+    "sha256": "61f7095daf41aefb13f50766c407dfa4cab70c648a7b958ec781b24950809c58"
+  },
+  "feature1-red.xml": {
+    "sha256": "044317ae850997e47b32b993c1dadc5872b580db95fc8818adf7fb8d5740a047",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  "feature2-green-implementation.py.txt": {
+    "sha256": "6c5637c3aca35ae3eea0998ec78ae4264586b66f6f194e24add55825a5b98252"
+  },
+  "feature2-green.xml": {
+    "sha256": "83860bdb3561332b2a1a82b4dcecb5ef488c464f41d940bf7175d8872b8b872c",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0
+  },
+  "feature2-red-source.py.txt": {
+    "sha256": "3d68868f09957e2c79ca69274181b6f5be9768801e60e9896221f620b27aa918"
+  },
+  "feature2-red.xml": {
+    "sha256": "235d5fa271fd47765bd88e6e1dc88e62dd8932bc328b2b041205d4e2a6a77057",
+    "tests": 6,
+    "failures": 6,
+    "errors": 0
+  },
+  "feature3-green-implementation.py.txt": {
+    "sha256": "71e45d824fe92400ee6f707752d88798d4215b779277d94c2d3c686fa9c7b1f2"
+  },
+  "feature3-green.xml": {
+    "sha256": "3109987415193a0c1cdb7b86961c97b04624c8e557b780b5abc0cb11a5749673",
+    "tests": 35,
+    "failures": 0,
+    "errors": 0
+  },
+  "feature3-red-source.py.txt": {
+    "sha256": "fa601ff86aee5f884eeb98989197bbf2313125f76cc7e9dbe20843e21580dda3"
+  },
+  "feature3-red.xml": {
+    "sha256": "32faa96920ec5aeafbbe6bf975a1dd8cd8477e1ea975c2fb7c6366e044d88607",
+    "tests": 28,
+    "failures": 28,
+    "errors": 0
+  },
+  "feature4-green-implementation.py.txt": {
+    "sha256": "86a8ae92ab87b0488323387fa273042473f927d11566c66747fc43f1dc591363"
+  },
+  "feature4-green.xml": {
+    "sha256": "62c05a50d14315bd0e10b6ed6f1e7b283c70f9fdbb0d7c815d984b4a3df8eb8e",
+    "tests": 36,
+    "failures": 0,
+    "errors": 0
+  },
+  "feature4-red-source.py.txt": {
+    "sha256": "b4c64bad7f092aaf16542f63fecf271f2caa8fd90462422a3f0dacfa70c00fb7"
+  },
+  "feature4-red.xml": {
+    "sha256": "cd8b49afba7e0bb6d742048f180e3dceeecc37ad3801af695ae1128b8e91cd24",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  "feature5-green.xml": {
+    "sha256": "323d6170fbe9b32c2cf62092f1515238a688ef27bc955f80143d4171f1f8717b",
+    "tests": 40,
+    "failures": 0,
+    "errors": 0
+  },
+  "feature5-red-source.py.txt": {
+    "sha256": "8a8bb042c2e537c7245ee8a4fad788cdb924e9882c909c723141743a270723b3"
+  },
+  "feature5-red.xml": {
+    "sha256": "67904c9e568e3c05e69d80ddb7c1b8d1c3aafceb30ceb89112dff55f03cca722",
+    "tests": 4,
+    "failures": 4,
+    "errors": 0
+  },
+  "pointwise-green.xml": {
+    "sha256": "a3a61c424ae3dd7c932ce5219169a7f4801cb0146cee11215514f4395e133c16",
+    "tests": 35,
+    "failures": 0,
+    "errors": 0
+  },
+  "targeted-cpu.xml": {
+    "sha256": "9a65fba378f59555299317c225dbf438063513a516d9ed8022781aaad2c08cb2",
+    "tests": 55,
+    "failures": 0,
+    "errors": 0
+  },
+  "targeted-cuda.xml": {
+    "sha256": "87be3c4f38b6442249499ecef7e65c2ed9440e20f0d4d2adbe2696fe7cb65deb",
+    "tests": 55,
+    "failures": 0,
+    "errors": 0
+  }
+}

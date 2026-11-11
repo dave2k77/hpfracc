@@ -1,0 +1,227 @@
+{
+  "passed": false,
+  "a1_acceptance_passed": false,
+  "scope": "Preserved failed documentation/evidence audit, not a numerical source rejection",
+  "review_sha256": "f0515e743da507188e070f35502973a78581f5a6674ca900f470abdfe7c469c4",
+  "review_index_sha256": "bffce452fd509b5b4221322d0103e15582dfc9614805d49d100ef5efbd315888",
+  "original_review_files_verified": 41,
+  "archive_sha256": "b8ae0935c7ec9ea0965c955cbe2f0b849492ec09887c47e197ea605de1d1ea42",
+  "files": {
+    "frozen/CHANGELOG.md": {
+      "sha256": "a89552b50203190bbf25932d77bbde6540596deb3af24b336453c0e0777ed06d",
+      "bytes": 20631
+    },
+    "frozen/docs/developer/bug-resolution-tracker.md": {
+      "sha256": "34a6701de576a5ae24a6a0dd88d67e934ba08b537dfe2aab1d8c23cf9db14d15",
+      "bytes": 69120
+    },
+    "frozen/docs/developer/phase-a-completion.md": {
+      "sha256": "2d60aa8f61563610447b116e2ef1337550ff4961db022cabbb80a942c51ce5d4",
+      "bytes": 17437
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/README.md": {
+      "sha256": "931d78a59794c9e1ca7569b41987d96753b946fb6116895a33da64808962112c",
+      "bytes": 15032
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/arithmetic-code-review.json": {
+      "sha256": "0cc8a7c412199f80bd24db5d567f226a3b86946fe44994540fdcf60f08ce74c1",
+      "bytes": 4504
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/arithmetic-contract.md": {
+      "sha256": "acafe92eba9c8175242b1ec18d5ded211995bfc38b3b047e06f23db4c30d9e07",
+      "bytes": 8277
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/pre-arithmetic-layout.json": {
+      "sha256": "8c32860ae6309fad332ff9cb4a7f51364afe9d0a5b60a4b1d442855b0a87ec92",
+      "bytes": 10238
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/source-snapshot.json": {
+      "sha256": "33a3c146581bf34e165344437b86bfbd20b08638df890c1daaa806e0e364a134",
+      "bytes": 14473
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/static-scan.json": {
+      "sha256": "afcefbf865aeccd8347b1da1dbd326bfe32a915bf00fe2cbca284e7f32f9ac58",
+      "bytes": 161
+    },
+    "frozen/docs/validation/audits/a1-trajectory-defect-2026-11-11/verify.py": {
+      "sha256": "34fa510af8f9124ed96a8219c2198bb68ec5c040eb2782b88ea78a115e1b9cd3",
+      "bytes": 16558
+    },
+    "frozen/manifest.json": {
+      "sha256": "43846d1467840a51daad76bc0c3a5bb7a03c963cae1ccae8b47f6ad74dae5bea",
+      "bytes": 1741
+    },
+    "pre-fix/cpu-readback.json": {
+      "sha256": "cfd6f3cb41f5a51b8f230aa92360f82afeda232591ce35112ea6e791b303da7c",
+      "bytes": 547
+    },
+    "review/audit_prefix.py": {
+      "sha256": "adb426909f9ae3a0a0575c38aff16952c886ca4a0ab8260d9e6e08185c9532ae",
+      "bytes": 4987
+    },
+    "review/cache-script-pins.json": {
+      "sha256": "bc2b2f6ce0e969450989043ff8c7e117aaa8cdc38f522c1db082cc6c4d4632fb",
+      "bytes": 965
+    },
+    "review/claim-scope-excerpts.json": {
+      "sha256": "47703e9443f38b2ea0f35ca312452ed0e17a341bc70a07c941ac203a7fc38e32",
+      "bytes": 17530
+    },
+    "review/collection-plan-binding.json": {
+      "sha256": "387d5934f9000a3b42590726f3298400f948c9ad8fc84426e7c58765dc77131e",
+      "bytes": 912
+    },
+    "review/completion-logic-review.json": {
+      "sha256": "0b9c9da973885e8a68fa37222d8198972ae44004af0b90c320c60ead94e3175b",
+      "bytes": 2439
+    },
+    "review/final-invariants.json": {
+      "sha256": "0f8f621e287dcea6445de11ac6576f60b1cdb31d4ba1789b217b6fefe25af1fd",
+      "bytes": 632
+    },
+    "review/finalize_audit.py": {
+      "sha256": "9e8a2fdd5c6c16b52e4ab546938382cb2544fd944f57936bceb325e9e63e7545",
+      "bytes": 11053
+    },
+    "review/freeze_source.py.txt": {
+      "sha256": "322db8494db44bc1156d3c12197add98693980c997d5e5af6b3139a0ea599831",
+      "bytes": 3755
+    },
+    "review/frozen-subset-check.json": {
+      "sha256": "1721146ca1955ba2667e1c51d1b8471708c9dc6201dabcf8eb1fea91bcb0d1bc",
+      "bytes": 2502
+    },
+    "review/full_evidence-pending-prefix.py": {
+      "sha256": "4a9c4e2bd1892be0eaa3f42135f625a4a3af69818f3e5903e9fdf0ef278a5edf",
+      "bytes": 2989
+    },
+    "review/full_evidence.py.txt": {
+      "sha256": "0b24cf8403801cad40f8816cf0175c026b47d6c41884ac68a35febb0caf1a049",
+      "bytes": 4563
+    },
+    "review/hash-index.json": {
+      "sha256": "bffce452fd509b5b4221322d0103e15582dfc9614805d49d100ef5efbd315888",
+      "bytes": 6447
+    },
+    "review/historical-54-manifest-replay.json": {
+      "sha256": "793bcdccaa8354d63184c4ed319e15f714438ace2a4b4fc6962186c0ddae4654",
+      "bytes": 12577
+    },
+    "review/immutable-artifact-pins.json": {
+      "sha256": "6eee5318787ff9c5f4742f59634b29829f97748c65a61fb718f18293764c8898",
+      "bytes": 2846
+    },
+    "review/immutable-historical-source-binding.json": {
+      "sha256": "33fd303b80c766dfcfb9d1aa9256405e4c14ce3baa1a0520941aba04056ced47",
+      "bytes": 858
+    },
+    "review/immutable-tree-source-binding.json": {
+      "sha256": "72d4e46ac7c63df18a4dbef43fa078aaee1e1a3a6ea08f28c310166b172cebf4",
+      "bytes": 14179
+    },
+    "review/inspect_completion_logic.py": {
+      "sha256": "e9d398a8439d96c353388decb368b892e1e84c498bb29cd7bcfd3fd19519f5df",
+      "bytes": 4484
+    },
+    "review/inspect_records.py": {
+      "sha256": "4f9ce6909692ab75ee3ee45f9b010868a12c0b0f85cde742f5e3b35516680119",
+      "bytes": 9916
+    },
+    "review/pending-cpu.stderr": {
+      "sha256": "03e66b5bdc6b204c7d7b1aa5e94f280cc9751f398454485444cb85f4d139fb0c",
+      "bytes": 325
+    },
+    "review/pending-cpu.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "review/pending-cuda.stderr": {
+      "sha256": "03e66b5bdc6b204c7d7b1aa5e94f280cc9751f398454485444cb85f4d139fb0c",
+      "bytes": 325
+    },
+    "review/pending-cuda.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "review/pending-guard-sandbox/docs/validation/audits/a1-trajectory-defect-2026-11-11/arithmetic-code-review.json": {
+      "sha256": "0cc8a7c412199f80bd24db5d567f226a3b86946fe44994540fdcf60f08ce74c1",
+      "bytes": 4504
+    },
+    "review/pending-guard-sandbox/docs/validation/audits/a1-trajectory-defect-2026-11-11/collection.txt": {
+      "sha256": "218e2abeaa1488bfbfb978a184baa97cfdd85c8389b5871a0b50f7cf103bb863",
+      "bytes": 104328
+    },
+    "review/pending-guard-sandbox/docs/validation/audits/a1-trajectory-defect-2026-11-11/execution-plan.json": {
+      "sha256": "4d2da9f5f24ca123563ea3140b4443d2abd1557e2ec617ddb899dd9d97336883",
+      "bytes": 862
+    },
+    "review/pending-guard-sandbox/docs/validation/audits/a1-trajectory-defect-2026-11-11/source-snapshot.json": {
+      "sha256": "33a3c146581bf34e165344437b86bfbd20b08638df890c1daaa806e0e364a134",
+      "bytes": 14473
+    },
+    "review/prefix-execution.json": {
+      "sha256": "43d3be0e676cd943461e578e90297b950ceeac8b9058748b4464f1261be44ca8",
+      "bytes": 482
+    },
+    "review/prefix.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "review/prefix.stdout": {
+      "sha256": "306a7486eb83754d9a494c04a0b0ab307b8e4ccefcc76653181cae0c91f4ee57",
+      "bytes": 341
+    },
+    "review/prepare_artifact_audit.py.txt": {
+      "sha256": "8356faded25b650cb1ed96877bf304b84ba47332d1c2981df0f5d3a050a2749d",
+      "bytes": 1242
+    },
+    "review/preserve_baseline.py.txt": {
+      "sha256": "b406a4b334e68773f668cca312f4bab21303f1e9e5040ab2c12a839e0fb9a509",
+      "bytes": 2552
+    },
+    "review/preserve_source_review.py.txt": {
+      "sha256": "12d5b5e304ee0fc2fad3900b9c1042d36bdf47015b6e370dfd4e29d803445623",
+      "bytes": 2126
+    },
+    "review/privacy-scan-input-hashes.json": {
+      "sha256": "57eb04b1e825697d23c81f50bc63306b702adde8f1aa08b0d509ad306f88979a",
+      "bytes": 193240
+    },
+    "review/privacy-scan.json": {
+      "sha256": "aa4d2053e5621279b4926bcb79e623bf326ce07275bfa930365894914c4fc4aa",
+      "bytes": 1045
+    },
+    "review/readback-predicate-control.json": {
+      "sha256": "607c6406e5b74ba71bfe3b67128aee09919e8774dc713faf214babb6c2c5fdfc",
+      "bytes": 613
+    },
+    "review/readback_predicate_control.py": {
+      "sha256": "285532f11b5a8fa00cfca690bf7fe9e427ce69d481e5a62cb1b2f016d5c507f8",
+      "bytes": 1861
+    },
+    "review/review-and-failure-records.json": {
+      "sha256": "cfb52d2129b66221635b4233e70a280cc73500468010056ba97591bfbf3c13a8",
+      "bytes": 35521
+    },
+    "review/review.json": {
+      "sha256": "f0515e743da507188e070f35502973a78581f5a6674ca900f470abdfe7c469c4",
+      "bytes": 9713
+    },
+    "review/reviewed-to-current-contract.diff": {
+      "sha256": "ad273eb9991695436cc28bb4d70cb16659cc89c1096308a3da58bb78101c7aaf",
+      "bytes": 1787
+    },
+    "review/source-index-before.txt": {
+      "sha256": "0299145e2ab6a76000c0dcc87fa8fef94efb7989ab4e29c06366f20749fe9d6c",
+      "bytes": 10929
+    },
+    "review/source-inputs-before.json": {
+      "sha256": "ee6419274b7b78ef1c9be2f5f5d3d094ec5b9a8be920f5e0c907b893cd1551fa",
+      "bytes": 13830
+    },
+    "review/verify-prefix.py": {
+      "sha256": "4b588c515e80a35035d6585fd965dc8a5506340c6e0b43a4fad9d9868ece3257",
+      "bytes": 15404
+    }
+  }
+}

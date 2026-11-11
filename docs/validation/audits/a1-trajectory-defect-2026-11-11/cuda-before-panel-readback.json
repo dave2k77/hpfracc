@@ -1,0 +1,9 @@
+{
+  "backend": "cuda",
+  "tests": 964,
+  "exit_code": 0,
+  "source_inputs_verified": 125,
+  "exact_identities_verified": true,
+  "xml_sha256": "4bd0eb172b00a99ce3637833143c4b1b1ca7d0ac0f5128bb5a63c548952b832f",
+  "scope": "local source-bound test evidence, not A1 scientific acceptance"
+}

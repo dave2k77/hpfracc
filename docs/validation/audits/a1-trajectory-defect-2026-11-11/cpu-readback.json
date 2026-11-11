@@ -1,0 +1,24 @@
+{
+  "backend": "cpu",
+  "session_id": "proc_41182075d0c0",
+  "pid": 1002085,
+  "exit_record": "/home/davianc/.hermes/cache/scratch/a1-arithmetic-20261111/arithmetic-final-exit-cpu.txt",
+  "source_tree": "bf3d4fa06026f4f2efedcf9d899c75ebca53cdbd",
+  "exit_code": 0,
+  "tests": 1017,
+  "counts": {
+    "tests": 1017,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_inputs_verified": 126,
+  "source_mismatches": [],
+  "exact_identities_verified": true,
+  "xml_sha256": "4901e5a51a722a11fa4c65ec8df3d5ebca201eeea6c81e5ad2b10d7b79ae373c",
+  "preserved_exit_record": "completion-exit-cpu.txt",
+  "exit_record_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+  "process_completion_sha256": "647b281a6e85b003e5f454bc7b38b4b8e9fd3e14dea1307f4f34ffce7b998a1c",
+  "captured_at_utc": "2026-11-11T15:51:16.633286+00:00",
+  "scope": "Source-bound actual default-suite evidence, not A1 acceptance or cancellation safety"
+}

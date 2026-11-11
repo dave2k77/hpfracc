@@ -1,0 +1,226 @@
+{
+  "preserved_at_utc": "2026-11-11T14:00:12.927627+00:00",
+  "rejected_tree": "92ff3dceb217f6097bae8ccde6cf159d8daa8d14",
+  "source_inputs_verified": 125,
+  "old_protected_files_verified": 54,
+  "archive_sha256": "b3419e134f2ca12e202d59102b9d4fcc49a48805f27c8d25a1b13f4a1e31d414",
+  "historical_manifest_layout": {
+    "README.md": {
+      "sha256": "b516b43b8cc0c7a6e8bcda169b44a5562e9a46ca48c95e933765686753ff8a7f",
+      "location": "pre-arithmetic-checkpoint.tar.gz::README.md"
+    },
+    "baseline-ci-readback.json": {
+      "sha256": "2fed2b9193d6461f8ebd46a73e4264d3f283a341b63fad578f4d753919b50f0c",
+      "location": "baseline-ci-readback.json"
+    },
+    "checksums-before-panel.json": {
+      "sha256": "1082daefd5768c1e1eac06f3b89cf80c9a71d5ade313be0fe1aad3c5e1091674",
+      "location": "checksums-before-panel.json"
+    },
+    "collection-before-gamma-repair.txt": {
+      "sha256": "251c87619b6c44269ae7b9d52ab5a9ce0d67624ea2dc55912c38317c9c8ccb77",
+      "location": "collection-before-gamma-repair.txt"
+    },
+    "collection-before-panel-repair.txt": {
+      "sha256": "6ba3f9bed4c4580155b8e05ff46c269ff1b85edb6a406f4064abfbbb00b5c7e7",
+      "location": "collection-before-panel-repair.txt"
+    },
+    "collection.txt": {
+      "sha256": "d0bfa69654b226de6d40435617882b23698c6a61de03c2c4b269c3bed930c08e",
+      "location": "pre-arithmetic-checkpoint.tar.gz::collection.txt"
+    },
+    "cpu-before-panel-readback.json": {
+      "sha256": "0bc7009f6986f006d8371ce5fb46515f2ff0494b6b7654132cfa8cd0eeb08625",
+      "location": "cpu-before-panel-readback.json"
+    },
+    "cpu-readback.json": {
+      "sha256": "53cac8a477888df0984074707e9c2eee68851ebc5abdf6448b88045742d2fb63",
+      "location": "pre-arithmetic-checkpoint.tar.gz::cpu-readback.json"
+    },
+    "cuda-before-panel-readback.json": {
+      "sha256": "5d608324a96f56a2e1cd1e9fcb89bff86c6804208e20c171a94f2a4912801671",
+      "location": "cuda-before-panel-readback.json"
+    },
+    "cuda-readback.json": {
+      "sha256": "a09c706f4f9a339e6657e92a253b7a086573babbc9e5b471296f4376d0c55e99",
+      "location": "pre-arithmetic-checkpoint.tar.gz::cuda-readback.json"
+    },
+    "development-evidence.tar.gz": {
+      "sha256": "e9c6ae097b2ea0ac579f99f1fc7d719cad0b5e97135a4f42d405229660b28eb2",
+      "location": "development-evidence.tar.gz"
+    },
+    "development-index.json": {
+      "sha256": "7fbd5804dbc984a51f592451546ffaa6f98dc97feb8c827b19638f1155da686d",
+      "location": "development-index.json"
+    },
+    "executions-before-panel.json": {
+      "sha256": "b254acae0df2f3b6987ef94067ad5a0c3fab13345758c1becada19f8239dbb1e",
+      "location": "executions-before-panel.json"
+    },
+    "executions.json": {
+      "sha256": "79db72efb758e10dce9e25af04dd71ad2af47b57c73189bb87460910e0e17585",
+      "location": "pre-arithmetic-checkpoint.tar.gz::executions.json"
+    },
+    "final-blocking-parent.xml.gz": {
+      "sha256": "32e72e1cd9dccc1f2552a2626296c8e5a32be1fe1b140f5e5393f0ab9edfafc7",
+      "location": "final-blocking-parent.xml.gz"
+    },
+    "final-code-review-rejected.json": {
+      "sha256": "5b14e642fa73325d93ac77394d9df72fb21b175355a0d13685f28bc253e71625",
+      "location": "final-code-review-rejected.json"
+    },
+    "final-code-review-rejected.tar.gz": {
+      "sha256": "8179e8e8a576c6a48b30b7c6693e5666722a64d3ffb5faddbb08b4bfa2421321",
+      "location": "final-code-review-rejected.tar.gz"
+    },
+    "final-review-preservation.json": {
+      "sha256": "ab3ae346624cce94be7998f2236145152502da416a11c8dd311b72d11adff6a2",
+      "location": "final-review-preservation.json"
+    },
+    "frozen-fixtures.json": {
+      "sha256": "63311bcecc3c31458df93b0c1079d0cec1d8cbc64ee1155abc07b028e9f9aaef",
+      "location": "frozen-fixtures.json"
+    },
+    "full-before-panel-cpu.xml": {
+      "sha256": "fb27b4015c9cb608656bbf01e5dcf11f47761bbcb223ad36e23f302dbe0fcd9b",
+      "location": "full-before-panel-cpu.xml"
+    },
+    "full-before-panel-cuda.xml": {
+      "sha256": "4bd0eb172b00a99ce3637833143c4b1b1ca7d0ac0f5128bb5a63c548952b832f",
+      "location": "full-before-panel-cuda.xml"
+    },
+    "full-cpu.xml": {
+      "sha256": "67080539f707d528e25e2c1d1633aac5eac769861d39a6ed291494933150d57b",
+      "location": "pre-arithmetic-checkpoint.tar.gz::full-cpu.xml"
+    },
+    "full-cuda.xml": {
+      "sha256": "ba9cfd1b5dbff80b566b45e456ac402e3c55ce885f0973cadb195581ac01bdca",
+      "location": "pre-arithmetic-checkpoint.tar.gz::full-cuda.xml"
+    },
+    "gamma-code-review-failed.tar.gz": {
+      "sha256": "32c00b953b53341467095bf2994108dbd64d484001d198fedb38aa2f6edff756",
+      "location": "gamma-code-review-failed.tar.gz"
+    },
+    "gamma-repair-evidence.tar.gz": {
+      "sha256": "ba821c7de5a68c427f095a8316ad326df3dd8eee9ef4bd8c102bde5a7fc3dbe2",
+      "location": "gamma-repair-evidence.tar.gz"
+    },
+    "gamma-repair-index.json": {
+      "sha256": "b7c1c745495171a2207be4f3982cf3ea54e34cd73bbcc2999eba0c29098ca153",
+      "location": "gamma-repair-index.json"
+    },
+    "gamma-review-failed.json": {
+      "sha256": "c9d882728fcc7172ae653c8d374e4b28996e749593edd747bf1d19f43c5fa5b0",
+      "location": "gamma-review-failed.json"
+    },
+    "independent-math-audit.tar.gz": {
+      "sha256": "f6dc701038a241a801b0062537e3e7e9999618415745364d274a125d6c4aa216",
+      "location": "independent-math-audit.tar.gz"
+    },
+    "initial-code-review.tar.gz": {
+      "sha256": "e64984692c6164c52fc2bc757c5027d40dba31dd118ca5d0550cc2fa27fa109c",
+      "location": "initial-code-review.tar.gz"
+    },
+    "initial-review.json": {
+      "sha256": "29d58fdaf8100919b226ce2da9c28c9da257e51ba2e0ab34ef63872fcc3254d4",
+      "location": "initial-review.json"
+    },
+    "panel-basis.md": {
+      "sha256": "c5be7bc5d7307a9516917bacfd78375db26444959bbb6811e41bcc1a61088de9",
+      "location": "panel-basis.md"
+    },
+    "panel-repair-evidence.tar.gz": {
+      "sha256": "14ff7e4ed58291ffabf2670e87b0360b1f17d93b584fe819be40f5145ce9b0d0",
+      "location": "panel-repair-evidence.tar.gz"
+    },
+    "panel-repair-index.json": {
+      "sha256": "4b5b000cce518439411986b3fd9e00637f81caed2ad056ec1465c0fd9199b476",
+      "location": "panel-repair-index.json"
+    },
+    "parent-gamma-replay.json": {
+      "sha256": "da40fc60c70055d465e982696eb59539ba6723485a9c3739c5fc1f24c1429c09",
+      "location": "parent-gamma-replay.json"
+    },
+    "parent-math-replay.json": {
+      "sha256": "22676cb57cf24835a22e51e4a944b21937fac625d79a06db503069843ed88ea3",
+      "location": "parent-math-replay.json"
+    },
+    "rejected-checkpoint-results.json": {
+      "sha256": "f97e68c8b2556c6a560e26df13f5722799c197c98c116ad81d82eae26f15a59f",
+      "location": "rejected-checkpoint-results.json"
+    },
+    "source-snapshot-before-gamma-repair.json": {
+      "sha256": "0683724ec2db3c63d266e45ecc68a93732fdb89a6694c09c33e10ae0e2e5c60b",
+      "location": "source-snapshot-before-gamma-repair.json"
+    },
+    "source-snapshot-before-gamma-repair.tar.gz": {
+      "sha256": "bdd6132595e5574b709e68472f40a5906194f4d36277513dcfe7cce1ea281990",
+      "location": "source-snapshot-before-gamma-repair.tar.gz"
+    },
+    "source-snapshot-before-panel-repair.json": {
+      "sha256": "0d703c76e112f2c7eb1da20aec91b52b53b14a8d17ead81b022427608df09347",
+      "location": "source-snapshot-before-panel-repair.json"
+    },
+    "source-snapshot-before-panel-repair.tar.gz": {
+      "sha256": "d1cbbab6df7d42f0f86f8466e2c83631c3605d220a13b858e04227556e9841c9",
+      "location": "source-snapshot-before-panel-repair.tar.gz"
+    },
+    "source-snapshot.json": {
+      "sha256": "ebf4535f6a19abafde7c355582eda5bd7d2036386789eaeb55fa67ab714d3562",
+      "location": "pre-arithmetic-checkpoint.tar.gz::source-snapshot.json"
+    },
+    "source-snapshot.tar.gz": {
+      "sha256": "3331bd136a08a66177571033bd8087aee0d52407fcc4189e506eb6aae77ace06",
+      "location": "pre-arithmetic-checkpoint.tar.gz::source-snapshot.tar.gz"
+    },
+    "static-scan-before-gamma-repair.json": {
+      "sha256": "73a2e615fda0cfc27e0fa4f96d0c4343c4763366e647e89ae0f61bdf876589d0",
+      "location": "static-scan-before-gamma-repair.json"
+    },
+    "static-scan-before-panel-repair.json": {
+      "sha256": "c207cd69f3c1c15c7da47a158ceffded5feb8d97b4f93b89abe237cf6a432464",
+      "location": "static-scan-before-panel-repair.json"
+    },
+    "static-scan.json": {
+      "sha256": "2d10434a9c38f65234fcc7ae5518dd8b21bf2fbd9b4952d4a96cfb4a1f07891e",
+      "location": "pre-arithmetic-checkpoint.tar.gz::static-scan.json"
+    },
+    "superseded-runs.json": {
+      "sha256": "80362a535e9d4581ab36f8341ed0d90da03a921f49db2ec2ea43a3fd064e429e",
+      "location": "superseded-runs.json"
+    },
+    "targeted-before-gamma-cpu.xml": {
+      "sha256": "9307896d71476f2c7f5c46b5dad4e9af6067812fb65a6522bdf455682f87418a",
+      "location": "targeted-before-gamma-cpu.xml"
+    },
+    "targeted-before-gamma-cuda.xml": {
+      "sha256": "be4f55ca433ba3c8ea60738e55bb8f0a0714c1eaffe78e711ab9d35346e293b5",
+      "location": "targeted-before-gamma-cuda.xml"
+    },
+    "targeted-before-panel-cpu.xml": {
+      "sha256": "60e9406dc109c6858bf8c90cb30b27efcac21405a291f9826a48b81f8e11b2ee",
+      "location": "targeted-before-panel-cpu.xml"
+    },
+    "targeted-before-panel-cuda.xml": {
+      "sha256": "f92889aadda4bd3a038ddfde910eb0f4d7bf115daf27a650c228137008a76e1f",
+      "location": "targeted-before-panel-cuda.xml"
+    },
+    "targeted-cpu.xml": {
+      "sha256": "499d6752d63f67a49cc811880d15dbbcd966f110fb0b78d7916359cba1835862",
+      "location": "pre-arithmetic-checkpoint.tar.gz::targeted-cpu.xml"
+    },
+    "targeted-cuda.xml": {
+      "sha256": "6a5ebb7a2fe9004dbf0355fa52cffc6a967c04d4d4ca49b4d7281528a381aebf",
+      "location": "pre-arithmetic-checkpoint.tar.gz::targeted-cuda.xml"
+    },
+    "verification-before-panel.json": {
+      "sha256": "0978dbc91061627178da5cbb706e30a30818ddd777b1d17c571351eeb283711f",
+      "location": "verification-before-panel.json"
+    },
+    "verify.py": {
+      "sha256": "dbcc307ae2ca671145fdf5e9a9b1d1223be7a1034b9a8a40aa435a141d93548c",
+      "location": "pre-arithmetic-checkpoint.tar.gz::verify.py"
+    }
+  },
+  "scope": "Preserved rejected checkpoint; owner authorized contract review and one new bounded cycle, not approval of these bytes"
+}

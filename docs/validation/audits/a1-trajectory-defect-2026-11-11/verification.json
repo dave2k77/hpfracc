@@ -1,0 +1,55 @@
+{
+  "scope": "record/source replay, not A1 acceptance or certification",
+  "source_count": 126,
+  "current_source_verified": true,
+  "local_exit_files_verified": true,
+  "replay_mode": "current-source-and-local-exits",
+  "process_completion_observations_verified": true,
+  "full_suites": {
+    "cpu": {
+      "tests": 1017,
+      "sha256": "4901e5a51a722a11fa4c65ec8df3d5ebca201eeea6c81e5ad2b10d7b79ae373c"
+    },
+    "cuda": {
+      "tests": 1017,
+      "sha256": "5b05f85dbf2ea551baedd7f64e0410ac24a79833133dde370f3af53202abfa01"
+    }
+  },
+  "preserved_arithmetic_under_enclosure": true,
+  "scoped_source_review_passed": true,
+  "cancellation_false_zero_limitation_preserved": true,
+  "a1_acceptance_passed": false,
+  "record_verifier_actual_exit_code": 0,
+  "isolated_portable_replay": {
+    "command": [
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/.venv/bin/python3",
+      "/home/davianc/.hermes/cache/scratch/a1-arithmetic-20261111/delivery-final-replay/isolated-checkout/docs/validation/audits/a1-trajectory-defect-2026-11-11/verify.py"
+    ],
+    "cwd": "/home/davianc/.hermes/cache/scratch/a1-arithmetic-20261111/delivery-final-replay/isolated-checkout",
+    "actual_exit_code": 0,
+    "observed_at_utc": "2026-11-11T16:15:59.822795+00:00",
+    "output": {
+      "scope": "record/source replay, not A1 acceptance or certification",
+      "source_count": 126,
+      "current_source_verified": false,
+      "local_exit_files_verified": false,
+      "replay_mode": "preserved-artifacts",
+      "process_completion_observations_verified": true,
+      "full_suites": {
+        "cpu": {
+          "tests": 1017,
+          "sha256": "4901e5a51a722a11fa4c65ec8df3d5ebca201eeea6c81e5ad2b10d7b79ae373c"
+        },
+        "cuda": {
+          "tests": 1017,
+          "sha256": "5b05f85dbf2ea551baedd7f64e0410ac24a79833133dde370f3af53202abfa01"
+        }
+      },
+      "preserved_arithmetic_under_enclosure": true,
+      "scoped_source_review_passed": true,
+      "cancellation_false_zero_limitation_preserved": true,
+      "a1_acceptance_passed": false
+    }
+  },
+  "observation_scope": "Actual verifier subprocess outputs; record integrity is not observation authentication or scientific acceptance"
+}

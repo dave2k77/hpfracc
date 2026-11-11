@@ -1,0 +1,26 @@
+{
+  "reason": "Parent found VAL-008 gamma-ratio cancellation; replace the numerical/test source capture and rerun, not infer results from partial runs.",
+  "source_snapshot": "source-snapshot-before-gamma-repair.json",
+  "collection": "collection-before-gamma-repair.txt",
+  "review_tree": "6e7a156f025e08b31a314c5bda59183d6a96bf32",
+  "runs": [
+    {
+      "backend": "cpu",
+      "session_id": "proc_8e7fe676df6c",
+      "pid": 767342,
+      "status": "killed",
+      "completion_reason": "killed",
+      "termination_source": "process.kill",
+      "exit_code": null
+    },
+    {
+      "backend": "cuda",
+      "session_id": "proc_d62f4ad848c8",
+      "pid": 767441,
+      "status": "killed",
+      "completion_reason": "killed",
+      "termination_source": "process.kill",
+      "exit_code": null
+    }
+  ]
+}
