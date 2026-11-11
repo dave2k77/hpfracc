@@ -36,7 +36,7 @@ and historical evidence instead of rewriting them after a fix.
 | ENV-003 | Environment | CUDA-only backend disabled CPU debug callbacks | Resolved by backend configuration |
 | NUM-003 | Numerical defect | Float32 Gamma normalization biased an implicit corrector equation | Fixed; independent residual gate passes |
 | NUM-004 | Numerical precision defect | Direct float32 history-weight cancellation failed an independent residual gate | Fixed for the selected scope; full local CPU/CUDA suites pass |
-| NUM-005 | Numerical / diagnostic limitation | Stable float32 stiff decay can disagree with the independent residual criterion | Reproduced before and after NUM-004; cause under investigation |
+| NUM-005 | Numerical precision defect | CPU float32 history accumulation can hide an independent residual failure | Selected-case repair passes full CPU/CUDA suites; review/delivery separate |
 | API-001 | Metadata contract limitation | Strong array orders prevent plain JSON export of SolverInfo | Reproduced before and after NUM-004; open |
 | VAL-002 | Validation gap | No dedicated FFT order-gradient finite-difference matrix | Selected coverage verified after VAL-004 correction |
 | DOC-001 | Documentation | Nonuniform solver missing from API stability table | Fixed |
@@ -46,6 +46,7 @@ and historical evidence instead of rewriting them after a fix.
 | VAL-004 | Validation defect | x64-enabled fixture masked nominal float32 FFT execution | Fixed; corrected CPU/CUDA matrices pass |
 | VAL-005 | Validation defect caught before commit | Numeric value equality weakened configuration identity | Fixed; strict canonical types and regressions |
 | VAL-006 | Evidence documentation | Current citations retained superseded CUDA measurements | Corrected; ten report-to-documentation checks |
+| VAL-007 | Evidence bookkeeping / reproducibility scope | Exact isolated/full-suite CUDA residual equality was assumed | Bookkeeping corrected; emitter variation reproduced, selection cause unresolved |
 | ENV-004 | Environment / delivery | GitHub write authentication was unavailable | Resolved; authenticated push verified |
 
 ## ENV-001 — Local development environment and CI context
@@ -487,16 +488,17 @@ comparison during the NUM-004 repair.
 - Symptom: for CPU float32 half-order decay, strength 30, 257 nodes, eight
   Newton iterations, `rtol=1e-5`, `atol=1e-7`, the explicitly selected stable option
   reports convergence but its independently reconstructed maximum scaled
-  residual is 1.1998344389138271, above one. This occurs with both the archived
-  pre-repair source and the repaired source; the stable kernel is unchanged.
+  residual is 1.1998344389138271, above one. This was identical before and after
+  NUM-004; that repair left the stable kernel and history contraction unchanged.
 - Impact: the historical improvement relative to legacy direct arithmetic is
   real, but does not establish an absolute independent residual pass. This
   exploratory case is outside the frozen six-case matrix and provides no
   continuous-accuracy acceptance or general stiffness guarantee. NUM-004's
   selected success must not be generalized to this different configuration.
-- Cause: not yet isolated. Working-precision coefficient, model and accumulation
-  roundoff are hypotheses, not an established complete explanation.
-- Intervention: preserve the historical comparison using an explicitly frozen
+- Initial cause assessment at the NUM-004 checkpoint: working-precision
+  coefficient, model and accumulation roundoff were hypotheses, not an
+  established complete explanation.
+- Historical NUM-004 intervention: preserve the comparison using an explicitly frozen
   legacy evaluator, retain the unchanged 5% relative-improvement assertion, and
   separately require the repaired direct result's independent residual to be
   at most one. No stable-path arithmetic or tolerance has been changed.
@@ -509,11 +511,124 @@ comparison during the NUM-004 repair.
   to host float64 before the half-decay RHS. It is explicitly superseded in
   `stiff-probe-history.json`; original files remain unchanged. Frozen-policy
   collectors already cast reference states and all eight reports are unaffected.
-- Remaining: isolate and repair or explicitly bound this stable-mode limitation;
-  it is not silently accepted, deferred from Phase A, or fixed by NUM-004.
+- Boundary: this limitation was not silently accepted, deferred from Phase A,
+  or fixed by NUM-004. The selected algebraic repair below does not establish
+  continuous accuracy or general stiff-solver robustness.
 - Prevention: compare independently evaluated absolute criteria as well as
   relative improvement, and establish the reference dtype before evaluating
   the RHS rather than promoting an already rounded residual afterwards.
+- Pre-repair evidence: the source checkpoint is `415fc21`; its 116 numerical,
+  benchmark and test inputs are archived before this repair attempt. The exact
+  CPU case fails the new unchanged residual-at-most-one regression, whereas
+  the CUDA control already passes at 0.23292174906264487. A separate dyadic
+  scalar-history example loses a representable aggregate of small terms with
+  the original contraction; trailing state axes change the rounding behavior.
+- Controlled counterfactual: requesting highest dot precision leaves CPU/CUDA
+  results unchanged. Replacing only history contraction with an elementwise
+  weighted reduction lowers the CPU stable-case residual to 0.2770276016181242,
+  with coefficients, normalization, dtype, Newton settings and thresholds
+  unchanged; the measured CUDA case is unchanged. Raw red/control XML, exact
+  test/probe sources and measurements are retained in
+  `docs/validation/audits/num005-stable-precision-2026-11-10/`.
+- Confirmed cause: independent analysis reproduces worst step 209 bit-for-bit
+  using the public trajectory and a matching compiled replay. History product
+  and reduction error contributes 1.1270974033428172 units of the independent
+  tolerance; stable coefficient error contributes 0.022570372065334462 and
+  Newton's runtime-equation error 0.0021260254540220965. The signed decomposition
+  reconstructs the failing residual; 80-digit panel integration confirms it.
+  Sequential float32 summation reproduces the observed dot, while highest dot
+  precision has no effect. Cancellation with the initial condition amplifies
+  history error; the final known-term operation's own rounding is small.
+- Applied repair: `_history_dot` now broadcasts weights over trailing state axes
+  and uses an explicit weighted array reduction. This changes floating-point
+  accumulation, not the full-history discretization, coefficients, normalization,
+  selector defaults, working dtype, Newton iterations or acceptance thresholds.
+  It covers the shared uniform explicit/implicit, nonuniform and adaptive paths.
+- Verification so far: the unchanged four-case regression file passes on CPU
+  and CUDA (four tests each). Before the fix, CPU had two failures/two passes;
+  CUDA already passed all four controls. Eight new frozen scientific-policy
+  reports preserve 48 raw cases: all 32 required successes are accepted and all
+  16 negative controls remain rejected. `verification.json` replays every case,
+  exact backend/dtype/mode coverage, manifests, CSVs and source/artifact hashes.
+- Additional checks: CPU/CUDA aggregate (28), hardening (12) and history (8)
+  gates pass with zero exits. A newly built wheel passes isolated, hash-locked,
+  runtime-only CPU import/JIT/float32 objective-gradient and selected independent
+  residual smoke checks, including the stable stiff case; see the bundle's
+  `additional-gates.json` and `installed-wheel-smoke.json`.
+- Compatibility: 25 additional cases pass on CPU and CUDA, covering signed and
+  mixed-scale histories, trailing shapes, real/complex private-helper dtypes,
+  analytic JVP/VJP and finite differences, dynamic-order JIT stiff controls and
+  shared uniform/nonuniform/adaptive paths. Original tests and production bytes
+  are unchanged; eight raw evidence files and their digests are retained in
+  `compatibility/` and `compatibility-manifest.json`. This does not establish
+  public complex implicit support or general adaptive accuracy.
+- Full-suite progress: CPU and CUDA each pass 879 tests, one performance case
+  deselected, with confirmed zero exits and all 118 numerical/benchmark/test
+  inputs unchanged. Raw XML and readback verification are retained. VAL-007
+  records differing isolated/full-suite CUDA residuals, both below one, and
+  their reproduced compilation-path difference. These measurements were
+  collected on uncommitted source; independent review and delivery are separate
+  records, not Phase A closure. The prior NUM-004 commit's remote
+  Python 3.11–3.13 CI is separately verified successful in `prior-commit-ci.json`.
+- Instrumentation lesson: returning intermediate weights or adding debug
+  callbacks changed fusion and made the unfixed public case appear to pass.
+  Require a bit-for-bit match to the original public trajectory before using
+  an instrumented trace to attribute roundoff. The complete matching replay,
+  basis-coefficient decomposition and counterfactuals are preserved verbatim in
+  `independent-analysis.tar.gz`, with 42 file digests in its manifest.
+- Citation prevention: retain NUM-004 values as checkpoint-specific history and
+  publish the changed NUM-005 weak-case values separately. The archive replay
+  checker first failed on the missing current-evidence section, then binds all
+  eight new weak/stiff table entries to their measured reports. Numerical and
+  test source bytes are unchanged by this documentation guard.
+
+### VAL-007 — Exact cross-context CUDA residual comparison
+
+Discovery: 2026-11-11, while reconciling completed NUM-005 full-suite artifacts.
+
+- Symptom: a new post-run bookkeeping assertion required exact equality between
+  properties from the isolated 25-case compatibility file and the full suite.
+  CUDA stable/direct values were 0.23292174906264487 / 0.24529762807235306 in
+  isolation and 0.22442286756041424 / 0.2788388698063575 in the full suite.
+  CPU values were identical across the two contexts.
+- Impact: the extra reconciliation assertion failed after both actual suites
+  had already passed 879 tests with zero exits. This is not a pytest failure or
+  a failed independent-residual criterion: every recorded value is below the
+  unchanged limit of one, with strong float32 forward/objective assertions.
+- Established bookkeeping cause: exact cross-context equality was an additional,
+  unsupported predicate, not the frozen scientific acceptance criterion. At
+  discovery, config leakage and compilation effects were hypotheses; the
+  bounded follow-up below distinguishes observed mechanism from unresolved
+  emitter selection.
+- Intervention: retain both raw XML datasets, the failed postcheck source/error,
+  and context-labelled properties in `full-suite-verification.json`. Check exact
+  source/test identities and each observation against the same residual limit;
+  do not overwrite one observation with the other or relax a scientific budget.
+  No production or test-source change is made for this observation.
+- Bounded follow-up: both pairs recur under identical target-only commands.
+  Captured StableHLO/configuration are identical and operations f32-only, with
+  no dot; optimized history reductions differ between Triton and native
+  emitters. Five replays per executable are bitwise stable. Parent host replay
+  reproduces all four residuals; maximum trajectory differences are below 1e-7.
+  Ten bounded pytest processes pass 66 executions with actual zero exits. The
+  74-file archive and manifest retain IR, states, commands, logs and XML.
+- Limits: collection breadth, preceding tests and verbosity do not uniquely
+  determine the pair. Why XLA chooses different emitters remains unresolved;
+  the original historical optimized executables were not captured, so their
+  precise emitter cannot be established retrospectively. No nondeterministic-
+  autotuning explanation or cross-compilation bitwise guarantee is asserted.
+- Diagnostic failure: a separate optional DebugOptions introspection subprocess
+  exits 139. Its exact command/exit is retained, and a NumPy-only comparison
+  subsequently succeeds. This is not a pytest or solver acceptance failure;
+  no claim that every investigation command succeeded is made.
+- Evidence: the NUM-005 bundle's `postcheck-exact-property-source.py.txt`,
+  `postcheck-exact-property-red.txt`, isolated `compatibility/` files and
+  `full-{cpu,cuda}.xml` preserve the discrepancy and successful test outcomes.
+  `cuda-context-investigation.tar.gz` and its manifest retain the follow-up.
+- Prevention: distinguish bit-matching replay of one executable for causal
+  decomposition from numerical comparison across separately compiled execution
+  contexts. Claim only the reproducibility actually checked, and preserve every
+  observed context rather than selecting a preferred numerical value.
 
 ### API-001 — Strong-order solver metadata is not plain-JSON serializable
 

@@ -1,0 +1,46 @@
+{
+  "conclusion": "success",
+  "headSha": "415fc21e8e62d062a180aafb7cda8fbcec098f2b",
+  "id": 42924720362,
+  "jobs": [
+    {
+      "conclusion": "success",
+      "name": "lint",
+      "status": "completed",
+      "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362/job/130208143978"
+    },
+    {
+      "conclusion": "success",
+      "name": "docs",
+      "status": "completed",
+      "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362/job/130208144310"
+    },
+    {
+      "conclusion": "success",
+      "name": "test (3.12)",
+      "status": "completed",
+      "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362/job/130208144339"
+    },
+    {
+      "conclusion": "success",
+      "name": "performance",
+      "status": "completed",
+      "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362/job/130208144358"
+    },
+    {
+      "conclusion": "success",
+      "name": "test (3.11)",
+      "status": "completed",
+      "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362/job/130208144401"
+    },
+    {
+      "conclusion": "success",
+      "name": "test (3.13)",
+      "status": "completed",
+      "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362/job/130208144455"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/dave2k77/hpfracc/actions/runs/42924720362",
+  "readback_at_utc": "2026-11-11T00:18:13.184703+00:00"
+}

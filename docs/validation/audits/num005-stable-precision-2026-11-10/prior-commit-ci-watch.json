@@ -1,0 +1,20 @@
+{
+  "scope": "Completion receipt and non-blocking annotation excerpts; not a full CI log",
+  "process_id": "proc_5479b39d8152",
+  "command": "gh run watch 42924720362 --repo dave2k77/hpfracc --exit-status --interval 30",
+  "exit_code": 0,
+  "source_commit": "415fc21e8e62d062a180aafb7cda8fbcec098f2b",
+  "annotations_observed": [
+    {
+      "kind": "action_runtime_deprecation",
+      "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4.",
+      "reference": "https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+    },
+    {
+      "kind": "runner_image_migration",
+      "message": "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026.",
+      "reference": "https://github.com/actions/runner-images/issues/14748"
+    }
+  ],
+  "interpretation": "The observed annotations did not fail this run. CI platform maintenance is separate from NUM-005; no action upgrade, runner change or new-candidate CI claim is made."
+}

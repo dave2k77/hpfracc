@@ -1,0 +1,10 @@
+{
+  "scope": "Final documentation/static/replay checks after numerical source freeze; not a new full-suite run",
+  "documentation_tests": 29,
+  "ruff_exit_code": 0,
+  "strict_docs_exit_code": 0,
+  "whitespace_exit_code": 0,
+  "host_replay_exit_code": 0,
+  "xml_sha256": "c8717bcf204d63fbc778af6e9fa0c016f263ef6e8451e576e5c9d667d1f01ee5",
+  "numerical_source_inputs_verified_unchanged": 118
+}

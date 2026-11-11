@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num005-stable-precision-2026-11-10/verify.py", line 110, in <module>
+    assert heading in document, "Missing current NUM-005 evidence section"
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing current NUM-005 evidence section

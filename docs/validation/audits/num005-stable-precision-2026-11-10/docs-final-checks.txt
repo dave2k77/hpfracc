@@ -1,0 +1,28 @@
+All checks passed!
+.............................                                            [100%]
+29 passed in 0.60s
+
+ │  ⚠  Warning from the Material for MkDocs team
+ │
+ │  MkDocs 2.0, the underlying framework of Material for MkDocs,
+ │  will introduce backward-incompatible changes, including:
+ │
+ │  × All plugins will stop working – the plugin system has been removed
+ │  × All theme overrides will break – the theming system has been rewritten
+ │  × No migration path exists – existing projects cannot be upgraded
+ │  × Closed contribution model – community members can't report bugs
+ │  × Currently unlicensed – unsuitable for production use
+ │
+ │  Our full analysis:
+ │
+ │  https://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/
+
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/site
+INFO    -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
+  - validation/audits/fft-order-gradients-2026-11-10/README.md
+  - validation/audits/gpu-normalization-2026-11-10/README.md
+  - validation/audits/num004-direct-precision-2026-11-10/README.md
+  - validation/audits/num005-stable-precision-2026-11-10/README.md
+  - validation/audits/scientific-acceptance-2026-11-10/README.md
+INFO    -  Documentation built in 0.31 seconds

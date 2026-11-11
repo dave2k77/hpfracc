@@ -381,7 +381,12 @@ def _pece_weights(
 
 
 def _history_dot(weights: PyTree, history: PyTree) -> PyTree:
-    return _jnp().tensordot(weights, history, axes=([0], [0]))
+    # CPU dot lowering can lose small history terms through serial float32
+    # accumulation. An explicit weighted reduction preserves the same full
+    # history and working dtype without that contraction lowering.
+    jnp = _jnp()
+    weight_shape = (weights.shape[0],) + (1,) * (history.ndim - 1)
+    return jnp.sum(weights.reshape(weight_shape) * history, axis=0)
 
 
 def _simulate_explicit(

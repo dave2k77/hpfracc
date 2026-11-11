@@ -76,6 +76,17 @@ untouched. This is selected-gate evidence, not arbitrary nonlinear/stiff
 float32 accuracy. Local full CPU/CUDA suites pass; independent review and remote
 multi-version/release gates are separate. Expected
 rejections are never counted as accepted trajectories.
+
+The later [NUM-005 accumulation candidate](audits/num005-stable-precision-2026-11-10/README.md)
+replaces shared history contraction with an explicit working-dtype weighted
+reduction. Its original four regressions and 25 compatibility cases pass on
+CPU/CUDA, including private-helper complex semantics and shared solver paths;
+this does not establish public complex implicit support. All eight frozen-policy
+reports pass without changing their roles or budgets. Full CPU/CUDA suites pass
+879 tests each; review and release are separate. Captured reduction-emitter
+variation excludes a cross-compilation bitwise guarantee; it is not a broader
+stiffness or adaptive-accuracy guarantee.
+
 Adaptive limitations and paired-work evidence are in
 [calibration](adaptive-calibration.md), [startup](adaptive-startup.md),
 [subdivision](adaptive-subdivision.md), [runtime](adaptive-runtime.md),

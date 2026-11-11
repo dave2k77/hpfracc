@@ -1,0 +1,2 @@
+1.504046
+{'family': 'caputo', 'method': 'l1_full_history', 'fractional_order': 0.5, 'dt': 0.01, 'n_steps': 101, 'history': 'full', 'diagnostics': {'grid': 'uniform', 'history': 'full', 'window_steps': 64, 'soe_poles': 8, 'soe_t_max': 1.01}, 'warnings': []}

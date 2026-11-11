@@ -1,0 +1,15 @@
+{
+  "source": "deleg_c25a0f05",
+  "scope": "Verbatim completed-child evidence; full-suite exits tracked separately",
+  "test_source_sha256": "362f0b62da3635b75f2caa1e6521146101fefe51d557d24743a5b81a25daaf1e",
+  "files": {
+    "SHA256SUMS": "fa0133c2492cf3ff328a98026dc97d13a52ab2497ad44760e0dcec78dba9bdc4",
+    "commands.txt": "cd8dd63289381d5bab9901157a47d645283ceedaad36c2d4ad4b9a324c745f73",
+    "cpu.log": "30b2199bc20809268b175e7ab94c956cc5a1047fd67ec3fa8ee6ab385cef019d",
+    "cpu.xml": "10006e4a574cc3e6d9b52609b77aa22c58709d5716af157d2eed8b9fee03306e",
+    "cuda.log": "59a8692363b1b01617911576d8af54a090b965f25723b8b5460d4c3e021253ac",
+    "cuda.xml": "ee48009927556de193782ee4d0fa62d64752d1276060583e7c34144949321618",
+    "index-diff.sha256": "abcfa6a9d4df344d1781bc2560b5e4cdcae08b39ed303063535e7e1e926a304a",
+    "verification.json": "874ddeac8eec58cbe9a8022b6456ddc1173f0d2f5d664057260743005cad2bbf"
+  }
+}

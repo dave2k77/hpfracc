@@ -1,0 +1,26 @@
+[
+  {
+    "command": "uv export --frozen --no-dev --no-emit-project --no-header --output-file /home/davianc/.hermes/cache/scratch/hpfracc-num005-runtime.txt",
+    "exit_code": 0
+  },
+  {
+    "command": "uv build --wheel --out-dir /home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel --python /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/.venv/bin/python",
+    "exit_code": 0
+  },
+  {
+    "command": "uv venv --python /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/.venv/bin/python /home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel-env",
+    "exit_code": 0
+  },
+  {
+    "command": "uv pip install --python /home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel-env/bin/python --require-hashes -r /home/davianc/.hermes/cache/scratch/hpfracc-num005-runtime.txt",
+    "exit_code": 0
+  },
+  {
+    "command": "uv pip install --python /home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel-env/bin/python --no-deps /home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel/hpfracc-0.1.0a1-py3-none-any.whl",
+    "exit_code": 0
+  },
+  {
+    "command": "JAX_PLATFORMS=cpu /home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel-env/bin/python -I /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/num005-stable-precision-2026-11-10/wheel-smoke.py 94c60ded4f4f9a3753f6ccde8e7674429c681b8d7f89f9b5fb2140b032f3a01d",
+    "exit_code": 0
+  }
+]

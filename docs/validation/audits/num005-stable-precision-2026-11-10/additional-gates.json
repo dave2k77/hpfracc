@@ -1,0 +1,56 @@
+[
+  {
+    "backend": "cpu",
+    "gate": "aggregate",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.validation_summary --check",
+    "exit_code": 0,
+    "artifact": "aggregate-cpu.csv",
+    "sha256": "e10337ff5cf8aae43a54ff7291108647c41e258995c617b300c7bd1021a513bd",
+    "checks": 28
+  },
+  {
+    "backend": "cpu",
+    "gate": "hardening",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.core_hardening --check",
+    "exit_code": 0,
+    "artifact": "hardening-cpu.csv",
+    "sha256": "329aa81ae846ec7e1a134966d3d189d2388ccd04b045ebe71737e53f78400004",
+    "checks": 12
+  },
+  {
+    "backend": "cpu",
+    "gate": "history",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m benchmarks.numerical.history_validation --check",
+    "exit_code": 0,
+    "artifact": "history-cpu.csv",
+    "sha256": "f7f28a3a664185a88162ed4cacd57ae5d4f0644166d772af99fb6a15dea16886",
+    "checks": 8
+  },
+  {
+    "backend": "gpu",
+    "gate": "aggregate",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.validation_summary --check",
+    "exit_code": 0,
+    "artifact": "aggregate-gpu.csv",
+    "sha256": "4b87dc03fa0aeaae51b6cc24b8d234133b46d6a58233c5bbc8702901a31e4aaf",
+    "checks": 28
+  },
+  {
+    "backend": "gpu",
+    "gate": "hardening",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.core_hardening --check",
+    "exit_code": 0,
+    "artifact": "hardening-gpu.csv",
+    "sha256": "58b383aae6a4480854ec2c3675a55c9a43d9cfedf5ffc4479481568d44db9a30",
+    "checks": 12
+  },
+  {
+    "backend": "gpu",
+    "gate": "history",
+    "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m benchmarks.numerical.history_validation --check",
+    "exit_code": 0,
+    "artifact": "history-gpu.csv",
+    "sha256": "f6bbefb5835ea57c52cc412f64a2f220cf24be62a6ec96aea69b065c24ced125",
+    "checks": 8
+  }
+]

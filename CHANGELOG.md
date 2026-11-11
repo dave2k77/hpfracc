@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Replace shared solver history contraction with an explicit working-dtype
+  weighted reduction. This addresses a demonstrated CPU float32 accumulation
+  failure hidden by small internal Newton residuals; the full-history method,
+  coefficient evaluation, normalization, selectors and tolerances are unchanged.
+  Focused/full CPU/CUDA suites and the frozen scientific-policy matrix pass.
+  Captured CUDA reduction-emitter variation is retained as a reproducibility
+  limit; no cross-compilation bitwise or general stiff continuous accuracy is
+  established. Review and release gates are separate.
+
 - Add a separately named, frozen-case implicit scientific-acceptance report with
   independent continuous-error/residual criteria, explicit required-success and
   expected-rejection roles, exact coverage and corruption checks, raw trajectory

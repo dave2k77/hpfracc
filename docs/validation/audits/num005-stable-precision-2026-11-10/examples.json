@@ -1,0 +1,30 @@
+[
+  {
+    "module": "examples.fractional_ode.caputo_operator",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m examples.fractional_ode.caputo_operator",
+    "exit_code": 0,
+    "artifact": "example-caputo_operator.txt",
+    "sha256": "4f9ae9dfee32a13412c8b90a33d9ca37b0532709774204b4b09f85ad797247f8"
+  },
+  {
+    "module": "examples.fractional_ode.caputo_solver",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m examples.fractional_ode.caputo_solver",
+    "exit_code": 0,
+    "artifact": "example-caputo_solver.txt",
+    "sha256": "c4fda9091198ef648a8e257536af1bc851e1b9cec2a63648621d7bd99d3d100e"
+  },
+  {
+    "module": "examples.fractional_ode.train_neural_fode",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m examples.fractional_ode.train_neural_fode",
+    "exit_code": 0,
+    "artifact": "example-train_neural_fode.txt",
+    "sha256": "a4b4faa1fa15a20abf6ebfc33114f4c478fb525dbb247df347e0c6cd2d3d95a7"
+  },
+  {
+    "module": "examples.fractional_ode.probabilistic_calibration",
+    "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m examples.fractional_ode.probabilistic_calibration",
+    "exit_code": 0,
+    "artifact": "example-probabilistic_calibration.txt",
+    "sha256": "a9ad99b78a09538d585b82489d9c5930653771312d716efd1033b9229b736a79"
+  }
+]

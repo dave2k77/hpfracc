@@ -1,0 +1,25 @@
+{
+  "scope": "Pre-repair TDD evidence: CPU failures, CUDA passing controls; not completed repair",
+  "test_source": "red-test-source.py.txt",
+  "test_source_sha256": "24dd9fb4bb7282ffee1197a4174ce6ff5a22bbda2e790df43c12ecaa0f13b7cf",
+  "probe_source": "reduction-probe.py.txt",
+  "probe_source_sha256": "94e8fda00e5793f2c7aca337b4ae436931e2d15687693fbe372a8323e5a5d532",
+  "runs": [
+    {
+      "artifact": "red-cpu.xml.gz",
+      "tests": 4,
+      "failures": 2,
+      "exit_code": 1,
+      "raw_sha256": "1f70b4f7a725e6f554c442fb87c92f987290e8764400c5839795ed7c38ca88b7",
+      "archived_sha256": "f0638ba95c97595be374b7c2bb145ef7900f7f41662fc71cbb4cdb36c70488e9"
+    },
+    {
+      "artifact": "baseline-cuda.xml",
+      "tests": 4,
+      "failures": 0,
+      "exit_code": 0,
+      "raw_sha256": "783d176f88e2037e00dd8fd7f153f20219a282d2617fa432a7802cf0b5f10819",
+      "archived_sha256": "783d176f88e2037e00dd8fd7f153f20219a282d2617fa432a7802cf0b5f10819"
+    }
+  ]
+}

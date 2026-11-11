@@ -1,0 +1,53 @@
+{
+  "scope": "Completed local CPU/CUDA suites and unchanged source; cross-context bitwise equality is not the scientific acceptance criterion",
+  "captured_at_utc": "2026-11-11T01:11:20.899969+00:00",
+  "exit_evidence": "Both tracked completion notifications confirmed by fresh process_manage readbacks",
+  "source_inputs_verified": 118,
+  "matching_cpu_cuda_test_identities": true,
+  "cuda_context_variation_cause": "under independent investigation; not attributed to autotuning or config leakage without evidence",
+  "acceptance_criterion_unchanged": "independent maximum scaled residual <= 1 in each observation",
+  "runs": [
+    {
+      "backend": "cpu",
+      "process_id": "proc_b3710920fc65",
+      "exit_code": 0,
+      "tests": 879,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "performance_deselected": 1,
+      "xml": "full-cpu.xml",
+      "xml_sha256": "70dd839132c92921ac0486e5ace0f9016edcfaf8881ea20a02137857ff8b1a56",
+      "isolated_stiff_properties": {
+        "stable_max_independent_scaled_residual": "0.2770276016181242",
+        "direct_max_independent_scaled_residual": "0.23616370900107006"
+      },
+      "full_suite_stiff_properties": {
+        "stable_max_independent_scaled_residual": "0.2770276016181242",
+        "direct_max_independent_scaled_residual": "0.23616370900107006"
+      },
+      "cross_context_exact_property_equality": true
+    },
+    {
+      "backend": "cuda",
+      "process_id": "proc_bfe2e5a1427b",
+      "exit_code": 0,
+      "tests": 879,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "performance_deselected": 1,
+      "xml": "full-cuda.xml",
+      "xml_sha256": "af51b6c2beb176f1cbc184a86953c54880f7a8ab7ff0be705429c2f8f6f2d758",
+      "isolated_stiff_properties": {
+        "stable_max_independent_scaled_residual": "0.23292174906264487",
+        "direct_max_independent_scaled_residual": "0.24529762807235306"
+      },
+      "full_suite_stiff_properties": {
+        "stable_max_independent_scaled_residual": "0.22442286756041424",
+        "direct_max_independent_scaled_residual": "0.2788388698063575"
+      },
+      "cross_context_exact_property_equality": false
+    }
+  ]
+}

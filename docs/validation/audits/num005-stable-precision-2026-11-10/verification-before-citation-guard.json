@@ -1,0 +1,84 @@
+{
+  "scope": "Exact coverage/source/artifact/host replay; not universal accuracy",
+  "summary": {
+    "configurations": 48,
+    "raw_artifacts": 48,
+    "scientifically_accepted": 32,
+    "expected_rejections_verified": 16,
+    "reports_passing": 8
+  },
+  "runs": [
+    {
+      "backend": "cpu",
+      "dtype": "float32",
+      "weight_evaluation": "direct",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 0.018247163618732503
+    },
+    {
+      "backend": "cpu",
+      "dtype": "float32",
+      "weight_evaluation": "stable",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 0.01786042577580126
+    },
+    {
+      "backend": "cpu",
+      "dtype": "float64",
+      "weight_evaluation": "direct",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 4.737003439658017e-06
+    },
+    {
+      "backend": "cpu",
+      "dtype": "float64",
+      "weight_evaluation": "stable",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 5.713181334538537e-06
+    },
+    {
+      "backend": "gpu",
+      "dtype": "float32",
+      "weight_evaluation": "direct",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 0.01743271498279139
+    },
+    {
+      "backend": "gpu",
+      "dtype": "float32",
+      "weight_evaluation": "stable",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 0.01643224778294578
+    },
+    {
+      "backend": "gpu",
+      "dtype": "float64",
+      "weight_evaluation": "direct",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 7.608042254072458e-06
+    },
+    {
+      "backend": "gpu",
+      "dtype": "float64",
+      "weight_evaluation": "stable",
+      "policy_passed": true,
+      "exit_code": 0,
+      "source_inputs_verified": 61,
+      "weak_decay_independent_scaled_residual": 5.267307784865238e-06
+    }
+  ]
+}

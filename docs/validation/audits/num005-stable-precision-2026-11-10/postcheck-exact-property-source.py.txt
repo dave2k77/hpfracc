@@ -1,0 +1,30 @@
+from pathlib import Path
+import os,json,hashlib,datetime,xml.etree.ElementTree as E
+base=Path("docs/validation/audits/num005-stable-precision-2026-11-10")
+execution=json.loads((base/"full-suite-executions.json").read_text())
+snapshot=json.loads((base/"suite-source-inputs.json").read_text())["source_sha256"]
+paths=[*Path("src/hpfracc").rglob("*.py"),*Path("benchmarks").rglob("*.py"),*Path("tests").rglob("*.py"),Path("pyproject.toml"),Path("uv.lock")]
+current={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+assert current==snapshot
+compat=json.loads((base/"compatibility/verification.json").read_text())
+runs=[]
+node_sets=[]
+for run in execution["runs"]:
+    backend=run["backend"]
+    assert run["status"]=="completed" and run["exit_code"]==0
+    path=base/f"full-{backend}.xml"
+    if backend=="cuda":
+        assert not path.exists()
+        path.write_bytes((Path(os.environ["TMPDIR"])/"hpfracc-num005-full-cuda.xml").read_bytes())
+    raw=path.read_bytes()
+    suite=E.fromstring(raw).find("testsuite")
+    cases=suite.findall("testcase")
+    nodes={(p.get("classname"),p.get("name")) for p in cases}
+    assert int(suite.get("tests"))==len(cases)==len(nodes)==execution["expected_default_tests"]
+    assert all(int(suite.get(k))==0 for k in ("failures","errors","skipped"))
+    props={p.get("name"):p.get("value") for p in suite.findall("./properties/property")}
+    assert all(props[k]==v for k,v in compat[backend]["properties"].items())
+    node_sets.append(nodes)
+    runs.append({"backend":backend,"process_id":run["process_id"],"exit_code":run["exit_code"],"tests":len(cases),"failures":0,"errors":0,"skipped":0,"performance_deselected":1,"xml":path.name,"xml_sha256":hashlib.sha256(raw).hexdigest(),"stiff_regression_properties":compat[backend]["properties"]})
+assert node_sets[0]==node_sets[1]
+print(json.dumps({"scope":"Completed local CPU/CUDA default suites, raw XML and unchanged numerical/test source; not universal scientific or release sign-off","captured_at_utc":datetime.datetime.now(datetime.UTC).isoformat(),"exit_evidence":"Both tracked completion notifications confirmed by fresh process_manage readbacks","source_inputs_verified":len(current),"matching_cpu_cuda_test_identities":True,"runs":runs},indent=2))

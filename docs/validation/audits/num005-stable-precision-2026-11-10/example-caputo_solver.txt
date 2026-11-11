@@ -1,0 +1,2 @@
+0.46728104
+{'name': 'predictor_corrector', 'method': 'caputo_pece_full_history', 'fractional_order': 0.7, 'step_size': 0.01, 'n_steps': 100, 'diagnostics': {'history': 'full', 'grid': 'uniform', 'weight_evaluation': 'direct'}, 'warnings': []}

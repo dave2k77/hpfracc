@@ -142,3 +142,19 @@ execution. See NUM-004 in the
 No solver defaults, runtime dependencies or public numerical APIs change for
 this policy. General adaptive calibration, additional stiff/nonlinear orders,
 long horizons and Phase A sign-off remain separate gates.
+
+## History accumulation follow-up (NUM-005)
+
+The NUM-004 values above identify that checkpoint, not later source revisions.
+The subsequent shared-history reduction repair has
+[eight new reports](audits/num005-stable-precision-2026-11-10/README.md) under the
+same frozen manifest and budgets; all required successes and expected-rejection
+roles remain intact. Its current float32 weak-case values are listed separately
+in [uniform-weight evaluation](uniform-weights.md), with a report-to-document
+citation guard. The rate-30, 257-node stiff regression is outside this manifest;
+its algebraic residual pass does not add a scientific-policy success case or
+establish continuous accuracy. Expanded compatibility and full CPU/CUDA suites
+pass; review and delivery are separate. A bounded CUDA context study preserves
+two passing residual pairs and captures different optimized reduction emitters
+for identical f32-only StableHLO/configuration. Selection cause is unresolved;
+no cross-compilation bitwise reproducibility guarantee is inferred.

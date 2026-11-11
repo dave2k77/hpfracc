@@ -1,0 +1,9 @@
+{
+  "scope": "Added-text regex screening plus exact staged/worktree byte equality; not a complete security proof",
+  "scanned_tree_before_report_addition": "7594069f84d7c7588de02b153a477dc96aea88bb",
+  "staged_files_checked_byte_for_byte": 144,
+  "added_text_lines_scanned": 8527,
+  "staged_diff_sha256": "0262a63aa89e0f9af05687ae41a57b1bcc8d4b485199823b05949d70bfd59948",
+  "findings": [],
+  "report_is_separate_addition": true
+}

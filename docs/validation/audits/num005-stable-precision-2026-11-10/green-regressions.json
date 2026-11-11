@@ -1,0 +1,23 @@
+{
+  "scope": "Minimal repair: same four regression cases and unchanged thresholds",
+  "kernel_sha256": "94c60ded4f4f9a3753f6ccde8e7674429c681b8d7f89f9b5fb2140b032f3a01d",
+  "test_source_sha256": "24dd9fb4bb7282ffee1197a4174ce6ff5a22bbda2e790df43c12ecaa0f13b7cf",
+  "runs": [
+    {
+      "backend": "cpu",
+      "exit_code": 0,
+      "tests": 4,
+      "failures": 0,
+      "artifact": "green-cpu.xml",
+      "sha256": "46027ca539d9fa317940dad292684d3fe99df91f6c6c3e7e53725c9d1832ee18"
+    },
+    {
+      "backend": "cuda",
+      "exit_code": 0,
+      "tests": 4,
+      "failures": 0,
+      "artifact": "green-cuda.xml",
+      "sha256": "43062d01a24d9aa6b02bf22ee48b2b704ab44bcaf68966350964f562a18f4f2f"
+    }
+  ]
+}

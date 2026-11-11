@@ -1,0 +1,30 @@
+{
+  "cpu": {
+    "counts": {
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "enumerated_cases": 25,
+    "seconds": 6.053,
+    "properties": {
+      "stable_max_independent_scaled_residual": "0.2770276016181242",
+      "direct_max_independent_scaled_residual": "0.23616370900107006"
+    }
+  },
+  "cuda": {
+    "counts": {
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "enumerated_cases": 25,
+    "seconds": 11.332,
+    "properties": {
+      "stable_max_independent_scaled_residual": "0.23292174906264487",
+      "direct_max_independent_scaled_residual": "0.24529762807235306"
+    }
+  }
+}

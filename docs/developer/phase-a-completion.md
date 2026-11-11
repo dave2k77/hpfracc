@@ -83,6 +83,21 @@ full CPU/CUDA suites each pass 850 tests with one performance case deselected
 and confirmed zero process exits. Independent final review, remote multi-version
 CI and release gates remain separate from this local evidence.
 
+The subsequent NUM-005 investigation independently isolates CPU float32 history
+accumulation as the dominant cause of a stable-weight stiff-case residual
+failure outside the frozen manifest. Its reduction-only candidate passes the
+unchanged four focused regressions on CPU/CUDA and all eight frozen-policy
+reports, with failures and a bit-matching component decomposition retained in
+the [new bundle](../validation/audits/num005-stable-precision-2026-11-10/README.md).
+Twenty-five additional compatibility cases pass on each backend. Full CPU/CUDA
+suites each pass 879 tests with confirmed zero exits and 118 source inputs
+unchanged. VAL-007 retains both passing CUDA pairs and captures different
+optimized reduction emitters for identical f32-only StableHLO/configuration.
+Emitter selection cause remains unresolved; review and delivery are separate
+records. No A1 gate or general stiffness/reproducibility claim is closed here.
+Remote Python 3.11–3.13 CI for the prior NUM-004 commit is verified green, not
+evidence for this later uncommitted source.
+
 For any claimed tolerance-controlled case, test accepted-node errors against
 the stated componentwise reference scale, not just decreasing errors. Require
 an independently justified error-control contract before extending a bound to

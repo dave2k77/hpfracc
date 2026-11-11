@@ -1,0 +1,36 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.13, pytest-9.0.3, pluggy-1.6.0 -- /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/.venv/bin/python3
+hypothesis profile 'default'
+rootdir: /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc
+configfile: pyproject.toml
+plugins: hypothesis-6.155.0
+collecting ... collected 25 items
+
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing0-float32] PASSED [  4%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing0-float64] PASSED [  8%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing0-complex64] PASSED [ 12%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing0-complex128] PASSED [ 16%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing1-float32] PASSED [ 20%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing1-float64] PASSED [ 24%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing1-complex64] PASSED [ 28%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing1-complex128] PASSED [ 32%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing2-float32] PASSED [ 36%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing2-float64] PASSED [ 40%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing2-complex64] PASSED [ 44%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_signed_mixed_scale_shapes_and_dtypes[trailing2-complex128] PASSED [ 48%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_jvp_vjp_match_independent_bilinear_derivatives[float32] PASSED [ 52%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_jvp_vjp_match_independent_bilinear_derivatives[float64] PASSED [ 56%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_jvp_vjp_match_independent_bilinear_derivatives[complex64] PASSED [ 60%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_jvp_vjp_match_independent_bilinear_derivatives[complex128] PASSED [ 64%]
+tests/unit/test_history_reduction_compatibility.py::test_history_dot_objective_directional_derivative_matches_finite_difference PASSED [ 68%]
+tests/unit/test_history_reduction_compatibility.py::test_dynamic_float32_order_jit_stiff_decay_independent_residual[stable] PASSED [ 72%]
+tests/unit/test_history_reduction_compatibility.py::test_dynamic_float32_order_jit_stiff_decay_independent_residual[direct] PASSED [ 76%]
+tests/unit/test_history_reduction_compatibility.py::test_uniform_batched_paths_preserve_recurrence_and_state_gradient[explicit-direct] PASSED [ 80%]
+tests/unit/test_history_reduction_compatibility.py::test_uniform_batched_paths_preserve_recurrence_and_state_gradient[explicit-stable] PASSED [ 84%]
+tests/unit/test_history_reduction_compatibility.py::test_uniform_batched_paths_preserve_recurrence_and_state_gradient[implicit-direct] PASSED [ 88%]
+tests/unit/test_history_reduction_compatibility.py::test_uniform_batched_paths_preserve_recurrence_and_state_gradient[implicit-stable] PASSED [ 92%]
+tests/unit/test_history_reduction_compatibility.py::test_variable_mesh_batched_forcing_moments_and_gradients[supplied-nonuniform] PASSED [ 96%]
+tests/unit/test_history_reduction_compatibility.py::test_variable_mesh_batched_forcing_moments_and_gradients[adaptive] PASSED [100%]
+
+- generated xml file: /home/davianc/.hermes/cache/scratch/num005-history-compatibility.Y0gI0a/cpu.xml -
+============================== 25 passed in 6.05s ==============================

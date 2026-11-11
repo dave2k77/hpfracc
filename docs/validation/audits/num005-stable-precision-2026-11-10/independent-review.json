@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": [
+    "Record the exact diff-generation command in static-scan.json. Its digest was independently reproduced with --unified=0; the default-context diff has a different digest.",
+    "Before making performance claims, benchmark the explicit weighted reduction across larger history lengths and state dimensions, including reverse-mode memory use."
+  ],
+  "summary": "No blocking defects found in the frozen staged change. The reduction preserves the full-history bilinear operation and trailing-state shapes while intentionally changing floating-point accumulation. Focused CPU/CUDA tests and archived-policy host replay pass. Documentation correctly separates selected algebraic acceptance from continuous accuracy and acknowledges unresolved CUDA emitter selection. No repository, index, dependency or configuration changes were made; review scripts, inventory and JUnit outputs were created only in scratch.",
+  "reviewed_tree": "df3c68200e3be11a9bae9d15a540dc5c2514f959",
+  "verification": [
+    {
+      "scope": "Frozen source and static screening",
+      "result": "Confirmed baseline HEAD 415fc21e8e62d062a180aafb7cda8fbcec098f2b. Parsed staged diffs separately for all 145 files and verified their working-file bytes match. Independently reproduced the screening report's 8527 added lines, 144 pre-report files and diff SHA256; current totals are 8536 added lines and 145 files. No screening findings. git diff --cached --check passed.",
+      "final_integrity_commands": [
+        "git diff --cached --exit-code df3c68200e3be11a9bae9d15a540dc5c2514f959 --",
+        "git diff --exit-code"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 JAX_PLATFORMS=cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --no-sync --extra dev python -m pytest -q -p no:cacheprovider tests/unit/test_stable_implicit_precision.py tests/unit/test_history_reduction_compatibility.py --basetemp=\"$TMPDIR/num005-independent-review/pytest-cpu\" --junitxml=\"$TMPDIR/num005-independent-review/cpu.xml\"",
+      "exit_code": 0,
+      "result": "29 passed in 7.32s. Dynamic-order stiff-case maximum independent scaled residuals: stable 0.2770276016181242; direct 0.23616370900107006. Coverage includes real/complex helper semantics, trailing shapes, effective dtypes, JIT, analytic JVP/VJP, finite differences and shared uniform/nonuniform/adaptive solver paths."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --no-sync --extra dev --extra cuda13 python -m pytest -q -p no:cacheprovider tests/unit/test_stable_implicit_precision.py tests/unit/test_history_reduction_compatibility.py --basetemp=\"$TMPDIR/num005-independent-review/pytest-cuda\" --junitxml=\"$TMPDIR/num005-independent-review/cuda.xml\"",
+      "exit_code": 0,
+      "result": "29 passed in 10.31s. Dynamic-order stiff-case maximum independent scaled residuals: stable 0.23292174906264487; direct 0.24529762807235306. Independently confirmed CUDA default device, RTX 5070 Laptop GPU, driver 580.178.04, JAX/jaxlib 0.10.1 and default x64 disabled; CPU environment also uses Python 3.13.13 and JAX/jaxlib 0.10.1."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. JAX_PLATFORMS=cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --no-sync --extra dev python docs/validation/audits/num005-stable-precision-2026-11-10/verify.py",
+      "exit_code": 0,
+      "result": "Replayed all eight backend/dtype/evaluation reports and 48 raw artifacts: 32 required successes accepted and 16 expected-rejection controls retained as rejected. Verified manifests, source hashes, CSV contents and documented measurements. Archived full-suite XML contains 879 matching test identities per backend, with zero failures/errors/skips and 118 matching source inputs; this was artifact verification, not a full-suite rerun."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 uv run --frozen --no-sync --extra dev ruff check --no-cache src/hpfracc/solvers/predictor_corrector.py tests/unit/test_stable_implicit_precision.py tests/unit/test_history_reduction_compatibility.py docs/validation/audits/num005-stable-precision-2026-11-10/verify.py docs/validation/audits/num005-stable-precision-2026-11-10/wheel-smoke.py",
+      "exit_code": 0,
+      "result": "All checks passed."
+    },
+    {
+      "commands": [
+        "PYTHONDONTWRITEBYTECODE=1 uv run --frozen --no-sync --extra dev python /home/davianc/.hermes/cache/scratch/num005-independent-review/audit.py",
+        "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. JAX_PLATFORMS=cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --no-sync --extra dev python /home/davianc/.hermes/cache/scratch/num005-independent-review/deep_evidence.py"
+      ],
+      "exit_code": 0,
+      "result": "Verified archive and member hashes for 116 baseline source files, 118 current source files, 42 independent-analysis files and 74 CUDA-context files; source snapshots match HEAD or staged bytes as appropriate. Checked archive paths, compatibility evidence, RED compressed/raw hashes, unchanged RED/GREEN regression source, additional-gate/example hashes and wheel probe/kernel identities. Independently replayed all four captured CUDA-context residuals from raw states and confirmed identical StableHLO with differing optimized reduction emitters. Inspected decomposition sources and verified the signed component sum."
+    },
+    {
+      "limits": "No full-suite reruns, wheel rebuild/install, strict documentation rebuild or remote CI execution were performed. Historical exploratory probes and captured executables were not regenerated. Hash consistency does not independently authenticate historical execution. This review establishes neither arbitrary ill-conditioned summation bounds, general stiff continuous accuracy, public complex implicit-solver support, cross-compilation bitwise reproducibility nor Phase A/release approval."
+    }
+  ]
+}

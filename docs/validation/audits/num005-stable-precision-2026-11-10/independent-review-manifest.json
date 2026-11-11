@@ -1,0 +1,49 @@
+{
+  "scope": "Tree-specific independent review; only these three archival files added afterwards",
+  "captured_at_utc": "2026-11-11T06:17:40.025153+00:00",
+  "delegation_id": "deleg_59d81dfb",
+  "reviewed_tree": "df3c68200e3be11a9bae9d15a540dc5c2514f959",
+  "verdict_sha256": "875966787cd8b85c9a21a1f7c5e89c26f1c87d3eefbf3418137a5df5ce6df1ba",
+  "archive_sha256": "19852a23c44dbbaf98b85a4e11584615a779f09ca59d19e4f10f86837673c3a8",
+  "files": {
+    "audit.py": "7d2c8dff3f81ad57c422a0434d70146fa58f659a8914ebe2132520448018f6c0",
+    "cpu.xml": "6f9a2033781c605bda482fceab048a03e86b02200229245a794fe5f284d7936d",
+    "cuda.xml": "a95a5dc678317b309322c6bdca79ae7e845ff38e2c1f48050691438f151db77c",
+    "deep_evidence.py": "ded23bd4876cdfc71fdebc3b88f937e9b2f8b6285189cfc70547c327c4e65577",
+    "inventory.json": "e68de35c29747d3c7cb98345b23be700b0ccb8911dcdf792d88ac4386abab203",
+    "parent-audit.txt": "74cb5881a947cc96ed4f0d2d797483365299db24c335b1e13a06b67ab93eedff",
+    "parent-deep_evidence.txt": "ffaa3d055d878d5300d3b88dbd471b898e13ace0421410776758cf81206cb1c4"
+  },
+  "focused_junit_verified": {
+    "cpu": {
+      "tests": 29,
+      "properties": {
+        "stable_max_independent_scaled_residual": "0.2770276016181242",
+        "direct_max_independent_scaled_residual": "0.23616370900107006"
+      }
+    },
+    "cuda": {
+      "tests": 29,
+      "properties": {
+        "stable_max_independent_scaled_residual": "0.23292174906264487",
+        "direct_max_independent_scaled_residual": "0.24529762807235306"
+      }
+    }
+  },
+  "parent_audit_exit_code": 0,
+  "parent_deep_evidence_exit_code": 0,
+  "reviewed_diff_inventory_entries_verified": 145,
+  "static_scan_exact_diff_command": [
+    "git",
+    "diff",
+    "--cached",
+    "--no-ext-diff",
+    "--unified=0"
+  ],
+  "suggestion_handling": "Command recorded here without changing the frozen scan; no performance claim is made and scaling/memory gates remain open",
+  "post_review_additions": [
+    "independent-review.json",
+    "independent-review-evidence.tar.gz",
+    "independent-review-manifest.json"
+  ]
+}

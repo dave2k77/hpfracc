@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 26, in <module>
+    assert all(props[k]==v for k,v in compat[backend]["properties"].items())
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

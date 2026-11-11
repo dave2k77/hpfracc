@@ -1,0 +1,7 @@
+{
+  "wheel": "/home/davianc/.hermes/cache/scratch/hpfracc-num005-wheel/hpfracc-0.1.0a1-py3-none-any.whl",
+  "wheel_sha256": "8002b6b4f73e09e106d0a1cf62ee7983d2918b58d5324985ddfc784a410c4cda",
+  "runtime_requirements_sha256": "f0007b223c3331c7bfe277614f0b15f80e1a7e9cc2ff43b8126d906c2af87cd9",
+  "kernel_sha256": "94c60ded4f4f9a3753f6ccde8e7674429c681b8d7f89f9b5fb2140b032f3a01d",
+  "scope": "Runtime-only hash-locked isolated CPU wheel; not release sign-off"
+}

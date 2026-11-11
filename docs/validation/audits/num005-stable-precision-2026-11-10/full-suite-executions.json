@@ -1,0 +1,24 @@
+{
+  "scope": "Full default-suite execution journal; only completed process exits are recorded",
+  "source_snapshot": "suite-source-inputs.json",
+  "source_inputs": 118,
+  "expected_default_tests": 879,
+  "runs": [
+    {
+      "backend": "cpu",
+      "command": "JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m pytest -q --tb=short --junitxml=\"$TMPDIR/hpfracc-num005-full-cpu.xml\"",
+      "process_id": "proc_b3710920fc65",
+      "pid": 560507,
+      "status": "completed",
+      "exit_code": 0
+    },
+    {
+      "backend": "cuda",
+      "command": "UV_PROJECT_ENVIRONMENT=\"$HOME/.local/share/hpfracc/venv-cuda13\" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m pytest -q --tb=short --junitxml=\"$TMPDIR/hpfracc-num005-full-cuda.xml\"",
+      "process_id": "proc_bfe2e5a1427b",
+      "pid": 560536,
+      "status": "completed",
+      "exit_code": 0
+    }
+  ]
+}

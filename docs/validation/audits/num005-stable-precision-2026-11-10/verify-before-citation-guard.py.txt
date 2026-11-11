@@ -1,0 +1,111 @@
+"""Replay the NUM-005 frozen-policy reports without rerunning the solver."""
+
+import hashlib
+import itertools
+import json
+from collections import Counter
+from dataclasses import asdict
+from pathlib import Path
+
+import numpy as np
+
+from benchmarks.numerical import implicit_validation as audit
+from benchmarks.numerical import scientific_acceptance as policy
+
+ROOT = Path.cwd()
+BASE = ROOT / "docs/validation/audits/num005-stable-precision-2026-11-10"
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+executions = json.loads((BASE / "executions.json").read_text())
+expected_keys = set(itertools.product(
+    ("cpu", "gpu"), ("float32", "float64"), ("direct", "stable"),
+))
+keys = [(item["backend"], item["dtype"], item["weight_evaluation"])
+        for item in executions]
+assert len(keys) == len(expected_keys) and set(keys) == expected_keys
+expected_sources = policy._source_hashes()
+results = []
+counts = Counter()
+for execution in executions:
+    backend, dtype, mode = (
+        execution["backend"], execution["dtype"], execution["weight_evaluation"]
+    )
+    stem = BASE / f"scientific_acceptance_{backend}_{dtype}_{mode}"
+    report = json.loads(stem.with_suffix(".json").read_text())
+    expected = policy.case_manifest(dtype, weight_evaluation=mode)
+    manifest = [asdict(spec) for spec in expected]
+    assert canonical(report["manifest"]) == canonical(manifest)
+    protocol = {"version": policy.PROTOCOL_VERSION, "cases": manifest}
+    assert hashlib.sha256(canonical(protocol).encode()).hexdigest() == (
+        report["manifest_sha256"]
+    )
+    assert report["protocol_version"] == policy.PROTOCOL_VERSION
+    assert report["runtime"]["backend"] == backend
+    assert report["runtime"]["jax_enable_x64"] is (dtype == "float64")
+    assert report["runtime"]["source_sha256"] == expected_sources
+    assert digest(stem.with_suffix(".csv")) == report["csv_sha256"]
+    assert len(report["rows"]) == len(expected)
+    assert set(report["raw_artifacts"]) == {spec.case_id for spec in expected}
+    reconstructed = []
+    for spec, record in zip(expected, report["rows"], strict=True):
+        assert canonical(record["spec"]) == canonical(asdict(spec))
+        artifact = report["raw_artifacts"][spec.case_id]
+        path = (BASE / artifact["file"]).resolve()
+        assert path.parent == BASE and digest(path) == artifact["sha256"]
+        with np.load(path, allow_pickle=False) as raw:
+            for key in ("times", "states", "initial", "order", "strength"):
+                assert raw[key].dtype == np.dtype(dtype)
+            assert float(raw["order"]) == spec.order
+            assert float(raw["strength"]) == spec.strength
+            assert int(raw["weight_evaluation_code"]) == int(mode == "stable")
+            diagnostics = {key: raw[key] for key in audit.FIELDS}
+            measured = audit.summarize(
+                (raw["times"], raw["states"], diagnostics), spec.case, dtype,
+                spec.order, spec.strength, spec.n_samples, spec.newton_iterations,
+            )
+            result = policy._evaluate(spec, measured, mode, (dtype,) * 5)
+        assert canonical(asdict(result)) == canonical(record)
+        reconstructed.append(result)
+        counts["configurations"] += 1
+        counts["raw_artifacts"] += 1
+        if spec.role == "required_success":
+            assert result.accepted
+            counts["scientifically_accepted"] += 1
+        else:
+            assert not result.accepted and result.policy_passed
+            counts["expected_rejections_verified"] += 1
+    assert policy._csv_text(reconstructed).encode() == (
+        stem.with_suffix(".csv").read_bytes()
+    )
+    passed = policy.rows_passed(reconstructed, dtype, weight_evaluation=mode)
+    assert report["summary"] == {
+        "configurations": len(expected), "expected_configurations": len(expected),
+        "scientifically_accepted": 4, "expected_rejections_verified": 2,
+        "policy_passed": True,
+    }
+    assert passed and execution["exit_code"] == 0
+    counts["reports_passing"] += 1
+    results.append({
+        "backend": backend, "dtype": dtype, "weight_evaluation": mode,
+        "policy_passed": passed, "exit_code": execution["exit_code"],
+        "source_inputs_verified": len(expected_sources),
+        "weak_decay_independent_scaled_residual": (
+            reconstructed[0].measurement.independent_max_scaled_residual
+        ),
+    })
+assert counts == {
+    "reports_passing": 8, "configurations": 48, "raw_artifacts": 48,
+    "scientifically_accepted": 32, "expected_rejections_verified": 16,
+}
+print(json.dumps({
+    "scope": "Exact coverage/source/artifact/host replay; not universal accuracy",
+    "summary": dict(counts), "runs": results,
+}, indent=2))

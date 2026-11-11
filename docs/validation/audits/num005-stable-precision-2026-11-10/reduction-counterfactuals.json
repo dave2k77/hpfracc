@@ -1,0 +1,117 @@
+{
+  "scope": "Exploratory summation counterfactuals; not a repair or general acceptance result",
+  "runs": [
+    {
+      "scope": "History-reduction counterfactuals; no production change or IVP accuracy claim",
+      "backend": "cpu",
+      "jax": "0.10.1",
+      "source_sha256": "506e1d8f9ab6bafb9ee9f9c79b88459c819eb4f479610f13a4ee84b9e6c789bf",
+      "rows": [
+        {
+          "reduction": "default_dot",
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 1.1998344389138271,
+          "worst_step": 209,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "default_dot",
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.20526358291781596,
+          "worst_step": 223,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "highest_dot",
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 1.1998344389138271,
+          "worst_step": 209,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "highest_dot",
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.20526358291781596,
+          "worst_step": 223,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "elementwise_sum",
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 0.2770276016181242,
+          "worst_step": 256,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "elementwise_sum",
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.23616370900107006,
+          "worst_step": 200,
+          "reported_convergence": true,
+          "dtype": "float32"
+        }
+      ]
+    },
+    {
+      "scope": "History-reduction counterfactuals; no production change or IVP accuracy claim",
+      "backend": "gpu",
+      "jax": "0.10.1",
+      "source_sha256": "506e1d8f9ab6bafb9ee9f9c79b88459c819eb4f479610f13a4ee84b9e6c789bf",
+      "rows": [
+        {
+          "reduction": "default_dot",
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 0.23292174906264487,
+          "worst_step": 255,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "default_dot",
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.24529762807235306,
+          "worst_step": 191,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "highest_dot",
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 0.23292174906264487,
+          "worst_step": 255,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "highest_dot",
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.24529762807235306,
+          "worst_step": 191,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "elementwise_sum",
+          "weight_evaluation": "stable",
+          "independent_max_scaled_residual": 0.23292174906264487,
+          "worst_step": 255,
+          "reported_convergence": true,
+          "dtype": "float32"
+        },
+        {
+          "reduction": "elementwise_sum",
+          "weight_evaluation": "direct",
+          "independent_max_scaled_residual": 0.24529762807235306,
+          "worst_step": 191,
+          "reported_convergence": true,
+          "dtype": "float32"
+        }
+      ]
+    }
+  ]
+}

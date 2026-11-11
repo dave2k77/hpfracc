@@ -1,0 +1,11 @@
+{
+  "scope": "Documentation-only follow-up while full suites run; not full-suite exit evidence",
+  "readback_at_utc": "2026-11-11T00:45:03.817266+00:00",
+  "source_inputs_unchanged": 118,
+  "documentation_tests": 29,
+  "ruff_exit_code": 0,
+  "strict_docs_exit_code": 0,
+  "whitespace_exit_code": 0,
+  "citation_guard_exit_code": 0,
+  "docs_xml_sha256": "eb09b6bbf25709a37967adda5736ce5a3c355d925475e11364244834e31f105d"
+}

@@ -1,0 +1,25 @@
+{
+  "scope": "Full CPU default-suite XML and unchanged source inputs; CUDA exit remains pending",
+  "backend": "cpu",
+  "process_id": "proc_b3710920fc65",
+  "exit_code": 0,
+  "exit_evidence": "Tracked process completion and fresh process_manage readback",
+  "captured_at_utc": "2026-11-11T00:51:23.586628+00:00",
+  "tests": 879,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "performance_deselected": 1,
+  "source_inputs_verified": 118,
+  "xml": "full-cpu.xml",
+  "xml_sha256": "70dd839132c92921ac0486e5ace0f9016edcfaf8881ea20a02137857ff8b1a56",
+  "properties": {
+    "hypothesis-statistics-tests/property/test_operator_identities.py::test_operator_is_linear[caputo]": "dGVzdHMvcHJvcGVydHkvdGVzdF9vcGVyYXRvcl9pZGVudGl0aWVzLnB5Ojp0ZXN0X29wZXJhdG9yX2lzX2xpbmVhcltjYXB1dG9dOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoNC45MyBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAyLTYzNSBtcywgb2Ygd2hpY2ggfiAwLTggbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDQwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMyBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz00MA==",
+    "hypothesis-statistics-tests/property/test_operator_identities.py::test_operator_is_linear[grunwald_letnikov]": "dGVzdHMvcHJvcGVydHkvdGVzdF9vcGVyYXRvcl9pZGVudGl0aWVzLnB5Ojp0ZXN0X29wZXJhdG9yX2lzX2xpbmVhcltncnVud2FsZF9sZXRuaWtvdl06CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgzLjI2IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDItNTI5IG1zLCBvZiB3aGljaCB+IDAtOSBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gNDAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAyIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTQw",
+    "hypothesis-statistics-tests/property/test_operator_identities.py::test_caputo_of_constant_is_zero": "dGVzdHMvcHJvcGVydHkvdGVzdF9vcGVyYXRvcl9pZGVudGl0aWVzLnB5Ojp0ZXN0X2NhcHV0b19vZl9jb25zdGFudF9pc196ZXJvOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoNC4wMyBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAxLTYxOCBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDQwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz00MA==",
+    "hypothesis-statistics-tests/unit/test_fractional_operators.py::test_caputo_is_linear_in_input_samples": "dGVzdHMvdW5pdC90ZXN0X2ZyYWN0aW9uYWxfb3BlcmF0b3JzLnB5Ojp0ZXN0X2NhcHV0b19pc19saW5lYXJfaW5faW5wdXRfc2FtcGxlczoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDEuMTggc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMi0xMTIxIG1zLCBvZiB3aGljaCB+IDAtMyBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMjAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTIw",
+    "hypothesis-statistics-tests/unit/test_fractional_operators.py::test_grunwald_letnikov_is_linear_in_input_samples": "dGVzdHMvdW5pdC90ZXN0X2ZyYWN0aW9uYWxfb3BlcmF0b3JzLnB5Ojp0ZXN0X2dydW53YWxkX2xldG5pa292X2lzX2xpbmVhcl9pbl9pbnB1dF9zYW1wbGVzOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4yMyBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAxLTE5MSBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDIwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0yMA==",
+    "stable_max_independent_scaled_residual": "0.2770276016181242",
+    "direct_max_independent_scaled_residual": "0.23616370900107006"
+  }
+}

@@ -162,6 +162,9 @@ GPU aggregates. The selected independent cubic residual falls from `1.795` to
 
 ## NUM-004 — cancellation-safe default direct arithmetic
 
+The measurements in this section belong to the NUM-004 checkpoint. The later
+NUM-005 history-accumulation follow-up below has separate current-source reports.
+
 The deterministic uniform `_pece_weights` predictor now evaluates the power
 difference with `expm1`/`log1p`. Its boundary corrector uses a positive binomial
 series through degree `K=28` in float32 or `K=56` in float64. Interior correctors
@@ -212,6 +215,66 @@ Independent review, remote multi-version CI and release gates are separate.
 This repair does not establish arbitrary nonlinear/stiff float32
 accuracy or remove normalization, model-evaluation, accumulation or coarse-grid
 positivity limitations. Phase A remains open.
+
+## NUM-005 — history accumulation
+
+A separate CPU float32 stiff-decay case reported Newton convergence but failed
+an independent algebraic residual test. A compiled replay matching the public
+trajectory bit-for-bit isolates history accumulation as the dominant error;
+coefficient and Newton errors are much smaller. Returning intermediate weights
+or adding callbacks changed fusion and misleadingly made the unfixed case pass.
+The [NUM-005 bundle](audits/num005-stable-precision-2026-11-10/README.md) preserves
+that investigation, the original failures and the matching decomposition.
+
+The shared history helper now broadcasts weights across trailing state axes
+and explicitly sums weighted history along time. This intentionally changes
+floating-point accumulation, not the full-history discrete method, coefficients,
+normalization, selector defaults, Newton settings or working precision.
+Highest contraction precision alone did not repair the demonstrated CPU case.
+
+### Frozen weak-decay policy case
+
+The subsequent eight CPU/CUDA precision/evaluation reports pass the unchanged
+six-case policy: 32 required successes accepted and 16 controls still rejected.
+For its float32 weak-decay case, the new independent maximum scaled residuals
+are below. These replace neither the historical NUM-004 reports nor their
+source-specific values above; improvements are not claimed for every metric.
+
+| Backend | Evaluation | Independent maximum scaled residual |
+| --- | --- | --- |
+| CPU | direct | 0.018247163618732503 |
+| CPU | stable | 0.01786042577580126 |
+| CUDA | direct | 0.01743271498279139 |
+| CUDA | stable | 0.01643224778294578 |
+
+### Separate stiff algebraic regression
+
+For rate 30, order 0.5, 257 nodes, eight Newton iterations, `rtol=1e-5` and
+`atol=1e-7`, the uninstrumented strong-float32 dynamic-order JIT results from the
+isolated 25-case compatibility-file run are:
+
+| Backend | Evaluation | Independent maximum scaled residual |
+| --- | --- | --- |
+| CPU | direct | 0.23616370900107006 |
+| CPU | stable | 0.2770276016181242 |
+| CUDA | direct | 0.24529762807235306 |
+| CUDA | stable | 0.23292174906264487 |
+
+The pre-repair CPU stable value was 1.1998344389138271; CUDA already passed.
+This case remains outside the frozen policy and is an algebraic regression,
+not continuous-accuracy acceptance. The original four regressions and 25 new
+shape/dtype/gradient/shared-path compatibility tests pass on each backend.
+Full CPU/CUDA suites each pass 879 tests with confirmed zero exits and 118
+source inputs unchanged. The full-suite CUDA stable/direct properties are
+0.22442286756041424 / 0.2788388698063575, differing from the isolated values
+above but still meeting the same criterion. CPU properties match. VAL-007
+reproduces both pairs under identical target-only commands with identical
+f32-only StableHLO/configuration but different optimized reduction emitters.
+Five replays per captured executable are bitwise stable; why XLA selects
+different emitters remains unresolved, and the historical executables were not
+captured. Review and delivery are separate records. No general sum-error bound,
+cross-compilation bitwise guarantee, arbitrary stiffness robustness or Phase A
+closure is asserted.
 
 ## Tests and compatibility boundary
 

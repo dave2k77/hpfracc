@@ -1,0 +1,22 @@
+Repository: /home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc
+Baseline HEAD: 415fc21e8e62d062a180aafb7cda8fbcec098f2b
+Evidence directory: /home/davianc/.hermes/cache/scratch/num005-history-compatibility.Y0gI0a
+JAX: 0.10.1 in both environments; process x64 default False.
+CPU environment default device: CpuDevice(id=0).
+CUDA environment default device: CudaDevice(id=0), NVIDIA GeForce RTX 5070 Laptop GPU, driver 580.178.04.
+Initial protected SHA256:
+24dd9fb4bb7282ffee1197a4174ce6ff5a22bbda2e790df43c12ecaa0f13b7cf  tests/unit/test_stable_implicit_precision.py
+94c60ded4f4f9a3753f6ccde8e7674429c681b8d7f89f9b5fb2140b032f3a01d  src/hpfracc/solvers/predictor_corrector.py
+Initial Git index diff SHA256 (empty): e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+Commands, run from the repository root:
+uv run --frozen --extra dev ruff format tests/unit/test_history_reduction_compatibility.py
+uv run --frozen --extra dev ruff check tests/unit/test_history_reduction_compatibility.py
+
+set -o pipefail
+PYTHONDONTWRITEBYTECODE=1 JAX_PLATFORMS=cpu uv run --frozen --extra dev python -m pytest tests/unit/test_history_reduction_compatibility.py -vv -x -p no:cacheprovider --junitxml=/home/davianc/.hermes/cache/scratch/num005-history-compatibility.Y0gI0a/cpu.xml 2>&1 | tee /home/davianc/.hermes/cache/scratch/num005-history-compatibility.Y0gI0a/cpu.log
+
+set -o pipefail
+PYTHONDONTWRITEBYTECODE=1 UV_PROJECT_ENVIRONMENT="$HOME/.local/share/hpfracc/venv-cuda13" JAX_PLATFORMS=cuda,cpu XLA_PYTHON_CLIENT_PREALLOCATE=false uv run --frozen --extra dev --extra cuda13 python -m pytest tests/unit/test_history_reduction_compatibility.py -vv -x -p no:cacheprovider --junitxml=/home/davianc/.hermes/cache/scratch/num005-history-compatibility.Y0gI0a/cuda.xml 2>&1 | tee /home/davianc/.hermes/cache/scratch/num005-history-compatibility.Y0gI0a/cuda.log
+
+Dtype flags are scoped per test with jax.enable_x64(False/True), outside JIT. No global x64 promotion is used. Testsuite properties store host-reconstructed maximum scaled residuals for the stable and direct dynamic-float32-order stiff controls. No callbacks or intermediate-weight returns are added.

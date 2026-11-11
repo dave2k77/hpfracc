@@ -76,6 +76,31 @@ CI/release gates are separate. This is not arbitrary nonlinear/stiff float32
 validation or Phase A
 closure, and expected rejections are not successful trajectories.
 
+### History Accumulation Hardening
+
+NUM-005 isolates a separate CPU float32 stable-weight stiff-decay failure to
+history accumulation, amplified by cancellation with the initial condition.
+A bit-matching compiled replay and independent high-precision panel reference
+separate that error from coefficient and Newton errors. The shared solver
+helper now uses an explicit weighted reduction instead of contraction; no
+precision promotion, threshold relaxation, selector or discrete-method change
+is involved. Four unchanged focused regressions pass on each CPU/CUDA backend,
+and eight new frozen-policy reports retain all 32 required successes and 16
+rejected controls. The
+[NUM-005 bundle](audits/num005-stable-precision-2026-11-10/README.md)
+preserves the failures, decomposition, raw reports and host replay.
+Twenty-five additional compatibility cases pass on each backend. Full CPU/CUDA
+suites each pass 879 tests with confirmed zero exits and 118 source inputs
+unchanged. Their CUDA residual properties differ from the isolated run, while
+both pass the unchanged criterion. VAL-007 reproduces the two pairs with
+identical f32-only StableHLO/configuration but different optimized reduction
+emitters; selection cause and historical emitter identity remain unresolved.
+Independent review and source delivery are separate records. This is not
+continuous-accuracy acceptance, cross-compilation bitwise reproducibility or
+Phase A closure.
+The prior NUM-004 commit's remote Python 3.11–3.13 CI is separately verified
+successful and does not validate this later uncommitted repair.
+
 ### Input and Grid Validation
 
 `tests/unit/test_solver_input_validation.py` covers finite, strictly increasing
