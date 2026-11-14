@@ -1,0 +1,95 @@
+{
+  "status": "Frozen corrected candidate for fresh independent review, not approval or protocol freeze",
+  "files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 125847,
+      "sha256": "191bbe03f7d2efe92ee51833091080241a7f144dfc635167f893a7531b571201"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 39593,
+      "sha256": "104eb8fb1e6854519654df47f31e2cee1b5e60f934b01285d9eb593b6fb57dd3"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 8052,
+      "sha256": "52b10a264cdc8e25112e2c28441324a246e5b78750fdbd4e2327f57e6d77998b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/README.md": {
+      "bytes": 4200,
+      "sha256": "0d330d24807d97cb002752b1ab839adf30fa42a7d4991cfc43e689ea4f85922e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/authorization.json": {
+      "bytes": 2429,
+      "sha256": "d05eb594a5a4364a4e8162a6aa3c56442f985c50357236df2a7d7d5bf41c4b08"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/baseline-inputs.json": {
+      "bytes": 188778,
+      "sha256": "34ee701377462259082d89c17908609d56259843de1c64b4624e55f2a02da139"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/correction-evidence.tar.gz": {
+      "bytes": 16049143,
+      "sha256": "ab1f816abb7546dad387e3d39fc1de686aa31deb49abf64abe007bf7bd6a1e01"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/correction-preservation.json": {
+      "bytes": 6517,
+      "sha256": "d46b49f629b2fb1b23c2c4066819691a92d4fe242e953241328a5cb22d60421e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/correction-result.json": {
+      "bytes": 6119,
+      "sha256": "e945d4c84d5ba92c47b8f50c869236aa85e4d2fe08a1ff22416e79008194ea21"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/parent-replay-evidence.tar.gz": {
+      "bytes": 1424629,
+      "sha256": "7ceca807c2fd35cc6199a7d3227e78007dcf03e03fd677390b53fa2e259f7126"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/parent-replay.json": {
+      "bytes": 36971,
+      "sha256": "eba35128f84b6244951a3867f41f97db0ad1c16532bbb6299728417457ef13df"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-repair-status.json": {
+      "bytes": 696,
+      "sha256": "1ae7182f33462f544f0727f780122280ecf21962be62db8b2a51381126cc199e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-repair-status.tar.gz": {
+      "bytes": 58754,
+      "sha256": "ae8240773346a1c8c7b0c51e80b3a720222317ad8dbc9a3cdb5ebf37241922fd"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-review-privacy.json": {
+      "bytes": 4762,
+      "sha256": "9c910c87d69f0671d2ab96304ad74760cc4ce67ce53e0c4d0e9cc3c4736bc9f5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-review-qa-evidence.tar.gz": {
+      "bytes": 4647,
+      "sha256": "10c71d711e2b8b3aebf664c5696a4121323cb7fbabeb52bcfaf8427c2455771f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-review-qa.json": {
+      "bytes": 1997,
+      "sha256": "4727405ff6df0309685d1b5ce1c26a94aaace8b26a6557de8701460cb422c623"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/preflight-evidence.tar.gz": {
+      "bytes": 9126,
+      "sha256": "1f713ea47d29c118374dcd15552d6c985d68eeea2211f2079b16708bcf77019c"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/preflight-preservation.json": {
+      "bytes": 2432,
+      "sha256": "a6a7326be81352a6e43e021d1dae768c885ee8c352d4d4aebcc034ed11ebd309"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/preflight.json": {
+      "bytes": 15915,
+      "sha256": "2695d007241c10cf3c60594dae0fb534bd2f34cbd1b3107c6a12f4110aa732b5"
+    }
+  },
+  "file_count": 19,
+  "immutable_baseline_files": 930,
+  "allowed_post_review_status_delta": [
+    "docs/developer/phase-a-completion.md",
+    "docs/developer/bug-resolution-tracker.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/README.md"
+  ],
+  "allowed_post_review_additions": "Fresh review proof/verdict, parent readback, final QA and bounded completion metadata only",
+  "further_source_repair_authorized": false,
+  "correction_index_sha256": "92dfd7a40eadea971066d52c9565cd366f6afa555979073e9d788b083d09283f",
+  "correction_archive_sha256": "ab1f816abb7546dad387e3d39fc1de686aa31deb49abf64abe007bf7bd6a1e01",
+  "corrected_helper_sha256": "f18113b7d05469e7cd657f8ef522114dcc6f6a175c3c60a32f55c21c44370c43",
+  "unchanged_checker_sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+}

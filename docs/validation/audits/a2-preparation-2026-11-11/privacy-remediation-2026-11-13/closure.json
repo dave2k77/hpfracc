@@ -1,0 +1,57 @@
+{
+  "status": "STEP 1 COMPLETE: labelled sanitized derivative approved within bounded privacy/integrity scope",
+  "completed_at_utc": "2026-11-13T09:19:26.051771+00:00",
+  "authorization": "authorization.json",
+  "step_1_complete": true,
+  "sanitized_derivative_publication_ready": true,
+  "original_unsanitized_archive_publication_ready": false,
+  "blanket_a2_publication_or_release_clearance": false,
+  "historical_replay_closure_complete": false,
+  "derivative": {
+    "path": "sanitized-bundle/single-trace-independent-review-failed-evidence.sanitized.tar.gz",
+    "sha256": "26b0c4b4ccf59e415c9631471e01713ab8b27feda9351b077f831c557b981ff2",
+    "retained_members": 449,
+    "omitted_members": 8,
+    "retained_bodies_unchanged": true
+  },
+  "independent_review": {
+    "verdict": "independent-review-verdict.json",
+    "verdict_sha256": "10e09c8ca41ccf47ed9c415ce6e98111908d0b286a23e3f0927ac3aade12d848",
+    "passed": true,
+    "proof_preservation": "independent-review-preservation.json",
+    "fresh_packaging_tests": 23,
+    "cli_tamper_rejections": 16
+  },
+  "final_qa": {
+    "packaging_tests": 23,
+    "documentation_tests": 23,
+    "actual_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "raw_evidence": "parent-closure-evidence.tar.gz::final-qa/",
+    "full_numerical_suites_rerun": false
+  },
+  "final_privacy": {
+    "report": "final-privacy-check.json",
+    "report_sha256": "1cae2a60e56c5d512d65268e27224f6d98208767606f0ae90afa81acb53f5e54",
+    "direct_public_files": 105,
+    "review_archive_members_verified_by_composition": 199,
+    "findings": 0,
+    "limits": "Bounded field/token/pattern scanning and exact archive composition; not universal secret detection."
+  },
+  "status_delta": "final-status-delta.json",
+  "unchanged_protected_files": 221,
+  "numerical_source_fixed_trace_checker_packet_criteria_and_caps_unchanged": true,
+  "original_private_hash_permissions_and_absence_verified": true,
+  "commit_or_push_performed": false,
+  "broader_a2_accounting_complete": false,
+  "numerical_implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "next_boundary": "Stop after STEP 1. A separately approved bounded accounting increment is the recommended next task; no bulk expansion, numerical implementation or commit/push is implied.",
+  "final_file_inventory": "final-manifest.json"
+}

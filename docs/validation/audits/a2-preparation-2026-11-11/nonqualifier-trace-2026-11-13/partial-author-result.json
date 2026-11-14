@@ -1,0 +1,120 @@
+{
+  "completed": false,
+  "scope": "ONE additional static/hypothetical REF-FAIL-f64-GL; partial author self-verification only",
+  "case_id": "REF-FAIL-f64-GL",
+  "evidence_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-a2-nonqualifier-01168laz",
+  "evidence_index_path": "/home/davianc/.hermes/cache/scratch/hpfracc-a2-nonqualifier-01168laz/evidence-index.json",
+  "result_path": "/home/davianc/.hermes/cache/scratch/hpfracc-a2-nonqualifier-01168laz/result.json",
+  "authoritative_source": "final/a2_trace.py",
+  "source_diff": "source.diff",
+  "source_status": "Unexecuted final ordering patch; last passing checker preserved in runs/04-nonqualifier-positive-green/before/a2_trace.py",
+  "run_outcomes": {
+    "01-baseline-26": {
+      "actual_exit": 0,
+      "source_hashes_unchanged": true,
+      "junit": {
+        "collected": 26,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 3605,
+          "sha256": "79780d6bcc79efe26b78742beea171611dce3fbae56224854990e0c1071c270b"
+        },
+        "skipped": 0
+      }
+    },
+    "02-baseline-lint": {
+      "actual_exit": 1,
+      "source_hashes_unchanged": true,
+      "junit": {}
+    },
+    "03-nonqualifier-positive-red": {
+      "actual_exit": 1,
+      "source_hashes_unchanged": true,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1149,
+          "sha256": "a845831be1d8a30a7ee925fc48dd9f6047582ef10200e38dc328b95de6ce3ea4"
+        },
+        "skipped": 0
+      }
+    },
+    "04-nonqualifier-positive-green": {
+      "actual_exit": 0,
+      "source_hashes_unchanged": true,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 382,
+          "sha256": "fa9ec32bb2091daf4e5846bb159c75d75d342ce11959da21f3b36349f6317d86"
+        },
+        "skipped": 0
+      }
+    },
+    "05-selected-regression-26": {
+      "actual_exit": 0,
+      "source_hashes_unchanged": true,
+      "junit": {
+        "collected": 26,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 3605,
+          "sha256": "3ee29f7443739c4052c6b7a2d90d10b3ac2436ad98dc5718acfb19dcf11ee240"
+        },
+        "skipped": 0
+      }
+    },
+    "06-missing-bound-red": {
+      "actual_exit": 1,
+      "source_hashes_unchanged": true,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 2957,
+          "sha256": "3370ffcae1604120fd8f31203373ce1dad9a12758ad047a870e49e1858a2868f"
+        },
+        "skipped": 0
+      }
+    }
+  },
+  "authority_derivation": "authority-derivation.json",
+  "new_authority": "data/nonqualifier/authority.json",
+  "new_trace": "Not generated as a preserved standalone artifact before execution was blocked",
+  "ledger_outcome": "Initial new positive test passed builder versus existing checker ledger equality, but independent physical replay and ledger control requirements remain unfinished",
+  "protected_input_files": {
+    "protected_files_checked": 234,
+    "changed": [],
+    "excluded_mutable_statuses": [
+      "docs/developer/bug-resolution-tracker.md",
+      "docs/developer/phase-a-completion.md"
+    ],
+    "git_head_and_index": "Verified in protection-before.json only; no additional subprocess run after approval blocker",
+    "recovered_inputs_unchanged": true
+  },
+  "independent_review_passed": false,
+  "production_implementation_authorized": false,
+  "a2_acceptance_passed": false,
+  "protocol_freeze_authorized": false,
+  "repository_writes_performed": false,
+  "limitations": [
+    "All witness process/security/counter fields remain symbolic; actual harness exits describe tests, not worker observations.",
+    "The all-1 packet digest is hypothetical and is not the actual packet-manifest hash.",
+    "No production fitting, worker, selector, gradient experiment, numerical-core edit, cap change, schema edit, additional case, commit or push.",
+    "No operational, resource-sufficiency, security-sandbox or numerical-certification claim."
+  ],
+  "unresolved_issues": [
+    "Tool approval is pending for run 07-missing-bound-green; no child was started and the blocked action was not retried or rerouted.",
+    "The latest source ordering change is unexecuted: missing exact bound was a TypeError in preserved RED, so current source cannot be claimed GREEN.",
+    "Focused semantic/ledger controls, independent arithmetic and physical byte replay, original 38-body/canonical trace equality, missing-input and portable replay controls are unfinished.",
+    "Final scoped lint, recursive evidence privacy scanning, and independent review have not been completed. Inherited scoped lint baseline failed and is preserved."
+  ],
+  "summary": "Preserved baseline 26/26 and initial nonqualifier RED/GREEN; extended-checker unchanged selected tests 26/26. Mechanical authority verified for 25 records and 13 slots. Missing-bound RED exposed a TypeError; the minimal ordering patch is unverified because execution approval is pending. Stopped without claiming completion."
+}

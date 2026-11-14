@@ -1,0 +1,22 @@
+{
+  "authorization_id": "a2-single-conditional-trace-2026-11-12",
+  "owner_message_verbatim": "alright, go with your recommendation.",
+  "approved_recommendation": "Stop bulk-profile expansion; first establish one complete conditional trace and an independently checked byte-accounting equation, with invalid-success and omitted-byte tests, before expanding coverage.",
+  "fixed_target": "The existing labelled STATIC/HYPOTHETICAL selected-REF-PASS-f64-GL witness, corresponding to frozen REF-PASS-f64-GL: three samples, two supplied synthetic candidates, all 22 required exact slots.",
+  "deliverable": "One fixed-case static audit with canonical record and semantic linkage checks, independently recomputed live/cumulative byte ledger, initial/final atomic-index lifecycle, manifest/log/temp/index charges, behavioral RED/GREEN and meaningful semantic/arithmetic negative controls; then fresh independent review.",
+  "limits": [
+    "Exactly one fixed conditional metadata trace; no bulk profiles or extension to FIT-REAL/AD/FD outcomes.",
+    "All hypothetical process, timing and ownership fields remain explicitly labelled examples, not observed worker or security evidence.",
+    "Read-only finite checks of supplied static exact payloads are not a production numerical worker, fitter, selector or operational validator.",
+    "No byte/node cap revision or claim of whole-packet feasibility follows from one trace.",
+    "Preserve all prior failures, scientific cases/checks/tolerances/math/domain, numerical source, index and nonmetadata limits.",
+    "Stop for a new decision if the fixed target cannot be closed; do not restart another bulk accounting attempt."
+  ],
+  "coverage_expansion_authorized": false,
+  "cap_change_authorized": false,
+  "numerical_implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "schema_redesign_authorized": false,
+  "scope_deferral_authorized": false,
+  "a2_acceptance_passed": false
+}

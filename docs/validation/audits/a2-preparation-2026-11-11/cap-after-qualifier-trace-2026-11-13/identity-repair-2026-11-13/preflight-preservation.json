@@ -1,0 +1,73 @@
+{
+  "archive": "preflight-evidence.tar.gz",
+  "bytes": 9126,
+  "sha256": "1f713ea47d29c118374dcd15552d6c985d68eeea2211f2079b16708bcf77019c",
+  "members_verified": 14,
+  "files": {
+    "prepare_repair.py": {
+      "bytes": 7607,
+      "sha256": "5af2b87a915fe5566baf03b1316502f77b85df50f634fc06248e1e27acd20ff9"
+    },
+    "capture_preflight.py": {
+      "bytes": 3813,
+      "sha256": "7c85a26ece32aeb3424e656190d83fa51c6bb8c3bef030b467bd693fdd57ca8b"
+    },
+    "copied-inputs.json": {
+      "bytes": 14079,
+      "sha256": "bdea0a274792eae6d2ba48cc48bd6d57167b15ad06a6510372eb79864064cc01"
+    },
+    "preflight-qa/plan.json": {
+      "bytes": 1083,
+      "sha256": "69335f2d229504ced62de0e4f845a6303c8ef331ee78403d751b59f8c91bc8ff"
+    },
+    "preflight-qa/receipts.json": {
+      "bytes": 1343,
+      "sha256": "61e978d458975dfb2a3818fe517300dcd9d4d240119defbbb93147ae6ed27b79"
+    },
+    "preflight-qa/docs.xml": {
+      "bytes": 3662,
+      "sha256": "59a337a061da6bc4b10c680074306d6d3fa6ea828ec0d4c49389d3bc392c7dc4"
+    },
+    "preflight-qa/0-stdout.raw": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "preflight-qa/0-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preflight-qa/1-stdout.raw": {
+      "bytes": 99,
+      "sha256": "0a449271031eff5729cc9a244ff714cfa558908057adb4a9fa6c1876a3f49829"
+    },
+    "preflight-qa/1-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preflight-qa/2-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preflight-qa/2-stderr.raw": {
+      "bytes": 2910,
+      "sha256": "cc0c79111df47ad684d73d20cb269677e0f047834a3fb49445012a0e3192d014"
+    },
+    "preflight-qa/3-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preflight-qa/3-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23,
+  "protected_files_unchanged": 930,
+  "scope": "Initial status/documentation QA and discovery-source preservation, not corrected-candidate or independent approval"
+}

@@ -1,0 +1,41 @@
+{
+  "changes": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "before": {
+        "bytes": 121776,
+        "sha256": "1003592d98d2fe5fcd1545c1a0ed04ebb0061c4fd97cfe8a42c77ca6ed0bef0b"
+      },
+      "after": {
+        "bytes": 124224,
+        "sha256": "e31cda473cd8feeb73c6f1515dd45912c1f3609c321c5d206af14811ecccf640"
+      },
+      "scope": "Rejected-review disposition only"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "before": {
+        "bytes": 37219,
+        "sha256": "054f4671147179c7cf14106b96e1b424a2a3009b9e11dbb5554f3f6b34ed412c"
+      },
+      "after": {
+        "bytes": 38192,
+        "sha256": "d907c7ea1797cfef56569a08cfa659fbf95557ec739bdc82ab014773b6914ca9"
+      },
+      "scope": "Rejected-review disposition only"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "before": {
+        "bytes": 5749,
+        "sha256": "c856ee0a70c48efc61bc7c7372edc16e8522d79be07296d77efb51aa64fd5e81"
+      },
+      "after": {
+        "bytes": 7856,
+        "sha256": "7963851dc2247abf66c3592e3d27e838bc9337eb1120b1836000efddca4fdac3"
+      },
+      "scope": "Rejected-review disposition only"
+    }
+  },
+  "unchanged_protected_files": 915,
+  "unchanged_baseline_files": 901,
+  "head_and_stage_unchanged": true,
+  "source_repaired": false
+}

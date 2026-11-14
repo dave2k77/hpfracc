@@ -1,0 +1,63 @@
+{
+  "a2_acceptance_passed": false,
+  "accounting_complete": false,
+  "arithmetic_verified": false,
+  "budget_revision_justified": false,
+  "committed_or_pushed": false,
+  "current_caps": {
+    "evidence_bytes": 16777216,
+    "failure_index_bytes": 524288,
+    "json_nodes": 32768
+  },
+  "final_quality": {
+    "docs_tests_passed": 23,
+    "ruff_exit": 0,
+    "strict_docs_exit": 0,
+    "whitespace_exit": 0
+  },
+  "further_writer_cycle_authorized": false,
+  "historical_inputs_unchanged": 21,
+  "implementation_authorized": false,
+  "necessary_admission": {
+    "actual_exit": 1,
+    "errors": 0,
+    "failures": 8,
+    "tests": 8
+  },
+  "negative_controls": {
+    "actual_exit": 1,
+    "errors": 0,
+    "failures": 5,
+    "tests": 11
+  },
+  "new_budget_applied": false,
+  "numerical_inputs_unchanged": 125,
+  "packet_unchanged": 9,
+  "preservation": {
+    "advisory_archive_members": 218,
+    "advisory_indexed": 201,
+    "author_archive_members": 210,
+    "author_indexed": 180,
+    "review_archive_members": 124,
+    "review_indexed": 102
+  },
+  "protected_inputs_verified": {
+    "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b": 210,
+    "/home/davianc/.hermes/cache/scratch/a2_obligation_TomeBgNo": 218,
+    "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc": 162
+  },
+  "protocol_freeze_authorized": false,
+  "review_verdict": "FAILED_LEDGER_PROOF_CONFIRMED_STOP_CORRECT_NO_CAP_REVISION",
+  "scope": "Resumed owner-authorized bounded metadata-ledger attempt and independent assessment; closed FAILED and PAUSED, not a delivered budget revision",
+  "semantic_gate": {
+    "actual_exit": 1,
+    "source": "metadata-ledger-independent-assessment.json",
+    "unclosed_conditions": 131
+  },
+  "structural_regression": {
+    "green_passes": 4,
+    "red_failures": 4,
+    "sufficient_accounting": false
+  },
+  "total_numerical_certified": false
+}

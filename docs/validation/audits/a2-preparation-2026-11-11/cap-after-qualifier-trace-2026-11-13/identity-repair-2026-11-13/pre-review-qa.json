@@ -1,0 +1,63 @@
+{
+  "archive": "pre-review-qa-evidence.tar.gz",
+  "bytes": 4647,
+  "sha256": "10c71d711e2b8b3aebf664c5696a4121323cb7fbabeb52bcfaf8427c2455771f",
+  "members_verified": 12,
+  "files": {
+    "freeze_review.py": {
+      "bytes": 6460,
+      "sha256": "8ffd92a8875293519b341c9c9ce01ef7b7b001fd0a04848638918ba1a4cbee1d"
+    },
+    "pre-review-qa/plan.json": {
+      "bytes": 1075,
+      "sha256": "037caae4b8e35629377df835921ab7f0561f11ddfbed4a450a00167d1bc1f3b4"
+    },
+    "pre-review-qa/receipts.json": {
+      "bytes": 1335,
+      "sha256": "8e38f71d07c0dc43da9e51296c19c0639d8c486ddd6b587670a2192be9cea27b"
+    },
+    "pre-review-qa/docs.xml": {
+      "bytes": 3662,
+      "sha256": "acb36d8a55a561514f2a72db27e59fdddea2f4180c28a05f10cf3996bb6f7ab5"
+    },
+    "pre-review-qa/0-stdout.raw": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "pre-review-qa/0-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pre-review-qa/1-stdout.raw": {
+      "bytes": 99,
+      "sha256": "6ad38dff04704eb2809d065239da8924d9267acc65f12acbe614061a094ff7fe"
+    },
+    "pre-review-qa/1-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pre-review-qa/2-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pre-review-qa/2-stderr.raw": {
+      "bytes": 2907,
+      "sha256": "42cad6fdc4ae2940a4722711e06f5878f431e0ca945d6f8de110a37509850aa2"
+    },
+    "pre-review-qa/3-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pre-review-qa/3-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23
+}

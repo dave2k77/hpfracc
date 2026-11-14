@@ -1,0 +1,505 @@
+{
+  "protocol_id": "a2-glrl-exact-reference-v1-draft",
+  "predicate": "same rank and exact shape; all values finite; for EVERY component abs(a-r) <= atol + rtol*abs(r). a is observed operand, r is explicitly named reference. Decode represented working operands exactly for comparison; do not round rational references to worker dtype. No norm reduction, squeeze, broadcast, relative denominator swap or equal_nan.",
+  "policies": [
+    {
+      "policy_id": "float32-forward_recursive_exact",
+      "a": "recursive_output",
+      "reference": "exact_D_hat",
+      "observed_dtype": "float32",
+      "reference_dtype": "exact_rational",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-forward_full_exact",
+      "a": "full_signed_output",
+      "reference": "exact_D",
+      "observed_dtype": "float32",
+      "reference_dtype": "exact_rational",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-forward_eager_jit",
+      "a": "jit_output",
+      "reference": "eager_output",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "modes": [
+        "cross_mode"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-input_grad_analytic",
+      "a": "input_AD",
+      "reference": "exact_input_gradient",
+      "observed_dtype": "float32",
+      "reference_dtype": "exact_rational",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-input_grad_eager_jit",
+      "a": "jit_input_AD",
+      "reference": "eager_input_AD",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "modes": [
+        "cross_mode"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-order_grad_eager_jit",
+      "a": "jit_order_AD",
+      "reference": "eager_order_AD",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "modes": [
+        "cross_mode"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-input_FD_AD",
+      "a": "input_directional_AD",
+      "reference": "input_central_FD",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "1f4"
+      },
+      "atol": {
+        "num": "1",
+        "den": "1388"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-input_FD_adjacent",
+      "a": "input_FD_smaller_h",
+      "reference": "input_FD_larger_h",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "1f4"
+      },
+      "atol": {
+        "num": "1",
+        "den": "1388"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-order_FD_AD",
+      "a": "order_AD",
+      "reference": "order_central_FD",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "c8"
+      },
+      "atol": {
+        "num": "1",
+        "den": "7d0"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float32-order_FD_adjacent",
+      "a": "order_FD_smaller_h",
+      "reference": "order_FD_larger_h",
+      "observed_dtype": "float32",
+      "reference_dtype": "float32",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "c8"
+      },
+      "atol": {
+        "num": "1",
+        "den": "7d0"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-forward_recursive_exact",
+      "a": "recursive_output",
+      "reference": "exact_D_hat",
+      "observed_dtype": "float64",
+      "reference_dtype": "exact_rational",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "2540be400"
+      },
+      "atol": {
+        "num": "3",
+        "den": "12a05f200"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-forward_full_exact",
+      "a": "full_signed_output",
+      "reference": "exact_D",
+      "observed_dtype": "float64",
+      "reference_dtype": "exact_rational",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "2540be400"
+      },
+      "atol": {
+        "num": "3",
+        "den": "12a05f200"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-forward_eager_jit",
+      "a": "jit_output",
+      "reference": "eager_output",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "2540be400"
+      },
+      "atol": {
+        "num": "3",
+        "den": "12a05f200"
+      },
+      "modes": [
+        "cross_mode"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-input_grad_analytic",
+      "a": "input_AD",
+      "reference": "exact_input_gradient",
+      "observed_dtype": "float64",
+      "reference_dtype": "exact_rational",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "4c4b40"
+      },
+      "atol": {
+        "num": "1",
+        "den": "2faf080"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-input_grad_eager_jit",
+      "a": "jit_input_AD",
+      "reference": "eager_input_AD",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "input_shape",
+      "rtol": {
+        "num": "1",
+        "den": "4c4b40"
+      },
+      "atol": {
+        "num": "1",
+        "den": "2faf080"
+      },
+      "modes": [
+        "cross_mode"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-order_grad_eager_jit",
+      "a": "jit_order_AD",
+      "reference": "eager_order_AD",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "4c4b40"
+      },
+      "atol": {
+        "num": "1",
+        "den": "2faf080"
+      },
+      "modes": [
+        "cross_mode"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-input_FD_AD",
+      "a": "input_directional_AD",
+      "reference": "input_central_FD",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "7a120"
+      },
+      "atol": {
+        "num": "1",
+        "den": "4c4b40"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-input_FD_adjacent",
+      "a": "input_FD_smaller_h",
+      "reference": "input_FD_larger_h",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "7a120"
+      },
+      "atol": {
+        "num": "1",
+        "den": "4c4b40"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-order_FD_AD",
+      "a": "order_AD",
+      "reference": "order_central_FD",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "7a120"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    },
+    {
+      "policy_id": "float64-order_FD_adjacent",
+      "a": "order_FD_smaller_h",
+      "reference": "order_FD_larger_h",
+      "observed_dtype": "float64",
+      "reference_dtype": "float64",
+      "shape": "scalar",
+      "rtol": {
+        "num": "1",
+        "den": "c350"
+      },
+      "atol": {
+        "num": "1",
+        "den": "7a120"
+      },
+      "modes": [
+        "eager",
+        "jit"
+      ],
+      "required": "every component, no broadcasting, finite only",
+      "status": "frozen_proposed_empirical_gate_not_bound"
+    }
+  ],
+  "input_gradient": {
+    "objective": "mean(D_hat**2) over all N*M entries; M=1 for (N,)",
+    "signed_weights": "g_hat[-1]=0; w_hat[k]=g_hat[k]-g_hat[k-1], k=0..N-1",
+    "L_hat": "N by N lower triangular, L_hat[i,j]=2*w_hat[i-j] if j<=i else 0; acts on each feature independently",
+    "exact_target": "2/(N*M) * L_hat.T @ D_hat, retaining input shape",
+    "direction": "q=cos(x_base) computed once in target worker dtype; raw q retained, stop_gradient q; never cos(x_perturbed); directional AD=sum(input_AD*q); exact directional target=sum(exact_input_gradient*decoded_q)",
+    "fixed_fit": "input perturbations hold alpha/config fixed; each composition must return actual fit arrays, compare identities to same-mode base; exact gradient bound to that mode base actual fit, not borrowed eager arrays"
+  },
+  "order_gradient": {
+    "objective": "mean((dt**(-a) * apply(x, fit(a,fixed_config)))**2)",
+    "alpha": "strong scalar shape [] in worker dtype, including every +/- branch and JIT dynamic argument",
+    "scale": "dt is strong scalar in same dtype; recompute dt**(-a) INSIDE differentiated objective and each perturbation. 2 is exact only at base a=1/2. dt remains fixed; alpha perturbs.",
+    "selection": "outside AD/FD; fix selected pole count and producer config from base, refit at each a; never reselect, never freeze order-dependent coefficients",
+    "scope": "differentiate existing finite 400 projected iterations, not an implicit optimizer optimum; only empirical AD/FD observations at perturbed orders, no rational-budget domain extension"
+  },
+  "FD_steps": {
+    "float32": [
+      {
+        "dtype": "float32",
+        "shape": [],
+        "byte_order": "little",
+        "layout": "C",
+        "nbytes": 4,
+        "raw_hex": "0000003c",
+        "sha256": "4082763076bdaee3a85e52eb5893169d45d057397616251e0e699e6403238e66"
+      },
+      {
+        "dtype": "float32",
+        "shape": [],
+        "byte_order": "little",
+        "layout": "C",
+        "nbytes": 4,
+        "raw_hex": "0000803b",
+        "sha256": "7c5c1d9451c2174c1707bf7f3174b294f8d4f28139a3b51c73cc210d920bb412"
+      },
+      {
+        "dtype": "float32",
+        "shape": [],
+        "byte_order": "little",
+        "layout": "C",
+        "nbytes": 4,
+        "raw_hex": "0000003b",
+        "sha256": "af0ff5439963767457709e63313da23382a6292190e2de1ba9c6c87dc6a1927e"
+      }
+    ],
+    "float64": [
+      {
+        "dtype": "float64",
+        "shape": [],
+        "byte_order": "little",
+        "layout": "C",
+        "nbytes": 8,
+        "raw_hex": "f168e388b5f8e43e",
+        "sha256": "2222dc29f184b5ab32d3eb7e14b2f553a6cccc385196b15f5fb66a28435601b4"
+      }
+    ]
+  },
+  "FD_rules": [
+    "central (J(+h)-J(-h))/(2*h) in worker dtype; retain both objectives, actual perturbed input/alpha, q, dt, h, effective dtypes and returned fit arrays from EACH composition invocation",
+    "all declared FD steps vs AD in both modes; float32 every adjacent pair in descending h order; float64 singleton has no adjacent pair (explicit not_applicable)",
+    "input fixed-fit objective is quadratic: real-arithmetic central-FD truncation error is ZERO, not O(h^2); floating input/objective/FD arithmetic remains unbounded by this gate",
+    "O(h^2)+O(u/h) is only a smooth-order heuristic; projected-fit kinks and coefficient active-set transitions are not covered. Retain final coefficient-zero pattern per branch as a limited diagnostic; change/nonfinite/unresolved comparison => preserve and stop, no retune",
+    "scope x64 off/on outside JIT for float32/float64 respectively and restore; assert actual input, strong alpha/dt/h/q/perturbations, fit arrays, output, objective, input cotangent and order cotangent dtypes; scalar order cotangent shape []",
+    "every eager/JIT/AD/FD composition returns actual fit arrays via aux from fit->apply+scale; exact D_hat/reference/analytic gradient use THAT mode and branch arrays. Never borrow eager fit arrays for JIT; no claim that public SOE wrapper has instrumentation"
+  ]
+}

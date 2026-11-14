@@ -1,0 +1,41 @@
+{
+  "status": "BLOCKED_ON_INDEPENDENT_REVIEW",
+  "recorded_at_utc": "2026-11-13T15:59:39.567251+00:00",
+  "case_id": "CAP-after-qualifier-f64-GL",
+  "increment_complete": false,
+  "review_completed": true,
+  "review_passed": false,
+  "finding_id": "CAP-AUTH-TYPE-01",
+  "tracker_id": "VAL-017",
+  "review_record": "independent-review-verdict.json",
+  "review_proof_indexed_files_verified": 532,
+  "review_archive_members_verified": 533,
+  "parent_counterexamples_reproduced": 3,
+  "parent_probe_actual_exit": 2,
+  "unchanged_trace_math_and_ledger_reproduced": true,
+  "positive_test_selections": {
+    "previous": 59,
+    "new_case": 66,
+    "additional_artifact_equality": 1
+  },
+  "passing_selections_override_blocking_finding": false,
+  "inventory_guard_coverage_isolated": true,
+  "candidate_repaired": false,
+  "automatic_source_repair_authorized": false,
+  "numerical_source_changed": false,
+  "caps_changed": false,
+  "criteria_changed": false,
+  "protocol_frozen": false,
+  "a2_acceptance_passed": false,
+  "phase_closed": false,
+  "commit_or_push_performed": false,
+  "checkpoint_qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "checkpoint_docs_tests_passed": 23,
+  "proposed_next_step": "Seek owner approval for one narrow type-preserving authority-identity repair, add preserved counterexample regressions, preserve valid artifact bytes and obtain fresh independent review.",
+  "parent_harness_limit": "Initial per-body privacy scan of a whole expanded nested archive failed; failure retained and bounded streaming scan completed. No candidate repair occurred."
+}

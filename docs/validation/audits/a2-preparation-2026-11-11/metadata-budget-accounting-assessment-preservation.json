@@ -1,0 +1,249 @@
+{
+  "a2_acceptance_passed": false,
+  "adjudication_sha256": "723c7f9ae853c29ad42938b4e9c612e6932df4c09e49672a74abc1df4e8ac6d0",
+  "archive": "metadata-budget-accounting-assessment-proofs.tar.gz",
+  "archive_bytes": 117856,
+  "archive_members_verified": 58,
+  "archive_sha256": "8294ce0e7a7f52ba838e157a48c261dda9a992ba2a325a6adb5d1cc03f19b571",
+  "budget_revision_justified": false,
+  "capture_limits": "Ambient cron heartbeat files changed; no reviewer profile writes are asserted. Original model had incomplete pre-run source capture. Both limitations remain disclosed in original adjudication.",
+  "files": {
+    "adjudication.json": {
+      "bytes": 13179,
+      "sha256": "723c7f9ae853c29ad42938b4e9c612e6932df4c09e49672a74abc1df4e8ac6d0"
+    },
+    "archive-proof.json": {
+      "bytes": 9836,
+      "sha256": "f369c04e6051b1e959d3013e957a79c11e282d5faaa374b85560ad96c300b536"
+    },
+    "capture.py": {
+      "bytes": 1389,
+      "sha256": "1de782e8daa9e197ae428a15e39041323ca18a9c92063cf6d3859e6305a917eb"
+    },
+    "capture_v1.py": {
+      "bytes": 1384,
+      "sha256": "2030fe78be51c1144cc3d430f0e2ec78212c346edda1c52241b23131ad505520"
+    },
+    "discover.py": {
+      "bytes": 1137,
+      "sha256": "264b21349e3b4666767a464c985ebe67396b5341dee0e3c2acea259ebdc03599"
+    },
+    "discovery.json": {
+      "bytes": 424,
+      "sha256": "43c80ca966dec78fba28dc3142296bf55765eb5b632e06ab16b796420224de27"
+    },
+    "evidence-index-verification.json": {
+      "bytes": 1324,
+      "sha256": "599d0f75b96d70b8ca53ae813b0418a850d7c9d3183a942b15dac575d530328d"
+    },
+    "evidence-index.json": {
+      "bytes": 8356,
+      "sha256": "e9efd68755ff0b077aa4c4d789dfa0b9a7a1dad19cafe1348c15ee4069b55713"
+    },
+    "final-pin-diagnostic/process.json": {
+      "bytes": 919,
+      "sha256": "b57f46d6fadf0afa30a50885a48cd79d2801d98f8476d07ae3e7e5f54d0db0ca"
+    },
+    "final-pin-diagnostic/source.py": {
+      "bytes": 4245,
+      "sha256": "796d7b968e44d2152746d7f6fa743afd7f5c868f7624f438c56e767bee67eecd"
+    },
+    "final-pin-diagnostic/stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-pin-diagnostic/stdout.bin": {
+      "bytes": 1610,
+      "sha256": "308eff95cf212295b2e638e97e7f57fcb90ccf727f5058b7dcb4e02134c1ea77"
+    },
+    "final-pin/process.json": {
+      "bytes": 915,
+      "sha256": "b40c73aa793aa899ba3c4204a11ab4a8475a20a677030128d9080fd11b48bfcc"
+    },
+    "final-pin/source.py": {
+      "bytes": 3664,
+      "sha256": "329ef69d0e1d046c29ee6d1577843459d66b8ab2fd5a7b0d16e87ad3776b7c1c"
+    },
+    "final-pin/stderr.bin": {
+      "bytes": 340,
+      "sha256": "cfca0028bf93561f6c8b1420a19227a1c3c01488d4a657c3825b45314052695e"
+    },
+    "final-pin/stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-scope-proof.json": {
+      "bytes": 636,
+      "sha256": "5e8b332107f7ca04278bc1e9577e3c9c8ab8101aca1ed5d40d1522b2c2f62c21"
+    },
+    "finalize.py": {
+      "bytes": 4401,
+      "sha256": "74268cc5b80a8d2c71315c154fcd3667d81ce42d8a1918bf35505360bf71b3f1"
+    },
+    "fresh-linkage-refusal.json": {
+      "bytes": 264,
+      "sha256": "c336c5d9ff482736152fe76494fdd6ab599a3dda5f0b28ccbf5230a703054093"
+    },
+    "fresh-red-isolated/process.json": {
+      "bytes": 915,
+      "sha256": "31d295220daf88a1a85af8133cffaf853ad8ef62a4a689dd8407f1d1d974b1f2"
+    },
+    "fresh-red-isolated/source.py": {
+      "bytes": 4532,
+      "sha256": "d7853d7d0479519e5bdef29796a9e49ac5a32741267edce9a283944b6b2b2328"
+    },
+    "fresh-red-isolated/stderr.bin": {
+      "bytes": 9183,
+      "sha256": "8de8cf8c5088286e938df6acdbb92d219c4b9869655a36fdf4c912c24414be2d"
+    },
+    "fresh-red-isolated/stdout.bin": {
+      "bytes": 1980,
+      "sha256": "615fa9cc000af7c441694364ba0e88c8f47901635c19d152f4a9eb5f7915519b"
+    },
+    "fresh-red-proof.json": {
+      "bytes": 1980,
+      "sha256": "615fa9cc000af7c441694364ba0e88c8f47901635c19d152f4a9eb5f7915519b"
+    },
+    "fresh-red/process.json": {
+      "bytes": 906,
+      "sha256": "96a414477666844764b2339be2a752479429d8da6a93eda2984fa8e9952ab105"
+    },
+    "fresh-red/source.py": {
+      "bytes": 4532,
+      "sha256": "d7853d7d0479519e5bdef29796a9e49ac5a32741267edce9a283944b6b2b2328"
+    },
+    "fresh-red/stderr.bin": {
+      "bytes": 1470,
+      "sha256": "1250bb802e840c15a4912d28b1d0fa61091dff5029763cb9055f3270b8f39e2d"
+    },
+    "fresh-red/stdout.bin": {
+      "bytes": 44837,
+      "sha256": "f10c30bd61bde0832c24917305b9a1ded3b64af656b63c82c11795b567ecf0cd"
+    },
+    "initial-pin/process.json": {
+      "bytes": 906,
+      "sha256": "56cb7996d35495ce726a4047723b0ff2af56913805c9b224c05d42408b2d07d4"
+    },
+    "initial-pin/source.py": {
+      "bytes": 3664,
+      "sha256": "329ef69d0e1d046c29ee6d1577843459d66b8ab2fd5a7b0d16e87ad3776b7c1c"
+    },
+    "initial-pin/stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "initial-pin/stdout.bin": {
+      "bytes": 664,
+      "sha256": "e8babc72054910241c699978eab96726685f34e664e12ff1ce4fb7dce1a1cdca"
+    },
+    "inspect-run/process.json": {
+      "bytes": 897,
+      "sha256": "75da8bbf77853bd6134ab6830b473d2b648522c7e4fdb4c94470c316ffb4211a"
+    },
+    "inspect-run/source.py": {
+      "bytes": 3416,
+      "sha256": "20be53a935f5d17215855913d345b59f8960160a94746c7e291863fd14628478"
+    },
+    "inspect-run/stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "inspect-run/stdout.bin": {
+      "bytes": 44837,
+      "sha256": "f10c30bd61bde0832c24917305b9a1ded3b64af656b63c82c11795b567ecf0cd"
+    },
+    "inspect.py": {
+      "bytes": 3416,
+      "sha256": "20be53a935f5d17215855913d345b59f8960160a94746c7e291863fd14628478"
+    },
+    "linkage-run/process.json": {
+      "bytes": 913,
+      "sha256": "70f87a7cb382ca38831317444c2c02401cad41e89bc290dcede4349d849d5dd9"
+    },
+    "linkage-run/source.py": {
+      "bytes": 960,
+      "sha256": "be2a42f34466da4a95901c43ca67a5be7304a3033eeefabe57526b501673ab1d"
+    },
+    "linkage-run/stderr.bin": {
+      "bytes": 467,
+      "sha256": "c3a37b642d898132861dfe6ad767ea80d2e99db46079671c64aea4c81c668475"
+    },
+    "linkage-run/stdout.bin": {
+      "bytes": 264,
+      "sha256": "c336c5d9ff482736152fe76494fdd6ab599a3dda5f0b28ccbf5230a703054093"
+    },
+    "linkage_refusal.py": {
+      "bytes": 960,
+      "sha256": "be2a42f34466da4a95901c43ca67a5be7304a3033eeefabe57526b501673ab1d"
+    },
+    "models-proof.json": {
+      "bytes": 25079,
+      "sha256": "6105a2bfa1a6ef32ee4a5fd301000c45bfa75e6c041150f5361b1546864103ef"
+    },
+    "models-run/process.json": {
+      "bytes": 910,
+      "sha256": "7b9fc125866f2cf1dc7bdda9df4e856663318c2ce2f2e1e29f682caecb49d571"
+    },
+    "models-run/source.py": {
+      "bytes": 9315,
+      "sha256": "cfd7393a9e37698f1d3e177d9c436ebe222392a3b6a5b69f4a2cad2989714eee"
+    },
+    "models-run/stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "models-run/stdout.bin": {
+      "bytes": 839,
+      "sha256": "16e75f53edd58761fcfab49dc19145b0ba3599e9853a670ae748a58f93f74936"
+    },
+    "models_audit.py": {
+      "bytes": 9315,
+      "sha256": "cfd7393a9e37698f1d3e177d9c436ebe222392a3b6a5b69f4a2cad2989714eee"
+    },
+    "necessary_red.py": {
+      "bytes": 4532,
+      "sha256": "d7853d7d0479519e5bdef29796a9e49ac5a32741267edce9a283944b6b2b2328"
+    },
+    "pins-after.json": {
+      "bytes": 108824,
+      "sha256": "3eb1cd7e20e7d3ad336c945f7e6b593dbab995e05aeb9c6c0d835b1409c435bc"
+    },
+    "pins-before.json": {
+      "bytes": 107803,
+      "sha256": "1d9c7ed49538ac6c718b2ca8612b44efd8f7873d856c57e48a30077d18f8cc96"
+    },
+    "pins.py": {
+      "bytes": 3664,
+      "sha256": "329ef69d0e1d046c29ee6d1577843459d66b8ab2fd5a7b0d16e87ad3776b7c1c"
+    },
+    "pins_v2.py": {
+      "bytes": 4245,
+      "sha256": "796d7b968e44d2152746d7f6fa743afd7f5c868f7624f438c56e767bee67eecd"
+    },
+    "slim-run/process.json": {
+      "bytes": 892,
+      "sha256": "d7b0fe3234fdaf41248bab7095df4abd8220d0e41d5d06acbdb2789bc1c0f43f"
+    },
+    "slim-run/source.py": {
+      "bytes": 1298,
+      "sha256": "3017d9999da8cb61b5845102f4895d352b4f0d0e3e11868778df9a926c2c0f38"
+    },
+    "slim-run/stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "slim-run/stdout.bin": {
+      "bytes": 7953,
+      "sha256": "c43b4ac3420429528d75e094cc673e83738d6b62fe39591f2717d59469bb0e48"
+    },
+    "slim.py": {
+      "bytes": 1298,
+      "sha256": "3017d9999da8cb61b5845102f4895d352b4f0d0e3e11868778df9a926c2c0f38"
+    }
+  },
+  "implementation_authorized": false,
+  "indexed_files_verified": 56,
+  "new_budget_applied": false,
+  "scope": "Independent assessment of failed pre-edit accounting, not revised-cap approval",
+  "whole_profile_byte_equality_claimed": false
+}

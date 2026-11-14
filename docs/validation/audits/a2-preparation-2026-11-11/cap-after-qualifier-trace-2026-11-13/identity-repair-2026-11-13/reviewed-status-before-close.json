@@ -1,0 +1,24 @@
+{
+  "archive": "reviewed-status-before-close.tar.gz",
+  "bytes": 60975,
+  "sha256": "29012a3dc698f1ad81a9d3baf52746e262a71191bd417d29b442b9f25c46b217",
+  "members_verified": 4,
+  "files": {
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 39593,
+      "sha256": "104eb8fb1e6854519654df47f31e2cee1b5e60f934b01285d9eb593b6fb57dd3"
+    },
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 125847,
+      "sha256": "191bbe03f7d2efe92ee51833091080241a7f144dfc635167f893a7531b571201"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 8052,
+      "sha256": "52b10a264cdc8e25112e2c28441324a246e5b78750fdbd4e2327f57e6d77998b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/README.md": {
+      "bytes": 4200,
+      "sha256": "0d330d24807d97cb002752b1ab839adf30fa42a7d4991cfc43e689ea4f85922e"
+    }
+  }
+}

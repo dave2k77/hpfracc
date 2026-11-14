@@ -1,0 +1,56 @@
+{
+  "status": "Final local readback passed; no unresolved privacy findings",
+  "manifest_sha256": "fd4cd74d794d116f615fd417b51c8bda39c17dc4f87dc36fb1a8b5377eac6f61",
+  "manifest_files_verified": 48,
+  "protected_files_unchanged": 221,
+  "late_metadata_scan": {
+    "input_files": {
+      "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/final-privacy-check.json": {
+        "bytes": 23776,
+        "sha256": "1cae2a60e56c5d512d65268e27224f6d98208767606f0ae90afa81acb53f5e54"
+      },
+      "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/closure.json": {
+        "bytes": 2357,
+        "sha256": "39d240743b357eb28e59e8e3254f8634da8f79888799cb964ab975282ca3acbe"
+      },
+      "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/final-manifest.json": {
+        "bytes": 11175,
+        "sha256": "fd4cd74d794d116f615fd417b51c8bda39c17dc4f87dc36fb1a8b5377eac6f61"
+      }
+    },
+    "input_file_count": 3,
+    "visited_bodies": 3,
+    "expanded_bytes": 37308,
+    "synthetic_nonregular_entries": 0,
+    "privacy_findings": [
+      {
+        "path": "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/closure.json",
+        "field_names": [
+          "authorization"
+        ],
+        "reasons": [
+          "sensitive-parsed-fields"
+        ]
+      }
+    ],
+    "no_private_values_disclosed": true,
+    "scope": "Explicit proof allowlist only, recursively scanned; runtime pytest fixtures excluded."
+  },
+  "late_finding_disposition": {
+    "classification": "Benign schema-name collision: local approval-record reference, not an authorization credential",
+    "exact_single_field_and_reference_target_checked": true,
+    "referenced_record_identity": {
+      "bytes": 3563,
+      "sha256": "b6a3093f473a1d24fc5b7d2b3ba7fa949c2e6f537fc0dfe2ce43a6fc50f27b0a"
+    },
+    "scanner_or_reviewed_source_changed": false
+  },
+  "earlier_readback_attempt": {
+    "kind": "Normalized tool-observed checkpoint, not an invented raw child receipt",
+    "observation": "A no-findings assertion stopped on this single benign field-name match. The compound shell subsequently exited zero after Git commands; that wrapper exit was not accepted as verification."
+  },
+  "unresolved_privacy_findings": 0,
+  "step_1_complete": true,
+  "commit_push_or_next_phase_started": false,
+  "self_excluded_from_manifest": true
+}

@@ -1,0 +1,39 @@
+{
+  "authorization_id": "a2-fixed-trace-privacy-remediation-2026-11-13",
+  "recorded_at_utc": "2026-11-13T08:39:23Z",
+  "owner_reply": "Alight, proceed as recommended.",
+  "interpretation": "Approve step 1 only: a labelled sanitized evidence derivative and independent privacy/integrity review. This does not approve the later A2 accounting or numerical implementation steps.",
+  "baseline_commit": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+  "original_finding": "FIXED-TRACE-ARTIFACT-PRIVACY-01",
+  "original_archive_sha256": "264cfcc67365499f19705b4aef5c2ba0163e5bc0e3cb23d53ae263ff590a02c2",
+  "scope": [
+    "Read the explicitly quarantined original without displaying identifier values; preserve its bytes and owner-only permissions.",
+    "Create a separately named sanitized derivative that omits the exact receipt members identified by single-trace-privacy-hold.json, retaining every other member body byte-for-byte.",
+    "Use a new exhaustive derivative inventory with explicit original-to-derivative relationships and exclusions. Preserve original manifests as historical records, not current completeness promises.",
+    "Test packaging and integrity controls, scan the declared evidence closure, and obtain a fresh independent privacy/integrity review.",
+    "Update only bounded publication/progress status after the review; retain every historical failed verdict and all scientific limitations."
+  ],
+  "acceptance_criteria": [
+    "The private original digest, size and permissions still match the hold record, and its old repository path remains absent.",
+    "Every original member is classified exactly once as retained or explicitly omitted; retained bodies are unchanged; the derivative has a new name and digest and contains no extra members.",
+    "No archive extraction is used. Duplicate, escaping or nonregular member entries are refused by the packaging helper; outputs cannot overwrite existing targets.",
+    "Omitted receipt bytes and their observed identifier values are not copied to public outputs, logs or review artifacts. Privacy scans report paths, field names and dispositions, not values.",
+    "Historical manifests and verdicts remain unchanged, with explicit warnings that original replay closures referencing omitted receipts are incomplete in the derivative.",
+    "Meaningful tamper controls reject missing, changed, extra and reintroduced-private members, and a portable copied-artifact verification succeeds.",
+    "Independent review binds the exact helper, tests, derivative, inventory, raw check results and protected input manifest.",
+    "The numerical source, fixed-trace checker, packet, scientific criteria and resource limits remain byte-identical; no commit, push or release is performed."
+  ],
+  "permitted_existing_status_updates": [
+    "docs/developer/phase-a-completion.md",
+    "docs/developer/bug-resolution-tracker.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-outcome.json"
+  ],
+  "new_artifact_directory": "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/",
+  "independent_review_failure_policy": "Preserve the exact reviewed candidate and failed verdict, leave publication on hold and request a decision; this authorization does not restart the exhausted fixed-trace repair loop.",
+  "scientific_scope_changed": false,
+  "resource_limits_changed": false,
+  "protocol_freeze_authorized": false,
+  "numerical_implementation_authorized": false,
+  "bulk_accounting_expansion_authorized": false,
+  "commit_push_release_authorized": false
+}

@@ -1,0 +1,41 @@
+{
+  "status": "Rejected fixed-case checker preserved before any correction",
+  "passed": false,
+  "protected_repo_files_verified": 170,
+  "original_author_indexed_files_verified": 210,
+  "original_author_bytes_verified": 5388615,
+  "review_indexed_files_verified": 452,
+  "review_indexed_bytes_verified": 15627201,
+  "review_assessment_sha256": "2c52c108aa98c89cdb882e4194c75898fc4d3f7f4bd474dc5cc1a7b04fc4055a",
+  "review_index_sha256": "ea1cf140c393c5426e328833bff087ba52c37b0fcf297fd9ae83dd75ffe3d4d9",
+  "review_targeted": {
+    "tests": 23,
+    "passed": 22,
+    "failed": 1,
+    "errors": 0,
+    "actual_exit": 1
+  },
+  "parent_reproduction_actual_exit": 1,
+  "archives": [
+    {
+      "path": "docs/validation/audits/a2-preparation-2026-11-11/single-trace-rejected-author-evidence.tar.gz",
+      "members_verified": 220,
+      "bytes": 874548,
+      "sha256": "964918f2c187a16aa09e8dce0616005ceaf37d7baf772a00406f9ebba13377f4",
+      "all_member_bytes_verified": true
+    },
+    {
+      "path": "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-failed-evidence.tar.gz",
+      "members_verified": 457,
+      "bytes": 2068887,
+      "sha256": "264cfcc67365499f19705b4aef5c2ba0163e5bc0e3cb23d53ae263ff590a02c2",
+      "all_member_bytes_verified": true
+    }
+  ],
+  "private_telegram_receipts_excluded": true,
+  "caps_changed": false,
+  "source_repaired": false,
+  "a2_acceptance_passed": false,
+  "implementation_authorized": false,
+  "protocol_freeze_authorized": false
+}

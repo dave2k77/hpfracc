@@ -1,0 +1,23 @@
+{
+  "status": "Blocked checkpoint preserved and verified; candidate remains rejected",
+  "manifest": {
+    "bytes": 7053,
+    "sha256": "a153aa81b7e6a8301e2dd5e58f83c1959345eac6462b08705b56e0e44a277f3c"
+  },
+  "manifest_files_verified": 30,
+  "protected_baseline_files_unchanged": 901,
+  "permitted_status_changes": 3,
+  "finding_id": "CAP-AUTH-TYPE-01",
+  "counterexamples_confirmed": 3,
+  "actual_counterexample_probe_exit": 2,
+  "candidate_repaired": false,
+  "checkpoint_qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "increment_complete": false,
+  "readback_not_self_hashed": true,
+  "receipt_role": "Normalized verification record; actual command success is the terminal tool exit, not OS attestation"
+}

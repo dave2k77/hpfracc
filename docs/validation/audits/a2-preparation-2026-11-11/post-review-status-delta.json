@@ -1,0 +1,62 @@
+{
+  "changed_reviewed_status_files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "after": {
+        "bytes": 86740,
+        "sha256": "9e840824e8c9b82682bda5e912104bc87cf8dc0571baa37f4efe2d9819175bb4"
+      },
+      "before": {
+        "bytes": 84590,
+        "sha256": "554ebd162564e9d2b3da8ecc18aed9fa327f82751be99201766a2e195465df18"
+      }
+    },
+    "docs/developer/phase-a-completion.md": {
+      "after": {
+        "bytes": 21115,
+        "sha256": "cea5d1343c385c8831161fec2fe866611eaae7ca328d6ae8720c7bbd48d54d6f"
+      },
+      "before": {
+        "bytes": 20673,
+        "sha256": "06fb23c42ceebf24cf6919fccfc7d776fd2aaf2d2877f7419b656126f22901d3"
+      }
+    }
+  },
+  "correction_cycles_remaining": 0,
+  "freeze_ready": false,
+  "implementation_authorized": false,
+  "new_review_artifacts": {
+    "final-independent-review-preservation.json": {
+      "bytes": 11835,
+      "sha256": "b7f5179c012fee910839a9e553d83880a50ed95a97cea943b61354fd7235509b"
+    },
+    "final-independent-review.json": {
+      "bytes": 6152,
+      "sha256": "be2b12396554750de96b53a17aebbc96864ce61c61d48f001c8c49d42d4e692c"
+    },
+    "final-independent-review.tar.gz": {
+      "bytes": 594919,
+      "sha256": "93d4607d07392a7061fd14cb12ec76ca2a26cba430729a8c45c5204f3983a5a7"
+    }
+  },
+  "other_reviewed_files_unchanged": [
+    "docs/developer/a2-compression-budget-protocol.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/comparison-policies.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-contract-reviews-failed-preservation.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-contract-reviews-failed.tar.gz",
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-draft-planning-evidence.tar.gz",
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-draft-planning-preservation.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/final-preparation-correction-evidence.tar.gz",
+    "docs/validation/audits/a2-preparation-2026-11-11/final-preparation-correction-preservation.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/fixtures.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/initial-contract-reviews-failed.tar.gz",
+    "docs/validation/audits/a2-preparation-2026-11-11/initial-contract-reviews-preservation.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/packet-manifest.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/packet-notes.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/protocol.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/record-schemas.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/schema-control-contract.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/schema-control-fixtures.json"
+  ],
+  "owner_decision_pending": true,
+  "scope": "Only parent-owned programme/tracker status updates after final readonly review; no protocol/fixture/source change"
+}

@@ -1,0 +1,12 @@
+{
+  "archive": "independent-privacy-review.tar.gz",
+  "archive_bytes": 35337751,
+  "archive_sha256": "ab9fbe9232730457530031575d682ad7ee0f3b831c88ed19fee2446c4860d0e5",
+  "archive_members_verified": 199,
+  "review_indexed_files_verified": 198,
+  "review_index_sha256": "f3db67b4be4a70adec984f57c03d8ae5de081cc483c20cc76f1c9c6b1d4a72a6",
+  "verdict_sha256": "10e09c8ca41ccf47ed9c415ce6e98111908d0b286a23e3f0927ac3aade12d848",
+  "reviewed_manifest_sha256": "f34ca4700bc76f6ed58b69a3e8abae2b1c2bf4299afd1b535d7af2a3f7288743",
+  "privacy_readback": "Parent re-ran the reviewed independent proof scanner on every indexed file plus its index; zero findings.",
+  "scope": "STEP 1 packaging only; historical failures retained; no scientific or delivery approval"
+}

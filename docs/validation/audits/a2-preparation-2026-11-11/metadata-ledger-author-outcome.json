@@ -1,0 +1,523 @@
+{
+  "a2_acceptance_passed": false,
+  "blockers": [
+    {
+      "detail": "131 checked obligations unresolved in representative graph: distinct SAME-mode alpha/dt/input descriptors; order configuration still base alpha; pass statuses inferred from presence rather than conditional numerical/binding predicates; normal exit unconfirmed; no conditional safe-owned export schedule. No physical future arrays are required to repair these symbolic obligations, but this bounded author attempt did not close them.",
+      "kind": "scratch_semantic_model"
+    },
+    {
+      "detail": "Four actual uncharged-byte controls survive despite manifest/temp/old-index/log component names remaining present. A component-name gate is not an independently checked sum or LIVE/cumulative lifecycle proof.",
+      "kind": "ledger_predicate"
+    },
+    {
+      "detail": "The admitted unsupported D expected_shape can be changed [18] to [17] without rejection by audit(). The required true-shape linkage is not enforced.",
+      "kind": "shape_predicate"
+    },
+    {
+      "detail": "Conditional winner/failure profile labels do not construct valid final selected/no-qualifier dispositions. Exact required comparison names are inventoried but no complete symbolic predicate term covers all of them. Per-cause cardinality and maximal command/source/receipt bounds remain unproved.",
+      "kind": "coverage_semantics"
+    },
+    {
+      "detail": "Draft after-each-array index schedule explicitly charges finite generations and shows severe cumulative pressure, but validity, minimality and alternative permitted batch schedules were not established. Its numbers cannot justify changing a cap or assert unavoidable packet impossibility.",
+      "kind": "schedule_limits"
+    }
+  ],
+  "bounded_attempt_completed": true,
+  "budget_proposal": null,
+  "budget_revision_justified": false,
+  "complete_metadata_accounting_proved": false,
+  "draft_measurements_not_valid_budget_bounds": {
+    "maxima": {
+      "cumulative_lower": {
+        "case_id": "FIT-stacked-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 136772468
+      },
+      "cumulative_upper": {
+        "case_id": "FIT-stacked-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 273065190
+      },
+      "final_reservation": {
+        "case_id": "FIT-stacked-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 459959
+      },
+      "index_generations": {
+        "case_id": "FIT-ramp-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 374
+      },
+      "links": {
+        "case_id": "FIT-ramp-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 1389
+      },
+      "live_sufficient_lower": {
+        "case_id": "FIT-stacked-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 3663456
+      },
+      "live_sufficient_upper": {
+        "case_id": "FIT-stacked-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 139903128
+      },
+      "payload_count": {
+        "case_id": "FIT-ramp-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 372
+      },
+      "record_count": {
+        "case_id": "FIT-ramp-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 505
+      },
+      "record_depth_max": {
+        "case_id": "REF-FAIL-f32-GL",
+        "profile": "declared",
+        "value": 9
+      },
+      "record_node_max": {
+        "case_id": "FIT-stacked-tau1-f32-GL",
+        "profile": "modes-0-0",
+        "value": 51560
+      }
+    },
+    "representative": {
+      "case_id": "FIT-stacked-tau1-f32-GL",
+      "cumulative_lower": 136772468,
+      "cumulative_upper": 273065190,
+      "final_reservation": 459959,
+      "group": "FIT-REAL",
+      "index_generations": 374,
+      "index_transaction": {
+        "lower": 742944,
+        "upper": 743243
+      },
+      "inventories": {
+        "binding_checks": 84,
+        "comparisons": 89,
+        "full_observations": 2,
+        "slots": 954
+      },
+      "label": "CONDITIONAL SYMBOLIC DRAFT, not valid full export or numerical observation",
+      "links": 1389,
+      "live_sufficient_lower": 3663456,
+      "live_sufficient_upper": 139903128,
+      "model_structural_exit": 0,
+      "open_semantic_obligations": 131,
+      "ordinal": 239,
+      "payload_count": 372,
+      "profile": {
+        "fault": null,
+        "tag": "modes-0-0",
+        "winners": [
+          0,
+          0
+        ]
+      },
+      "record_count": 505,
+      "record_depth_max": 9,
+      "record_node_max": 51560,
+      "slot_dispositions": {
+        "complete:none": 372,
+        "not_applicable:unselected_candidate": 556,
+        "not_applicable:unused_quantity": 26
+      },
+      "structural_missing_links": []
+    },
+    "scope": "Algebraic outputs from an INVALID/INCOMPLETE semantic draft. NOT a sufficient cap bound, necessary minimum, real-fit feasibility, or metadata proposal."
+  },
+  "final_semantic_gate": {
+    "actual_exit": 1,
+    "details": "checked-open-obligations.json",
+    "obligation_categories": {
+      "actual-perturbed-alpha-equals-configuration-alpha": 18,
+      "emitted-evidence-has-valid-hypothetical-safe-owned-schedule": 1,
+      "pass-conditioned-on-declared-numerical-or-identity-predicate": 69,
+      "positive-normal-completion-has-confirmed-exit-or-constrained-observation": 1,
+      "same-mode-actual-alpha-identity": 20,
+      "same-mode-actual-dt-identity": 20,
+      "same-mode-actual-input-identity": 2
+    },
+    "unresolved_count": 131
+  },
+  "finite_draft_profiles": {
+    "count": 1392,
+    "distinct_cases": 560,
+    "fit_failure_profiles": 352,
+    "fit_profiles": 864,
+    "fit_winner_pairs": 512,
+    "limitations": "Winner values are conditional branch labels, not qualification results. All draft result records are indeterminate with unknown assessments; branch coverage is NOT behavioral validation of selected/no-qualifier scientific outcomes.",
+    "per_fit_case_winner_pairs": 16,
+    "successful_structural_exercises": 1392,
+    "supplementary_fault_branches": [
+      "bits",
+      "bytes",
+      "invalid",
+      "knownbad",
+      "missing",
+      "ops",
+      "partial",
+      "refusal",
+      "startup",
+      "timeout",
+      "unconfirmed"
+    ],
+    "valid_complete_exports_proved": 0
+  },
+  "formula_scope": {
+    "canonical_json": "sorted keys, compact separators, ensure_ascii=True, no newline; all other formatting must be separately charged",
+    "dynamic_refusal_guarantee_proved": false,
+    "known_preflight_obstruction_removed": false,
+    "no_universal_16MiB_claim": true,
+    "rational_payload": "For k rationals: 2+max(0,k-1)+k*len(canonical({num:\"\",den:\"\"}))+H where H=sum ASCII numerator+denominator lengths, 2k<=H<=16385k, each normalized part<=32768 bits. These bounds do not assert achievable simultaneous maxima or legitimate numerical values. No arbitrary 8-hex-digit cap.",
+    "whole_request_candidate_formula": "C=sum(non-index immutable canonical lengths including result and observation inline copies)+sum(all finite index generations)+stdout_raw+stderr_raw+uncommitted_temp. Manifest own canonical length is a non-index immutable term. LIVE sufficient expression uses retained immutable bytes + old/new index coexistence + raw logs/temp. These are DRAFT expressions only: surviving sum mutants prevent proof of implementation correspondence."
+  },
+  "immutable_pins": {
+    "after": "project-guards-after.json",
+    "before": "project-guards-before.json",
+    "git_index_sha256": "ea8e0d3fe34c45f80d07b5775e8be56399dc7d66202d9b00733158aa8f6e58eb",
+    "head": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+    "history_files": 21,
+    "numerical_inputs": 125,
+    "packet_files": 9,
+    "status_docs": "parent-owned allowed progress, intentionally not pinned"
+  },
+  "implementation_authorized": false,
+  "inventories_verified": {
+    "candidate_specs": 160,
+    "cases": 560,
+    "exact_required_check_names": 4480,
+    "fit_binding_checks": 1056,
+    "full_observations_unobserved": 64,
+    "future_specs_unobserved": 12,
+    "groups": {
+      "EXACT-GRID": 204,
+      "FIT-REAL": 32,
+      "REF-CAPS": 28,
+      "REF-CORE": 16,
+      "REF-EDGES": 148,
+      "REF-RANK": 100,
+      "REF-SIGNAL": 16,
+      "SCHEMA-CONTROLS": 16
+    },
+    "identity_controls": 4,
+    "max_slots": 954,
+    "parser_controls": 10,
+    "quantity_slots": 24336,
+    "raw_arrays": 840,
+    "shortcut_controls": 6,
+    "working_comparison_slots": 1312
+  },
+  "mutants": {
+    "controls": [
+      {
+        "caught": true,
+        "control": "dropped-reason",
+        "error": "retained causes S-X-w",
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": true,
+        "control": "mismatched-descriptor",
+        "error": "exact descriptor equality S-X-w",
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": true,
+        "control": "missing-link",
+        "error": "all linked artifact/payload terms exist",
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": true,
+        "control": "omitted-inline-copy",
+        "error": "all result inline slots exactly once",
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": true,
+        "control": "descriptor-mismatch-outerhash-recomputed",
+        "scope": "narrow real static canonical descriptor predicate; not future numerical data"
+      },
+      {
+        "caught": true,
+        "control": "sum-vs-per-record-node-rule",
+        "scope": "isolated rule arithmetic, NOT a copied full-model mutant"
+      },
+      {
+        "caught": false,
+        "control": "uncharged-log",
+        "error": null,
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": false,
+        "control": "uncharged-manifest",
+        "error": null,
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": false,
+        "control": "uncharged-old-index",
+        "error": null,
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": false,
+        "control": "uncharged-temp",
+        "error": null,
+        "scope": "symbolic metadata mutation; not numerical validation"
+      },
+      {
+        "caught": false,
+        "changed_from": [
+          18
+        ],
+        "changed_to": [
+          17
+        ],
+        "control": "unsupported-shape-truncation"
+      }
+    ],
+    "errors": 0,
+    "failures": 5,
+    "survivors": [
+      "uncharged-log",
+      "uncharged-manifest",
+      "uncharged-old-index",
+      "uncharged-temp",
+      "unsupported-shape-truncation"
+    ],
+    "tests_run": 11
+  },
+  "new_budget_applied": false,
+  "observed_numerical_results": 0,
+  "outcome": "BLOCKED_STOPPED_NO_BUDGET_PROPOSAL",
+  "protocol_freeze_authorized": false,
+  "receipts": {
+    "coverage_a": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_exercise.py",
+        "0",
+        "464"
+      ],
+      "launch_error": null,
+      "process_receipt": "coverage_a/process.json"
+    },
+    "coverage_b": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_exercise.py",
+        "464",
+        "928"
+      ],
+      "launch_error": null,
+      "process_receipt": "coverage_b/process.json"
+    },
+    "coverage_c": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_exercise.py",
+        "928",
+        "1392"
+      ],
+      "launch_error": null,
+      "process_receipt": "coverage_c/process.json"
+    },
+    "discovery": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_discover.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "discovery/process.json"
+    },
+    "final_semantic_gate": {
+      "actual_exit": 1,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_obligations.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "final_semantic_gate/process.json"
+    },
+    "first_model": {
+      "actual_exit": 1,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_model.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "first_model/process.json"
+    },
+    "guards_before": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_capture.py",
+        "guard",
+        "project-guards-before.json"
+      ],
+      "launch_error": null,
+      "process_receipt": "guards_before/process.json"
+    },
+    "meaningful_mutants": {
+      "actual_exit": 1,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_mutants.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "meaningful_mutants/process.json"
+    },
+    "model_arithmetic_exercise": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_model.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "model_arithmetic_exercise/process.json"
+    },
+    "model_exercise": {
+      "actual_exit": 1,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_model.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "model_exercise/process.json"
+    },
+    "recon": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_recon.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "recon/process.json"
+    },
+    "recon_compact": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_recon.py"
+      ],
+      "launch_error": null,
+      "process_receipt": "recon_compact/process.json"
+    },
+    "regression_green_structural_only": {
+      "actual_exit": 0,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_tests.py",
+        "candidate"
+      ],
+      "launch_error": null,
+      "process_receipt": "regression_green_structural_only/process.json"
+    },
+    "regression_red": {
+      "actual_exit": 1,
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b/a2_tests.py",
+        "baseline"
+      ],
+      "launch_error": null,
+      "process_receipt": "regression_red/process.json"
+    }
+  },
+  "regression": {
+    "green_necessary_only": {
+      "actual_exit": 0,
+      "failures": 0,
+      "scope": "structural artifact graph and presence/identity seam only; DOES NOT establish sufficient symbolic constraints or ledger arithmetic",
+      "tests": 4
+    },
+    "red": {
+      "actual_exit": 1,
+      "failures": 4,
+      "scope": "immutable prior seven-record export has 372 missing conditional artifacts, no result/manifest/log closure",
+      "tests": 4
+    }
+  },
+  "scope": "Scratch-only author self-check. Not independent review. No model repair after final STOP; remaining writes evidence finalization only."
+}

@@ -1,0 +1,28 @@
+{
+  "plan_id": "a2-single-trace-routing-correction-1",
+  "basis": "One bounded correction inside the existing owner-approved fixed conditional trace target and pre-commit review procedure; this is a parent execution decision, not a new owner message or new scope authorization.",
+  "finding": "FIXED-TRACE-ROUTING-01",
+  "rejected_source_sha256": "48742703d81152398f7879875d1e7f4f35d5b011cdb8950cb3cbda7b6fa8c48a",
+  "rejected_assessment_sha256": "2c52c108aa98c89cdb882e4194c75898fc4d3f7f4bd474dc5cc1a7b04fc4055a",
+  "preservation": "single-trace-failed-review-preservation.json",
+  "why_inside_existing_target": "The frozen contract already requires records/binding-{binding_id}.json. Enforcing its missing path-to-ID equality changes no case, schema, route allowlist, byte limit, mathematical predicate or scientific tolerance. A concrete missing guard is not yet evidence that the fixed target cannot be closed.",
+  "correction_cycle": 1,
+  "maximum_correction_cycles_for_this_plan": 1,
+  "writer": "Fresh third context, neither original author nor reviewer; new unique scratch copy only.",
+  "allowed_change": "Enforce the frozen path-to-binding-ID relationship for existing producer bindings in this same fixed trace and add fully re-signed behavioral regression controls.",
+  "required_verification": [
+    "Preserve the original rejected source, verdict, raw failure and parent reproduction unchanged.",
+    "Capture genuine behavioral routing RED against the exact rejected source before adding the guard.",
+    "Keep every existing test and the same positive static artifact; verify its canonical bytes and ledger are unchanged.",
+    "Run all original and new tests plus isolated replay, derive counts from raw XML and preserve actual child exits.",
+    "Preserve the corrected source/proofs and obtain fresh independent review before scoped acceptance."
+  ],
+  "stop_rule": "If this one bounded correction cannot close the reported gap without changing the approved target, or fresh re-review still fails, preserve failure and ask the owner; no second correction or bulk restart is authorized by this plan.",
+  "caps_changed": false,
+  "coverage_expansion_authorized": false,
+  "schema_redesign_authorized": false,
+  "numerical_implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "a2_acceptance_passed": false,
+  "broader_accounting_proved": false
+}

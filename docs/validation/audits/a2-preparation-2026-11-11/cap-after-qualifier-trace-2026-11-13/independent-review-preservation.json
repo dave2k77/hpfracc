@@ -1,0 +1,24 @@
+{
+  "archive": "independent-review-rejected-evidence.tar.gz",
+  "bytes": 23410427,
+  "sha256": "b1e557ec4782621d4b3af6b936f1cd490372ea67aa04e1286a1559e75e007d0d",
+  "members_verified": 533,
+  "review_completed": true,
+  "passed": false,
+  "finding_id": "CAP-AUTH-TYPE-01",
+  "indexed_files_verified": 532,
+  "index_sha256": "3868fac2293dbef9049ad9bc1fd3b75a4e586472287e4a70e73b304c5162d895",
+  "independent_positive_tests_verified": {
+    "controls-complete": 66,
+    "regression-final-positive": 27,
+    "regression-final-negative": 32,
+    "negative-equality-final": 1
+  },
+  "parent_counterexample_actual_exit": 2,
+  "accepted_type_only_mutations_reproduced": 3,
+  "protected_baseline_files_unchanged": 901,
+  "review_files_unchanged_at_readback": 17,
+  "bounded_privacy_findings": [],
+  "candidate_repaired": false,
+  "parent_harness_failure_preserved": "Initial whole-container scan exceeded its administrative per-body limit; streamed scan completed without changing scanner or numerical caps."
+}

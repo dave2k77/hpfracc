@@ -1,0 +1,50 @@
+{
+  "authorization_id": "a2-one-additional-nonqualifier-trace-2026-11-13",
+  "recorded_at_utc": "2026-11-13T12:52:27Z",
+  "owner_reply": "Yes, proceed as planned.",
+  "approved_recommendation": "One bounded A2 accounting increment: extend the checked static example to one additional end-to-end case, completing its conditional records and byte accounting before considering new metadata limits. Preparation only, not numerical implementation.",
+  "selected_additional_case": "REF-FAIL-f64-GL",
+  "selected_witness": "nonqualify-REF-FAIL-f64-GL",
+  "selection_rationale": "Use the existing frozen no-qualifier branch to contrast with the reviewed selected REF-PASS-f64-GL trace. This adds a completed negative assessment outcome without inventing fitter observations or expanding to the full matrix.",
+  "fixed_input_scope": {
+    "samples": 3,
+    "supplied_candidates": ["bad1-f64-GL"],
+    "required_exact_slots": 13,
+    "order": "1/2",
+    "dt": "1/4",
+    "tau_frozen_hex_rational": {"num": "3", "den": "10"},
+    "number_encoding": "Frozen rational num/den strings are hexadecimal; preserve exactly, without decimal reinterpretation.",
+    "expected_status": "no_supplied_candidate_meets_bound",
+    "expected_selected_id": null
+  },
+  "deliverable": "One additional STATIC/HYPOTHETICAL trace with complete conditional records, all required exact slots, status/qualification/linkage/routing checks and independently recomputed per-body live/cumulative/index-transaction byte accounting; preserved prior selected-case regression; portable copied-input replay; fresh independent review.",
+  "acceptance_criteria": [
+    "Authenticate the new authority against the existing frozen fixture and witness, retaining raw input bytes, candidate configuration, caps and all required slots.",
+    "Recompute exact finite payloads and every bound comparison independently; a completed no-qualifier outcome must not hide an unknown assessment, missing payload, false rejection, selected ID or unconfirmed conditional exit.",
+    "Close input/launch/binding/slot/result/process/index/export/manifest links and publication order, including the frozen binding path-to-ID equality.",
+    "Account for every emitted body, log, old index, coexisting temporary index, process/export record and manifest. Independently replay live byte states and cumulative writes; respect unchanged caps and distinguish finite schedule sizes from broader resource sufficiency.",
+    "Retain the previous REF-PASS-f64-GL positive artifact byte-for-byte and pass its unchanged 26 tests using the extended checker in an isolated copied-input run.",
+    "Exercise meaningful re-signed semantic and missing-byte controls, preserve copied-source RED/GREEN and actual exits, and obtain independent scoped review.",
+    "Capture only explicit task inputs and proof outputs, keep delivery receipts private, and scan recursive evidence bodies before reporting completion."
+  ],
+  "allowed_repository_updates": [
+    "New artifacts under docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/",
+    "Bounded progress entries in docs/developer/phase-a-completion.md",
+    "Bounded issue/progress entries in docs/developer/bug-resolution-tracker.md"
+  ],
+  "immutable_boundaries": [
+    "Previously reviewed source, static artifacts, rejected verdicts and privacy-remediation package",
+    "Numerical source, tests, benchmarks, dependency declarations and lockfile",
+    "Original preparation packet, schemas, fixtures, scientific requirements and all resource limits",
+    "Git HEAD and index; no commit, push, release or phase closure"
+  ],
+  "repair_policy": "One new bounded trace implementation and independent review. Preserve any blocking verdict and stop for an owner decision rather than restarting the exhausted earlier loops or broadening scope.",
+  "additional_case_expansion_authorized": "Exactly the named additional static case; the existing selected case is regression-only.",
+  "bulk_profile_expansion_authorized": false,
+  "cap_revision_authorized": false,
+  "schema_redesign_authorized": false,
+  "production_worker_fitter_selector_or_ad_execution_authorized": false,
+  "protocol_freeze_authorized": false,
+  "a2_or_phase_a_closure_authorized": false,
+  "commit_push_or_release_authorized": false
+}

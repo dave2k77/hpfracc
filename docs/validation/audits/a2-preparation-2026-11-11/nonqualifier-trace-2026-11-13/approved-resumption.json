@@ -1,0 +1,65 @@
+{
+  "status": "Approved test resumption passed; broader increment still unfinished",
+  "actual_exit": 0,
+  "tests_passed": 2,
+  "source_sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a",
+  "archive": "approved-resumption-evidence.tar.gz",
+  "archive_sha256": "986522b63577c688c393316472a364b608548f139b6c29c7fc892a86799b6767",
+  "members_verified": 13,
+  "files": {
+    "plan.json": {
+      "bytes": 2815,
+      "sha256": "c8cdadc3241977cbb72b74c0b01c873d8cb14c8ddd6ea0b773c58fe257a322f1"
+    },
+    "result.json": {
+      "bytes": 1996,
+      "sha256": "6b6efc0e7e08e5cf30407ac221491499d97c5f4d0457364988d705283125eda7"
+    },
+    "stdout.bin": {
+      "bytes": 98,
+      "sha256": "e8b12eb9c14e20ba6d6f42d6a6564099a0106363b2d2c716df325fb3a6e8b6f6"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw.xml": {
+      "bytes": 512,
+      "sha256": "d6da1dba79fcac8b3194c8b780d05b551ca21000499635caee288dcbf52d4020"
+    },
+    "before/a2_trace.py": {
+      "bytes": 31334,
+      "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+    },
+    "before/authority.json": {
+      "bytes": 88896,
+      "sha256": "9f973fc6b4de16098cb1fe7001678a1eafdf845ad4b1f3da0109055d357b271d"
+    },
+    "before/capture-helper.py": {
+      "bytes": 3060,
+      "sha256": "cd2589be98fa4cc196823cb8067b112d1b202c6ccb2ebeff75a70a5cd6729b16"
+    },
+    "before/capture-job.json": {
+      "bytes": 1458,
+      "sha256": "3c61e016265a244340bdf54874ab4c98c8a5923493659d73bec5e0c5051c5f23"
+    },
+    "before/protocol.json": {
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    "before/pyproject.toml": {
+      "bytes": 1966,
+      "sha256": "4b9e8b18a37f92f2ecdc2b2a5006363f9093bed41e1551341c3b3a6546fa617c"
+    },
+    "before/record-schemas.json": {
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    "before/test_a2_nonqualifier.py": {
+      "bytes": 1808,
+      "sha256": "0f396c9913ea94ffaa193f40d484cdc08d94dcdfa53bd14b0a70b0f685bc6ba3"
+    }
+  },
+  "prior_blocked_attempt_relabelled_executed": false,
+  "independent_review_passed": false
+}

@@ -1,0 +1,49 @@
+{
+  "a2_acceptance_passed": false,
+  "archive": "metadata-budget-accounting-blocked-evidence.tar.gz",
+  "archive_bytes": 320255,
+  "archive_members_verified": 65,
+  "archive_sha256": "453a6dba8e71bae266efe44b7365c7fe7f2a9019d47d0cefde220e1177ea87a7",
+  "budget_revision_completed": false,
+  "current_failure_index_bytes": 524288,
+  "current_json_nodes": 32768,
+  "exploratory_caps_rejected_not_applied": true,
+  "git_index_unchanged": true,
+  "implementation_authorized": false,
+  "independent_assessment_pending": true,
+  "indexed_files_verified": 64,
+  "numerical_inputs_unchanged": 125,
+  "packet_files_unchanged": 9,
+  "pre_edit_gate": {
+    "a2_acceptance_passed": false,
+    "arithmetic_verified": false,
+    "examples": [
+      "arrays/S-X-w.json",
+      "arrays/S-X-g.json",
+      "arrays/S-X-v.json",
+      "arrays/S-X-D.json",
+      "arrays/eager-0-exact-g_hat.json",
+      "arrays/eager-0-exact-residual.json",
+      "arrays/eager-0-exact-signed_fitted_weights.json",
+      "arrays/eager-0-exact-L_hat.json"
+    ],
+    "gate": "VALID_LINKED_METADATA_EXPORT_BEFORE_ANY_PACKET_EDIT",
+    "implementation_authorized": false,
+    "missing_conditional_artifact_obligations": 372,
+    "no_numerical_impossibility_claim": true,
+    "passed": false,
+    "required_action": "Stop before repository edits; do not treat necessary lower-bound tests, shape-only node algebra or conditional file-size assignments as full semantic export admission. Preserve current packet, report blocker to parent for independent decision.",
+    "snapshot_gap": "bytes_accounting currently sums only rendered metadata and the old index, not the conditional slot files, result copies, observation/binding records and run manifest. The separate 2 MiB ancillary allowance is not a computed closed export transaction.",
+    "tentative_bounds_not_accepted_as_valid_export_proof": true,
+    "tentative_caps_not_applied": {
+      "failure_index_bytes": 1048576,
+      "json_nodes": 65536
+    },
+    "total_numerical_certified": false,
+    "why_not_a_packet_defect": "This scratch projection intentionally contains no future fitted payloads. It is a type/disposition projection, not a linked valid selected export and cannot discharge the requested pre-edit gate."
+  },
+  "protected_files_unchanged": 18,
+  "scope": "Owner-authorized preparation accounting attempt stopped BEFORE packet edit; not a new packet defect or numerical failure",
+  "source_capture_limit": "Final script references are preserved; not every earlier attempt had a pre-run source snapshot. Early discovery failures remain in session tool receipts.",
+  "source_index_sha256": "5d458f1ad57a6d7380890e3d982354242e95beca94bb10cf2989dd5083aca903"
+}

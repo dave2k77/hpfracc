@@ -1,0 +1,100 @@
+{
+  "visited_bodies": 3339,
+  "expanded_bytes": 365953607,
+  "input_manifest_sha256": "80e4e5c34e181485f63690a05e5dd058bbb9754be5382a68b43d06e654c7bb7e",
+  "public_input_files": 95,
+  "findings": [
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::historical-replay/green-06/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::historical-replay/green-07/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::historical-replay/red-06/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::historical-replay/red-07/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::replay-green-06/before/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::replay-green-07/before/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::replay-red-06/before/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    },
+    {
+      "path": "PRIVATE_ORIGINAL::gzip::replay-red-07/before/telegram-vertical-progress.json",
+      "reasons": [
+        "known-private-chat-identifier",
+        "structured-identifier-fields"
+      ],
+      "field_names": [
+        "chat_id",
+        "message_id"
+      ]
+    }
+  ],
+  "public_findings": [],
+  "private_control_matches_exact_hold": true,
+  "values_disclosed": false,
+  "limits": "Bounded structured fields, observed chat token and selected credential patterns; not universal secret detection."
+}

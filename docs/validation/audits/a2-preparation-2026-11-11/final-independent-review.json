@@ -1,0 +1,70 @@
+{
+  "passed": false,
+  "contract_consistency_passed": true,
+  "freeze_ready": false,
+  "security_concerns": [],
+  "logic_errors": [],
+  "resource_blockers": [
+    {
+      "id": "R-FINAL-RESOURCE-01",
+      "severity": "blocks_preparation_freeze",
+      "finding": "Eight required float32 tau=1 FIT-REAL cases cannot launch under the current complete-inventory, whole-index-transaction reservation. A correctly encoded reservation_exceeded/indeterminate refusal does not fulfill their required positive gates.",
+      "affected_cases": [
+        "FIT-ramp-tau1-f32-GL",
+        "FIT-step-tau1-f32-GL",
+        "FIT-alternating-tau1-f32-GL",
+        "FIT-stacked-tau1-f32-GL",
+        "FIT-ramp-tau1-f32-RL",
+        "FIT-step-tau1-f32-RL",
+        "FIT-alternating-tau1-f32-RL",
+        "FIT-stacked-tau1-f32-RL"
+      ],
+      "independent_reproduction": {
+        "maximum_input_bytes": 183673,
+        "maximum_single_all_complete_descriptor_index_bytes": 446741,
+        "maximum_conservative_transaction_bytes": 792318,
+        "transaction_reservation_bytes": 524288,
+        "maximum_all_complete_template_nodes_counting_keys": 36687,
+        "node_cap": 32768,
+        "two_index_serialization_lower_bound_bytes_min": 614748,
+        "two_index_serialization_lower_bound_bytes_max": 617184
+      },
+      "classification": "All-complete/nonselected-branch and unused-quantity assumptions are conservative and partly mutually exclusive; their node excess is not an unavoidable node lower bound. Nevertheless, even two deliberately undercounted full-inventory index skeletons exceed 512 KiB before process interiors or receipts. The byte blocker therefore survives correcting those branch assumptions under the present closed representation/atomic-coexistence policy. This is a serialization/admission-design obstruction, not observed fit failure, numerical unattainability, hardware infeasibility or measured peak-memory evidence.",
+      "required_owner_action": "Pause: both automatic correction cycles are exhausted. Obtain an explicit owner decision; no further repair, cap relaxation, omitted checks, case substitution, scope change or implementation is authorized."
+    }
+  ],
+  "suggestions": [
+    {
+      "kind": "resolved_findings",
+      "finding": "All 17 original/re-review blocker IDs are explicitly adjudicated in review.md. Closed full-history/null-ID bindings, typed dispositions, unsupported shape metadata, mutation/occurrence ownership, timing/barrier/export receipts, artifact routing, acyclic canonical producer binding and private/no-follow output lifecycle are resolved at specification level. B4 resource readiness remains blocked separately above."
+    },
+    {
+      "kind": "owner_alternatives_not_authorized_actions",
+      "alternatives": [
+        "Retain the unfrozen draft and stop with the positive FIT-REAL programme blocked.",
+        "Explicitly authorize a separately reviewed representation redesign retaining every case/check/cap, for example immutable full inventory plus referential progress records; this changes schemas/routing/replay, not merely unused branch statuses.",
+        "Explicitly authorize a resource-cap revision only after valid selected/unselected, process/receipt and per-record node accounting; the 792318-byte illustration is not a universal runtime bound.",
+        "Explicitly accept a failure-only diagnostic preparation stage while keeping positive FIT-REAL and A2 acceptance open; this changes the deliverable and does not complete the present programme."
+      ]
+    }
+  ],
+  "summary": "FAIL CLOSED on preparation freeze readiness, not on repaired interlock consistency. Independent stdlib checks recount 560 cases, 24336 slots, 1312 comparisons, 1056 fit checks and 64 candidate-free full bindings; verify 17 linked hypothetical bundles, 38 status witnesses, all 17 roots/status routes, eight new rank-two exact controls, eight combined controls, and 15 meaningful semantic mutants with refreshed outer digests. Prior case/raw/control/policy/math bytes and preservation members are retained. The current duplicated full-index transaction has an independent byte lower bound above its reservation for eight mandatory positive cases. No numerical worker, JAX fit/application/AD, benchmark/GPU job, scientific acceptance, owner freeze or implementation authority is established. Only new scratch evidence was written; successful raw execution receipts and before/after protected-input checks are supplied. Parent must pause for an owner decision.",
+  "reviewed_protocol_sha256": "f1a62214e8636f4e8f4862c0824f40e0fe546e5430eee9f8ce6740ae3e5cca03",
+  "review_manifest_sha256": "55c9d3b42cd7507c8533125d5bae4974b4981a3c271328e72896a72105e822b4",
+  "evidence_paths": [
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/review.md",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/verdict.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/initial-pincheck-corrected-recipe.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/attempt2/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/attempt2/independent-summary.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/attempt2/resource-templates-independent.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/attempt2/independent-linked-witnesses.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/supplemental-run3/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/supplemental-run3/supplemental-proof.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/final-pin-check.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/evidence-index.json",
+    "/home/davianc/.hermes/cache/scratch/a2-independent-final-complete-l_bwads9/evidence-index-verification.json"
+  ],
+  "a2_acceptance_passed": false,
+  "implementation_authorized": false
+}

@@ -1,0 +1,1389 @@
+{
+  "a2_acceptance_passed": false,
+  "all_actual_runs": {
+    "01-semantic": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 31,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 3608,
+          "sha256": "3d00d55e104b575da67c6e98be6359158270c6fc51325b636d40171d86d6008d"
+        },
+        "identities": [
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_completed_nonqualifier_has_all_exact_slots_and_closed_ledger",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_missing_bound_payload_is_a_semantic_refusal_after_resigning",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[missing-assessment]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-qualifies]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-assessment-status]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-result-status]",
+            "time": "0.024"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-selected-id]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-unconfirmed]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-nonzero]",
+            "time": "0.032"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[index-inventory]",
+            "time": "0.028"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[preinventory]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[descriptor-shape]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[slot-shape]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[mode]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[alpha]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-X]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-X]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-0]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-X-D]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-D_hat]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-analytic_input_gradient]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_all_false_qualification_fields_cannot_redefine_bound",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[phase]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[logs/stdout.bin]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[run-manifest.json]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[failure-index.json]",
+            "time": "0.019"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "02-regression": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 26,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 3605,
+          "sha256": "2bb7a7df91cfdfcded5c9b30b8d673e4e29a4e70fefb97e14d8f1eb05e0a1414"
+        },
+        "identities": [
+          {
+            "classname": "test_a2_trace",
+            "name": "test_one_trace_has_independently_closed_ledger",
+            "time": "0.023"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[logs/stdout.bin]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[run-manifest.json]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[INITIAL_INDEX]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[failure-index.json]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[unknown]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[wrong-winner]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[exit-unconfirmed]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[descriptor-shape]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[mode]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[alpha]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[slot-shape]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-X-D]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-D_hat]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-1-analytic_input_gradient]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-B]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inconsistent_conditional_phase_is_rejected_after_resigning",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_digest_valid_publication_before_its_binding_is_rejected",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[result]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[assessment]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-X]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-0]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-1]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-X]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-0]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-1]",
+            "time": "0.024"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "03-exact-physical": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "04-equality": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 10,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 375,
+          "sha256": "f7bccd41e6b1f34889c24b3be311c299dd0eac45f769c74ba58cae3cf860155c"
+        },
+        "identities": [
+          {
+            "classname": "test_equality",
+            "name": "test_positive_entire_canonical_trace_and_every_body_are_unchanged",
+            "time": "0.026"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "05-derivation": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 12,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 366,
+          "sha256": "39be333cfc4e7f7c6fb8553560c3c56e2cb958c7ccc3c3072c6ee64404f99a2a"
+        },
+        "identities": [
+          {
+            "classname": "test_derivation",
+            "name": "test_nonqualifier_authority_is_mechanical_frozen_slice",
+            "time": "0.033"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "06-portable": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": null
+    },
+    "07-read-guard": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": null
+    },
+    "08-missing-authority": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "09-missing-record-schemas": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "10-missing-protocol": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "11-missing-trace": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "12-mutant-completion": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 2223,
+          "sha256": "e56b1b722df54d2ef34ba7b7561cd0840b01868759cbb30cf229e5a60adb35c0"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.018"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "13-mutant-binding": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1652,
+          "sha256": "51416bb6708ae96268f74cd71f38358ce6bc64b013443bcd7ebced1f81bfdf0a"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.016"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "14-mutant-exact": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1833,
+          "sha256": "122ac2edbf627a135ba3808546a2caa1d33e2796025bbf9b12b9d0677053213e"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.020"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "15-mutant-lifecycle": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1629,
+          "sha256": "ad6f7d2248ee663da922dce7b6511b9187d36a050b701d4a2003e2dc205a861c"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.017"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "16-mutant-ledger": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 2234,
+          "sha256": "dfd498a7d430173c70182c32b543d21c2b6ca24b1d84e7d94754225c02ef2364"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.016"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "17-baseline-lint": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": null
+    },
+    "18-candidate-lint": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": null
+    },
+    "19-new-lint": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 12,
+      "junit": null
+    },
+    "20-final-semantic": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 31,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 3608,
+          "sha256": "68e177b4b22f3f48f80dd84a7798919f2f887ce537a9c330f08fd71bb34e528d"
+        },
+        "identities": [
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_completed_nonqualifier_has_all_exact_slots_and_closed_ledger",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_missing_bound_payload_is_a_semantic_refusal_after_resigning",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[missing-assessment]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-qualifies]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-assessment-status]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-result-status]",
+            "time": "0.024"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-selected-id]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-unconfirmed]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-nonzero]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[index-inventory]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[preinventory]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[descriptor-shape]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[slot-shape]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[mode]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[alpha]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-X]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-0]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-X-D]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-D_hat]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-analytic_input_gradient]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_all_false_qualification_fields_cannot_redefine_bound",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[phase]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[logs/stdout.bin]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[run-manifest.json]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[failure-index.json]",
+            "time": "0.016"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "21-final-derivation": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 12,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 0,
+        "file": {
+          "bytes": 366,
+          "sha256": "58dafab07969997a99e2b6b96ebba663b696c4a9760c5f3a26bf59bad13e8936"
+        },
+        "identities": [
+          {
+            "classname": "test_derivation",
+            "name": "test_nonqualifier_authority_is_mechanical_frozen_slice",
+            "time": "0.033"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "22-final-physical": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "23-final-portable": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": null
+    },
+    "24-final-read-guard": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": null
+    },
+    "25-final-missing-authority": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "26-final-missing-schemas": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "27-final-missing-protocol": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "28-final-missing-trace": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    },
+    "29-final-mutant-completion": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 2336,
+          "sha256": "82d5b137b90f8149804ca076fe60af219caa3e55c7487f7d5c3e20313d7e3fa2"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.018"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "30-final-mutant-binding": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1682,
+          "sha256": "19c83d964e8de0af6ab55b8807694210d6a89edf4d49c9727ab28efca3c2072c"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.017"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "31-final-mutant-exact": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1929,
+          "sha256": "d420f0f3fc9fe7fbd4e09a4e0b5385e82c75b4f84dadfb8a490ac8dfb24e7a78"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.019"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "32-final-mutant-lifecycle": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 1727,
+          "sha256": "62afe1eafd72557da14c0e3d534aaaa8d77ee7168ac9c1db36d648b7d2162157"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.017"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "33-final-mutant-ledger": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 9,
+      "junit": {
+        "collected": 1,
+        "errors": 0,
+        "failures": 1,
+        "file": {
+          "bytes": 2459,
+          "sha256": "17b8a647584d15dbe1762387a6816ff91e5ab4cf04e5ce5c426358c9b01479c7"
+        },
+        "identities": [
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.014"
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    "34-final-new-lint": {
+      "actual_exit": 1,
+      "hashes_unchanged": true,
+      "input_count": 18,
+      "junit": null
+    },
+    "35-final-new-lint": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 17,
+      "junit": null
+    },
+    "36-assembly-lint": {
+      "actual_exit": 0,
+      "hashes_unchanged": true,
+      "input_count": 8,
+      "junit": null
+    }
+  },
+  "authoritative_source": "final/a2_trace.py",
+  "authoritative_test_sources": {
+    "test_a2_nonqualifier.py": {
+      "bytes": 1808,
+      "sha256": "0f396c9913ea94ffaa193f40d484cdc08d94dcdfa53bd14b0a70b0f685bc6ba3"
+    },
+    "test_derivation.py": {
+      "bytes": 1486,
+      "sha256": "92d1f8a1e572d022f090602727a1df0e79ee73f1232c4f37ebe6e3c0111d8b26"
+    },
+    "test_equality.py": {
+      "bytes": 1916,
+      "sha256": "6b3f35fab060506358fc304a28fedd6e0255e19373633b8ddae03b21b599eb29"
+    },
+    "test_semantics.py": {
+      "bytes": 10041,
+      "sha256": "c4e09cd58d3da0216251eb68c904407e2b204f19ddd49094affb9a905dd7dad9"
+    },
+    "verify_independent.py": {
+      "bytes": 11985,
+      "sha256": "8b49ae186c6a6d07d177815be9abcfb00c9862b70b10d5b664c77a3a6add2e74"
+    }
+  },
+  "authority": {
+    "bytes": 88896,
+    "sha256": "9f973fc6b4de16098cb1fe7001678a1eafdf845ad4b1f3da0109055d357b271d"
+  },
+  "commit_push_or_phase_closure": false,
+  "completed": true,
+  "exact_arithmetic": {
+    "bound": [
+      "0",
+      "1/4",
+      "1/4"
+    ],
+    "epsilon": "1/8",
+    "method": "Fraction from decoded IEEE values; recursive GL coefficients",
+    "qualifies": false,
+    "slot_count": 13,
+    "slots": {
+      "S-0-B": [
+        "0",
+        "1/4",
+        "1/4"
+      ],
+      "S-0-D_hat": [
+        "2",
+        "1",
+        "1/2"
+      ],
+      "S-0-L_hat": [
+        "2",
+        "0",
+        "0",
+        "-1",
+        "2",
+        "0",
+        "-1/2",
+        "-1",
+        "2"
+      ],
+      "S-0-analytic_input_gradient": [
+        "11/6",
+        "1",
+        "2/3"
+      ],
+      "S-0-epsilon": [
+        "1/8"
+      ],
+      "S-0-error": [
+        "0",
+        "0",
+        "1/4"
+      ],
+      "S-0-g_hat": [
+        "1",
+        "1/2",
+        "1/4"
+      ],
+      "S-0-residual": [
+        "0",
+        "0",
+        "-1/8"
+      ],
+      "S-0-signed_fitted_weights": [
+        "1",
+        "-1/2",
+        "-1/4"
+      ],
+      "S-X-D": [
+        "2",
+        "1",
+        "3/4"
+      ],
+      "S-X-g": [
+        "1",
+        "1/2",
+        "3/8"
+      ],
+      "S-X-v": [
+        "1",
+        "0",
+        "0"
+      ],
+      "S-X-w": [
+        "1",
+        "-1/2",
+        "-1/8"
+      ]
+    },
+    "tau": "3/16"
+  },
+  "final_controls": {
+    "checker_mutants_killed": 5,
+    "missing_required_input_exits_asserted": 4,
+    "posthoc_defensive_tests": 29,
+    "python_read_guard_rejection": 1
+  },
+  "final_selected_pytest_counts": {
+    "02-regression": 26,
+    "04-equality": 1,
+    "20-final-semantic": 31,
+    "21-final-derivation": 1
+  },
+  "final_selected_pytest_total": 59,
+  "head_index_unchanged": true,
+  "historical_unlaunched_action_relabelled": false,
+  "independent_review_passed": false,
+  "last_approved_source_diff": "last-approved-source.diff",
+  "ledger": {
+    "cumulative_written_bytes": 45148,
+    "final_live_bytes": 40245,
+    "index_transaction_bytes": 13098,
+    "old_index_bytes_charged": 4903,
+    "peak_live_bytes": 41328,
+    "temporary_bytes_charged": 6258,
+    "terms": {
+      "INITIAL_INDEX": 4903,
+      "arrays/S-0-B.json": 437,
+      "arrays/S-0-D_hat.json": 445,
+      "arrays/S-0-L_hat.json": 582,
+      "arrays/S-0-analytic_input_gradient.json": 481,
+      "arrays/S-0-epsilon.json": 404,
+      "arrays/S-0-error.json": 445,
+      "arrays/S-0-g_hat.json": 445,
+      "arrays/S-0-residual.json": 452,
+      "arrays/S-0-signed_fitted_weights.json": 479,
+      "arrays/S-X-D.json": 428,
+      "arrays/S-X-g.json": 428,
+      "arrays/S-X-v.json": 428,
+      "arrays/S-X-w.json": 430,
+      "failure-index.json": 6258,
+      "input-bundle.json": 4849,
+      "logs/stderr.bin": 45,
+      "logs/stdout.bin": 45,
+      "records/binding-host-0.json": 4068,
+      "records/binding-host-X.json": 2785,
+      "records/candidate-0.json": 1306,
+      "records/export.json": 550,
+      "records/launch.json": 829,
+      "records/output-control.json": 265,
+      "records/process.json": 1122,
+      "records/request.json": 2367,
+      "result.json": 6602,
+      "run-manifest.json": 3270
+    }
+  },
+  "limitations": [
+    "Trace process/timing/security/counter fields are STATIC/HYPOTHETICAL.",
+    "Actual exits/XML describe self-tests, never worker observations.",
+    "All-1 packet digest is hypothetical; actual packet hash is pinned.",
+    "No worker/fitter/selector/AD execution or numerical source edits.",
+    "No operation-count, runtime, security or numerical certification.",
+    "No resource-sufficiency claim; physical replay is schedule-specific.",
+    "Old index and temporary index coexistence are separately counted.",
+    "Python audit hook is not an OS sandbox; local authority is trusted.",
+    "Ruff baseline retained; production repository lint is separate.",
+    "No review approval, freeze, commit, push or phase closure."
+  ],
+  "lint": {
+    "added_checker_findings": 0,
+    "baseline_findings": 109,
+    "candidate_findings": 108,
+    "inherited_capture_helper_E501": 1,
+    "main_repository_lint_run": false,
+    "new_helpers_final_findings": 0,
+    "preserved_preformat_lint_failures": [
+      "19-new-lint",
+      "34-final-new-lint"
+    ]
+  },
+  "new_case_inventory": {
+    "exact_slots": 13,
+    "json_records": 25,
+    "static_logs": 2
+  },
+  "parse_metric_maxima": {
+    "depth": 9,
+    "nodes": 720
+  },
+  "per_record_parse_metrics": {
+    "INITIAL_INDEX": {
+      "depth": 5,
+      "nodes": 476
+    },
+    "arrays/S-0-B.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-0-D_hat.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-0-L_hat.json": {
+      "depth": 5,
+      "nodes": 81
+    },
+    "arrays/S-0-analytic_input_gradient.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-0-epsilon.json": {
+      "depth": 5,
+      "nodes": 39
+    },
+    "arrays/S-0-error.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-0-g_hat.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-0-residual.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-0-signed_fitted_weights.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-X-D.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-X-g.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-X-v.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "arrays/S-X-w.json": {
+      "depth": 5,
+      "nodes": 50
+    },
+    "failure-index.json": {
+      "depth": 5,
+      "nodes": 567
+    },
+    "input-bundle.json": {
+      "depth": 7,
+      "nodes": 430
+    },
+    "records/binding-host-0.json": {
+      "depth": 6,
+      "nodes": 302
+    },
+    "records/binding-host-X.json": {
+      "depth": 6,
+      "nodes": 208
+    },
+    "records/candidate-0.json": {
+      "depth": 4,
+      "nodes": 115
+    },
+    "records/export.json": {
+      "depth": 3,
+      "nodes": 34
+    },
+    "records/launch.json": {
+      "depth": 4,
+      "nodes": 46
+    },
+    "records/output-control.json": {
+      "depth": 3,
+      "nodes": 22
+    },
+    "records/process.json": {
+      "depth": 4,
+      "nodes": 88
+    },
+    "records/request.json": {
+      "depth": 6,
+      "nodes": 215
+    },
+    "result.json": {
+      "depth": 9,
+      "nodes": 720
+    },
+    "run-manifest.json": {
+      "depth": 4,
+      "nodes": 193
+    }
+  },
+  "positive_equality": {
+    "bodies": {
+      "arrays/S-0-B.json": {
+        "bytes": 437,
+        "sha256": "8a85392f8b85636edd0379aa8b2922086ee40564f20330289e6cebffdd70df8c"
+      },
+      "arrays/S-0-D_hat.json": {
+        "bytes": 445,
+        "sha256": "d4fc92c98a28f8d7e760bce4ded3ec3d5611ce47c28997b2905b2b961e14c710"
+      },
+      "arrays/S-0-L_hat.json": {
+        "bytes": 582,
+        "sha256": "687d1ce9dad6a00517ca7461ccbd39b6d38bd1049c8be6d9b8c34fb7faf9bf2c"
+      },
+      "arrays/S-0-analytic_input_gradient.json": {
+        "bytes": 481,
+        "sha256": "5a2738fe8f16a0fad26cbceab83060072b17fa00b08b438f797f85df2afa471d"
+      },
+      "arrays/S-0-epsilon.json": {
+        "bytes": 404,
+        "sha256": "481ddbcf01b238256159ec6852e0090817f19c67d674cba5f9a8314900317bcb"
+      },
+      "arrays/S-0-error.json": {
+        "bytes": 445,
+        "sha256": "45cc10a73fcfcc002c0091679a8eff44a6ecb7d0357449041667700d40f6dbaf"
+      },
+      "arrays/S-0-g_hat.json": {
+        "bytes": 445,
+        "sha256": "68ea5227eec9ddc058a5eb880dc4d4131a6974a933200f3cb664762f97afd5b7"
+      },
+      "arrays/S-0-residual.json": {
+        "bytes": 452,
+        "sha256": "e70f005f2ee95550ea5757b3319f7196dcba06acb435df24019d9ac36fb77419"
+      },
+      "arrays/S-0-signed_fitted_weights.json": {
+        "bytes": 479,
+        "sha256": "f3d1b6676f702e68678bb126e0658ed759ad9649a095dc52d2989da97f506b5e"
+      },
+      "arrays/S-1-B.json": {
+        "bytes": 440,
+        "sha256": "e488a404140b007c5ad399c6660a6fe6bfb748898c0331e8ad88ab04bb65cac2"
+      },
+      "arrays/S-1-D_hat.json": {
+        "bytes": 448,
+        "sha256": "ca2d130a7b3031d400ad125204eaa55fd8c26b48539f160892090d6764f586f1"
+      },
+      "arrays/S-1-L_hat.json": {
+        "bytes": 585,
+        "sha256": "d81345db9e9813b24e79852982924caf70c1b6183a9642e058240ac802677912"
+      },
+      "arrays/S-1-analytic_input_gradient.json": {
+        "bytes": 484,
+        "sha256": "d2b9756fe213f174c89c260cc602addb57598d58d09af79b701f7ed942154d9a"
+      },
+      "arrays/S-1-epsilon.json": {
+        "bytes": 407,
+        "sha256": "cdfc0cfe913f241e895c61d83bc577c0aaf28129534d8f17503cccb7676a4b28"
+      },
+      "arrays/S-1-error.json": {
+        "bytes": 448,
+        "sha256": "a9b1944f70f0926e4ca6f5e42a35890ff4bc45edb6c1e0bf17882b3d7dc76382"
+      },
+      "arrays/S-1-g_hat.json": {
+        "bytes": 448,
+        "sha256": "a86c1deb88fb7666093f694828b6cf60ba3399aad28d0a8c48d7aecd044239f1"
+      },
+      "arrays/S-1-residual.json": {
+        "bytes": 454,
+        "sha256": "2ceab9e4221f52897b9442086e869f6c090d1d90186ea9d766f2f8291d276375"
+      },
+      "arrays/S-1-signed_fitted_weights.json": {
+        "bytes": 482,
+        "sha256": "a73f2ad42598524c8c3acdc8b61356acd7269c4585f50b9fbf43e136b7b30d7b"
+      },
+      "arrays/S-X-D.json": {
+        "bytes": 428,
+        "sha256": "4d9f4b5f51a7a627cde4451327f3c77283ca657ea8b5dc5a7ef6b510ec1e23d6"
+      },
+      "arrays/S-X-g.json": {
+        "bytes": 428,
+        "sha256": "cc9eafc8c2e132b532b670aad69aed70e7c9fb1837ba9baf6a01ccf80f580fb9"
+      },
+      "arrays/S-X-v.json": {
+        "bytes": 428,
+        "sha256": "e8b88cb62d73a0ac7c8cde04ba5e5414dbaf0926320f59ebdf5e8fa4f6dd4722"
+      },
+      "arrays/S-X-w.json": {
+        "bytes": 430,
+        "sha256": "ff51abb0a074831eb52378fbac9b125347355fd55983825994deb4391e7e38f2"
+      },
+      "failure-index.json": {
+        "bytes": 9676,
+        "sha256": "78b4b6c6c2bdf8a8ac351c7090d704b9c765ef7e5007f76b9b3283941b5e336b"
+      },
+      "input-bundle.json": {
+        "bytes": 7504,
+        "sha256": "eb1f88f378b900242aec7d473ab26a8a2abe32bb5e34a0849195becec77fa018"
+      },
+      "logs/stderr.bin": {
+        "bytes": 45,
+        "sha256": "71051baf93090f145435fe8bae1f5bc17e38b408307c029d0aefffaf15542714"
+      },
+      "logs/stdout.bin": {
+        "bytes": 45,
+        "sha256": "339bf1e54ca9fa29cdb11606994141d6ca2dff129878a9eeed3ea6866bd6165f"
+      },
+      "records/binding-host-0.json": {
+        "bytes": 4068,
+        "sha256": "2fdaf6be1fc406e7e752c4e1985356bc5f06ee8026a20f6df9fae7d3fd2cdb2b"
+      },
+      "records/binding-host-1.json": {
+        "bytes": 4071,
+        "sha256": "3af194fa828bc685ded96be9705fd924245caaeab123f76803e9873d1ed606a6"
+      },
+      "records/binding-host-X.json": {
+        "bytes": 2785,
+        "sha256": "cfedf223f9c25de64265fe8ce0fea4f6db848c8c535858bffa796ba1bd00dff5"
+      },
+      "records/candidate-0.json": {
+        "bytes": 1306,
+        "sha256": "dfa7150781507f8cdd309e016f4cdbf27791f63be4de251e68bc7d55a5b1c715"
+      },
+      "records/candidate-1.json": {
+        "bytes": 1343,
+        "sha256": "86486f731b3d5b35f89166fd0461c03749c91820169209bd15149211c09df243"
+      },
+      "records/export.json": {
+        "bytes": 550,
+        "sha256": "a3a0918e75a437177c86a907ebca5ab8e348591fc601b37a9b87a05bb9d1bcb1"
+      },
+      "records/launch.json": {
+        "bytes": 829,
+        "sha256": "6a0783a946b89f541139dc281e03e3fa8e1b4a5c491d8f107df049d9e462e3f8"
+      },
+      "records/output-control.json": {
+        "bytes": 265,
+        "sha256": "f2a69ef8fe46cedf4f98a346b863fe25b449a2eca0bef7fdd961e299ef9355c5"
+      },
+      "records/process.json": {
+        "bytes": 1122,
+        "sha256": "ee77058ac3486239c9b31e69a5f24ea0573c01e39f32d21197ff34b5a49f6156"
+      },
+      "records/request.json": {
+        "bytes": 3711,
+        "sha256": "479d1f029be661f4482e79fb9eeab7cfb662b299bd812f75710e68f470df39c8"
+      },
+      "result.json": {
+        "bytes": 10922,
+        "sha256": "ecfb547976a2af45b1512e90dc0cf5da02b4f0954e23b509aa95908e27809953"
+      },
+      "run-manifest.json": {
+        "bytes": 4648,
+        "sha256": "da13f330d41b8e61fd9155ef82d103ad6043b48d4883844d54e18c476ffb6a9e"
+      }
+    },
+    "canonical_trace_equal": true,
+    "canonical_trace_sha256": "4ce9d81072637ddbde8bb3b8fd0ed3ce6941543261c57162c916a9ee9e4b4e61",
+    "emitted_bodies_compared": 38,
+    "initial_index_equal": true,
+    "original_file_sha256": "ba9e40f8e9fa66d13dee2439e9087239b52e523128119eb3d0340ad2b00d2a62"
+  },
+  "production_implementation_authorized": false,
+  "protected_repository_files": 234,
+  "protocol_freeze_authorized": false,
+  "repository_writes_performed": false,
+  "scope": "Author self-verification only; ONE additional static case",
+  "source": {
+    "bytes": 31334,
+    "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+  },
+  "source_changed_after_approved_resumption": false,
+  "source_diff": "source.diff",
+  "test_history": "Existing author RED/GREEN and approved pause resumption are historical; new controls are posthoc and mutation-validated, not TDD claims.",
+  "trace": {
+    "bytes": 49300,
+    "sha256": "31439bb705bf64c99b96cdcb6ab80e367677c6f0aaee5b082156fdc820491a6e"
+  },
+  "unresolved_issues": [
+    "Independent review pending; no correction after a blocking review.",
+    "Inherited Ruff: 108 checker/test findings, one capture-helper E501."
+  ]
+}

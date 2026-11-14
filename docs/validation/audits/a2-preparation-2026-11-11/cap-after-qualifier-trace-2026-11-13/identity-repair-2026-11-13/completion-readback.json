@@ -1,0 +1,89 @@
+{
+  "status": "Final local scoped correction and cap-after-qualifier increment verified complete",
+  "final_manifest": {
+    "bytes": 7744,
+    "sha256": "d609c3a5a8797a2a13b8285d6956683e47ac375c79b160481626efd54d5267a3"
+  },
+  "manifest_files_verified": 30,
+  "protected_baseline_files_unchanged": 930,
+  "allowed_status_documents_changed": 4,
+  "independent_review_files_verified": 720,
+  "independent_review_archive_members_verified": 721,
+  "independent_passing_checks_verified": 230,
+  "additional_controls_parent_replayed": 69,
+  "parent_control_actual_exit": 0,
+  "final_docs_tests_passed": 23,
+  "final_qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "late_metadata_privacy": {
+    "scope": "Late final metadata only; prior complete closure scan and artifact pins verified",
+    "roots": {
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/outcome.json": {
+        "bytes": 9195,
+        "sha256": "b4c06d807e7a6bf312a1cc15411ad836f5cc031528d3cbc800fc8cbfb6b2c1cf"
+      },
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/final-privacy.json": {
+        "bytes": 1920169,
+        "sha256": "1a33fc41493d4a3df6e1dd71b1ff8004cbd7557609000ac9d391300ca3aeafbb"
+      },
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/final-manifest.json": {
+        "bytes": 7744,
+        "sha256": "d609c3a5a8797a2a13b8285d6956683e47ac375c79b160481626efd54d5267a3"
+      }
+    },
+    "root_count": 3,
+    "expanded_body_count": 3,
+    "streamed_bytes": 1937108,
+    "bodies": {
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/outcome.json": {
+        "bytes": 9195,
+        "sha256": "b4c06d807e7a6bf312a1cc15411ad836f5cc031528d3cbc800fc8cbfb6b2c1cf",
+        "container": false,
+        "depth": 0
+      },
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/final-privacy.json": {
+        "bytes": 1920169,
+        "sha256": "1a33fc41493d4a3df6e1dd71b1ff8004cbd7557609000ac9d391300ca3aeafbb",
+        "container": false,
+        "depth": 0
+      },
+      "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/final-manifest.json": {
+        "bytes": 7744,
+        "sha256": "d609c3a5a8797a2a13b8285d6956683e47ac375c79b160481626efd54d5267a3",
+        "container": false,
+        "depth": 0
+      }
+    },
+    "findings": [],
+    "bounds": {
+      "per_leaf_bytes": 100000000,
+      "per_container_bytes": 700000000,
+      "aggregate_streamed_bytes": 6000000000,
+      "bodies": 30000,
+      "depth": 8
+    },
+    "limitations": [
+      "Explicit task-input and owned-output closure only.",
+      "Local paths and hostnames retained; no private identity matching.",
+      "Patterns and structured fields do not establish universal privacy clearance.",
+      "Scanner bounds are administrative, not numerical caps."
+    ],
+    "positive_controls": {
+      "synthetic_only": true,
+      "gzip_tar_structured_positive": true,
+      "credential_pattern_positive": true,
+      "unsafe_call_positive": true,
+      "benign_control": true
+    }
+  },
+  "historical_failed_verdict_and_blocked_outcome_unchanged": true,
+  "head_and_stage_unchanged": true,
+  "commit_or_push_performed": false,
+  "scope": "Only reviewed static JSON identity and cap-after-qualifier proof; not wider A2/scientific/resource/delivery approval",
+  "self_excluded_from_final_manifest": true,
+  "receipt_role": "Normalized local readback; actual execution is reported by terminal exit, not asserted as OS attestation"
+}

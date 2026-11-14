@@ -1,0 +1,58 @@
+{
+  "status": "Final local scoped completion verified",
+  "final_manifest": {
+    "bytes": 14615,
+    "sha256": "7e75893cccc2830a645edf67648fcdf45d87b8f926162e7bf67c80c2f1d5a944"
+  },
+  "final_manifest_files_verified": 64,
+  "protected_files_unchanged": 282,
+  "permitted_status_files_changed": 3,
+  "independent_review_indexed_files_verified": 329,
+  "independent_review_archive_members_verified": 330,
+  "selected_tests_verified": 59,
+  "independent_controls_parent_replayed": 33,
+  "docs_tests_verified": 23,
+  "published_status_text_present_in_built_html": true,
+  "late_metadata_privacy": {
+    "scope": "Bounded explicit-file and recursive regular-archive pattern/field scan; no private identity matching or universal privacy clearance",
+    "input_manifest": {
+      "bytes": 754,
+      "sha256": "1c8cc8ebacaecfe4a80ad57a4ca52ad57360b108ef924203c2ab18690a7877b3"
+    },
+    "root_files": 4,
+    "expanded_body_count": 4,
+    "expanded_bytes": 459464,
+    "findings": [],
+    "body_identities": [
+      {
+        "path": "outcome.json",
+        "bytes": 5378,
+        "sha256": "bf6da42fdc5f684694d0bda893f3a3aaceb681156a15c689e77081b4ec9bb254"
+      },
+      {
+        "path": "final-privacy-check.json",
+        "bytes": 424586,
+        "sha256": "8a7ae63ab788116e19d3fe1d80d4088a07ac49a976e6771754c53343b75aea91"
+      },
+      {
+        "path": "final-privacy-receipt.json",
+        "bytes": 14885,
+        "sha256": "f75c7eeff95756c30bd578b7e37f25832af7d6f3d45a8ffeccc1f9846604fe77"
+      },
+      {
+        "path": "final-manifest.json",
+        "bytes": 14615,
+        "sha256": "7e75893cccc2830a645edf67648fcdf45d87b8f926162e7bf67c80c2f1d5a944"
+      }
+    ],
+    "synthetic_positive_pattern_control_passed": true
+  },
+  "late_scan_actual_exit": 0,
+  "late_scan_raw_stdout_utf8": "{\"root_files\": 4, \"expanded_body_count\": 4, \"findings\": 0}\n",
+  "late_scan_raw_stderr_utf8": "",
+  "head_and_stage_unchanged": true,
+  "commit_or_push_performed": false,
+  "scope": "Only the one additional static no-qualifier increment and scoped VAL-015 ordering repair; not A2/scientific acceptance or remote delivery",
+  "self_excluded_from_final_manifest": true,
+  "execution_authentication": "This is a normalized local verification record; successful execution is reported by the actual terminal tool exit, not authenticated by this field."
+}

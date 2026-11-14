@@ -1,0 +1,13 @@
+{
+  "case_id": "REF-FAIL-f64-GL",
+  "slot_count": 13,
+  "tau": "3/16",
+  "epsilon": "1/8",
+  "bounds": [
+    "0",
+    "1/4",
+    "1/4"
+  ],
+  "candidate_qualifies": false,
+  "all_exact_payloads_match": true
+}

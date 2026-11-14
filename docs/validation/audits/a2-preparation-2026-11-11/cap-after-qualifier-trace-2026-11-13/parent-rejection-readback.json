@@ -1,0 +1,141 @@
+{
+  "archive": "parent-rejection-readback-evidence.tar.gz",
+  "bytes": 468855,
+  "sha256": "8e9b6196c342357352627a072220cba0b7889b710559067e5627564001d53362",
+  "members_verified": 32,
+  "files": {
+    "preserve_failed_review.py": {
+      "bytes": 10615,
+      "sha256": "135b2d4a90dd6efc50d31f933485b088efc357062d2b9e437be4fb4edb334aea"
+    },
+    "finish_preservation.py": {
+      "bytes": 8876,
+      "sha256": "d79585260f0f150667df48b35897841402f48599460ead201e726f59df002741"
+    },
+    "preservation-harness-attempt.json": {
+      "bytes": 1095,
+      "sha256": "60bcbb9af32a18026eb3e315b90ed9d82a6a4d10cfb8a1fc37d32cc5f124d7cc"
+    },
+    "privacy_security.py": {
+      "bytes": 5203,
+      "sha256": "13da9f0d5e71a580a1bd0e9e60994f40ff9b032e591bf94372c4bd5b9c5a9f81"
+    },
+    "review-privacy-streamed.json": {
+      "bytes": 408,
+      "sha256": "10f91c38bfa27fff0de4efb84990631ed1c44a4f217802cb9f6e3c252747f943"
+    },
+    "probe/plan.json": {
+      "bytes": 2340,
+      "sha256": "912e686f4c58b8a366cb65968a3744e9be58255ab8a752831ec0c2c76321ffd0"
+    },
+    "probe/receipt.json": {
+      "bytes": 356,
+      "sha256": "59cd4e74b741ec456c9b5d46e27bad6170149ddf572f75102a4aca0f8f6fbfa2"
+    },
+    "probe/stdout.raw": {
+      "bytes": 170,
+      "sha256": "47cd1a22347df2f7bc0afadfa0c3cf27222e0fe8e00515726b6152406135585b"
+    },
+    "probe/stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "probe/artifacts/canonical-type-outcomes.json": {
+      "bytes": 5198,
+      "sha256": "975561fea987c72b064f2e5b40732dd0b9b8893695b764c0afb30cdbde7982bc"
+    },
+    "probe/artifacts/blocking-finding.json": {
+      "bytes": 904,
+      "sha256": "b697a36eef07c7314e23bb74374bf53da0ad32ff0a9c53588143fc3e03b0d1bb"
+    },
+    "probe/before/a2_trace.py": {
+      "bytes": 35284,
+      "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+    },
+    "probe/before/authority.json": {
+      "bytes": 117091,
+      "sha256": "a1f0d64365a2abfc72ce9107d941ec8542a43d9fb7b6000a2682b127850fcec9"
+    },
+    "probe/before/fixtures.json": {
+      "bytes": 8083480,
+      "sha256": "7c50cf5a7ff86a1875f3324d413cc3f11fe6c63f4e1acd7633bf89f564b951e5"
+    },
+    "probe/before/frozen_case.py": {
+      "bytes": 4021,
+      "sha256": "93354458e3633a1bd198049b265a6eb9d3582df9ec5d31d5d87006e24119462b"
+    },
+    "probe/before/parent-frozen-reference.json": {
+      "bytes": 2257,
+      "sha256": "553654ccb16558fb94e03de14643a09870f4483555a81b27c5da6620bd53bcb1"
+    },
+    "probe/before/protocol.json": {
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    "probe/before/pyproject.toml": {
+      "bytes": 1966,
+      "sha256": "4b9e8b18a37f92f2ecdc2b2a5006363f9093bed41e1551341c3b3a6546fa617c"
+    },
+    "probe/before/record-schemas.json": {
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    "probe/before/schema-control-fixtures.json": {
+      "bytes": 1907286,
+      "sha256": "696b6b22d4d5e9b18c29ce9c6eb0eac4534404860c4221aae0344faea5a25e60"
+    },
+    "probe/before/test_cap_after.py": {
+      "bytes": 4390,
+      "sha256": "a7939db6883b650335a47da76a62b4142e09c08806874eda1636f7b582552a88"
+    },
+    "probe/before/test_controls.py": {
+      "bytes": 14124,
+      "sha256": "54ef127b0e144b7c5b0dae0b8afb69d796182567b35245311f6015946d2e5360"
+    },
+    "probe/before/verify_cap.py": {
+      "bytes": 14335,
+      "sha256": "1dff339b9b2172508d7479dd2058133a040e486134fc3861149022cf450fad6d"
+    },
+    "probe/before/independent_probe.py": {
+      "bytes": 15524,
+      "sha256": "8628e41fe3e9bf6f5d4daff51e2fa34e9f33269dd536f64ef4bbf77c23a4b8f1"
+    },
+    "probe/before/type_probe.py": {
+      "bytes": 3185,
+      "sha256": "14e4b5ecc44cb5826053eef10e8c2265cfff379e37275b40f27a71926a5e8f70"
+    },
+    "probe/artifacts/case-known-occurrence-bool-authority.json": {
+      "bytes": 65448,
+      "sha256": "3d361d083b0d2ffc3c8a972cc088b404338f3f60b5505dc218c126b9c5e33396"
+    },
+    "probe/artifacts/case-known-occurrence-bool-trace.json": {
+      "bytes": 63694,
+      "sha256": "2e3c7d42f35f82187ae9c3839e8cad5202b358f3fb4757b68d856689b1391eba"
+    },
+    "probe/artifacts/case-unknown-occurrence-bool-authority.json": {
+      "bytes": 65447,
+      "sha256": "43e26b3ea40719e1d6ce7b649c0d6480ecd329789bc4e6c62b56d42cc80ee7dc"
+    },
+    "probe/artifacts/case-unknown-occurrence-bool-trace.json": {
+      "bytes": 63694,
+      "sha256": "2e3c7d42f35f82187ae9c3839e8cad5202b358f3fb4757b68d856689b1391eba"
+    },
+    "probe/artifacts/scalar-alpha-nbytes-float-authority.json": {
+      "bytes": 65446,
+      "sha256": "69b2a087a647b1f060763008a2f44d5a736e91c3f65b0988dda9d93dc4da99eb"
+    },
+    "probe/artifacts/scalar-alpha-nbytes-float-trace.json": {
+      "bytes": 63694,
+      "sha256": "2e3c7d42f35f82187ae9c3839e8cad5202b358f3fb4757b68d856689b1391eba"
+    },
+    "parent-privacy.json": {
+      "bytes": 404,
+      "sha256": "9d1f769144252d0604343d9ca0f21a61daebc34a6f506d88b33fb80267b611aa"
+    }
+  },
+  "candidate_passed": false,
+  "blocking_finding_reproduced": "CAP-AUTH-TYPE-01",
+  "actual_probe_exit": 2,
+  "accepted_type_mutations": 3,
+  "source_repaired": false
+}

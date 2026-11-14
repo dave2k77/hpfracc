@@ -1,0 +1,11 @@
+{
+  "archive": "parent-reference-source.tar.gz",
+  "archive_sha256": "3c796741cd461f691f858f0e49a9fd76bc0cf3a56b81fb9ecb28e3d119512743",
+  "files": {
+    "parent_reference.py": {
+      "bytes": 5450,
+      "sha256": "b00e762c27579bdfa3f58d52dc06981b640a68ee42ea6dec6bc395f686d33fb6"
+    }
+  },
+  "scope": "Parent frozen-input self-check source, not worker implementation or independent approval"
+}

@@ -1,0 +1,15 @@
+{
+  "recorded_at_utc": "2026-11-13T13:51:59Z",
+  "owner_reply": "Ok, no problem. approved.",
+  "approved_operation": "Verify every indexed author-archive member and copy explicitly selected regular members into reviewer-owned scratch storage for the already authorized independent review.",
+  "prior_checkpoint": "independent-review-incomplete-preservation.json",
+  "prior_prompt_lifecycle": "The earlier reviewer ended and its prompt was withdrawn. Its blocked invocation remains unlaunched; this approval permits a new captured operation, not retroactive execution.",
+  "author_archive_sha256": "8bb7abf9283211a3bc86634a12ac5ec20ba4c27070c4592770cc95619110e45a",
+  "author_index_sha256": "eb341ebe9f912a3e0684cf074489c36dd849b3dd0049af014fa6a9ccbe3c9f23",
+  "review_manifest_sha256": "e0f5c757763d00159a2ca85ffe4a890f05674341d6e264755aea1508cba69654",
+  "execution_boundary": "Use a named, inspectable local script and normal tool approval checks. This is not a policy change or permission for unrelated commands. The existing one-case review scope and stop-on-blocking-finding rule remain in force.",
+  "candidate_repairs_authorized": false,
+  "scientific_scope_or_resource_limits_changed": false,
+  "safety_settings_changed": false,
+  "commit_push_or_release_authorized": false
+}

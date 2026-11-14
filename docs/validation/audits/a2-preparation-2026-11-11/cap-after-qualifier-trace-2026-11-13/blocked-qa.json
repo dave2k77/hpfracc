@@ -1,0 +1,68 @@
+{
+  "archive": "blocked-qa-evidence.tar.gz",
+  "bytes": 8841,
+  "sha256": "f6561c149372e80c40f00e51a539c751540fbf131719f78350ea5c862d251fa6",
+  "members_verified": 13,
+  "files": {
+    "blocked_checkpoint.py": {
+      "bytes": 10319,
+      "sha256": "b7ff3c8029605049a831d2ab48f9e16a72c4d911e676578cb22cd96669ad3a9c"
+    },
+    "blocked-status.patch": {
+      "bytes": 8873,
+      "sha256": "0ebc61740411ce9612178e379daef0172cab421730e01185b178af9d02a11cc7"
+    },
+    "blocked-qa/plan.json": {
+      "bytes": 1093,
+      "sha256": "0c08e6c848155996f9968700fb8b3bacee5afc10bda568eae4b69fa74eebae47"
+    },
+    "blocked-qa/receipts.json": {
+      "bytes": 1353,
+      "sha256": "b137c7a36f7776a05da30b3dec61ade28827d274f06d13386e87fc0a63984e50"
+    },
+    "blocked-qa/docs.xml": {
+      "bytes": 3662,
+      "sha256": "aa029be3549eb6618c98b0455c0a6846a058a3f7b8a0348c63c9f2d6e6f1602c"
+    },
+    "blocked-qa/0-stdout.raw": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "blocked-qa/0-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "blocked-qa/1-stdout.raw": {
+      "bytes": 99,
+      "sha256": "fa6ce27648ded722e217b6cb12d505cc9622bb6ec235ac127b77f4cb02ad113a"
+    },
+    "blocked-qa/1-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "blocked-qa/2-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "blocked-qa/2-stderr.raw": {
+      "bytes": 2792,
+      "sha256": "726eee6f5dc1fecb9de475534d9b0923dbe495f9f1624545937bf7254f7faa6b"
+    },
+    "blocked-qa/3-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "blocked-qa/3-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23,
+  "scope": "Blocked-disposition repository QA only; the rejected candidate is not approved"
+}

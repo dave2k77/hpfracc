@@ -1,0 +1,204 @@
+{
+  "status": "SCOPED ADDITIONAL STATIC NO-QUALIFIER INCREMENT COMPLETE",
+  "completed_at_utc": "2026-11-13T14:34:55.296427+00:00",
+  "approval_record": "authorization.json",
+  "case_id": "REF-FAIL-f64-GL",
+  "witness_id": "nonqualify-REF-FAIL-f64-GL",
+  "increment_complete": true,
+  "source": {
+    "bytes": 31334,
+    "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+  },
+  "trace": {
+    "bytes": 49300,
+    "sha256": "31439bb705bf64c99b96cdcb6ab80e367677c6f0aaee5b082156fdc820491a6e"
+  },
+  "independent_review_passed": true,
+  "independent_review_record": "independent-review-verdict.json",
+  "independent_review_proof_indexed_files": 329,
+  "independent_review_archive_members": 330,
+  "selected_tests_passed": 59,
+  "selected_tests_breakdown": {
+    "02-regression": 26,
+    "04-equality": 1,
+    "20-final-semantic": 31,
+    "21-final-derivation": 1
+  },
+  "independent_posthoc_controls_rejected": 33,
+  "parent_replayed_independent_controls": 33,
+  "exact_slots": 13,
+  "exact_arithmetic": {
+    "bound": [
+      "0",
+      "1/4",
+      "1/4"
+    ],
+    "epsilon": "1/8",
+    "method": "Fraction from decoded IEEE values; recursive GL coefficients",
+    "qualifies": false,
+    "slot_count": 13,
+    "slots": {
+      "S-0-B": [
+        "0",
+        "1/4",
+        "1/4"
+      ],
+      "S-0-D_hat": [
+        "2",
+        "1",
+        "1/2"
+      ],
+      "S-0-L_hat": [
+        "2",
+        "0",
+        "0",
+        "-1",
+        "2",
+        "0",
+        "-1/2",
+        "-1",
+        "2"
+      ],
+      "S-0-analytic_input_gradient": [
+        "11/6",
+        "1",
+        "2/3"
+      ],
+      "S-0-epsilon": [
+        "1/8"
+      ],
+      "S-0-error": [
+        "0",
+        "0",
+        "1/4"
+      ],
+      "S-0-g_hat": [
+        "1",
+        "1/2",
+        "1/4"
+      ],
+      "S-0-residual": [
+        "0",
+        "0",
+        "-1/8"
+      ],
+      "S-0-signed_fitted_weights": [
+        "1",
+        "-1/2",
+        "-1/4"
+      ],
+      "S-X-D": [
+        "2",
+        "1",
+        "3/4"
+      ],
+      "S-X-g": [
+        "1",
+        "1/2",
+        "3/8"
+      ],
+      "S-X-v": [
+        "1",
+        "0",
+        "0"
+      ],
+      "S-X-w": [
+        "1",
+        "-1/2",
+        "-1/8"
+      ]
+    },
+    "tau": "3/16"
+  },
+  "prior_selected_canonical_trace_and_all_38_bodies_unchanged": true,
+  "ledger": {
+    "cumulative_written_bytes": 45148,
+    "final_live_bytes": 40245,
+    "index_transaction_bytes": 13098,
+    "old_index_bytes_charged": 4903,
+    "peak_live_bytes": 41328,
+    "temporary_bytes_charged": 6258,
+    "terms": {
+      "INITIAL_INDEX": 4903,
+      "arrays/S-0-B.json": 437,
+      "arrays/S-0-D_hat.json": 445,
+      "arrays/S-0-L_hat.json": 582,
+      "arrays/S-0-analytic_input_gradient.json": 481,
+      "arrays/S-0-epsilon.json": 404,
+      "arrays/S-0-error.json": 445,
+      "arrays/S-0-g_hat.json": 445,
+      "arrays/S-0-residual.json": 452,
+      "arrays/S-0-signed_fitted_weights.json": 479,
+      "arrays/S-X-D.json": 428,
+      "arrays/S-X-g.json": 428,
+      "arrays/S-X-v.json": 428,
+      "arrays/S-X-w.json": 430,
+      "failure-index.json": 6258,
+      "input-bundle.json": 4849,
+      "logs/stderr.bin": 45,
+      "logs/stdout.bin": 45,
+      "records/binding-host-0.json": 4068,
+      "records/binding-host-X.json": 2785,
+      "records/candidate-0.json": 1306,
+      "records/export.json": 550,
+      "records/launch.json": 829,
+      "records/output-control.json": 265,
+      "records/process.json": 1122,
+      "records/request.json": 2367,
+      "result.json": 6602,
+      "run-manifest.json": 3270
+    }
+  },
+  "parse_metric_maxima": {
+    "depth": 9,
+    "nodes": 720
+  },
+  "final_repository_qa": {
+    "actual_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "docs_tests_passed": 23,
+    "ruff_passed": true,
+    "strict_docs_passed": true,
+    "whitespace_passed": true,
+    "full_numerical_suites_rerun": false
+  },
+  "archived_source_lint_limitations": {
+    "added_checker_findings": 0,
+    "baseline_findings": 109,
+    "candidate_findings": 108,
+    "inherited_capture_helper_E501": 1,
+    "main_repository_lint_run": false,
+    "new_helpers_final_findings": 0,
+    "preserved_preformat_lint_failures": [
+      "19-new-lint",
+      "34-final-new-lint"
+    ]
+  },
+  "status_delta_record": "final-status-delta.json",
+  "protected_files_unchanged": 282,
+  "baseline_immutable_files_unchanged": 234,
+  "final_privacy_check": {
+    "record": "final-privacy-check.json",
+    "root_files": 61,
+    "expanded_bodies": 1503,
+    "unresolved_pattern_findings": 0,
+    "scope": "Bounded explicit-file/recursive archive patterns; no private identity matching or universal clearance"
+  },
+  "prior_approval_pauses_preserved": true,
+  "review_completion_transport_error_preserved": "HTTP 400; saved verdict/index/proof recovered and verified",
+  "hypothetical_fields_are_worker_observations": false,
+  "broader_accounting_proved": false,
+  "eight_fit_real_admission_blockers_resolved": false,
+  "caps_changed": false,
+  "numerical_source_changed": false,
+  "a2_acceptance_passed": false,
+  "phase_a_complete": false,
+  "production_implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "commit_or_push_performed": false,
+  "next_boundary": "Stop at this one-case increment. Further conditional cases or resource-budget revisions need separate approval."
+}

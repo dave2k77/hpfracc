@@ -1,0 +1,31 @@
+{
+  "original_review_manifest_sha256": "e0f5c757763d00159a2ca85ffe4a890f05674341d6e264755aea1508cba69654",
+  "status": "Same candidate, approved review resumption; no source/status changes",
+  "additional_files": {
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/review-resumption-approval.json": {
+      "bytes": 1284,
+      "sha256": "eed1992d38511d5264078e1054c6c1556515828d5e7ae81b9c291733f708b19b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/review-copy-resumption.json": {
+      "bytes": 1136,
+      "sha256": "7b44c1baf8821e82276895d48a8120a46267e1cda6813056d3486d32c8a7f263"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/review-copy-resumption-evidence.tar.gz": {
+      "bytes": 25250,
+      "sha256": "d1c7ca5b403d281c9bdd87d1b01da50082e7f8c1722cb755f9995166569059c5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/independent-review-incomplete.json": {
+      "bytes": 4439,
+      "sha256": "b6c64a4f8535325e493a6610b349fb362aa9298518db4d4719d181103b0b0ed4"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/independent-review-incomplete-preservation.json": {
+      "bytes": 711,
+      "sha256": "670079212942ddf4d24b1809444fd53630769b7904d73deab3f92dbe9250f634"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/independent-review-incomplete.tar.gz": {
+      "bytes": 45618,
+      "sha256": "531204f12d1ca0c2bcb27c6862c87a8b93af21332953aa69724eea2929129f02"
+    }
+  },
+  "repairs_authorized": false
+}

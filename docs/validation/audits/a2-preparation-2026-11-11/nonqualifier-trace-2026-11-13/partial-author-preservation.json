@@ -1,0 +1,70 @@
+{
+  "status": "PARTIAL AUTHOR CHECKPOINT; blocked test not executed or rerouted",
+  "indexed_files_verified": 132,
+  "archive_members_verified": 133,
+  "archive": "partial-author-evidence.tar.gz",
+  "archive_sha256": "77339b56395818694dcc446413697d27a625b6d80afba584e8db09c7a2eada1e",
+  "evidence_index_sha256": "6f8e7e1cab0b739a5f667b77bff9f34bd8ef9a867b0f54ab8a72e2db8846ca62",
+  "recorded_runs_crosschecked": [
+    {
+      "run": "01-baseline-26",
+      "counts": {
+        "collected": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "recorded_actual_exit": 0
+    },
+    {
+      "run": "03-nonqualifier-positive-red",
+      "counts": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "recorded_actual_exit": 1
+    },
+    {
+      "run": "04-nonqualifier-positive-green",
+      "counts": {
+        "collected": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "recorded_actual_exit": 0
+    },
+    {
+      "run": "05-selected-regression-26",
+      "counts": {
+        "collected": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "recorded_actual_exit": 0
+    },
+    {
+      "run": "06-missing-bound-red",
+      "counts": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "recorded_actual_exit": 1
+    }
+  ],
+  "protected_files_unchanged": 234,
+  "git_stage_unchanged": true,
+  "bounded_privacy_findings": [],
+  "privacy_limits": "Structured identifier fields and selected credential patterns on all indexed bodies; not universal clearance or independent review",
+  "pending_execution": "07-missing-bound-green",
+  "pending_child_started": false,
+  "current_source_tested": false,
+  "independent_review_passed": false,
+  "a2_acceptance_passed": false,
+  "completed": false
+}

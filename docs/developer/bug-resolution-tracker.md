@@ -53,6 +53,11 @@ and historical evidence instead of rewriting them after a fix.
 | VAL-010 | Private validation defect | Intermediate time-power underflow hid a representable scaled contribution | Selected power path rejects; sibling guard repairs reviewed in VAL-011 |
 | VAL-011 | Private validation defect | Local interpolation and active basis arithmetic erase representable contributions | Scoped source review and 1,017-case CPU/CUDA suites pass; separate artifact review passed, SCI-003 remains open |
 | VAL-012 | Delivery evidence integrity | Stale historical source label and incomplete completion-readback binding | Corrected; 125 integrity/portability controls and independent artifact re-review pass |
+| VAL-013 | Preparation specification | A2 failure precedence, identity, fixtures and resource evidence not freeze-ready | Three named static traces reviewed; broader accounting/admission gates remain open |
+| VAL-014 | Artifact privacy | Historical replay reintroduced private delivery receipts into an evidence archive | Sanitized derivative independently approved; unchanged original remains private, no blanket publication clearance |
+| VAL-015 | Private static-checker validation | Missing exact bound is dereferenced before semantic slot validation | Scoped ordering repair and additional trace independently reviewed; broader A2 gates open |
+| VAL-016 | Private static-checker metadata | Fixed unmeasured counter placeholders could be changed without refusal | Scoped guard verified within the completed static increment; broader A2 gates open |
+| VAL-017 | Private static-checker identity | Python structural equality accepts type-altered fixed authority | Scoped JSON-identity correction independently approved and parent-verified |
 | ENV-004 | Environment / delivery | GitHub write authentication was unavailable | Resolved; authenticated push verified |
 
 ## ENV-001 — Local development environment and CI context
@@ -360,6 +365,31 @@ Impact: accuracy-preserving efficiency claims remain incomplete. Resolution work
 must separate fitting/application/gradient costs, record unattainable budgets,
 and measure rather than infer memory. Existing conditional bounds and CPU
 compiler-accounting artifacts remain valid only within their declared scope.
+
+A2 preparation, 2026-11-11: the owner authorized getting ready to start, not
+implementation. The [draft contract](a2-compression-budget-protocol.md) separates
+exact finite GL/RL compression decisions from working arithmetic, continuous
+error and measured memory. Existing fixed fitting/recursive application remain
+unchanged. It proposes exhaustive supplied-candidate assessment, a deterministic
+minimum among qualifying candidates and distinct unattainable-supplied-budget,
+invalid-input and indeterminate-work outcomes; none is yet implemented.
+
+Preparation evidence: 68 exact synthetic signal-prefix identity cases and 136
+exact-rational bound cases pass, including controls exposing omitted initial
+values/normalization. These are planning calculations, not fitter/selector or
+numerical benchmark results. Independent mathematical and validation/
+resource reviews reject the initial and first corrected packets; see VAL-013.
+Decision semantics and finite mathematics pass, but schema/export/provenance and
+output-ownership interlocks block the first revision. Final independent review
+passes the repaired specification's consistency but rejects freeze readiness:
+the whole-index byte reservation cannot admit eight required float32 cases even
+after correcting conservative branch assumptions. The owner has now authorized
+one bounded budget-only preparation revision and independent re-review. That
+attempt stopped at incomplete export accounting before any packet edit; independent
+assessment confirms no new budget is justified. No budget, case/check or numerical
+tolerance has changed. Implementation
+and A2 acceptance remain gated. No numerical source or historical evidence is
+changed to resolve preparation findings.
 
 ### VAL-003 — Scientific acceptance versus integrity
 
@@ -1060,3 +1090,664 @@ Discovery: 2026-11-10, additional metadata inspection during precision tests.
   audits and synthetic-control labels; record integrity, scientific acceptance
   and numerical source approval remain separate gates. SCI-003 and all negative
   certification/A1 flags remain unchanged.
+
+## VAL-013 — A2 protocol completeness before freeze
+
+- Status/impact: initial and first corrected preparation reviews failed. This
+  blocks protocol freeze and implementation, not a measured fitter or selector
+  result; no A2 numerical
+  implementation or JAX fitting/application/gradient measurement has occurred.
+- Symptoms: DECISION-01 leaves unsupported requests versus incompatible/missing
+  candidate evidence ambiguous. DECISION-02 leaves duplicate content identity
+  undefined. DECISION-03 overstates why any unknown assessment prevents a minimum:
+  an unknown higher-ranked candidate need not displace a known minimum, although
+  mandatory exhaustive-assessment policy can still require indeterminate status.
+- Additional findings: B1 lacks exact fixture/evidence identities, notably the
+  real-fit signal (zero input would qualify at zero budget). B2 lacks complete
+  shape-safe comparison/analytic-input-gradient/float32 eager-JIT policy mappings.
+  B3 lacks closed canonical record/array/producer/source bindings; the existing
+  private fit object does not itself store order, timestep or horizon. B4 leaves
+  resource accounting and bounded partial evidence after export/timeout exhaustion
+  insufficiently specified. The initial draft also has a broken internal anchor.
+- Evidence-backed cause: sound finite mathematics and high-level selection rules
+  were written before closing observable request/candidate/failure precedence,
+  schema, exact fixture coverage and resource-controller contracts. An exhaustive
+  policy requirement was incorrectly presented as a universal rank-uncertainty
+  theorem. These are specification defects, not proof that the numerical fitter
+  fails a tolerance.
+- Preserved evidence: both original `passed:false` verdicts for draft SHA-256
+  `331d0d72ade81c242475bc9b3b1a0d37b4c3393251661e5b113bcbb0d48dd066`, all
+  23 mathematical and 35 validation indexed proof files, original indexes/final
+  readbacks, parent planning checks and the reviewed draft are hash/size checked
+  in the 66-entry `initial-contract-reviews-failed.tar.gz` and preservation index
+  under `docs/validation/audits/a2-preparation-2026-11-11/`.
+- Positive boundary: exact signed-GL/prefix-increment algebra, exact-head bound,
+  normalization and singleton statements pass independent mathematical review.
+  Synthetic rational controls support the proposed resource caps for the exercised
+  schedules only; no universal watchdog/export-size guarantee or production-fit
+  observation follows. Scalar and stacked planning cases do not validate JAX AD,
+  accelerator execution, measured peak memory or A2 completion.
+- Historical first correction: the revised draft specifies failure
+  precedence, ID-free candidate keys, exact cases/comparison targets, raw
+  producer/dtype/byte/source bindings and bounded incomplete-evidence outcomes.
+  Static JSON enumerates 544 request cases, 10 parser and 4 identity controls,
+  20 comparison policies and 24,128 planned evidence slots; these are fixture
+  inventories, not executed worker counts. No real-fit arrays are fabricated.
+- Parent verification: seven packet hashes/sizes, all 66 original archived files,
+  unchanged mathematical-section bytes, 125 numerical inputs and index entries
+  checked. The captured stdlib planning script replay exits 0: 352 synthetic
+  cases/648 candidate assessments, 5,368 output and 5,368 analytic-gradient
+  components, and 648 exact quadratic-FD equalities. All are planning witnesses,
+  not production selector/AD/FD measurements. Original correction scripts,
+  intermediate attempts, raw outputs and exits are preserved in the 74-entry
+  `corrected-draft-planning-evidence.tar.gz` and its preservation index. Ruff,
+  23 documentation tests, strict MkDocs and the actual built anchor pass for
+  that rejected snapshot; none establishes cross-record representability.
+- First corrected packet rejected: both independent verdicts remain
+  `passed:false` for draft SHA-256
+  `6fd2868bd31e1bcc49af73834540c1858343b15fec0bb1075fa706d0ff90c1df`.
+  MATH-REREVIEW-01/V-B3-01 expose unrepresentable candidate-free full-history
+  observations and fit-only configuration/producer types. MATH-REREVIEW-02 finds
+  contradictory `not_applicable` reasons. MATH-REREVIEW-03/V-B4-02 finds admitted
+  unsupported N=18 failure shapes forbidden by the export schema. V-B1-03 finds
+  empty/duplicate-list mutations targeting a field already removed by expansion,
+  with stale occurrence inventories. V-B4-04 finds missing typed timing/phase
+  records; V-B3-05 finds standalone slots excluded from root schema routing;
+  V-B3-06 finds undefined binding-digest payloads and missing invocation/receipt
+  crosslinks. V-S01 identifies absent private output ownership/no-follow/overwrite
+  invariants: a scratch symlink satisfies the lexical path grammar while escaping
+  the request root. This is a missing security contract, not an exploit against
+  nonexistent implementation or the current numerical library.
+- Revised evidence preservation: all 60 mathematical and 34 validation indexed
+  artifacts, both failed verdicts/indexes, original reviewed packet/status bytes
+  and parent quality receipts are verified in the 124-entry
+  `corrected-contract-reviews-failed.tar.gz` with preservation metadata. The indexed
+  symlink is captured as hash-checked readlink UTF-8 data with an explicit
+  representation map; it is neither followed nor recreated in the archive.
+- Additional cause/prevention: scalar mathematics, case counts and checksums were
+  checked without exercising the complete export schema for every required
+  success/failure role. Require labelled static representability witnesses for
+  each artifact type, status/reason combination, invalid occurrence, unsupported
+  shape, candidate-free observation and timeout receipt; test cross-file semantic
+  relationships and an acyclic binding recipe, not just individual schemas.
+- Final bounded preparation correction completed as a proposal: nine packet
+  files include explicit record variants/routing, occurrence-safe expansion,
+  reason-state rules, phase/binding/ownership contracts and labelled static
+  representability fixtures. Parent replay exits 0 for 17 hypothetical bundles,
+  37 structural negatives and 12 semantic tamper controls. The current inventory
+  is 560 cases/840 raw descriptors/24,336 quantity slots, retaining the original
+  544 case IDs and byte values of all 832 prior raw descriptors. All 80 indexed
+  correction artifacts plus their index/capture source are preserved and read
+  back in the 82-entry `final-preparation-correction-evidence.tar.gz` and its
+  preservation record. This is not independent approval or actual worker data.
+- Residual resource blocker: under the unchanged conservative preflight rule,
+  eight required float32 tau=1 FIT-REAL templates are refused as
+  `reservation_exceeded/indeterminate`. Maximum initial+new-index transaction
+  plus receipt allowance is 792,318 bytes versus the fixed 524,288-byte failure
+  reservation; a complete metadata template reaches 36,687 nodes versus 32,768.
+  Input maximum 183,673 bytes and single-index maximum 446,741 bytes alone would
+  not expose the whole-transaction/node conflict. All comparison/fit-check
+  dispositions remain present. These are static conservative templates, not
+  observed runtime/hardware infeasibility or numerical fitter failures. The final
+  independent classification below supersedes any suggestion that the all-complete
+  node excess is unavoidable. No cap increase, omitted evidence or case
+  substitution is authorized to make them pass.
+- Final independent verdict: `contract_consistency_passed:true`, `passed:false`,
+  `freeze_ready:false`, no retained security/logic findings, and resource blocker
+  `R-FINAL-RESOURCE-01`. All 17 prior blocker IDs are adjudicated as resolved at
+  specification level; B4 resource readiness remains blocked. The reviewer
+  independently checks all 560 cases, 64 candidate-free full bindings, 17 roots,
+  new rank/combined controls and 15 non-no-op semantic mutants with refreshed
+  outer digests. Actual worker execution/security enforcement is not established.
+- Independent resource result: the all-complete model incorrectly completes
+  mutually exclusive nonselected AD/FD branches and unused quantities. Its
+  36,687-node count is a conservative template, not a node lower bound. However,
+  two deliberately smaller-than-valid full-inventory index skeletons still need
+  614,748–617,184 bytes across the eight cases, excluding process interiors and
+  receipts. This lower bound exceeds 524,288 regardless of winning candidate,
+  array values or timing. The duplicated full-index representation and atomic
+  old/new coexistence therefore obstruct admission; this is not observed fitting
+  failure, numerical unattainability, hardware infeasibility or measured memory.
+- Final review preservation: all 51 indexed artifacts, original failed-readiness
+  verdict/index, exact reviewed packet/status bytes and input manifest are
+  verified in the 66-entry `final-independent-review.tar.gz`; the original verdict
+  is also copied byte-for-byte to `final-independent-review.json`, with a separate
+  preservation record. Verdict SHA-256 is
+  `be2b12396554750de96b53a17aebbc96864ce61c61d48f001c8c49d42d4e692c`.
+- Stop boundary: both automatic preparation correction cycles are used. Exact
+  mathematics, thresholds/FD steps, tiny domain and diagnostic caps stay fixed;
+  all 125 numerical inputs and index entries are unchanged. Final independent
+  review is complete; an owner decision is required before any further correction
+  or implementation. Options are a separately reviewed representation redesign
+  retaining caps, an explicitly approved metadata-budget revision after valid
+  export accounting, retaining the paused draft, or an explicitly narrower
+  failure-only stage with positive obligations still open. None is applied by
+  this review. No JAX worker, numerical implementation or scientific acceptance
+  is inferred from the static checks.
+- Owner authorization, 2026-11-12: the current user relays Davian's Telegram
+  reply “Okay, go ahead with your recommendation.” to the recommendation for one
+  narrowly scoped metadata byte/node budget revision after valid export accounting
+  and independent re-review, preserving every case/check and numerical tolerance.
+  `metadata-budget-revision-authorization.json` records this additional single
+  preparation cycle and its exclusions. The historical two-cycle stop and failed
+  readiness verdict remain unchanged; no freeze or numerical implementation is
+  authorized, and no solver/per-state/deferral/Phase B decision is inferred.
+- Pre-revision RED: all eight necessary index-byte-admission controls fail with
+  actual pytest exit 1 against the unchanged proposal. They compare the independent
+  smaller-than-valid byte lower bounds to the current reservation; a later GREEN
+  establishes only that necessary condition, not full valid export feasibility.
+  The nine packet files are snapshotted before edits; all 125 numerical pins,
+  complete index and protected historical evidence remain unchanged. Revised
+  budgets must be justified by valid selected/unselected, process/receipt and
+  byte/node accounting, not by the impossible all-complete template alone.
+- Authorized attempt outcome: the budget revision was not completed. All nine
+  packet files remain byte-identical and caps stay at 524,288 index-transaction
+  bytes and 32,768 nodes. The scratch accounting produced 512 projections,
+  including 48 agreeing selected profiles, but a representative seven-record
+  projection leaves 372 conditional artifact/link obligations unclosed. It also
+  omits required payload/copy, observation, binding, log and manifest accounting.
+  An arbitrary ancillary allowance and discretionary padding are not derived
+  bounds. Exploratory 1 MiB/65,536-node figures are explicitly rejected as
+  unsupported, not applied and not a new proposal. All eight necessary admission
+  tests remain RED; no GREEN or full export-admission pass is claimed.
+- Independent assessment confirms this accounting/harness failure, not a new
+  packet/schema defect or numerical impossibility. The path-presence gate is only
+  a necessary refusal check; its hard-coded failed flag is not a complete semantic
+  validator. Merely adding filenames would not establish bindings or lengths.
+  Metadata accounting can be completed in principle with constrained symbolic
+  lengths/identities or labelled static witnesses, without actual fitter arrays,
+  JAX execution or an inherently required representation redesign.
+- Separate budgets correctly: referenced standalone payloads do not all belong
+  inside the index-only transaction reservation. JSON-node limits apply per
+  record, including any inline payload copies, not cumulatively across files.
+  The separate live/cumulative 16 MiB whole-request ledger must cover every
+  required emitted copy, conditional payload, observation/binding, log, manifest,
+  receipt and temporary/coexisting file. Routing is an allowlist, not a mandate
+  to emit every permitted route in every branch. The incomplete projection's
+  conditional result has 51,560 recounted nodes, not a proved full-export maximum.
+- Attempt/assessment preservation: 64 attempt artifacts and all 65 archive members
+  are independently verified in `metadata-budget-accounting-blocked-evidence.tar.gz`.
+  The assessment's 56 indexed artifacts and its 58-member proof archive are verified
+  separately. Raw failed harness launches and the isolated genuine eight-failure
+  RED rerun remain distinct. Earlier mutable script versions were not all captured
+  before execution; final indexed scripts are final references, not invented
+  historical snapshots. Ambient cron heartbeat changes prevent any whole-profile
+  equality claim; no reviewer-write or numerical-defect inference follows.
+- Current stop: the additional authorized bounded attempt and independent
+  assessment are complete, but no budget revision is delivered. All 125 numerical
+  files, 18 protected files, packet/index/HEAD and scientific requirements are
+  unchanged. Completing the finite linked ledger and obtaining sufficient bounds
+  requires a new owner decision; no further automatic writer cycle, cap increase,
+  implementation, protocol freeze or scope deferral is inferred.
+- Resumed scope, 2026-11-12: the owner's “okay, let's pick up from where we left
+  off.” authorizes one further bounded ledger-completion/metadata-only revision
+  and independent-review cycle. `metadata-ledger-continuation-authorization.json`
+  records the exact message and exclusions. Previous failed attempts and the
+  paused outcome remain unchanged historical records. Fresh capture verifies all
+  nine packet files, 125 numerical inputs, 21 historical/authorization files and
+  the complete index/HEAD. Eight necessary admission assertions fail with actual
+  pytest exit 1; 23 docs tests, Ruff, strict docs and whitespace pass. These are
+  baseline metadata/development checks, not numerical or full-admission results.
+  Complete every required conditional link/copy and derive bounds without ad hoc
+  allowances before changing metadata limits; keep all nonmetadata limits and
+  scientific requirements fixed. Parent-owned status updates are separate from
+  the protected proof inputs; no live profile-tree equality is required.
+- Resumed author outcome: `metadata-ledger-author-outcome.json` remains
+  `BLOCKED_STOPPED_NO_BUDGET_PROPOSAL`. The 505-record representative includes
+  372 payload terms and 1,389 links, but 131 checked obligations remain: 42
+  same-mode descriptor identities, 18 perturbed-order configuration identities,
+  69 pass statuses inferred from presence without conditional predicates, and
+  unclosed exit-confirmation/safe-output conditions. These are faults in the
+  scratch proof, not evidence of numerical failure or a new packet defect.
+  The 1,392 structural profile exercises cover all 560 case identities but prove
+  zero complete valid exports; selected/no-qualifier labels are not outcomes.
+- Regression limits: the archived seven-record model gives four genuine RED
+  failures; the expanded model passes those four necessary structural checks.
+  The semantic gate still exits 1. Eleven negative controls have five failures
+  and zero errors: uncharged log, manifest, old-index and temporary bytes, plus
+  unsupported `[18]` changed to `[17]`, survive. Component names and guard counts
+  do not prove correct sums, lifecycle accounting, descriptor equality or shape
+  retention. No full-admission GREEN, sufficient bound or dynamic refusal
+  guarantee is delivered; no new budget is justified or applied.
+- Advisory distinction: the independent obligation design is not approval of
+  the parallel author's model. A bounded initial/required-qualifier-checkpoint/
+  final schedule is defensible under the existing cumulative-write contract;
+  authenticate/account for every retained artifact on finalization and preserve
+  the declared fault checkpoint. The author's 374-generation, every-array
+  schedule and its large cumulative estimate are not unavoidable lower bounds
+  or proof that the unchanged 16 MiB cap is impossible. Advisory node bounds are
+  placement-specific, not necessary minima over every allowed layout. Its weaker
+  614,416–616,852-byte index skeleton bounds independently retain the 512 KiB
+  obstruction without replacing the earlier historical bounds.
+- Resumed preservation: parent verifies 180 author-indexed files (13,364,848
+  bytes), all 210 author archive members, 201 advisory-indexed files (6,830,424
+  bytes) and all 218 advisory archive members. Excluded index-build/verification
+  captures are additionally preserved, not mislabeled as originally indexed.
+  Exact pre-run sources and failed harness launches remain separate from actual
+  behavioral RED and structural GREEN. All nine packet files, 125 numerical
+  inputs, 21 historical files and complete index/HEAD remain unchanged. Future fit
+  arrays and full observations remain unobserved; no model repair follows this
+  bounded stop.
+- Independent resumed assessment: `overall_passed:false`,
+  `accounting_complete:false`, `cap_revision_justified:false`, `stop_correct:true`.
+  Fresh unchanged-source replay reproduces the semantic exit 1/131 conditions,
+  negative-control exit 1/11 tests/5 failures/0 errors, and necessary structural
+  four-RED-to-four-GREEN transition. Independent raw-record reduction, not the
+  author's semantic helper, verifies the 42/18/69/1/1 categories. Unrelated
+  symbolic descriptors are unproved equalities, not actual measured mismatches.
+  Parsing 1,392 profiles and checking all 505 record-node counts does not rerun
+  every model or prove complete exports; even zero findings from the partial
+  checker are not complete validation.
+- Stronger reviewer negatives: wrong-shape comparison operands and cross-mode
+  identity references retain pass, and selected-with-unknown-assessments plus
+  unconfirmed exit is accepted. These are deliberate invalid-success fixtures,
+  not genuine successful exports. The original four accounting mutants change
+  summary totals; they demonstrate missing independent equation checks, not
+  necessarily omitted terms in the pristine formula. A new control removes the
+  actual affine stdout term and recomputes its bounds while keeping the component
+  name; the audit still accepts. Presence/guard-count predicates cannot support
+  semantic completion or a sufficient ledger claim.
+- Final resumed preservation: all 102 review-indexed files (1,654,964 bytes), all
+  124 review archive members, original assessment and exact pre-run replay sources
+  are verified in `metadata-ledger-independent-assessment-evidence.tar.gz` and its
+  preservation record. Assessment SHA-256 is
+  `0491f645d40f5b28c12f3b5ba58d8eb4c3af46ddd6833c3fb317336258c463a1`.
+  The reviewer verifies 162 protected repository files and all 210 author/218
+  advisory files against the frozen review manifest, plus complete index/HEAD.
+  The parent independently verifies those protected inputs and the new archive.
+- Current resumed stop: the authorized bounded attempt and independent assessment
+  are complete as a failed investigation, not a delivered budget revision. Index
+  transaction stays 524,288 bytes, nodes stay 32,768 per record and whole evidence
+  stays 16 MiB live and cumulative. Existing caps still obstruct required cases;
+  leaving them unchanged is not an adequacy claim. Neither schema redesign nor
+  physical fitter execution is established as necessary by these method failures.
+  No implementation, freeze, numerical/scientific acceptance, scope deferral,
+  commit/push or further repair cycle is inferred. Further work needs a separately
+  authorized finite acceptance target and stop rule.
+- Prevention for this method failure: first close one end-to-end conditional
+  semantic trace and independently recompute its whole-ledger equation; reject
+  arithmetic-term omissions and invalid-success fixtures before expanding profile
+  counts. Preserve a defensible bounded checkpoint schedule rather than treating
+  a chosen every-array rewrite schedule as an intrinsic resource lower bound.
+- Single-trace scope authorized, 2026-11-12: “alright, go with your
+  recommendation.” approves one end-to-end conditional trace before any bulk
+  expansion. `single-trace-authorization.json` records the fixed existing STATIC
+  `REF-PASS-f64-GL` witness (N=3, two provided synthetic candidates, 22 slots),
+  semantic/byte checks, exclusions and stop boundary. The rejected broad model is
+  not repaired or restarted; all its original outcomes remain failed.
+- Applied method change: a fixed-case audit checks the actual schema, supplied
+  inventory, payload/descriptor/source/mode/alpha/dt identities, exact static
+  payload equations, qualification/minimum supplied rank and conditional
+  completion/phase/publication order. The builder derives a closed-form byte sum;
+  a separate consumer replays every canonical body through a byte-valued state
+  map, exclusive writes, old/new coexistence and one atomic index replacement.
+  Per-body charges and actual live/cumulative totals are compared, not merely
+  component names. Manifest's own bytes, both nonempty illustrative logs,
+  overwritten initial index and final staging bytes are included; rename is not
+  double-counted. Input/index/result snapshots are checked before their own write.
+- Vertical evidence: seven source-captured RED/GREEN stages end at twenty passing
+  checks. The first RED is a collected absent-module assertion with end-to-end
+  behavior assertions behind it; later REDs are genuine missing rejection rules.
+  Controls retain names and recompute totals after dropping a positive charge;
+  semantic controls rebuild outer digests and false-payload controls also rebind
+  returned descriptors. Invalid selected-with-unknown/exit-unconfirmed/wrong-rank,
+  mode/alpha/shape mismatches, false exact outputs/gradients/bounds, inconsistent
+  phase intervals and publication-before-binding are rejected. Isolated code/data
+  replay passes twenty; controlled missing authority input fails closed.
+- Self-check sizes are concrete, not universal bounds: 36 JSON records plus two
+  raw logs, 22 slots, two index generations; 70,427 cumulative bytes, 62,970 final
+  live bytes, 65,229 peak live bytes and 19,070 bytes for the chosen index/process/
+  export/control transaction. Largest record is 1,204 nodes, depth at most nine.
+  All nine packet files, 125 numerical inputs, 44 historical/authorization files
+  and complete index/HEAD remain unchanged. Initial review outcome follows; no
+  metadata cap change, FIT-REAL evidence, worker execution or broader feasibility
+  follows.
+- Limits remain explicit: process/ownership/timing and operation/bit statistics
+  are inherited hypothetical representability fields, not runtime observations or
+  a proof of a worker's counter/security behavior. The external repeated-1 digest
+  is labelled hypothetical. Read-only Fraction checks concern only the supplied
+  N=3 static identities, not a production reference worker or general numerical
+  acceptance. All certification/implementation flags remain false.
+- Initial fixed-trace independent review: rejected for `FIXED-TRACE-ROUTING-01`,
+  with no security findings. Changing `records/binding-host-0.json`'s
+  `binding_id` to `host-1` while rebuilding outer hashes, binding links and byte
+  snapshots is accepted, despite the frozen
+  `records/binding-{binding_id}.json` route. Root schema and lexical safety are
+  enforced, but `x-artifact-routing`'s path-to-ID equality is not. This can retain
+  an incorrectly identified binding and duplicate a sibling ID without breaking
+  any checked content digest; hash consistency is not route identity.
+- Evidence/impact: all twenty supplied tests and seven archived RED/GREEN stages
+  reproduce. The reviewer independently checks the positive 36-record/22-slot
+  exact payloads, qualification/rank, links, phases and materialized byte ledger,
+  but its targeted run has 22 passed / 1 failed / 0 errors, actual exit 1. The
+  routing test fails with `DID NOT RAISE`; a separate parent process confirms the
+  checker accepts the malformed trace, then actually exits 1 on the required
+  route assertion. This rejects scoped acceptance without discarding the valid
+  finite positive arithmetic/size evidence or implying a numerical core defect.
+- Preservation before correction: verified 210 author-indexed files (5,388,615
+  bytes), 452 reviewer-indexed files (15,627,201 bytes), all 170 protected
+  repository-union files and full index/HEAD. All 220 author and 457 review archive
+  members are read back byte-for-byte. See
+  `single-trace-failed-review-preservation.json`,
+  `single-trace-rejected-author-evidence.tar.gz` and
+  `single-trace-independent-review-failed-evidence.tar.gz`. Original verdict SHA
+  is `2c52c108aa98c89cdb882e4194c75898fc4d3f7f4bd474dc5cc1a7b04fc4055a`.
+  The first RED reaches only the collected module-absence assertion; nineteen
+  later RED cases exercise missing rejection behavior. Pre-spawn source capture
+  and matching isolated replay do not attest against historical between-capture
+  and execution changes; no OS/process attestation is claimed.
+- Bounded correction decision: `single-trace-routing-correction-plan.json`
+  permits one fresh third-context fix in a new scratch copy, not an original
+  source overwrite or broad-model restart. Enforce the existing route identity
+  for this trace's bindings, exercise fully re-signed colliding and noncolliding
+  wrong IDs as behavioral RED/GREEN, preserve the identical positive artifact and
+  re-review. No case, schema, allowlist, cap, mathematics or tolerance changes;
+  this is an execution decision within the original target, not a new owner
+  authorization. Stop for the owner if this correction/fresh review fails.
+- Routing correction self-verification: the new scratch candidate adds only
+  `binding_id == 'host-' + suffix` inside the existing three-binding loop; its
+  fixed lookup already supplies the corresponding filename. Exact implementation
+  SHA is `4b28a7dfc4587dd6d6bfb63cdb5ea5362b0f5cf5ab3c1c9d31fe211465dfbd4e`.
+  The original twenty tests and all frozen data/schema/protocol bytes are intact.
+  Six fully re-signed duplicate/fresh-ID regressions across the three bindings
+  first produce 20 passed / 6 `DID NOT RAISE` / 0 errors, actual exit 1; corrected
+  and isolated suites each pass 26, actual exit 0. Schema, payload, digest, inline
+  copy and ledger preconditions are checked before the verifier. Portable positive
+  replay exits 0; controlled missing preserved trace exits 1. These are metadata
+  audit/portability controls, not numerical-worker tests.
+- Parent correction verification/preservation: independently verify all 235
+  corrector entries (6,356,655 bytes), exact one-guard delta, original protected
+  sources/HEAD/index and a fresh 26-test plus portable replay. All 38 emitted
+  canonical byte strings and the 76,188-byte canonical trace container remain
+  identical to the rejected source's valid positive artifact; ledger values above
+  are unchanged. The container's journal/ledger wrapper is not itself a worker
+  export. Preserve all 238 archive members byte-for-byte in
+  `single-trace-routing-correction-evidence.tar.gz`; archive its three indexed
+  symlinks as labelled regular UTF-8 readlink data with an explicit representation
+  map. See `single-trace-routing-correction-preservation.json`. Fresh independent
+  re-review outcome follows; no correction cycles remain under this plan.
+- Harness limits preserved: two preliminary guard failures concern SHA-string
+  versus size/hash-object pin representations and newline versus NUL Git-stage
+  hashing. Their original source versions and terminal transcriptions are
+  preserved, but original pre-run/raw-child captures are absent. Later captured
+  failures are honestly labelled reproductions, not retroactive originals or
+  scientific RED. Current audit runs execute the preserved pre-run source copies;
+  no OS attestation is inferred.
+- Corrected fixed-trace independent re-review: scoped PASS, with empty security
+  and logic-error lists. The reviewer reproduces all 26 corrected tests and
+  isolated copies (actual exit 0), the exact rejected source's 20 passed / six
+  `DID NOT RAISE` / zero-error outcome (actual exit 1), and all 23 prior reviewer
+  negative controls now passing on the corrected source. Six independently
+  re-signed duplicate/fresh-ID controls reject specifically with
+  `binding path-to-ID`; removing just that guard restores their acceptance and
+  produces the exact rejected source. The preserved original counterexample also
+  rejects for that relation, not an earlier schema/hash mismatch. Repeated runs
+  and control families are not added into scientific case/test totals.
+- Fresh positive proof again independently derives all 22 supplied exact payloads,
+  verifies authoritative fixture/record links and physically replays every write
+  and replacement. All 38 artifact bodies and the finite ledger are unchanged.
+  Parent readback verifies all 373 reviewer-indexed entries (14,989,426 bytes),
+  three readlink representations, final seal/binding sources/raw exits and all
+  390 members of `single-trace-independent-review-passed-evidence.tar.gz`.
+  Assessment SHA is
+  `443ef0528876130b3db9146c494a829bc0a2ced28184681dad21938d3b9bd60b`.
+  The 12 post-index seal/binding supplements are explicitly separate from the
+  373-entry count. See `single-trace-passed-review-preservation.json` and
+  `single-trace-outcome.json`. Every original failed verdict remains failed.
+- Disposition: close only `FIXED-TRACE-ROUTING-01` in the one-case metadata audit
+  and the separately approved finite-trace method increment. VAL-013's broader
+  accounting/admission blocker, existing caps, all scientific gates and unanswered
+  scope decisions remain open. No runtime/security/operation-budget proof,
+  numerical implementation, protocol freeze, bulk expansion or A2/Phase A
+  acceptance follows. Current source/proof bytes remain frozen; zero correction
+  cycles remain under this plan.
+- Prevention: validate frozen dynamic route identities in addition to closed
+  schemas, lexical path safety and digest graphs. Test an allowed-looking wrong
+  ID after recomputing outer bindings, and include a fresh noncolliding ID so an
+  ID-uniqueness check cannot masquerade as the required path equality.
+- Remaining/prevention: close observable contracts before implementation. Separate
+  conservative completeness policy from mathematical rank facts; retain every
+  supplied identity even when work/export/timeout prevents complete observations.
+  Never fill missing data with zero, retune future gates from outcomes, relax
+  scientific scope or relabel an initial failed verdict as approval.
+
+- Separately authorized continuation: `CAP-after-qualifier-f64-GL` is now the
+  single next static conditional trace, not an additional repair cycle for any
+  previous rejected review. The parent has pinned 903 baseline files (901
+  immutable), verified the prior completion/proof, and reconstructed the 13
+  available exact quantities while preserving nine explicit unknowns. The
+  candidate-0 qualifier does not authorize selection under the exhaustive
+  policy. The `primitive_cap` checkpoint is hypothetical, not measured resource
+  exhaustion. Test-first extension, complete conditional accounting and fresh
+  independent review are pending. Both earlier complete artifacts/tests remain
+  regressions; caps, numerical sources and eight FIT-REAL admission blockers are
+  unchanged. See `cap-after-qualifier-trace-2026-11-13/authorization.json` and
+  `parent-frozen-reference.json` in the A2 preparation audit.
+
+## VAL-014 — Private receipt copies in a rejected-review archive
+
+- Symptom/impact: a final recursive archive privacy check, after the scoped
+  source/finite-proof pass, flags eight copied native Telegram receipts carrying
+  personal delivery identifiers in the initial 457-member rejected-review
+  archive. The case audit does not require those receipts. No identifier values
+  were printed during diagnosis, and nothing was committed or pushed. The
+  completion notice was premature: source correctness and hash-consistent
+  preservation did not establish publishable evidence privacy.
+- Evidence-backed cause: original `a2_capture.py:18-22` captures every top-level
+  Python/JSON file, including a subsequently created delivery receipt. The outer
+  author index excludes private filenames, but `a2_tdd_review.py:27-38` later
+  verifies/copies the broader per-run manifest and its replay captures copy them
+  again. The rejected-review index/archive therefore reintroduces eight private
+  receipt bodies. Parent whole-index readback preserved them faithfully but did
+  not detect the privacy violation; this is an evidence boundary failure, not a
+  numerical defect or evidence that the metadata tests failed.
+- Safe mitigation applied: verify the original archive SHA
+  `264cfcc67365499f19705b4aef5c2ba0163e5bc0e3cb23d53ae263ff590a02c2`,
+  preserve the same bytes in a new private durable directory outside the repo
+  (directory mode 700, archive mode 600), verify readback, then remove only the
+  own untracked repository copy. Preserve raw originals, original indices and
+  failed verdicts; do not silently rewrite an immutable archive or substitute a
+  sanitized one under its old hash/path. Exact quarantine location and
+  field-name-only findings are in `single-trace-privacy-hold.json`.
+- Verification/limits: structured JSON scan of the five current trace archives
+  finds eight identifier-bearing members only in the rejected-review archive;
+  the other four contain no matching identifier fields. This is a bounded scan,
+  not universal secret detection. The original remains byte-identical privately;
+  its old repo path is intentionally unavailable. Earlier archive-verification
+  and exclusion claims are historical and must be read with this exception,
+  not treated as a current publication clearance. All 26 audit checks and scoped
+  source/finite-proof evidence remain valid; no cap/core/scientific change is made.
+- Initial disposition (2026-11-12): publication/artifact completion on hold. Qualify
+  `single-trace-outcome.json` and the earlier completion notice rather than
+  relabel the preserved review. Zero correction cycles remain; request an owner
+  decision before an explicitly sanitized derivative and a separate privacy/
+  integrity review. No new repair, commit/push or numerical phase is started.
+- Prevention: capture/replay only an explicit task input allowlist, not every
+  scratch JSON. Keep delivery receipts outside that closure. Check nested archive
+  bodies for sensitive identifiers before declaring completion or notifying it;
+  filename filtering at one layer and matching checksums do not prevent
+  transitive reintroduction. Separate private raw preservation from a labelled,
+  independently checked publishable derivative with explicit exclusions.
+- Subsequent owner-authorized remediation (2026-11-13): see the
+  [privacy-remediation package](../validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/README.md).
+  Its new archive omits the eight exact receipt members and retains the other
+  449 bodies byte-for-byte. A new inventory exhaustively maps all 457 original
+  members; historical manifests are retained with an explicit incomplete-replay
+  warning, not silently rewritten. The original remains hash-identical with
+  mode 600 under a mode-700 private directory, absent from its old repository
+  path. The packaging helper and tests are new support tools, not changes to the
+  fixed-trace audit or numerical core.
+- Verification of the remediation: 23 packaging checks pass and all ten copied
+  guard mutants are rejected. Fresh independent review passes with no security
+  or logic blockers, independently reproduces the retained-member mapping,
+  passes 23 packaging checks and rejects 16 CLI tamper controls. Its bounded
+  recursive scan covers 100 explicit public files with no findings; the private
+  positive control finds exactly the eight known members. The parent verifies
+  all 198 indexed review files and 199 archived members, re-scans the indexed
+  proof without disclosing identifiers, and confirms protected source/index
+  identity. Reviewer harness failures and successful reruns remain separate.
+- Current disposition: the specific sanitized derivative passes its scoped
+  privacy/integrity gate. The unsanitized original is not publishable; no
+  universal privacy guarantee, complete historical replay closure, scientific
+  acceptance, broader A2 accounting, protocol freeze or delivery is inferred.
+  Final QA and the allowed four-file publication/status delta are recorded in
+  the remediation package. No commit/push or next-phase work follows this step.
+
+## VAL-015 — Missing-bound validation order in the additional static trace
+
+- Scope: the owner-authorized `REF-FAIL-f64-GL` accounting preparation increment,
+  not the numerical library, production selector or a new scientific result.
+- Symptom/evidence: the copied `06-missing-bound-red` test replaces the exact
+  `S-0-B` payload with null and rebuilds outer links. Pytest records one failure,
+  actual exit 1: `TypeError: 'NoneType' object is not subscriptable`, rather than
+  the intended explicit semantic refusal. Source and raw XML are preserved in
+  the [partial author package](../validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/README.md).
+- Cause: `verify_trace` calls `check_completion` before `check_links`; qualification
+  dereferences `bounds['values']` before the complete exact-slot/payload/shape
+  predicate runs. The existing selected-case positive/tests do not establish
+  this missing-bound refusal behavior.
+- Proposed correction: move `check_links(trace)` before `check_completion(records)`
+  in the scratch checker. The edited source is preserved, but **not verified**.
+  The next `07-missing-bound-green` invocation triggered a one-shot execution
+  approval request; no child started and no alternate route was attempted.
+- Verification limits: earlier source passed the new positive case and the
+  unchanged 26 selected-case regressions. Those results do not cover the latest
+  ordering patch. Remaining semantic/ledger controls, positive artifact equality,
+  independent byte replay, portable replay and independent review are unfinished.
+  Parent readback verifies 132 indexed files, 133 archived members and 234
+  protected files unchanged, plus Git-stage identity. The bounded field/token
+  scan finds no matches; this is not final privacy clearance or independent review.
+- Disposition/prevention: pause for the pending test-execution approval, retaining
+  the same bounded task. Validate completeness and shape before arithmetic
+  dereference; test malformed-but-schema-representable records after re-signing
+  outer links. Do not count an unlaunched test, a prior-version pass or an
+  exception of the wrong type as the current semantic gate passing.
+- Approved resumption: after the owner replied “approved.”, a new copied-input
+  process tests source
+  `8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a`.
+  Both the positive no-qualifier and missing-bound refusal tests pass, actual
+  exit zero, with source hashes unchanged. The parent verifies the XML and all
+  13 archived members in `approved-resumption-evidence.tar.gz`; its index is
+  `approved-resumption.json` in the additional-trace package. The former blocked
+  attempt is not relabeled executed. This clears the focused ordering test,
+  not the remaining full scoped checks or independent review.
+- Final scoped verification: the checker bytes remain identical to that approved
+  resumption. The final author selection passes 31 nonqualifier checks, the
+  unchanged 26 regressions, one complete positive-artifact equality check and one
+  frozen-authority derivation check. Five guard mutants and four missing-input
+  plus one Python read-guard controls fail as intended. Independent review
+  reproduces the 59 selected tests and rejects 33 additional posthoc controls;
+  the parent replays those independent controls and exact/physical checks.
+- Evidence closure: all 329 indexed independent proof files and 330 archived
+  members are verified, including raw test receipts, exact 13-slot reconstruction,
+  full per-body byte accounting and equality of the old 38-body positive artifact.
+  A completion-message HTTP 400 did not erase the saved passing verdict; parent
+  readback verifies it rather than treating transport status as test status.
+  Incomplete reviews, approval pauses and reviewer-only lint-context failures
+  remain preserved. New author helpers/tests are lint-clean, while 108 inherited
+  archived checker/test findings and a capture-helper E501 remain disclosed.
+- Current disposition: VAL-015 is fixed within the two named static-case checker
+  scope. Only the one additional no-qualifier accounting increment is closed;
+  no general malformed-input validator, operational/security or scientific
+  certification, full-packet resource sufficiency, A2 acceptance, protocol freeze,
+  numerical implementation or delivery is claimed. Original packet/caps and
+  numerical source are unchanged. Final repository QA, bounded privacy checks
+  and status-only changes are recorded in the additional-trace package.
+
+## VAL-016 — Preserve the static counter-placeholder boundary
+
+- Symptom/impact: a re-signed static trace could change `primitive_count` or
+  `max_normalized_bits` from the frozen zero placeholders without semantic
+  rejection. This concerns fixed hypothetical metadata, not observed numerical
+  work or measured cap exhaustion. The schema's legal numeric range alone did
+  not enforce this narrower trace contract.
+- Scoped correction: the private checker explicitly retains the two zero
+  placeholders and false certification/authorization flags across its three
+  named static cases. No worker instrumentation, cap, schema or numerical source
+  changed. Available/unknown slot handling derives the indeterminate case without
+  evaluating the unavailable candidate's quantities.
+- Evidence: `runs/boundary-red` in the new author archive contains two genuine
+  missing-counter refusals. Four flag tests already received schema refusals;
+  their message mismatches are not claimed as new behavioral RED tests. The
+  earlier single positive RED is the old checker's fixed-authority refusal.
+  Final selection: 66 new-case checks, all 59 original selections unchanged,
+  plus a separate full no-qualifier artifact equality check. Both complete old
+  canonical traces and all 38/27 body bytes remain equal. The parent checks all
+  1,706 indexed files/1,707 archive members and a fresh exact/physical replay.
+- At the author checkpoint: self-verification only; independent review was pending.
+  Ten meaningful guard mutants are killed, while one inventory-guard attempt
+  remains inconclusive because another guard rejects the same chosen input.
+  Earlier diagnostic-message and schema-masked control failures are preserved.
+  Broader A2 gates and the eight FIT-REAL admission blockers remain open.
+- Prevention: distinguish a frozen illustrative value from a measured counter;
+  check the declared fixed boundary, and distinguish missing-refusal RED tests
+  from an already-correct refusal with a different diagnostic message.
+
+## VAL-017 — Typed fixed-authority identity is not Python equality
+
+- Finding: `CAP-AUTH-TYPE-01`, independent review of the cap-after-qualifier
+  increment. The new `frozen_case.py:37-43` compares complete case/bundle/scalar
+  structures with Python `==`, which equates boolean/integer and float/integer
+  lookalikes. Matching values do not establish the required canonical types.
+- Reproductions: changing `case.required_evidence_slots[13].candidate_index`
+  from `1` to `true`, slot 4's index from `0` to `false`, or
+  `working_scalars.float64.alpha.nbytes` from `8` to `8.0` all pass
+  `authenticate`, `make_trace` and `verify_trace`. Canonical authority bytes
+  differ, while emitted trace bytes remain identical. This is a promised
+  authentication/type-boundary defect, not an observed worker failure or wrong
+  exact arithmetic.
+- Evidence: all 532 indexed independent files and 533 members are preserved in
+  the cap-after-qualifier package's `independent-review-rejected-evidence.tar.gz`.
+  The parent verifies the complete index and reproduces all three cases from
+  unchanged copied inputs; the probe's actual child exit is 2. See
+  `independent-review-verdict.json`, `independent-review-preservation.json` and
+  `parent-rejection-readback.json`. The failed verdict remains failed.
+- Other observations: 59 previous selections, 66 new-case tests and the added
+  artifact equality test pass. Known arithmetic/physical accounting and both
+  old artifacts remain unchanged. A new extra-candidate control isolates and
+  validates the inventory guard; that resolved coverage issue does not clear
+  the independent typed-identity failure.
+- Rejected-checkpoint disposition: **blocked; no source repair performed or
+  authorized at that checkpoint**. Any next
+  repair must preserve this rejected source/proof, enforce exact types as well
+  as values across the affected identity predicates, add the counterexample
+  regressions, preserve legitimate artifact bytes and obtain fresh independent
+  review. Passing pre-existing suites cannot substitute for this gate.
+- Prevention: test bool/int and float/int substitutions in every authenticated
+  nested structure, not just emitted records. Use type-preserving canonical
+  comparison or explicit recursive type checks rather than coercive equality.
+- Subsequent owner approval: one bounded predicate-only repair is now authorized
+  under `identity-repair-2026-11-13/authorization.json` within the cap-after-qualifier
+  package. The correction must add genuine failing rejection tests before the
+  helper edit, address the affected nested identity comparisons, preserve all
+  original tests and all three valid artifacts, then pass fresh independent
+  review. The rejected helper and all failed proof/blocked records remain frozen;
+  no automatic additional repair after a failed re-review, cap revision, numerical
+  implementation, commit/push or broader A2 closure is authorized.
+- Correction self-checks: the case, witness bundle and working-scalar predicates
+  compare canonical JSON bytes, preserving JSON type distinctions. Only the
+  authorized helper changed; the main checker, original tests/fixtures and all
+  three valid canonical artifacts/38-27-28 body sets remain unchanged. All 27
+  typed-identity tests pass after RED (26 missing refusals and one sibling
+  verifier TypeError, not 27 identical failures), together with 126 previous
+  selections and eight posthoc defensive checks. Isolated predicate reversions
+  expose the case/bundle/scalar failures. The parent verifies 1,632 indexed
+  files/1,633 archive members, checks the original input bytes and fresh-replays
+  the preserved counterexamples to rejection. Historical failed attempts remain
+  preserved. This author/parent checkpoint did not close VAL-017; the subsequent
+  independent outcome is recorded below. See the nested identity-repair package
+  for exact source pins and proof.
+- Final scoped disposition: fresh independent re-review passes, with no security
+  or logic findings. The reviewer reproduces 230 passing checks, including 69
+  additional independent controls, and all three complete canonical artifacts/
+  38-27-28 body sets remain equal. The parent verifies 720 indexed review files,
+  all 721 archive members and a fresh 69-control execution with actual exit zero.
+  The corrected helper is the reviewed canonical-JSON predicate derivative;
+  no further source change occurred after review.
+- Close VAL-017 only within this three-named-case local JSON identity audit, and
+  record the associated static cap-after-qualifier increment and VAL-016 guard as
+  verified. The old failed verdict, counterexamples, blocked records and earlier
+  attempts remain historical failures. Inherited archive lint, privacy limits,
+  all eight FIT-REAL admission blockers and broader scientific/resource gates
+  remain disclosed. No numerical-source/cap/criterion change, protocol freeze,
+  commit/push, release or phase closure follows from this result.

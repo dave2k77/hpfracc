@@ -1,0 +1,151 @@
+{
+  "status": "ONE routing correction self-verified and preserved; fresh independent review required",
+  "protected_repo_union_files": 170,
+  "old_author_files": 210,
+  "old_review_files": 452,
+  "corrector_indexed_files": 235,
+  "corrector_indexed_bytes": 6356655,
+  "symlinks_archived_as_readlink_data": 3,
+  "corrector_original_runs": {
+    "red-routing": {
+      "tests": 26,
+      "passed": 20,
+      "failed": 6,
+      "errors": 0,
+      "actual_child_exit": 1
+    },
+    "green-routing": {
+      "tests": 26,
+      "passed": 26,
+      "failed": 0,
+      "errors": 0,
+      "actual_child_exit": 0
+    },
+    "isolated-tests": {
+      "tests": 26,
+      "passed": 26,
+      "failed": 0,
+      "errors": 0,
+      "actual_child_exit": 0
+    }
+  },
+  "parent_replay_counts": {
+    "tests": 26,
+    "passed": 26,
+    "failed": 0,
+    "errors": 0,
+    "actual_child_exit": 0
+  },
+  "parent_replay_directory": "/home/davianc/.hermes/cache/scratch/a2-routing-parent-5fnrmmf8",
+  "parent_replay_commands": [
+    {
+      "command": [
+        "uv",
+        "run",
+        "--project",
+        "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2-routing-parent-5fnrmmf8/a2_corrector_capture.py",
+        "parent-tests",
+        "/home/davianc/.hermes/cache/scratch/a2-routing-parent-5fnrmmf8/candidate",
+        "pytest",
+        "test_a2_trace.py",
+        "test_a2_routing.py"
+      ],
+      "capture_exit": 0,
+      "child_exit": 0
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--project",
+        "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc",
+        "--frozen",
+        "--no-sync",
+        "python",
+        "-B",
+        "/home/davianc/.hermes/cache/scratch/a2-routing-parent-5fnrmmf8/a2_corrector_capture.py",
+        "parent-portable",
+        "/home/davianc/.hermes/cache/scratch/a2-routing-parent-5fnrmmf8/candidate",
+        "script",
+        "a2_portable_replay.py"
+      ],
+      "capture_exit": 0,
+      "child_exit": 0
+    }
+  ],
+  "source_delta_verified": "Exactly one guard line; original tests/data byte-identical",
+  "canonical_positive_trace": {
+    "bytes": 76188,
+    "sha256": "4ce9d81072637ddbde8bb3b8fd0ed3ce6941543261c57162c916a9ee9e4b4e61"
+  },
+  "ledger": {
+    "cumulative_written_bytes": 70427,
+    "final_live_bytes": 62970,
+    "index_transaction_bytes": 19070,
+    "old_index_bytes_charged": 7457,
+    "peak_live_bytes": 65229,
+    "temporary_bytes_charged": 9676,
+    "terms": {
+      "INITIAL_INDEX": 7457,
+      "arrays/S-0-B.json": 437,
+      "arrays/S-0-D_hat.json": 445,
+      "arrays/S-0-L_hat.json": 582,
+      "arrays/S-0-analytic_input_gradient.json": 481,
+      "arrays/S-0-epsilon.json": 404,
+      "arrays/S-0-error.json": 445,
+      "arrays/S-0-g_hat.json": 445,
+      "arrays/S-0-residual.json": 452,
+      "arrays/S-0-signed_fitted_weights.json": 479,
+      "arrays/S-1-B.json": 440,
+      "arrays/S-1-D_hat.json": 448,
+      "arrays/S-1-L_hat.json": 585,
+      "arrays/S-1-analytic_input_gradient.json": 484,
+      "arrays/S-1-epsilon.json": 407,
+      "arrays/S-1-error.json": 448,
+      "arrays/S-1-g_hat.json": 448,
+      "arrays/S-1-residual.json": 454,
+      "arrays/S-1-signed_fitted_weights.json": 482,
+      "arrays/S-X-D.json": 428,
+      "arrays/S-X-g.json": 428,
+      "arrays/S-X-v.json": 428,
+      "arrays/S-X-w.json": 430,
+      "failure-index.json": 9676,
+      "input-bundle.json": 7504,
+      "logs/stderr.bin": 45,
+      "logs/stdout.bin": 45,
+      "records/binding-host-0.json": 4068,
+      "records/binding-host-1.json": 4071,
+      "records/binding-host-X.json": 2785,
+      "records/candidate-0.json": 1306,
+      "records/candidate-1.json": 1343,
+      "records/export.json": 550,
+      "records/launch.json": 829,
+      "records/output-control.json": 265,
+      "records/process.json": 1122,
+      "records/request.json": 3711,
+      "result.json": 10922,
+      "run-manifest.json": 4648
+    }
+  },
+  "archive": {
+    "path": "docs/validation/audits/a2-preparation-2026-11-11/single-trace-routing-correction-evidence.tar.gz",
+    "members_verified": 238,
+    "bytes": 752266,
+    "sha256": "eceb099c67ed756e1b063d4a7dfcc73db99ad48fc7670d8376aa8ad9f2850e32",
+    "all_member_bytes_verified": true
+  },
+  "corrected_source_sha256": "4b28a7dfc4587dd6d6bfb63cdb5ea5362b0f5cf5ab3c1c9d31fe211465dfbd4e",
+  "corrector_index_sha256": "09ab4947385b7f1c7ed59a6f8c474804af9ea3313fd2439415f07de45f8d8681",
+  "independent_review_passed": false,
+  "a2_acceptance_passed": false,
+  "implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "broader_accounting_proved": false,
+  "caps_changed": false,
+  "maximum_correction_cycles": 1
+}

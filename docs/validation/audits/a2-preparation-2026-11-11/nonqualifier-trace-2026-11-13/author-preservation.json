@@ -1,0 +1,21 @@
+{
+  "status": "Author evidence verified and archived; independent review pending",
+  "index_sha256": "eb341ebe9f912a3e0684cf074489c36dd849b3dd0049af014fa6a9ccbe3c9f23",
+  "indexed_files_verified": 775,
+  "archive": "author-evidence.tar.gz",
+  "archive_sha256": "8bb7abf9283211a3bc86634a12ac5ec20ba4c27070c4592770cc95619110e45a",
+  "archive_members_verified": 776,
+  "archive_bytes": 3683482,
+  "source_sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a",
+  "selected_pytest_counts_verified": {
+    "02-regression": 26,
+    "04-equality": 1,
+    "20-final-semantic": 31,
+    "21-final-derivation": 1
+  },
+  "selected_pytest_total": 59,
+  "parent_reference_all_exact_slots_match": true,
+  "protected_files_unchanged": 234,
+  "bounded_privacy_findings": [],
+  "scope": "No source approval or scientific acceptance; metadata/field scan is bounded, not universal privacy clearance"
+}

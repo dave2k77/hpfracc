@@ -1,0 +1,62 @@
+{
+  "scope": "ONE fixed STATIC/HYPOTHETICAL metadata trace and finite byte ledger; not A2 or scientific acceptance",
+  "single_trace_independent_review_passed": true,
+  "parent_readback_and_archive_verified": true,
+  "assessment_sha256": "443ef0528876130b3db9146c494a829bc0a2ced28184681dad21938d3b9bd60b",
+  "proof_index_sha256": "42a09c8d8782b717dcf472528415832a19427718086b453f8ce9c9a2be9dfd79",
+  "final_pins_sha256": "b3c42a2349afc3b4cfcdcb71119135543c6ff02ab1545bafa27e462de238fc46",
+  "reviewer_index_entries_verified": 373,
+  "reviewer_index_bytes_verified": 14989426,
+  "symlinks_archived_as_regular_readlink_data": 3,
+  "seal_binding_supplement_files": 12,
+  "archive": {
+    "path": "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-passed-evidence.tar.gz",
+    "members_verified": 390,
+    "bytes": 1668295,
+    "sha256": "ae9a5e24fc2194e77f67b7ce258f0862b2a6d8f21fc6e5d974d0ab5331b95494",
+    "all_member_bytes_verified": true
+  },
+  "protected_root_union_files": 170,
+  "original_author_files": 210,
+  "original_rejected_review_files": 452,
+  "corrector_entries": 235,
+  "raw_reproduced_runs": {
+    "reproduced-26-green": {
+      "tests": 26,
+      "passed": 26,
+      "failed": 0,
+      "errors": 0,
+      "actual_child_exit": 0
+    },
+    "reproduced-26-red": {
+      "tests": 26,
+      "passed": 20,
+      "failed": 6,
+      "errors": 0,
+      "actual_child_exit": 1
+    },
+    "isolated-26-green": {
+      "tests": 26,
+      "passed": 26,
+      "failed": 0,
+      "errors": 0,
+      "actual_child_exit": 0
+    },
+    "prior-23-negatives-corrected": {
+      "tests": 23,
+      "passed": 23,
+      "failed": 0,
+      "errors": 0,
+      "actual_child_exit": 0
+    }
+  },
+  "positive_bytes_and_ledger_unchanged": true,
+  "remaining_correction_cycles": 0,
+  "caps_changed": false,
+  "numerical_core_changed": false,
+  "implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "a2_acceptance_passed": false,
+  "broader_accounting_proved": false,
+  "remote_delivery_performed": false
+}

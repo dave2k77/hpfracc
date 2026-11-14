@@ -1,0 +1,92 @@
+{
+  "accounting_failure_confirmed": true,
+  "budget_revision_justified": false,
+  "new_budget_applied": false,
+  "pre_edit_gate_assessment": {
+    "verdict": "The stop before packet edits is correct. The attempt has not satisfied valid selected/unselected and process/receipt export accounting. Its specific file-presence gate is only a necessary refusal check, not a complete definition of metadata-budget adequacy.",
+    "independent_reproduction": {
+      "indexed_files": 64,
+      "archive_members": 65,
+      "archive_repo_copy_identical": true,
+      "projection_profiles": 512,
+      "agreeing_selected_profiles": 48,
+      "representative_rendered_records": 7,
+      "missing_conditional_artifact_obligations": 372,
+      "representative_snapshot_bytes": 604371,
+      "representative_metadata_transaction_bytes": 812833,
+      "maximum_rendered_metadata_transaction_bytes": 812905,
+      "representative_unclosed_conditional_slot_allocation_bytes": 5087232,
+      "maximum_rendered_record_nodes": 32714,
+      "conditional_result_nodes_recounted": 51560,
+      "existing_static_payload_node_formulas_checked": 85
+    },
+    "separate_resource_questions": {
+      "index_transaction": "The current 524288-byte reservation covers the full proposed index transaction, including retained old index, replacement, process/phase context and bounded later receipts. Input has a separate reservation. Standalone numerical payload files are not all chargeable to this index-only reservation merely because the index references them. Their descriptor fields are part of the index size.",
+      "per_record_nodes": "The 32768-node ceiling is a per-record parse envelope, not a sum over files or an old-plus-new transaction-node limit. Count keys, inline slot payloads in result and observation records, and complete allowed dispositions. The corrected rendered index does not itself establish an unavoidable node excess; the recounted conditional result still exposes node pressure, not a complete maximum across every required record.",
+      "whole_request_ledger": "The separate 16777216-byte live AND cumulative-written limits include input, conditional slot wrappers, all inline copies in results/observations, bindings/descriptors, actual logs, manifest including its own charged length, receipts and temporary/partial/coexisting files. The model snapshot excludes required preceding payload/observation/binding/result exports and records zero final-transaction reservation. A snapshot taken before writing its own record avoids self-reference but does not excuse these omissions. No closed valid whole-request schedule was established."
+    },
+    "overbroad_interpretations_rejected": [
+      "Missing physical future arrays are not, by themselves, a requirement to run JAX or the fitter before reviewing metadata caps. A complete labelled hypothetical metadata/link/size proof is a distinct preparation deliverable; it must not claim numerical truth or actual observations.",
+      "The routing table is an allowlist, not a command to emit every allowed route for every branch. Identify which standalone versus inline copies are actually required by the frozen record/link obligations and chosen export schedule; charge every copy that is emitted. Do not invent mandatory optional copies or omit mandatory ones.",
+      "The 372 missing references show that this seven-record projection is not a linked complete export. They are unresolved coverage/link/size obligations, not evidence of a packet schema defect, failed fit, hardware impossibility or a need to redesign the record format."
+    ],
+    "no_waiver": "The present projection neither renders the missing required metadata graph nor provides a complete parameterized proof of its canonical descriptor relationships, actual serialized lengths and ledger schedule. Therefore broadening the interpretation away from actual numerical execution does not turn this attempt into a pass.",
+    "static_completion_possible_in_principle": "Yes for complete hypothetical linked METADATA accounting under the existing format: fixed shapes determine node cardinalities; raw payload lengths follow dtype/shape; canonical rational strings and digest fields can be handled as explicitly constrained symbolic terms with proved lengths and identity relationships, or existing clearly labelled static witnesses. The DAG supports non-self-referential bookkeeping. No actual JAX/fitter run or representation redesign is inherently needed for that proof. No future real-fit arrays are to be fabricated or future runtime fields presented as observations. This does not prove that actual fitted values, qualification, execution time or arbitrary admitted rational outputs fit the unchanged whole-request budget. A universal bound may be too conservative, and actual runtime admission/refusal remains separate."
+  },
+  "logic_errors": [
+    {
+      "scope": "scratch accounting only",
+      "finding": "Treating seven type/disposition records as a valid complete export would be unsound: 372 artifact descriptors have no corresponding payload/link proof, and result, observations, producer bindings, manifest and actual digest-bound logs are absent. BLOCKED.md correctly retracts any such interpretation."
+    },
+    {
+      "scope": "scratch budget derivation only",
+      "finding": "The 2 MiB ancillary bucket and 4 KiB/64 KiB illustrative slot assignments are not derived bounds. Twice the slot allowance accounts for only the explicitly assumed standalone/result copies, not a derived accounting of observation copies and all descriptor/receipt/manifest metadata. Ad hoc integer/receipt padding and one extra reason per row do not establish worst-case final-report coverage for all observable causes. Neither the projections nor this partition justify a particular byte/node cap."
+    },
+    {
+      "scope": "scratch gate/ordering only",
+      "finding": "pre_edit_gate.py hardcodes passed=false and only asserts absence of missing artifact paths; satisfying that assertion alone would not check semantic linkage or ledger coverage. select_budget.py chose exploratory numbers before this gate. Those numbers were quarantined and not applied, so this is not a delivered packet revision or a new numerical/schema defect."
+    }
+  ],
+  "capture_limitations": [
+    "The blocked attempt indexes final scripts but did not capture every mutable script version before each historical process. Final hashes are source references, not invented historical per-run source identities.",
+    "Early discovery errors survive in tool/session receipts rather than complete separate subprocess stdout/stderr captures. The nonexistent caps lookup, directory collision and superseded exact-slot branch-counting drafts remain harness/method issues, not packet defects.",
+    "Fresh review discovery initially hit a tool policy block before execution. Its tool receipt is the evidence; no raw subprocess stream is invented. The first fresh RED launch failed during stdlib import because this new scratch contained inspect.py. It is preserved under fresh-red/ and is NOT counted as eight test failures; isolated rerun fresh-red-isolated/ actually executed all eight assertions and failed all eight with exit 1.",
+    "An intentionally broad profile-tree pin also caught autonomous cron/ticker_heartbeat and cron/ticker_last_success updates. The strict first final pin exited 1 and is preserved. The diagnostic final pin reports all repository/index/old-proof guards passing and explicitly leaves whole-profile equality false; all other 395 observed profile/skill/config/plugin/cron/memory files are unchanged. This reviewer issued no profile/skill/config writes. Do not claim the entire live profile tree was byte-identical.",
+    "Read-only snapshots and absent GREEN artifacts do not authenticate every historical transient process. Claims are limited to inspected frozen artifacts, preserved receipts, current pins and this review's actual stdlib processes."
+  ],
+  "minimal_next_scope": {
+    "immediate_decision": "Keep BLOCKED, unchanged caps and all acceptance/implementation flags false. Pause for the owner; this adjudication does not authorize or perform another accounting/writer cycle.",
+    "finite_proof_obligations_if_separately_authorized": [
+      "Specify the finite branch/disposition coverage needed for required selected/unselected outcomes, same-mode/eager-JIT agreements and disagreements, all candidates, full-history observations, unused quantities, failures/partial/timeout/preflight refusals. Retain every frozen inventory/check and all observable reasons, without treating mutually exclusive branches as simultaneously required numerical outcomes.",
+      "Close the required metadata graph and canonical descriptor/digest/occurrence/source/mode/branch relationships for every referenced conditional artifact, including bindings and result/observation inline slots. Use explicit symbolic obligations or truthful labelled static witnesses, not invented actual fit arrays or observed runtime receipts. Distinguish permitted routes from required records.",
+      "Derive index-transaction byte reservations and every required record's node/depth bound from valid field/cause/cardinality limits. Include old/new coexistence, process/receipt contexts and representable final failure paths. Do not substitute arbitrary padding or successful necessary byte checks for sufficient coverage.",
+      "Derive a separate complete live/cumulative whole-request byte schedule: exact payload-length assumptions or bounds, every emitted copy, logs, manifest, temporary/partial/retained generations and final reservation. Prove conditional sufficiency within the existing overall cap or report the precise remaining blocker; do not claim universal real-fit feasibility from a convenient finite allowance.",
+      "Only after those proofs, preserve actual static-check exits and exact pre-run sources, obtain fresh independent review, and return any justified revision decision to the owner within explicit scope. No future worker, validator, selector, fitting, schema redesign or numerical/tolerance change follows from this list."
+    ]
+  },
+  "summary": {
+    "outcome": "Accounting-method/harness failure confirmed; no new packet/schema/numerical defect found by this bounded assessment. Prior contract consistency is not reopened; R-FINAL-RESOURCE-01 remains unresolved.",
+    "unchanged_caps": {"failure_index_bytes": 524288, "json_nodes": 32768, "evidence_bytes": 16777216},
+    "necessary_RED": "Historical pytest XML and bound raw exit verify 8 failures/8 tests, exit 1. Fresh independent stdlib reconstruction from current frozen inventories exactly reproduces all eight 614748..617184-byte necessary lower bounds; 8 failures/8 tests, 0 errors, exit 1. No GREEN or new numeric proposal is endorsed.",
+    "pins": "Nine packet files plus all nine raw before copies, 18 protected files, 125 numerical inputs, complete Git-index bytes/stage entries, HEAD, both parent status docs and 67 old-proof files remain unchanged before/after. All scientific cases, checks, math and tolerances therefore remain unchanged.",
+    "future_arrays": "All 12 future fitter specifications still have null array references; all 64 future full observations remain unobserved. No future arrays, numerical worker/JAX/fitter/AD job or new implementation was produced by this review.",
+    "writes": "New scratch audit sources, raw captures, proof JSON, this adjudication and its hash/size index only; no repository/index/profile/skill edits. Runtime cron telemetry changed independently as disclosed."
+  },
+  "evidence_paths": [
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/archive-proof.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/models-proof.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/models-run/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/fresh-red-proof.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/fresh-red-isolated/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/fresh-linkage-refusal.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/linkage-run/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/pins-before.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/pins-after.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/final-pin/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/final-pin-diagnostic/process.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/evidence-index.json",
+    "/home/davianc/.hermes/cache/scratch/a2-blocked-independent-adjudication-20261112/evidence-index-verification.json"
+  ],
+  "implementation_authorized": false,
+  "a2_acceptance_passed": false
+}

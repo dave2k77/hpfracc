@@ -1,0 +1,75 @@
+{
+  "scope": "Explicit candidate roots; outer tar streaming and bounded recursive per-member patterns/fields. No private identity matching.",
+  "input_files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 121776,
+      "sha256": "1003592d98d2fe5fcd1545c1a0ed04ebb0061c4fd97cfe8a42c77ca6ed0bef0b"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 37219,
+      "sha256": "054f4671147179c7cf14106b96e1b424a2a3009b9e11dbb5554f3f6b34ed412c"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 5749,
+      "sha256": "c856ee0a70c48efc61bc7c7372edc16e8522d79be07296d77efb51aa64fd5e81"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/author-evidence.tar.gz": {
+      "bytes": 21618481,
+      "sha256": "0d43fc05ffae9ca1c40d466fbb7d89505ea78ccea629c03698f83537aa09c060"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/author-preservation.json": {
+      "bytes": 2850,
+      "sha256": "99e3fd4eb239440fe0702d51699ebf3f9526cd17c31cfd87813e62ae304b4722"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/author-result.json": {
+      "bytes": 130562,
+      "sha256": "fae8b905e65f378032f1772b7d69a210a4c474bfa8852e740037d9109cbf7db8"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/authorization.json": {
+      "bytes": 2514,
+      "sha256": "d5379d04bf26696d9bf1acb1f4497a0055e5ca6ccb0a55dafc3c39ab05cdad53"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/baseline-inputs.json": {
+      "bytes": 181531,
+      "sha256": "3b576eed8b673c7c1c7d3307c400ba0c3f4da0df64788a5e417637ab0d943b2b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-frozen-reference.json": {
+      "bytes": 2257,
+      "sha256": "553654ccb16558fb94e03de14643a09870f4483555a81b27c5da6620bd53bcb1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-preflight-evidence.tar.gz": {
+      "bytes": 71841,
+      "sha256": "72bb1399c05aaa4f6c393e615f5b430afad7a3f9641f906127b7cee00489d181"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-preflight-preservation.json": {
+      "bytes": 3408,
+      "sha256": "7e51d285e4ab96642a0792baca368ac85980c34c5d9f3ccb17bd9d4b80d77391"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-replay-evidence.tar.gz": {
+      "bytes": 438608,
+      "sha256": "4917a27437f27c3a0aee7540be2a57b68242d699e900c498708d0ff01c493ec5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-replay.json": {
+      "bytes": 10763,
+      "sha256": "3d0c8dcb9e84b0eeb00c927632e29a7d201b06fa63c062b1759bf276ef620dde"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/pre-review-qa-evidence.tar.gz": {
+      "bytes": 4573,
+      "sha256": "ef524a7b32887c969b85b6a0615666ae70092e44419d61750c317d05b465ab26"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/pre-review-qa.json": {
+      "bytes": 1997,
+      "sha256": "22cf6c14bfe77323129d7000465c2ebfef60d1891ed369bebc214f0b0726205f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/preflight.json": {
+      "bytes": 7708,
+      "sha256": "3261d66270b825c92c60f0f0fcbbd44ce2df6c043954e4787f92c4dbf07ca3d6"
+    }
+  },
+  "root_files": 16,
+  "expanded_bodies": 1799,
+  "expanded_bytes": 488267440,
+  "findings": [],
+  "positive_control_passed": true,
+  "limits": "No universal privacy/hostile-filesystem assurance; raw local paths and hostnames retained."
+}

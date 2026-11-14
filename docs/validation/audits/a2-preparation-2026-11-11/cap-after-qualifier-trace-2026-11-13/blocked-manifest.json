@@ -1,0 +1,128 @@
+{
+  "status": "Preserved blocked checkpoint, not completion",
+  "files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 124224,
+      "sha256": "e31cda473cd8feeb73c6f1515dd45912c1f3609c321c5d206af14811ecccf640"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 38192,
+      "sha256": "d907c7ea1797cfef56569a08cfa659fbf95557ec739bdc82ab014773b6914ca9"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 7856,
+      "sha256": "7963851dc2247abf66c3592e3d27e838bc9337eb1120b1836000efddca4fdac3"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/author-evidence.tar.gz": {
+      "bytes": 21618481,
+      "sha256": "0d43fc05ffae9ca1c40d466fbb7d89505ea78ccea629c03698f83537aa09c060"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/author-preservation.json": {
+      "bytes": 2850,
+      "sha256": "99e3fd4eb239440fe0702d51699ebf3f9526cd17c31cfd87813e62ae304b4722"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/author-result.json": {
+      "bytes": 130562,
+      "sha256": "fae8b905e65f378032f1772b7d69a210a4c474bfa8852e740037d9109cbf7db8"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/authorization.json": {
+      "bytes": 2514,
+      "sha256": "d5379d04bf26696d9bf1acb1f4497a0055e5ca6ccb0a55dafc3c39ab05cdad53"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/baseline-inputs.json": {
+      "bytes": 181531,
+      "sha256": "3b576eed8b673c7c1c7d3307c400ba0c3f4da0df64788a5e417637ab0d943b2b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/blocked-metadata-privacy.json": {
+      "bytes": 2757,
+      "sha256": "7cdb1512732e426e407490206969b4d4fd1fe122b9cbc5a00ad6b26c9b62c5fd"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/blocked-outcome.json": {
+      "bytes": 1581,
+      "sha256": "6066430df56fc991a370db548f167714d57c317d89ccf06db6e979d094787f6e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/blocked-qa-evidence.tar.gz": {
+      "bytes": 8841,
+      "sha256": "f6561c149372e80c40f00e51a539c751540fbf131719f78350ea5c862d251fa6"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/blocked-qa.json": {
+      "bytes": 2201,
+      "sha256": "af407854c2cdae4881ad84fd3dd5c5ad8bd29d0e6b12d504f31dba450fd0abe0"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/blocked-status-delta.json": {
+      "bytes": 1342,
+      "sha256": "6e494b4ea749d22e847ae3b1190b34d3cef45843851d37ef1537e0ed5b00f532"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/independent-review-preservation.json": {
+      "bytes": 1003,
+      "sha256": "968aad2d9c8ded5fd96bcff337334629552f4178046a8e627ca4e626e8d2e000"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/independent-review-rejected-evidence.tar.gz": {
+      "bytes": 23410427,
+      "sha256": "b1e557ec4782621d4b3af6b936f1cd490372ea67aa04e1286a1559e75e007d0d"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/independent-review-verdict.json": {
+      "bytes": 4916,
+      "sha256": "6ace17a3aae2a1015a1486356298256410596c0b870234f8dfd271fff4d10108"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-frozen-reference.json": {
+      "bytes": 2257,
+      "sha256": "553654ccb16558fb94e03de14643a09870f4483555a81b27c5da6620bd53bcb1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-preflight-evidence.tar.gz": {
+      "bytes": 71841,
+      "sha256": "72bb1399c05aaa4f6c393e615f5b430afad7a3f9641f906127b7cee00489d181"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-preflight-preservation.json": {
+      "bytes": 3408,
+      "sha256": "7e51d285e4ab96642a0792baca368ac85980c34c5d9f3ccb17bd9d4b80d77391"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-rejection-readback-evidence.tar.gz": {
+      "bytes": 468855,
+      "sha256": "8e9b6196c342357352627a072220cba0b7889b710559067e5627564001d53362"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-rejection-readback.json": {
+      "bytes": 5295,
+      "sha256": "3238152127e6f3fb4a6b0b46b515bcbc4cc0125ec415c18c0c8fc2e4027a5575"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-replay-evidence.tar.gz": {
+      "bytes": 438608,
+      "sha256": "4917a27437f27c3a0aee7540be2a57b68242d699e900c498708d0ff01c493ec5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/parent-replay.json": {
+      "bytes": 10763,
+      "sha256": "3d0c8dcb9e84b0eeb00c927632e29a7d201b06fa63c062b1759bf276ef620dde"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/pre-review-privacy.json": {
+      "bytes": 3947,
+      "sha256": "0aa07f82f7a567838d44979c1ee87d5a3f648bc988fb74ebd6d43be1514598c6"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/pre-review-qa-evidence.tar.gz": {
+      "bytes": 4573,
+      "sha256": "ef524a7b32887c969b85b6a0615666ae70092e44419d61750c317d05b465ab26"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/pre-review-qa.json": {
+      "bytes": 1997,
+      "sha256": "22cf6c14bfe77323129d7000465c2ebfef60d1891ed369bebc214f0b0726205f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/preflight.json": {
+      "bytes": 7708,
+      "sha256": "3261d66270b825c92c60f0f0fcbbd44ce2df6c043954e4787f92c4dbf07ca3d6"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/review-inputs.json": {
+      "bytes": 4631,
+      "sha256": "fd3dbc7d4b6d8f4cdf4dbb66c8f081509bc3a3e97195d8a0d61eaf4028bc9e4e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/reviewed-status-before-rejection.json": {
+      "bytes": 736,
+      "sha256": "fb89031149242ad479b2b49c47a32c388bb505efa7ff9c43466e517a80fe939e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/reviewed-status-before-rejection.tar.gz": {
+      "bytes": 56960,
+      "sha256": "b99dab9a81686f7cbcbbe2be44148dced4fe8b60e18eac99104b1ec0f03d3ec9"
+    }
+  },
+  "file_count": 30,
+  "self_excluded": "blocked-manifest.json",
+  "readback_excluded": "blocked-readback.json"
+}

@@ -1,0 +1,37 @@
+{
+  "authorization_id": "a2-metadata-budget-revision-2026-11-12",
+  "recorded_date_utc": "2026-11-12",
+  "source": "Current user relay of Davian's Telegram reply to the named A2 recommendation",
+  "approval_verbatim": "Okay, go ahead with your recommendation.",
+  "approved_recommendation": "One narrowly scoped metadata byte/node budget revision after valid export accounting and independent re-review, preserving every case/check and numerical tolerance.",
+  "bounded_additional_preparation_cycles": 1,
+  "permitted_changes": [
+    "A justified evidence-index transaction byte reservation and JSON-node cap",
+    "Directly dependent metadata accounting, bounds, static schema-control examples and packet digests",
+    "Preparation status and verification records"
+  ],
+  "preserved_requirements": [
+    "Every scientific input, case identity, candidate configuration, tau budget, check and numerical tolerance",
+    "Exact finite mathematics, reference domain, FD steps and differentiation semantics",
+    "Complete evidence inventories and provenance, disposition, ownership and replay contracts",
+    "All other resource limits, numerical sources, dependencies, defaults and public APIs",
+    "All historical failed-readiness verdicts and preserved proof bytes"
+  ],
+  "required_gates": [
+    "Valid selected/unselected and process/receipt export accounting before choosing metadata budgets",
+    "Actual static verification with preserved failures and raw exits",
+    "Fresh independent re-review",
+    "Pause for an owner decision if this bounded cycle remains blocked"
+  ],
+  "related_blocker": "R-FINAL-RESOURCE-01",
+  "prior_review_verdict_sha256": "be2b12396554750de96b53a17aebbc96864ce61c61d48f001c8c49d42d4e692c",
+  "prior_review_manifest_sha256": "55c9d3b42cd7507c8533125d5bae4974b4981a3c271328e72896a72105e822b4",
+  "protocol_freeze_authorized": false,
+  "implementation_authorized": false,
+  "per_state_solver_scope_decided": false,
+  "scope_deferrals_authorized": false,
+  "phase_b_authorized": false,
+  "a2_acceptance_passed": false,
+  "arithmetic_verified": false,
+  "total_numerical_certified": false
+}

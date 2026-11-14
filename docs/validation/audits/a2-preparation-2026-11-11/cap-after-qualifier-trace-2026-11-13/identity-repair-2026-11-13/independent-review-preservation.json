@@ -1,0 +1,17 @@
+{
+  "archive": "independent-review-evidence.tar.gz",
+  "bytes": 21970845,
+  "sha256": "6dd89401cb256c82189c9cb3c5a2e19186cff29f04bbe5061b370be500e24ed3",
+  "members_verified": 721,
+  "review_index_sha256": "c8c11d490cb9721b0901443650a97a714976dabcfec29624764c4d3d9f99c938",
+  "indexed_files_verified": 720,
+  "review_completed": true,
+  "passed": true,
+  "passing_tests_verified": 230,
+  "parent_independent_controls_replayed": 69,
+  "parent_replay_actual_exit": 0,
+  "protected_files_unchanged": 930,
+  "reviewed_files_unchanged": 19,
+  "bounded_privacy_findings": [],
+  "scope": "Predicate-only local JSON identity correction and reviewed static proof; not A2 or scientific closure"
+}

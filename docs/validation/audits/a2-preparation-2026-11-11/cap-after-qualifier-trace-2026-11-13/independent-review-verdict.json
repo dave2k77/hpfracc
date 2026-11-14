@@ -1,0 +1,52 @@
+{
+  "review_completed": true,
+  "passed": false,
+  "security_concerns": [],
+  "logic_errors": [
+    "CAP-AUTH-TYPE-01: frozen_case.py:37-43 uses Python structural == rather than canonical typed identity. Re-signed local authority copies with required_evidence_slots[13].candidate_index=true instead of 1, required_evidence_slots[4].candidate_index=false instead of 0, or working_scalars.float64.alpha.nbytes=8.0 instead of 8 all pass authenticate(), make_trace() and verify_trace(). Each changed canonical authority digest differs while emitted trace bytes stay identical. This violates the promised full pinned case/scalar typed identity; preserve-and-stop applies."
+  ],
+  "limitations": [
+    "Only three trusted local static cases are reviewed, with one newly admitted CAP-after-qualifier witness; this is not a general operational validator or arbitrary-authority service.",
+    "CAP-AUTH-TYPE-01 blocks approval: full fixed-authority authentication accepts bool/int and float/int lookalikes. Original frozen trace bytes and independently reconstructed mathematics remain correct; source/criteria were not repaired.",
+    "Primitive-cap reason, process exit/timing/security fields and zero work counters are illustrative, not measured work, an OS kill, peak RAM, runtime or security certification.",
+    "Finite serialized schedule accounting does not establish whole-packet admission; all eight FIT-REAL admission blockers and wider A2 work remain open.",
+    "Privacy is bounded pattern/structured-field and static-code scanning with a positive synthetic control, not private-identity matching or universal publication clearance; local paths/hostnames remain.",
+    "No repository changes, messages, commit/push, source repair, numerical acceptance, protocol freeze, tracked-work closure or delivery claim. Independent reviewer proof is newly created only in owned scratch.",
+    "Archived lint remains baseline-failing (108 baseline, 106 candidate, no introduced context findings); actual final new-helper lint passed. Parent current-repository QA was verified from preserved raw receipts rather than rerun.",
+    "Preserved author records support archive consistency and copied replay, not historical OS-process attestation. Wrapper exits are distinct from actual child exits; canonical-type probe child exited 2 to signal its blocking finding."
+  ],
+  "verdict_path": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-independent-20261113/verdict.json",
+  "evidence_index_path": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-independent-20261113/evidence-index.json",
+  "evidence_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-independent-20261113",
+  "review_identity": {
+    "review_inputs_sha256": "fd3dbc7d4b6d8f4cdf4dbb66c8f081509bc3a3e97195d8a0d61eaf4028bc9e4e",
+    "head": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+    "git_stage_sha256": "929fab19d907eeecd4c68b819858a5c8e159cf70677a7f5c672e1053b9e940f9",
+    "git_stage_encoding": "git ls-files --stage -z raw bytes",
+    "checker_sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa",
+    "frozen_case_sha256": "93354458e3633a1bd198049b265a6eb9d3582df9ec5d31d5d87006e24119462b",
+    "authority_sha256": "a1f0d64365a2abfc72ce9107d941ec8542a43d9fb7b6000a2682b127850fcec9",
+    "verify_cap_sha256": "1dff339b9b2172508d7479dd2058133a040e486134fc3861149022cf450fad6d",
+    "author_archive_sha256": "0d43fc05ffae9ca1c40d466fbb7d89505ea78ccea629c03698f83537aa09c060",
+    "author_index_sha256": "1d77d07793e5b0e3c816efdef95d3e6293357437505bf1f5df9a3c64da28f0f9",
+    "protected_baseline_count": 901,
+    "frozen_review_file_count": 17
+  },
+  "finding": {
+    "accepted_noncanonical_controls": [
+      "case-unknown-occurrence-bool",
+      "case-known-occurrence-bool",
+      "scalar-alpha-nbytes-float"
+    ],
+    "action": "Preserve and stop; no candidate/source/criteria repair authorized or performed.",
+    "blocking": true,
+    "contract": "Canonical typed full fixed-case/witness/scalar identity; schema-control-contract canonical paragraph and DECISION-01",
+    "finding_id": "CAP-AUTH-TYPE-01",
+    "impact": "Python structural == treats bool/int and float/int as equal. The new helper accepts type-altered copies of internally pinned case/scalars, and make_trace plus verify_trace also accept them. Emitted original trace remains unchanged; this is an authentication/type-boundary defect, not wrong known arithmetic or an observed worker result.",
+    "scope": "Only the promised local frozen-case authentication; no arbitrary-authority service or hostile-filesystem security claim.",
+    "source": "frozen_case.py:37-43"
+  },
+  "raw_proof": "review-report.json and runs/*/{plan.json,started.json,receipt.json,stdout.raw,stderr.raw,raw.xml if applicable}; all supplied closures and counterexamples indexed.",
+  "repair_performed": false,
+  "parent_only_status_changes_pending": true
+}

@@ -1,0 +1,205 @@
+{
+  "status": "Approved case and prior completed increment pinned",
+  "previous_final_manifest_files_verified": 64,
+  "previous_author_indexed_files_verified": 775,
+  "previous_checker_sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a",
+  "baseline_files": 903,
+  "immutable_baseline_files": 901,
+  "copied_files": 39,
+  "copied_source_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-preflight-20261113",
+  "case_id": "CAP-after-qualifier-f64-GL",
+  "witness_id": "afterqual-CAP-after-qualifier-f64-GL",
+  "inventory_slots": 22,
+  "complete_slots": 13,
+  "unknown_slots": 9,
+  "witness_records": 26,
+  "assessments": [
+    {
+      "candidate_id": "a-good2-f64-GL",
+      "candidate_index": 0,
+      "status": "known_qualifying",
+      "reasons": [
+        "none"
+      ],
+      "qualifies": true
+    },
+    {
+      "candidate_id": "bad1-f64-GL",
+      "candidate_index": 1,
+      "status": "unknown",
+      "reasons": [
+        "primitive_cap"
+      ],
+      "qualifies": null
+    }
+  ],
+  "resource_control": {
+    "override_cap": null,
+    "value": null,
+    "fault_checkpoint": "after_candidate_index_0_commit_before_candidate_index_1",
+    "injected_reason": "primitive_cap",
+    "trigger": "declared supervisor fault injection at this exact checkpoint, NOT a measured primitive-cap feasibility assertion",
+    "retention": "first complete qualifier arrays retained; second UNKNOWN; global indeterminate",
+    "run_role": "future_control_protocol_only_not_executed"
+  },
+  "unknown_payloads_must_remain_absent": true,
+  "worker_execution_observed": false,
+  "input_files": {
+    "previous-author/baseline/a2_trace.py": {
+      "bytes": 30913,
+      "sha256": "4b28a7dfc4587dd6d6bfb63cdb5ea5362b0f5cf5ab3c1c9d31fe211465dfbd4e"
+    },
+    "previous-author/baseline/authority.json": {
+      "bytes": 139764,
+      "sha256": "37c06b7f6403b46ff159eef9f178c7ba8e6bc909a1d2ed873d1f563cd748b705"
+    },
+    "previous-author/baseline/test_a2_routing.py": {
+      "bytes": 3839,
+      "sha256": "e94fb05c6dc19b0d5dc1308993c1dfb16cbb76563067b3f12de3d85c461ef1df"
+    },
+    "previous-author/baseline/test_a2_trace.py": {
+      "bytes": 6464,
+      "sha256": "a57ea5393f8dff412e25c9999f6e64b99a8c98bdaa44ad5099a6b5e717be137d"
+    },
+    "previous-author/baseline/trace.json": {
+      "bytes": 130130,
+      "sha256": "ba9e40f8e9fa66d13dee2439e9087239b52e523128119eb3d0340ad2b00d2a62"
+    },
+    "previous-author/final/a2_trace.py": {
+      "bytes": 31334,
+      "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+    },
+    "previous-author/final/authority.json": {
+      "bytes": 88896,
+      "sha256": "9f973fc6b4de16098cb1fe7001678a1eafdf845ad4b1f3da0109055d357b271d"
+    },
+    "previous-author/final/protocol.json": {
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    "previous-author/final/pyproject.toml": {
+      "bytes": 1966,
+      "sha256": "4b9e8b18a37f92f2ecdc2b2a5006363f9093bed41e1551341c3b3a6546fa617c"
+    },
+    "previous-author/final/record-schemas.json": {
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    "previous-author/final/test_a2_nonqualifier.py": {
+      "bytes": 1808,
+      "sha256": "0f396c9913ea94ffaa193f40d484cdc08d94dcdfa53bd14b0a70b0f685bc6ba3"
+    },
+    "previous-author/final/test_derivation.py": {
+      "bytes": 1486,
+      "sha256": "92d1f8a1e572d022f090602727a1df0e79ee73f1232c4f37ebe6e3c0111d8b26"
+    },
+    "previous-author/final/test_equality.py": {
+      "bytes": 1916,
+      "sha256": "6b3f35fab060506358fc304a28fedd6e0255e19373633b8ddae03b21b599eb29"
+    },
+    "previous-author/final/test_semantics.py": {
+      "bytes": 10041,
+      "sha256": "c4e09cd58d3da0216251eb68c904407e2b204f19ddd49094affb9a905dd7dad9"
+    },
+    "previous-author/final/trace.json": {
+      "bytes": 49300,
+      "sha256": "31439bb705bf64c99b96cdcb6ab80e367677c6f0aaee5b082156fdc820491a6e"
+    },
+    "previous-author/final/verify_independent.py": {
+      "bytes": 11985,
+      "sha256": "8b49ae186c6a6d07d177815be9abcfb00c9862b70b10d5b664c77a3a6add2e74"
+    },
+    "previous-author/inputs/fixtures.json": {
+      "bytes": 8083480,
+      "sha256": "7c50cf5a7ff86a1875f3324d413cc3f11fe6c63f4e1acd7633bf89f564b951e5"
+    },
+    "previous-author/inputs/packet-manifest.json": {
+      "bytes": 3984,
+      "sha256": "2d572491100e76897bc4c298f1a75387110e6942a027da9eeae14b06aadec481"
+    },
+    "previous-author/inputs/protocol.json": {
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    "previous-author/inputs/pyproject.toml": {
+      "bytes": 1966,
+      "sha256": "4b9e8b18a37f92f2ecdc2b2a5006363f9093bed41e1551341c3b3a6546fa617c"
+    },
+    "previous-author/inputs/record-schemas.json": {
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    "previous-author/inputs/schema-control-fixtures.json": {
+      "bytes": 1907286,
+      "sha256": "696b6b22d4d5e9b18c29ce9c6eb0eac4534404860c4221aae0344faea5a25e60"
+    },
+    "previous-author/tools/run_snapshot.py": {
+      "bytes": 3060,
+      "sha256": "cd2589be98fa4cc196823cb8067b112d1b202c6ccb2ebeff75a70a5cd6729b16"
+    },
+    "previous-author/authority-derivation.json": {
+      "bytes": 2425,
+      "sha256": "77a9019f24dd29b9a9ebc87811f0ae67eb94c146a1356d8f1ef311969243a39f"
+    },
+    "previous-author/result.json": {
+      "bytes": 40962,
+      "sha256": "a81352718dcbf53bf1de09049300d4bbc66c7676ae43a52cafaf9db371c6db4b"
+    },
+    "previous-author/lint-delta.json": {
+      "bytes": 21404,
+      "sha256": "90fe502b7361e5e170602d93cf3a73a7f3bac312cb7c2167499a51a34f7e8971"
+    },
+    "previous-author-index.json": {
+      "bytes": 128929,
+      "sha256": "eb341ebe9f912a3e0684cf074489c36dd849b3dd0049af014fa6a9ccbe3c9f23"
+    },
+    "inputs/fixtures.json": {
+      "bytes": 8083480,
+      "sha256": "7c50cf5a7ff86a1875f3324d413cc3f11fe6c63f4e1acd7633bf89f564b951e5"
+    },
+    "inputs/schema-control-fixtures.json": {
+      "bytes": 1907286,
+      "sha256": "696b6b22d4d5e9b18c29ce9c6eb0eac4534404860c4221aae0344faea5a25e60"
+    },
+    "inputs/record-schemas.json": {
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    "inputs/protocol.json": {
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    "inputs/comparison-policies.json": {
+      "bytes": 15346,
+      "sha256": "b40bf84e1d80307fed190c0beb8f4d2fce7883b8d50a7da37d6adf07010bbcbf"
+    },
+    "inputs/schema-control-contract.md": {
+      "bytes": 21012,
+      "sha256": "516d46e749ff1a8fe37fb171f50e0eebe9b14c93cbba185f879e1f5e5e5278a1"
+    },
+    "inputs/packet-notes.md": {
+      "bytes": 12569,
+      "sha256": "725622f3a90ce0f3569987149e0f742238c2e655196efe76146d616649d98469"
+    },
+    "inputs/packet-manifest.json": {
+      "bytes": 3984,
+      "sha256": "2d572491100e76897bc4c298f1a75387110e6942a027da9eeae14b06aadec481"
+    },
+    "inputs/pyproject.toml": {
+      "bytes": 1966,
+      "sha256": "4b9e8b18a37f92f2ecdc2b2a5006363f9093bed41e1551341c3b3a6546fa617c"
+    },
+    "inputs/preparation-contract.md": {
+      "bytes": 28257,
+      "sha256": "f1a62214e8636f4e8f4862c0824f40e0fe546e5430eee9f8ce6740ae3e5cca03"
+    },
+    "selected-case.json": {
+      "bytes": 5867,
+      "sha256": "f28baf65b2e51f4ece514ec2f84566d2fd6f03cccc312743ba08d16ecf5b500e"
+    },
+    "selected-witness.json": {
+      "bytes": 101617,
+      "sha256": "fc8476f061e7b44d31b69f4fe718498d1b11ca3c2f6d479e9d4cbdadafc2dec4"
+    }
+  }
+}

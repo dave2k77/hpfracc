@@ -1,0 +1,68 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "--no-sync",
+      "python",
+      "-B",
+      "/home/davianc/.hermes/cache/scratch/hpfracc-a2-nonqualifier-parent-20261113/parent_reference.py"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "--no-sync",
+      "ruff",
+      "check",
+      "--no-cache",
+      "."
+    ],
+    "actual_exit": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "--no-sync",
+      "python",
+      "-B",
+      "-m",
+      "pytest",
+      "tests/unit/test_docs_consistency.py",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "--basetemp=/home/davianc/.hermes/cache/scratch/hpfracc-a2-nonqualifier-parent-20261113/baseline-tests",
+      "--junitxml=/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/baseline-checks/docs.xml"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "--no-sync",
+      "mkdocs",
+      "build",
+      "--strict",
+      "--site-dir",
+      "/home/davianc/.hermes/cache/scratch/hpfracc-a2-nonqualifier-parent-20261113/baseline-site"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "actual_exit": 0
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "status": "Allowed three-file status delta and final repository QA verified",
+  "changed_files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "before": {
+        "bytes": 116929,
+        "sha256": "aa0e16f703e1f25cf314834f012a48dadca6df8a253d14070c9baa2e8a957197"
+      },
+      "after": {
+        "bytes": 118637,
+        "sha256": "9038ae9c9809622323097b67dcc2e8d633893de658eb6a29d3e21153195679db"
+      },
+      "scope": "Status/progress only"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "before": {
+        "bytes": 33710,
+        "sha256": "d5028902a38b3beb5b0c7fc9bb7d9e9b01c53d42f1941ec20c9739fab8ccb57a"
+      },
+      "after": {
+        "bytes": 35256,
+        "sha256": "10701fd50891908f896692f548ad5546679e3795da4c831f9da1c85a8533c6a3"
+      },
+      "scope": "Status/progress only"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/README.md": {
+      "before": {
+        "bytes": 6280,
+        "sha256": "23af10acce0448a534e589d4f634d0fda6225ee3ef86a8810e06029e7c9b54a4"
+      },
+      "after": {
+        "bytes": 7998,
+        "sha256": "038735eb5fdd036a3010354c5a8c3a655ea5347210286cf1f898a6417f9b7a9b"
+      },
+      "scope": "Status/progress only"
+    }
+  },
+  "protected_files_unchanged": 282,
+  "baseline_immutable_files_unchanged": 234,
+  "head_and_git_stage_unchanged": true,
+  "qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23,
+  "documentation_ledger_matches_final_report": true,
+  "archived_checker_lint_findings_remain": 108,
+  "inherited_capture_helper_E501_remains": 1,
+  "main_repository_lint_passed": true,
+  "full_numerical_suites_rerun": false,
+  "raw_qa_location": "parent-closure-evidence.tar.gz::final-qa/",
+  "commit_or_push_performed": false
+}

@@ -1,0 +1,12 @@
+{
+  "outcome_sha256": "99fca63460c2a34a1df9bdd98a302bf9ca81182003f097195945c4a57da0b7f0",
+  "parent_archive": {
+    "path": "docs/validation/audits/a2-preparation-2026-11-11/single-trace-parent-closure-evidence.tar.gz",
+    "members_verified": 159,
+    "bytes": 395626,
+    "sha256": "b2369eadc57fc441dc43bc86d12532832f197eec0e38bfd6371946d13f9bda44",
+    "all_member_bytes_verified": true
+  },
+  "scope": "Parent completion readback; internal artifact integrity, not new source review or scientific acceptance",
+  "remote_delivery_performed": false
+}

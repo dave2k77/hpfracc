@@ -1,0 +1,40 @@
+{
+  "allowed_post_review_parent_delta": [
+    "docs/developer/phase-a-completion.md",
+    "docs/developer/bug-resolution-tracker.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-outcome.json",
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/README.md"
+  ],
+  "evidence_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-privacy-independent-review-hSV5uUVW",
+  "evidence_index_path": "/home/davianc/.hermes/cache/scratch/hpfracc-privacy-independent-review-hSV5uUVW/evidence-index.json",
+  "limitations": [
+    "STEP 1 packaging/privacy review only; no numerical, fixed-checker, resource-limit, broader A2 accounting, scientific, protocol-freeze, commit/push or release approval.",
+    "Privacy coverage is the explicit 100-file public closure and recursive archive bodies with bounded parsed fields, observed token/base64 and selected credential patterns; it is not universal secret detection or clearance for later changed files.",
+    "Historical manifests and failed verdicts remain unchanged and may reference omitted receipts; the derivative intentionally lacks complete historical replay closure.",
+    "Portable verification relies on an externally trusted inventory hash and owner-controlled nonconcurrent paths, not hostile concurrent-filesystem safety or authentication after replacing both inventory and trust pin.",
+    "Archived test-run records were checked for byte, source, XML, count and exit consistency, not independently attested historical OS/process execution. New copied packaging, CLI and tamper checks were actually executed.",
+    "Reviewer harness setup/schema errors are preserved separately from successful reruns; no candidate source or evidence was repaired."
+  ],
+  "logic_errors": [],
+  "passed": true,
+  "post_review_constraints": "Publication/progress wording only in named paths; separately indexed review/final-QA records. No protected source/evidence changes.",
+  "reviewed_manifest_sha256": "f34ca4700bc76f6ed58b69a3e8abae2b1c2bf4299afd1b535d7af2a3f7288743",
+  "security_concerns": [],
+  "verdict_path": "/home/davianc/.hermes/cache/scratch/hpfracc-privacy-independent-review-hSV5uUVW/verdict.json",
+  "verified": {
+    "archived_mutants_killed": 10,
+    "exact_omissions": 8,
+    "new_cli_tamper_rejections": 16,
+    "packaging_tests_passed": 23,
+    "portable_actual_bundle_cli_exit": 0,
+    "private_original_members": 457,
+    "private_positive_control_members": 8,
+    "protected_baseline_files": 189,
+    "protected_candidate_files": 36,
+    "public_input_files": 100,
+    "public_privacy_findings": 0,
+    "public_recursive_bodies": 2885,
+    "retained_unchanged_members": 449,
+    "source_and_stage_unchanged": true
+  }
+}

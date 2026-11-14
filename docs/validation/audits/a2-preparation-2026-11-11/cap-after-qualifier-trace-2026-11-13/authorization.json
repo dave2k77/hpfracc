@@ -1,0 +1,29 @@
+{
+  "recorded_at_utc": "2026-11-13T14:40:17Z",
+  "owner_reply": "okay, proceed.",
+  "approved_increment": "Extend the reviewed static accounting checker to the existing CAP-after-qualifier-f64-GL witness: incomplete-assessment semantics and conditional byte accounting.",
+  "case_id": "CAP-after-qualifier-f64-GL",
+  "witness_id": "afterqual-CAP-after-qualifier-f64-GL",
+  "regression_cases": ["REF-PASS-f64-GL", "REF-FAIL-f64-GL"],
+  "fault_checkpoint": "after_candidate_index_0_commit_before_candidate_index_1",
+  "fault_reason": "primitive_cap",
+  "fault_role": "Predeclared STATIC/HYPOTHETICAL fault, not observed worker execution or measured primitive-cap feasibility.",
+  "semantic_boundary": "Authenticate frozen input and inventory; independently verify available exact quantities; preserve the known qualifier and all explicit unknown/null dispositions. Derive indeterminate with selected_id null from the exhaustive policy. Never turn absent second-candidate observations into a known rejection or selection.",
+  "accounting_boundary": "One realizable labelled static schedule, with every required conditional record, inline copy, log, index generation/temporary, export receipt and manifest charged. Check physical bodies, causal order and pre-write snapshots independently.",
+  "authorized_writes": [
+    "New cap-after-qualifier-trace-2026-11-13 evidence package",
+    "Private checker/helper/test derivatives in new owned scratch, preserved in the new package",
+    "Status/progress-only changes to docs/developer/phase-a-completion.md and docs/developer/bug-resolution-tracker.md"
+  ],
+  "required_preservation": "All prior proof packages and failed/blocked attempts remain byte-identical. Both previously reviewed cases retain their full canonical traces and every emitted body. Preserve original regression tests and capture actual copied-input RED/GREEN/negative-control exits.",
+  "independent_review_required": true,
+  "automatic_repairs_after_blocking_independent_finding": false,
+  "numerical_core_changes_authorized": false,
+  "new_worker_fitter_or_ad_observations_authorized": false,
+  "caps_or_scientific_criteria_changes_authorized": false,
+  "packet_schema_or_protocol_freeze_authorized": false,
+  "a2_or_phase_closure_authorized": false,
+  "commit_push_or_release_authorized": false,
+  "safety_settings_changes_authorized": false,
+  "progress_receipt_boundary": "Private storage outside repository and all evidence capture closures; never copy ambient scratch/profile/session files."
+}

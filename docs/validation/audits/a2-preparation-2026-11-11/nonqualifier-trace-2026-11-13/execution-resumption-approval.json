@@ -1,0 +1,17 @@
+{
+  "recorded_at_utc": "2026-11-13T13:10:16Z",
+  "owner_reply": "approved.",
+  "approved_execution": "07-missing-bound-green",
+  "interpretation": "Resume the explicitly requested test of the preserved missing-bound validation-order correction, then continue the existing bounded additional-case work programme. This does not disable approval gates or authorize unrelated commands.",
+  "preserved_partial_checkpoint": "partial-author-preservation.json",
+  "prior_blocked_action_started": false,
+  "source_to_test": "partial-author-evidence.tar.gz::final/a2_trace.py",
+  "source_sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a",
+  "test_source_sha256": "0f396c9913ea94ffaa193f40d484cdc08d94dcdfa53bd14b0a70b0f685bc6ba3",
+  "execution_context": "The original delegated interpreter has ended. Reconstruct the same copied-input pytest invocation from the preserved plan and pinned inputs; retain this resumption as a new actual process, not a retroactive execution of the blocked attempt.",
+  "scientific_scope_or_resource_limits_changed": false,
+  "independent_review_passed": false,
+  "numerical_implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "commit_push_or_release_authorized": false
+}

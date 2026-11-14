@@ -1,0 +1,774 @@
+{
+  "protocol_id": "a2-glrl-exact-reference-v1-draft",
+  "status": "corrected_DRAFT_pending_independent_FINAL_review_and_owner_approval",
+  "implementation_authorized": false,
+  "a2_acceptance_passed": false,
+  "total_numerical_certified": false,
+  "arithmetic_verified": false,
+  "domain": {
+    "operators": [
+      "GL",
+      "RL"
+    ],
+    "alpha": {
+      "num": "1",
+      "den": "2"
+    },
+    "dt": {
+      "num": "1",
+      "den": "4"
+    },
+    "lower_terminal": {
+      "num": "0",
+      "den": "1"
+    },
+    "prehistory": "zero",
+    "grid": "uniform",
+    "dtypes": [
+      "float32",
+      "float64"
+    ],
+    "shapes": [
+      "N",
+      "N,M"
+    ],
+    "N_min": 1,
+    "N_max": 17,
+    "M_min": 1,
+    "M_max": 3
+  },
+  "candidate_contract": {
+    "method": "scaled_tail",
+    "kernel": "gl_prefix",
+    "exact_head": true,
+    "pole_min": 1,
+    "pole_max": 8,
+    "coefficient_rule": "finite >= 0",
+    "rho_rule": "finite 0 < rho <= 1",
+    "t_max": {
+      "num": "1",
+      "den": "1"
+    },
+    "rank": [
+      "pole_count",
+      "stable_id_ascii_byte_lexicographic"
+    ],
+    "no_pruning": true
+  },
+  "caps_status": "proposed_diagnostic_caps_not_feasibility_certificate",
+  "caps": {
+    "candidates": 8,
+    "poles": 8,
+    "rational_primitives": 100000,
+    "normalized_bits": 32768,
+    "evidence_bytes": 16777216,
+    "wall_seconds": 60,
+    "input_bundle_bytes": 262144,
+    "failure_index_bytes": 524288,
+    "raw_array_bytes": 4096,
+    "tau_bits": 256,
+    "json_depth": 16,
+    "json_nodes": 32768,
+    "string_ascii_bytes": 256,
+    "id_ascii_bytes": 64,
+    "inventory_candidates": 32,
+    "source_entries": 125,
+    "slots_per_request": 2048,
+    "stdout_bytes": 16384,
+    "stderr_bytes": 16384
+  },
+  "schema_domain_separation": "Canonical structure is distinct from tiny-reference support. Within bounded inventory, structurally valid N>17/M>3/P>8, complex request data and unsupported reference configurations yield indeterminate/unsupported_reference, not invalid_request. Candidate-local canonical field errors are known-ineligible when raw supplied content is authenticated. Global canonical request fields, duplicate IDs/content or request JSON errors are invalid_request. Missing/corrupt artifacts remain UNKNOWN.",
+  "decision_precedence": [
+    {
+      "priority": 1,
+      "condition": "malformed request envelope, canonical types, tau, duplicate IDs or duplicate complete content",
+      "request_status": "invalid_request",
+      "selected_id": null
+    },
+    {
+      "priority": 2,
+      "condition": "well-formed request outside tiny reference domain or resource envelope",
+      "request_status": "indeterminate",
+      "reason": "unsupported_reference",
+      "selected_id": null
+    },
+    {
+      "priority": 3,
+      "condition": "candidate supplied bytes available and authenticated; known incompatible config, malformed array, nonfinite coefficient/rho or invalid values",
+      "candidate_status": "known_ineligible",
+      "continue_other_candidates": true
+    },
+    {
+      "priority": 4,
+      "condition": "missing/corrupt raw artifact, producer binding absent/corrupt, unsupported assessment, incomplete slots or resource exhaustion",
+      "candidate_status": "unknown",
+      "request_status": "indeterminate",
+      "selected_id": null
+    },
+    {
+      "priority": 5,
+      "condition": "every required assessment completed; at least one known eligible qualifier",
+      "request_status": "selected",
+      "rule": "minimum (pole_count, stable_id)"
+    },
+    {
+      "priority": 6,
+      "condition": "every required assessment completed; no known eligible qualifier",
+      "request_status": "no_supplied_candidate_meets_bound",
+      "selected_id": null
+    }
+  ],
+  "precedence_notes": [
+    "Inventory all observable reasons, even when a higher-priority request disposition applies; incomplete assessment is never a completed rejection.",
+    "Known incompatible kernel l1, method legacy, head false, N/order/dt/producer mismatch is candidate-ineligible in a valid GL/RL request; not an unsupported request.",
+    "Authenticated NaN/Inf bytes in a supplied fit are known-ineligible. A missing file, bad byte count or failed digest for bytes claimed to be a complete raw artifact is UNKNOWN. An explicitly supplied array with invalid rank/shape is known malformed, not missing.",
+    "The EXHAUSTIVE completeness policy mandates indeterminate for any unknown lower OR higher rank. A higher unknown cannot displace an already established lower mathematical minimum; policy nevertheless withholds selection. This is stricter than minimum-rank inference.",
+    "An input integrity failure (missing/corrupt request input artifact) is global indeterminate, not numerical evidence. Request syntax/type errors are invalid_request.",
+    "An unsupported finite problem is not mathematically invalid and does not narrow public support. Empty candidate list is invalid_request; 9..32 inventoried candidates are unsupported_reference; over 32 or over input-byte limits is input_envelope_exceeded/indeterminate without promising unlimited ID inventory.",
+    "Any required missing producer evidence keeps assessment UNKNOWN even with locally observed configuration incompatibility; retain both reasons. Duplicate supplied ID and complete content retain both reasons and supplied occurrences. No ID uniqueness coercion in invalid raw input."
+  ],
+  "identity": {
+    "id_regex": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+    "id_comparison": "unsigned ASCII bytes, case-sensitive, no locale/Unicode normalization",
+    "tuple_order": [
+      "configuration",
+      "producer",
+      "rhos_descriptor",
+      "coefficients_descriptor"
+    ],
+    "configuration_fields": [
+      "n",
+      "pole_count",
+      "kernel",
+      "method",
+      "exact_head",
+      "alpha",
+      "dt",
+      "t_max",
+      "grid",
+      "lower_terminal",
+      "prehistory"
+    ],
+    "producer_fields": [
+      "kind",
+      "entrypoint",
+      "source.repo_path",
+      "source.sha256",
+      "lock_sha256",
+      "policy_id",
+      "iterations",
+      "rate_grid",
+      "backend",
+      "working_dtype",
+      "x64",
+      "jax_version",
+      "device_class",
+      "mode"
+    ],
+    "array_descriptor_fields": [
+      "dtype",
+      "shape",
+      "byte_order",
+      "layout",
+      "nbytes",
+      "sha256"
+    ],
+    "serialization": "ordered tuple fields, canonical JSON UTF-8 ASCII with sorted object keys, separators comma/colon, no whitespace; native bool/int types; raw digest verified first; unavailable tuples not guessed",
+    "excluded_fields": [
+      "stable_id",
+      "case_id",
+      "request_id",
+      "observation_id",
+      "run_id",
+      "pid",
+      "start_time",
+      "stop_time",
+      "elapsed_time",
+      "command",
+      "exit_code",
+      "hostname",
+      "artifact_path",
+      "logs"
+    ],
+    "forbidden_normalization": [
+      "signed_zero",
+      "pole_permutation",
+      "zero_coefficient_pruning",
+      "equivalent_kernel_merging",
+      "GL_RL_request_alias_merging"
+    ],
+    "duplicate_rule": "same ID OR same ID-free content tuple is request-invalid, including equal content under different IDs; same pole count alone is not a duplicate; request alias is not in candidate identity",
+    "missing_identity": "if content cannot be authenticated, assessment is UNKNOWN; independently known duplicate IDs still make request invalid",
+    "execution_binding": "Separate volatile producer_binding payload SHA recipe in record-schemas.json and schema-control-contract.md; no change to ID-free content identity."
+  },
+  "resource_accounting": {
+    "primitive_unit": "each exact rational add, subtract, multiply, divide, abs, comparison = 1, including comparisons for min/max/qualification and independent checks",
+    "shared": "one cumulative counter per request across shared w/g/v/D, every candidate, independent signed/prefix/residual cross-check, all analytic input-gradient Lhat/transpose/objective references and any reruns/mode-specific exact arrays; cache reuse costs zero only when no arithmetic is performed",
+    "powers": "rho^0 is literal 1; each subsequent power is one charged multiply. Closed-form binomial cross-check integer multiplications/divisions/comparisons are also charged as rational primitives; no opaque uncharged power/sum/dot.",
+    "nonprimitive": "raw IEEE decode, gcd normalization internals, bit-length checks, canonical parse, hashing, allocation and serialization are not rational primitives but are wall/byte bounded; counter is not bit complexity or a peak-memory bound",
+    "reservation": "check op_count+1 <= limit BEFORE operation; validate operand bits; normalize/check result bits AFTER operation; integers inside multiplication/GCD may temporarily exceed normalized cap (up to twice operand bits for products)",
+    "evidence_coverage": "sum actual raw file byte lengths of ALL per-request input/fit/working and exact arrays, descriptors, hashes, manifests, metadata, command/process logs and failure index, including whitespace/newline/partial files. A compressed file is not a license to omit raw evidence. Frozen shared packet/source files referenced by path+hash need not be recopied; if copied charge full bytes. No uncounted mirror/log.",
+    "reservations_bytes": {
+      "input_bundle": 262144,
+      "failure_index": 524288,
+      "remaining_results": 15990784
+    },
+    "persistence": "Mandatory exact lifecycle in schema-control-contract.md: fresh private per-request root/subdirs, no-follow handle-relative creation/readback and owner/type/inode/containment verification; immutable array no-overwrite, atomic owned index replacement only. Charge all owned temporary/partial/coexisting bytes and cumulative written bytes; both live and cumulative <=16MiB. No deletion/rewrite evasion. Prepersist all quantity, comparison, fit-binding and occurrence dispositions. Whole reserved final index transaction including coexisting files/receipts must fit 512KiB or bounded reservation_exceeded/indeterminate, no numerical work.",
+    "watchdog": "Supervisor monotonic clock starts immediately before worker process launch, includes launch/import/decode/arithmetic/export/flush; stops only on confirmed exit. At 60s terminate then bounded 1s grace then kill; timeout is indeterminate regardless of any earlier qualifier. Supervisor writes reserved index/process record after kill; includes grace/kill latency separately, never calls 60s a total elapsed guarantee. Preflight bounded input capture is separately timed/byte-bounded, occurs before launch. Closed phase_timing/process/launch_receipt/supervisor_export define preflight, watchdog, grace, kill-through-confirmed-exit and later index-write intervals without digest/write cycles; unavailable/not-applicable are explicit, zero-wall barrier never released. No 60-second total guarantee.",
+    "overflow": "Any work/bit/evidence/watchdog/integrity/completeness exhaustion leaves explicit UNKNOWN and not_evaluated slots for all unfinished admitted IDs; known earlier results remain known but whole request indeterminate. No minimum/no-qualifier claim.",
+    "failure_index_layout": "Closed index_slot rows and ALL comparison/binding_check dispositions, occurrence list, process/phase receipt and byte-accounting fields. Full transaction templates must cover initial/final index coexistence and later supervisor export; <=512KiB reservation is not promised feasible for every case. Refuse launch with bounded indeterminate reservation_exceeded when required transaction cannot fit, never omit fields/checks.",
+    "output_security_contract": "schema-control-contract.md#output-security-and-byte-accounting-lifecycle"
+  },
+  "future_real_fitter": {
+    "entrypoint": "hpfracc.ops._soe._fit_soe",
+    "source": {
+      "repo_path": "src/hpfracc/ops/_soe.py",
+      "sha256": "c67ada4edf93fefb38a6554bacb7d513a53432f52a9e8b4a2eeff1133fd87c43"
+    },
+    "n": 17,
+    "n_poles_order": [
+      8,
+      2,
+      4
+    ],
+    "t_max": {
+      "num": "1",
+      "den": "1"
+    },
+    "kernel_argument": "gl",
+    "method": "scaled_tail",
+    "iterations": 400,
+    "rate_grid": "existing dimensionless rates [1/(16*n),8], unchanged",
+    "dt_not_passed_to_fit": true,
+    "fit_record_lacks": [
+      "alpha",
+      "dt",
+      "t_max"
+    ],
+    "binding": "capture producer call alpha/dt/t_max/source/policy outside _SOEFit; source-bound fit->apply+dt**(-alpha) worker composition returns actual rhos and coefficients as auxiliary arrays from EACH mode/branch. This is NOT instrumentation of the public SOE wrapper."
+  },
+  "preparation_source_pin": {
+    "head": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+    "index_entries_sha256": "f2afa6dbd380447b188058081d85f531eb00ab9a0c2afe3f6c1f7a0314881cdd",
+    "files": [
+      {
+        "repo_path": "benchmarks/numerical/README.md",
+        "sha256": "2b925face842cc99d50bdc2576d0fe3fad813d85ac32bae87d0b380f44bd3dc6"
+      },
+      {
+        "repo_path": "benchmarks/numerical/_volterra_defect.py",
+        "sha256": "08d7f7fb8b9e6563d8a2d13c1567c0f90049a021f1a94e94c5cfd61f04d87eba"
+      },
+      {
+        "repo_path": "benchmarks/numerical/adaptive_calibration.py",
+        "sha256": "f63bc29fa1db7918e30556a99f57aaabb9eb531ddcdeb8c09af24abb3b767210"
+      },
+      {
+        "repo_path": "benchmarks/numerical/adaptive_coupled.py",
+        "sha256": "3b5332c05441bbc2a1156a557badcf5674c8e3bc1dd68a8adb8ddbc3b9e255f3"
+      },
+      {
+        "repo_path": "benchmarks/numerical/adaptive_startup.py",
+        "sha256": "decc9086d5c1e0d7c53108f99ca07ad3e55e0ce55e4a23550ffd8dadeb7f4b33"
+      },
+      {
+        "repo_path": "benchmarks/numerical/baseline.py",
+        "sha256": "388fb8da2f707cde63a7def8031afd0ca035dfd1b4cbb20ce3b4e50df2cc74f2"
+      },
+      {
+        "repo_path": "benchmarks/numerical/bounded_forcing_validation.py",
+        "sha256": "5a16d5ff8ad4ee5abd3f8b9b377f40cdff457bf6122b4ecd3093539d31c874a2"
+      },
+      {
+        "repo_path": "benchmarks/numerical/convergence.py",
+        "sha256": "ac13c5c8b03821b5d0ea6215dd69a6a4d12f50f222d45d78e09b53e50702b205"
+      },
+      {
+        "repo_path": "benchmarks/numerical/core_hardening.py",
+        "sha256": "2b1318c64be06ee8d1a24df37258d2f023dfe0a1c8dc98b3e587d1ab1d25b88e"
+      },
+      {
+        "repo_path": "benchmarks/numerical/gradient_checks.py",
+        "sha256": "9523e19484efa5b254d916aa34f316f0ee4867186077c08c5cdcd0c03dfecb93"
+      },
+      {
+        "repo_path": "benchmarks/numerical/history_comparison.py",
+        "sha256": "df7399ad3e5b74fd7873ec2efd7b4455ed7dcf0c57a96cabc247a1e0b5f0b7df"
+      },
+      {
+        "repo_path": "benchmarks/numerical/history_validation.py",
+        "sha256": "68478f42275999fc127483e91f49c13a486b78a2c3fc7c4737a87167bd80ac3f"
+      },
+      {
+        "repo_path": "benchmarks/numerical/implicit_validation.py",
+        "sha256": "85091d31e88116d8d651564c7bbac46f548b9b88170354978bfbb1250b37b02b"
+      },
+      {
+        "repo_path": "benchmarks/numerical/jax_convolution_probe.py",
+        "sha256": "7454352231f0f0861b9de8ada31f6ec6dcfcc5c3167cead6a13430b6fbb51608"
+      },
+      {
+        "repo_path": "benchmarks/numerical/operator_scaling.py",
+        "sha256": "19844ff1f14d02e168c01f6b19723921bbc8241998cc095f9a23509c3c71389a"
+      },
+      {
+        "repo_path": "benchmarks/numerical/operator_validation/__init__.py",
+        "sha256": "3479f09943546dc8af7bc2a611458fb60d32dddda3fcc80b094162f4c091f205"
+      },
+      {
+        "repo_path": "benchmarks/numerical/operator_validation/report.py",
+        "sha256": "e21d3e6681effc9b0b82594832fca75e9e25f4ebabc3aeb9c06d337c7fbe98bc"
+      },
+      {
+        "repo_path": "benchmarks/numerical/scientific_acceptance.py",
+        "sha256": "8ff29070a75f9dc51b4f29bf7cfb70f6ec59e4a670e9483e370a6eb73105f1e5"
+      },
+      {
+        "repo_path": "benchmarks/numerical/soe_audit.py",
+        "sha256": "2d1bf527fefea542902b6e730ae10f4064c242b80926bea5aa5137d978004322"
+      },
+      {
+        "repo_path": "benchmarks/numerical/solver_validation/__init__.py",
+        "sha256": "35397546b05894a3dc6a68597287971e47ea0ba424133ca2faa461195c35e2ae"
+      },
+      {
+        "repo_path": "benchmarks/numerical/solver_validation/report.py",
+        "sha256": "58bdb976213c37e19179f49429ff4ce0fc90a91eb28eeca13496c00160c1ac8f"
+      },
+      {
+        "repo_path": "benchmarks/numerical/stability.py",
+        "sha256": "684ef4a2e9bf3ec7a7321424f45c1568a24f5706ecbabe7136865e70062455db"
+      },
+      {
+        "repo_path": "benchmarks/numerical/subdivision_comparison.py",
+        "sha256": "57fd010c038e983bff400f61ff23d55b6d9f81bb0410fe3b3089b4fbdc64b815"
+      },
+      {
+        "repo_path": "benchmarks/numerical/subdivision_runtime.py",
+        "sha256": "888ef8655e3c61ffae863976e3e102cf1f0a087093c15abb05280d589a791af9"
+      },
+      {
+        "repo_path": "benchmarks/numerical/subdivision_stress.py",
+        "sha256": "bb37829d9afb79143f5d5c6f3f98c8d6980407cb43e909a57206eb7f274d056f"
+      },
+      {
+        "repo_path": "benchmarks/numerical/uniform_weight_validation.py",
+        "sha256": "6d5f00cfea5bc061b2a9dd0f3f9a3315a3b9998c30dfdd23763967da6d79965e"
+      },
+      {
+        "repo_path": "benchmarks/numerical/validation_summary.py",
+        "sha256": "79609a5cbe4dcd703d19a662c3f76c7240fb8a41b5f7f80d554e6890a99b2d1b"
+      },
+      {
+        "repo_path": "benchmarks/numerical/windowed_history.py",
+        "sha256": "b47ca036f1629d70d7e77c1327716c9903220f4701b39fa78f01f960271e71c9"
+      },
+      {
+        "repo_path": "pyproject.toml",
+        "sha256": "4b9e8b18a37f92f2ecdc2b2a5006363f9093bed41e1551341c3b3a6546fa617c"
+      },
+      {
+        "repo_path": "src/hpfracc/__init__.py",
+        "sha256": "0fd9a3ed5f507962bda6ccc6b8a3fdb3d9b546b416b5ac0d4cc05b76f88ef5bb"
+      },
+      {
+        "repo_path": "src/hpfracc/_version.py",
+        "sha256": "76b42576c83aa737d878881d64212f688990fd6303de6817dfc9765470ff1bb0"
+      },
+      {
+        "repo_path": "src/hpfracc/brain/__init__.py",
+        "sha256": "0ff6f1b3a2daf94845462a088c00bfed9794cabf27f258d4f9a78da660aa049e"
+      },
+      {
+        "repo_path": "src/hpfracc/config/__init__.py",
+        "sha256": "2eb3222bfc719b703cc539d080b00eff30c95beba8d201df9cf738918850f28e"
+      },
+      {
+        "repo_path": "src/hpfracc/config/base.py",
+        "sha256": "b5ec828ae0477c7e8ab6e752258983900bae17ae77ed69e6cc1b43dbcbb9a16f"
+      },
+      {
+        "repo_path": "src/hpfracc/data/__init__.py",
+        "sha256": "9836d194b2280eb2a5e4c30d31b3cf7f07ea2215094c760c88c5eec049a1c743"
+      },
+      {
+        "repo_path": "src/hpfracc/experimental/__init__.py",
+        "sha256": "150dad1eea61921b3721a3370c920cd7419c0f77bdf8c80de22ae10c39d5988e"
+      },
+      {
+        "repo_path": "src/hpfracc/metrics/__init__.py",
+        "sha256": "1853e9a496cf3245ed8d88cf05829cd3fafc51656a50af966412f65e7e365174"
+      },
+      {
+        "repo_path": "src/hpfracc/nn/__init__.py",
+        "sha256": "4ce717c4e1606c4266760756f0e47f48bb6abdfa1e7bb98d65b9c677b0c5b5e9"
+      },
+      {
+        "repo_path": "src/hpfracc/nn/fode.py",
+        "sha256": "781cb096afc905576035da3047ae6a09da6d664001bde5e248d59ee3b8dc9296"
+      },
+      {
+        "repo_path": "src/hpfracc/observe/__init__.py",
+        "sha256": "4111eeb8ee87d40b8dd36ce728708a7b227a08bc14c8f615627b9f066cf9f854"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/__init__.py",
+        "sha256": "2ca9fe00864df841509f1bf52691b3e50bde3fa7edd8262ca578b29156d14be0"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/_quadrature.py",
+        "sha256": "5083889d88a725b12ebd630f535a92ce0b028c97f19f028df12a185c9f3a3d4a"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/_soe.py",
+        "sha256": "c67ada4edf93fefb38a6554bacb7d513a53432f52a9e8b4a2eeff1133fd87c43"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/_special.py",
+        "sha256": "f7abac6ed9a38ad43c6e98b856ba49432dbd107e7ab3e34ec4157804367beb76"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/analytic.py",
+        "sha256": "569f40bb2bad9cbce3a9d839673b42bc1eb6b7707de07948a9bde2454c5ee3ec"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/base.py",
+        "sha256": "6dfd31ac6f4f2cfad01dca8d4ede125bcd7681ef3d920973ec7d2c1af4959330"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/fractional.py",
+        "sha256": "a18674d3562c8043ced7e8f8ecca5369e2e239de9e1ccf14097010b7ed6d495b"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/kernels.py",
+        "sha256": "819dcc5bd0fab4ff3fe22882a2d0550c4bac10bbf6c9de0f79c782fd6532c30e"
+      },
+      {
+        "repo_path": "src/hpfracc/ops/orders.py",
+        "sha256": "70b78f355cc013d63634a3a1c1eb551fd0e224d969abd1a728486d394e115301"
+      },
+      {
+        "repo_path": "src/hpfracc/prob/__init__.py",
+        "sha256": "1dc578dce52e04d777df907a018e163cf54df4da077351ff371b973bd5a46c7a"
+      },
+      {
+        "repo_path": "src/hpfracc/prob/calibration.py",
+        "sha256": "7499b1ef5cb3acf600b897d3b1085385ece05c2aecc455110c5843c6425b32de"
+      },
+      {
+        "repo_path": "src/hpfracc/prob/fsde.py",
+        "sha256": "6beeb3abe9ecf81e7962cd2b900764c656e597035a1049b5cd576711c4b70879"
+      },
+      {
+        "repo_path": "src/hpfracc/py.typed",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "repo_path": "src/hpfracc/solvers/__init__.py",
+        "sha256": "fcfb0c63c0e0eb2436fc7f2289ccfe0b60082af8ad04316bc4c849ed8b29e3e3"
+      },
+      {
+        "repo_path": "src/hpfracc/solvers/_weights.py",
+        "sha256": "453f82bdd2c646b1fd5f58dcf399f17bc3e30c4527c7309a2848b1f1f13ac733"
+      },
+      {
+        "repo_path": "src/hpfracc/solvers/base.py",
+        "sha256": "d067057b90cdbcbdd1ae297c0e06eb05dd5827d4874fdb343265fe18b9e8ba99"
+      },
+      {
+        "repo_path": "src/hpfracc/solvers/bounded_forcing.py",
+        "sha256": "fed4934d34283aa95db239be05ee495041eaf2bc4d237e56684a11a756ee40c7"
+      },
+      {
+        "repo_path": "src/hpfracc/solvers/predictor_corrector.py",
+        "sha256": "94c60ded4f4f9a3753f6ccde8e7674429c681b8d7f89f9b5fb2140b032f3a01d"
+      },
+      {
+        "repo_path": "src/hpfracc/stability.py",
+        "sha256": "575d0fcdc651746315993b3b023721a91665c0a514f1ed1e1a20c37642ec5717"
+      },
+      {
+        "repo_path": "src/hpfracc/train/__init__.py",
+        "sha256": "dbf01609798b0b22003d87e3822ea6d56d5cfc911aad145fb94d7037262ad9cb"
+      },
+      {
+        "repo_path": "src/hpfracc/typing.py",
+        "sha256": "96f5b1008d49619f51d657568b917bc254defb1757aabef28f5766f9409e726c"
+      },
+      {
+        "repo_path": "src/hpfracc/viz/__init__.py",
+        "sha256": "e69bef0eee0321cdc98ea975ff92a1373eceb8813a7e137cc38c427f532063f5"
+      },
+      {
+        "repo_path": "tests/conftest.py",
+        "sha256": "2e9786ac0d9c8a4a08fd0c7fe6d6c18ce797c4fd380c94a0cdfadb8ed4bce31b"
+      },
+      {
+        "repo_path": "tests/performance/test_operator_scaling_perf.py",
+        "sha256": "e42684cbd102d558c5a2d8e09221e2c8f1b9baa5baaa75436ccb3cf31af5b479"
+      },
+      {
+        "repo_path": "tests/property/test_operator_identities.py",
+        "sha256": "9853a7183ba9a4b8669024c5004f65ba0be04652cb74bd5ac15d9ac204a33c6a"
+      },
+      {
+        "repo_path": "tests/regression/golden/_generate.py",
+        "sha256": "a6a4b306ad14b6b2ee75a27d86b1da0070b62c323554d368813cb22ae9f284e2"
+      },
+      {
+        "repo_path": "tests/regression/golden/operator_outputs.csv",
+        "sha256": "4b9696346c66cd1470986c87054360042e6105726925661c582ae648d1cb6e4f"
+      },
+      {
+        "repo_path": "tests/regression/test_golden_operators.py",
+        "sha256": "37aba380326d5eebb591db1c1720857a3a25c959513c12b5f441540e7be20d46"
+      },
+      {
+        "repo_path": "tests/unit/test_adaptive_calibration_report.py",
+        "sha256": "ad1131953078a33da5bcbf26c7f44aeba387897caac11051ce40ddb53a7baeab"
+      },
+      {
+        "repo_path": "tests/unit/test_adaptive_coupled.py",
+        "sha256": "b75717836ee4f349eed5301cc8dafa0a5061a4b64dbe584b23cb882031249102"
+      },
+      {
+        "repo_path": "tests/unit/test_adaptive_diagnostics.py",
+        "sha256": "a356d8c7b236f4f2481a38cf10fa640ff23906fb077ce01dde356b139c2ac06b"
+      },
+      {
+        "repo_path": "tests/unit/test_adaptive_solver.py",
+        "sha256": "ceefb238765f2d8c1f2b92d96e85b97934ddd12972f493add9f34da63c163de5"
+      },
+      {
+        "repo_path": "tests/unit/test_adaptive_startup_report.py",
+        "sha256": "70396677d5fc77b1f68d7e7063f09096641c501322dfb73c237eef2ba2268cfb"
+      },
+      {
+        "repo_path": "tests/unit/test_adaptive_subdivision.py",
+        "sha256": "d6bbe82fadd4e274fb748483a05afdfbdac8a6438074532c72df71de0d2dc227"
+      },
+      {
+        "repo_path": "tests/unit/test_alpha_gradients.py",
+        "sha256": "4d10432c71d4aceb991c9d7d918adce5cd0fae915ba92ffb87c1ebfb50e529f0"
+      },
+      {
+        "repo_path": "tests/unit/test_bounded_forcing.py",
+        "sha256": "8956fa6377c57ed300944c4c538c8d5b983d19fa289142a307df0b1c38b902c2"
+      },
+      {
+        "repo_path": "tests/unit/test_bounded_forcing_report.py",
+        "sha256": "3ec07bc033c7954b6f232a5c0b8bf768a0078ffe2902230dc2b4ad45afce5d47"
+      },
+      {
+        "repo_path": "tests/unit/test_caputo_solver.py",
+        "sha256": "5545a3edf987fa899ea51fb94cc712075b737956a3fb2e9e71c8197ec7290880"
+      },
+      {
+        "repo_path": "tests/unit/test_contracts.py",
+        "sha256": "57b6206df847ad2e4c22d1a100150697ee375e84d378fd3d91f6dcdcadc7bf7a"
+      },
+      {
+        "repo_path": "tests/unit/test_convergence_order.py",
+        "sha256": "c23ab3861e8362299356ef3f49cc64ff937ee57b80fca53749ffaff0a9d3dd01"
+      },
+      {
+        "repo_path": "tests/unit/test_core_hardening_report.py",
+        "sha256": "d877fd27ab00c70a869e26752ee08394c790ff54705f28d175037bc5bc06b850"
+      },
+      {
+        "repo_path": "tests/unit/test_development_status_docs.py",
+        "sha256": "79827ff50efa60e718fb1e5bcc8c875b2cdd9339b1eed7175c9acc011978c319"
+      },
+      {
+        "repo_path": "tests/unit/test_direct_weight_precision.py",
+        "sha256": "03e1482d0947d2d94b9c171d445afe91e66c274c7012b637d5a50e253e162abd"
+      },
+      {
+        "repo_path": "tests/unit/test_docs_consistency.py",
+        "sha256": "f00d82486e19452bc53cd579dbd8d5b423b9026789e68467ab6bbbf4861dd20c"
+      },
+      {
+        "repo_path": "tests/unit/test_fft_history.py",
+        "sha256": "6d47a10a8dbfecd34856a28d372dc93feb3f5a8a538d286ed3f1476bb4c07750"
+      },
+      {
+        "repo_path": "tests/unit/test_fft_order_gradients.py",
+        "sha256": "529c694eed83420367e021cb05879c47ad492f15c172b4411ac9707b107602e4"
+      },
+      {
+        "repo_path": "tests/unit/test_fractional_operators.py",
+        "sha256": "0d6af98b10c37795546196c62d3e9bdd5fdd6425a7d69e1bb8b574a4038fc3f6"
+      },
+      {
+        "repo_path": "tests/unit/test_gpu_history_precision.py",
+        "sha256": "963115d1bf7892ccd16189620ec9c1f0e247e312069aa3a325c673b29a14836a"
+      },
+      {
+        "repo_path": "tests/unit/test_graded_mesh_precision.py",
+        "sha256": "49b68c3ca9938b4bef26a0ece60c9c7ffb36a854ad5b747af1f0855478094332"
+      },
+      {
+        "repo_path": "tests/unit/test_history_compression.py",
+        "sha256": "850786e58f2b5959c6b2e74b57d8ae144d0d5fc7264510854f625c7adde850f7"
+      },
+      {
+        "repo_path": "tests/unit/test_history_reduction_compatibility.py",
+        "sha256": "362f0b62da3635b75f2caa1e6521146101fefe51d557d24743a5b81a25daaf1e"
+      },
+      {
+        "repo_path": "tests/unit/test_history_validation_report.py",
+        "sha256": "9c44cc6defbddfb4613b3f7f7a358c57c00ccd045631d68126fa7bb1ba27901e"
+      },
+      {
+        "repo_path": "tests/unit/test_implicit_diagnostics.py",
+        "sha256": "ada64cdb51e958d9d5b8df0f8770b8141f8d58228b2d37d80b2766a98f874c80"
+      },
+      {
+        "repo_path": "tests/unit/test_implicit_solver.py",
+        "sha256": "f920942d076983c5bbcd5aecf3d2159a8f29103519d5262463f5b63d80977c60"
+      },
+      {
+        "repo_path": "tests/unit/test_implicit_validation.py",
+        "sha256": "bff344a0ba48a109a01a0ad7e99a568f896344c9ebe2bf19c729753060461dc9"
+      },
+      {
+        "repo_path": "tests/unit/test_integer_time_grids.py",
+        "sha256": "7a356e9b1eeed8f537f21d7ee829e9f979b0f7f3afd9e616336e43d2561cb9dc"
+      },
+      {
+        "repo_path": "tests/unit/test_jax_convolution_probe.py",
+        "sha256": "65120c64ac9bad0e3f6a804705df70d6b3f4dc36b4f84f41b38a4829e1789a16"
+      },
+      {
+        "repo_path": "tests/unit/test_nn_fode.py",
+        "sha256": "249e8750a39183ec538937612e20fb940dd7c509ad17c5f50a540decd2a11d0d"
+      },
+      {
+        "repo_path": "tests/unit/test_nonuniform_grids.py",
+        "sha256": "8f2161f3689b5d1662ec26f82a12d5e3bd3002fa607f86df0874d08eea8a377e"
+      },
+      {
+        "repo_path": "tests/unit/test_nonuniform_solver.py",
+        "sha256": "3cc78a266eaabe6edd66d1c35b05f76ef8eb5ed1aa06e1872956d69ff6c17b69"
+      },
+      {
+        "repo_path": "tests/unit/test_operator_scaling.py",
+        "sha256": "10ae9fdde1522a07e0a7d13d106c8d9ddea0b18004c76016066387564d6e1032"
+      },
+      {
+        "repo_path": "tests/unit/test_operator_validation_report.py",
+        "sha256": "40b7fdbef80b1a69a94bdcc53a365f48563b27f7d8565dd279bc55d6d14e7ae0"
+      },
+      {
+        "repo_path": "tests/unit/test_phase3_validation.py",
+        "sha256": "d6dc9985c72f79f0d99041db524b0146f57402d4168329f584fe00480f4b32a5"
+      },
+      {
+        "repo_path": "tests/unit/test_probabilistic_phase5.py",
+        "sha256": "22db969760c36edc0933ffbbf0dcf4a595798763e5fea30ce6587c0ec01ec6c3"
+      },
+      {
+        "repo_path": "tests/unit/test_provenance.py",
+        "sha256": "ab7f19a49b02fe6d45f65424e4072f9ec7b4ee4736e48d7806049b81f10ba868"
+      },
+      {
+        "repo_path": "tests/unit/test_public_api.py",
+        "sha256": "40864c79a7fea4dbcabe0513691ac67df506456852a3cfbf80b5915c40932eac"
+      },
+      {
+        "repo_path": "tests/unit/test_scientific_acceptance.py",
+        "sha256": "75851e96d4cb5beea7e0c7b3a40ff7cf78bf7bf5513b1cd35f57ab12cda75c37"
+      },
+      {
+        "repo_path": "tests/unit/test_soe_audit.py",
+        "sha256": "ca383d766d00cfc0f0d7ff01405d00e5c7aa57cbfa21cfc9c8b7384b18db97df"
+      },
+      {
+        "repo_path": "tests/unit/test_soe_recursive.py",
+        "sha256": "d4adf1a153f7166eb3c1e3ec8504a7b4272a8f032000a62e7c79ed659893282c"
+      },
+      {
+        "repo_path": "tests/unit/test_solver_info_export.py",
+        "sha256": "2918b8d75f0e31010a74d1e3ede738581d97b282688848ea92b195379c21e356"
+      },
+      {
+        "repo_path": "tests/unit/test_solver_input_validation.py",
+        "sha256": "56b9b94fd30230cdc75be576072972307b3960cec50f089fcced1eec2c0b745e"
+      },
+      {
+        "repo_path": "tests/unit/test_solver_normalization.py",
+        "sha256": "8160fedd6970e8530075979bbf552675a7b240d828b6b8f9c8427c9bdaaafeb7"
+      },
+      {
+        "repo_path": "tests/unit/test_solver_validation_report.py",
+        "sha256": "65d935fe9e717f40ccbd0beac118ccd22e9c948e3f587db17c950fda0d2d9706"
+      },
+      {
+        "repo_path": "tests/unit/test_stable_implicit_precision.py",
+        "sha256": "24dd9fb4bb7282ffee1197a4174ce6ff5a22bbda2e790df43c12ecaa0f13b7cf"
+      },
+      {
+        "repo_path": "tests/unit/test_subdivision_comparison.py",
+        "sha256": "41b445be4bd166478559e3382da5c5a8c9943dc529b0ba9dc4001d7561d61e50"
+      },
+      {
+        "repo_path": "tests/unit/test_subdivision_runtime.py",
+        "sha256": "06bf6835c036abae0ef99fb0063e7443fc5dc55b70283c4799f920f4a3ef6929"
+      },
+      {
+        "repo_path": "tests/unit/test_subdivision_stress.py",
+        "sha256": "a0395b02e21028a5272ea19809dfb109cf3ab8a1960b2080447fff44c0a94cfd"
+      },
+      {
+        "repo_path": "tests/unit/test_uniform_weight_report.py",
+        "sha256": "a4dfbc3ad55dd3d27ab180e93cff5787776eb824e865cef179ebb537dd9b9371"
+      },
+      {
+        "repo_path": "tests/unit/test_uniform_weights.py",
+        "sha256": "dd997a91069a0fa8cae9d89713d5b08de26eeaf80ff580df5fd143f33bddfb75"
+      },
+      {
+        "repo_path": "tests/unit/test_vector_orders.py",
+        "sha256": "9059f7c36d4f5cbaaeb7eedaeb98fbe908bdb1d46b70131a390eac53752902ab"
+      },
+      {
+        "repo_path": "tests/unit/test_volterra_arithmetic.py",
+        "sha256": "6789c254fa0e4eab5152e926212f44b96c2d23726689123fb07fb379e098155b"
+      },
+      {
+        "repo_path": "tests/unit/test_volterra_defect.py",
+        "sha256": "c136ba5917662c39a64e9821916bbf6af21d2cc3867e5ad2994a96fc505c69a0"
+      },
+      {
+        "repo_path": "tests/unit/test_windowed_history.py",
+        "sha256": "ed9f62bdd17ad04f9f37bd980a4e9ba397ccd0439f77cc503436ee3997045901"
+      },
+      {
+        "repo_path": "tests/unit/test_windowed_history_report.py",
+        "sha256": "c0d328bdee4947a587e4490cb74350de0d000b07af4f45953c1900c0c30a74bd"
+      },
+      {
+        "repo_path": "uv.lock",
+        "sha256": "5f138c397f98f325c2bffcda43ffdb4e51d2a85a931ca21d93b28860e74ebb7b"
+      }
+    ]
+  },
+  "packet_refs": [
+    "fixtures.json",
+    "comparison-policies.json",
+    "record-schemas.json",
+    "packet-notes.md",
+    "schema-control-contract.md",
+    "schema-control-fixtures.json"
+  ],
+  "lineage": {
+    "failed_archive": "initial-contract-reviews-failed.tar.gz",
+    "failed_archive_sha256": "3b6b397ce0c92efe726360623e3860f8e5c5c8850be11dca0fe129864c3225fb",
+    "preservation": "initial-contract-reviews-preservation.json",
+    "original_protocol_sha256": "331d0d72ade81c242475bc9b3b1a0d37b4c3393251661e5b113bcbb0d48dd066",
+    "old_reviews_remain_failed": true,
+    "corrected_failed_archive": "corrected-contract-reviews-failed.tar.gz",
+    "corrected_failed_archive_sha256": "d44c2b69c29f2e88862d5380c188f1855798131a1b34ddaf4736d4ac34a81616",
+    "repair_cycle": "2_of_2_final_preparation_only"
+  }
+}

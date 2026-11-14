@@ -1,0 +1,20 @@
+{
+  "archive": "reviewed-status-before-rejection.tar.gz",
+  "bytes": 56960,
+  "sha256": "b99dab9a81686f7cbcbbe2be44148dced4fe8b60e18eac99104b1ec0f03d3ec9",
+  "members_verified": 3,
+  "files": {
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 37219,
+      "sha256": "054f4671147179c7cf14106b96e1b424a2a3009b9e11dbb5554f3f6b34ed412c"
+    },
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 121776,
+      "sha256": "1003592d98d2fe5fcd1545c1a0ed04ebb0061c4fd97cfe8a42c77ca6ed0bef0b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 5749,
+      "sha256": "c856ee0a70c48efc61bc7c7372edc16e8522d79be07296d77efb51aa64fd5e81"
+    }
+  }
+}

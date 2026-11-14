@@ -1,0 +1,26 @@
+{
+  "recorded_at_utc": "2026-11-13T22:30:23Z",
+  "owner_reply": "okay, good progress. approved.",
+  "finding_id": "CAP-AUTH-TYPE-01",
+  "tracker_id": "VAL-017",
+  "authorized_scope": "One bounded type-preserving fixed-authority authentication repair, regression tests for the preserved counterexamples, unchanged valid artifacts and fresh independent review.",
+  "repair_cycle": 1,
+  "source_change_boundary": "Change only the private frozen_case.py identity predicates and a minimal local comparison helper as needed. Keep a2_trace.py and all original tests, schemas, fixtures, authorities and numerical sources unchanged. Add separate regression/verification tests and captured proof.",
+  "identity_boundary": "Enforce both types and values for the authenticated nested case, witness bundle and working-scalar structures. Do not coerce or normalize malformed types into the expected representation.",
+  "required_red": "Reproduce the preserved integer/boolean and integer/float counterexamples as real failing rejection tests before editing the candidate helper.",
+  "required_regressions": "All existing 59 prior selections, 66 new-case checks and the additional artifact equality test; preserve the complete valid canonical traces and every emitted body for REF-PASS-f64-GL, REF-FAIL-f64-GL and CAP-after-qualifier-f64-GL.",
+  "historical_rejection_boundary": "The rejected source, failed verdict, all counterexamples, blocked records and original proof archives remain immutable. A later correction cannot relabel their outcomes.",
+  "parent_status_updates_allowed": [
+    "docs/developer/phase-a-completion.md",
+    "docs/developer/bug-resolution-tracker.md",
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md"
+  ],
+  "fresh_independent_review_required": true,
+  "automatic_further_source_repair_after_failed_rereview": false,
+  "numerical_source_or_new_worker_fitter_ad_execution_authorized": false,
+  "scientific_criteria_caps_schema_or_fixture_changes_authorized": false,
+  "protocol_freeze_a2_acceptance_or_phase_closure_authorized": false,
+  "commit_push_or_release_authorized": false,
+  "safety_settings_changes_authorized": false,
+  "privacy_boundary": "Explicit task-input proof only. Keep messaging receipts private and outside every repository/evidence capture closure. Stream large archive members rather than inflating whole containers into per-file scans."
+}

@@ -1,0 +1,19 @@
+{
+  "archive": "pre-repair-status.tar.gz",
+  "bytes": 58754,
+  "sha256": "ae8240773346a1c8c7b0c51e80b3a720222317ad8dbc9a3cdb5ebf37241922fd",
+  "files": {
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 38192,
+      "sha256": "d907c7ea1797cfef56569a08cfa659fbf95557ec739bdc82ab014773b6914ca9"
+    },
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 124224,
+      "sha256": "e31cda473cd8feeb73c6f1515dd45912c1f3609c321c5d206af14811ecccf640"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 7856,
+      "sha256": "7963851dc2247abf66c3592e3d27e838bc9337eb1120b1836000efddca4fdac3"
+    }
+  }
+}

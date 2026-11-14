@@ -1,0 +1,12 @@
+{
+  "status": "PARENT SELF-VERIFICATION; independent review pending",
+  "original_members": 457,
+  "retained_members": 449,
+  "omitted_members": 8,
+  "retained_bodies_byte_identical": true,
+  "all_original_members_partitioned_once": true,
+  "original_digest_unchanged": true,
+  "protected_files_unchanged": 189,
+  "inventory_sha256": "2164616b90e50bb961c3e45a9e1e15d6fc1b242a0c5c97ec53c258b32ea3e525",
+  "derivative_sha256": "26b0c4b4ccf59e415c9631471e01713ab8b27feda9351b077f831c557b981ff2"
+}

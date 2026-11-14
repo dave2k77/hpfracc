@@ -1,0 +1,106 @@
+{
+  "protocol_id": "a2-glrl-exact-reference-v1-draft",
+  "status": "corrected_DRAFT_pending_independent_FINAL_review_and_owner_approval",
+  "path_base": "repository_root",
+  "implementation_authorized": false,
+  "a2_acceptance_passed": false,
+  "total_numerical_certified": false,
+  "arithmetic_verified": false,
+  "files": [
+    {
+      "repo_path": "docs/developer/a2-compression-budget-protocol.md",
+      "bytes": 28257,
+      "sha256": "f1a62214e8636f4e8f4862c0824f40e0fe546e5430eee9f8ce6740ae3e5cca03"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/protocol.json",
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/fixtures.json",
+      "bytes": 8083480,
+      "sha256": "7c50cf5a7ff86a1875f3324d413cc3f11fe6c63f4e1acd7633bf89f564b951e5"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/comparison-policies.json",
+      "bytes": 15346,
+      "sha256": "b40bf84e1d80307fed190c0beb8f4d2fce7883b8d50a7da37d6adf07010bbcbf"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/record-schemas.json",
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/packet-notes.md",
+      "bytes": 12569,
+      "sha256": "725622f3a90ce0f3569987149e0f742238c2e655196efe76146d616649d98469"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/schema-control-contract.md",
+      "bytes": 21012,
+      "sha256": "516d46e749ff1a8fe37fb171f50e0eebe9b14c93cbba185f879e1f5e5e5278a1"
+    },
+    {
+      "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/schema-control-fixtures.json",
+      "bytes": 1907286,
+      "sha256": "696b6b22d4d5e9b18c29ce9c6eb0eac4534404860c4221aae0344faea5a25e60"
+    }
+  ],
+  "self_hash_excluded": true,
+  "closed_planning_counts": {
+    "cases": 560,
+    "arrays": 840,
+    "candidate_specs": 160,
+    "parse_controls": 10,
+    "groups": {
+      "EXACT-GRID": 204,
+      "FIT-REAL": 32,
+      "REF-CAPS": 28,
+      "REF-CORE": 16,
+      "REF-EDGES": 148,
+      "REF-RANK": 100,
+      "REF-SIGNAL": 16,
+      "SCHEMA-CONTROLS": 16
+    },
+    "identity_controls": 4,
+    "required_evidence_slots": 24336,
+    "max_slots_per_case": 954,
+    "working_comparison_slots": 1312,
+    "future_real_candidate_specs": 12,
+    "fit_identity_check_slots": 1056,
+    "candidate_free_full_observations": 64
+  },
+  "preserved_failed_review_archive": {
+    "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/initial-contract-reviews-failed.tar.gz",
+    "sha256": "3b6b397ce0c92efe726360623e3860f8e5c5c8850be11dca0fe129864c3225fb"
+  },
+  "preservation_record": {
+    "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/initial-contract-reviews-preservation.json",
+    "sha256": "6f5bc48c981c9f39bbdf3bf453e475ca612564911f306ed0294985e121d72b07"
+  },
+  "not_execution_evidence": true,
+  "repair_cycle": "2_of_2_FINAL_preparation_only",
+  "corrected_failed_review_archive": {
+    "repo_path": "docs/validation/audits/a2-preparation-2026-11-11/corrected-contract-reviews-failed.tar.gz",
+    "sha256": "d44c2b69c29f2e88862d5380c188f1855798131a1b34ddaf4736d4ac34a81616"
+  },
+  "schema_control_witnesses": {
+    "linked_hypothetical_bundles": 17,
+    "typed_status_witnesses": 38,
+    "future_full_bindings": 64,
+    "root_variants": 17,
+    "structural_negative_controls": 37,
+    "semantic_tamper_controls": 12,
+    "label": "STATIC/HYPOTHETICAL REPRESENTABILITY ONLY; NOT ACTUAL WORKER/PROCESS/FITTER OUTPUTS"
+  },
+  "resource_limit_disclosure": {
+    "input_max_bytes": 183673,
+    "index_single_max_bytes": 446741,
+    "index_transaction_max_bytes": 792318,
+    "bounded_preflight_refusals": 8,
+    "template_nodes_max": 36687,
+    "template_depth_max": 7
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "passed": true,
+  "self_verification": "passed",
+  "blockers": [],
+  "finding_id": "CAP-AUTH-TYPE-01",
+  "tracker_id": "VAL-017",
+  "independent_approval": false,
+  "fresh_independent_review": "pending",
+  "source_repair_cycle": 1,
+  "repository_edits": false,
+  "source_delta": "--- original/frozen_case.py\n+++ candidate/frozen_case.py\n@@ -22,6 +22,11 @@\n         raise ValueError('frozen authority ' + message)\n \n \n+def canonical(value):\n+    return json.dumps(value, sort_keys=True, separators=(',', ':'),\n+                      ensure_ascii=True, allow_nan=False).encode('utf-8')\n+\n+\n def authenticate(authority):\n     loaded = {}\n     for name, pin in PINS.items():\n@@ -34,9 +39,11 @@\n     case = next(x for x in fixture['cases'] if x['case_id'] == CASE)\n     bundle = next(x for x in controls['bundles']\n                   if x['witness_id'] == 'afterqual-' + CASE)\n-    need(authority['case'] == case and authority['bundle'] == bundle,\n+    need(canonical(authority['case']) == canonical(case)\n+         and canonical(authority['bundle']) == canonical(bundle),\n          'mechanical case/witness slice')\n-    need(authority['working_scalars'] == fixture['working_scalars']\n+    need(canonical(authority['working_scalars']) ==\n+         canonical(fixture['working_scalars'])\n          and authority['label'] == controls['label']\n          and authority['packet_digest'] ==\n          controls['hypothetical_external_packet_sha256'],\n",
+  "source_pins": {
+    "original_frozen_case": {
+      "bytes": 4021,
+      "sha256": "93354458e3633a1bd198049b265a6eb9d3582df9ec5d31d5d87006e24119462b"
+    },
+    "corrected_frozen_case": {
+      "bytes": 4271,
+      "sha256": "f18113b7d05469e7cd657f8ef522114dcc6f6a175c3c60a32f55c21c44370c43"
+    },
+    "unchanged_a2_trace": {
+      "bytes": 35284,
+      "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+    }
+  },
+  "outcomes": {
+    "tdd": {
+      "red_exit": 1,
+      "green_exit": 0,
+      "same_test_bytes": true,
+      "preserved_seams_real_did_not_raise": 9,
+      "total_did_not_raise": 26,
+      "sibling_verifier_typeerror": 1,
+      "green_passes": 27
+    },
+    "regression_count": 126,
+    "regression_counts": [
+      27,
+      32,
+      66,
+      1
+    ],
+    "original_probe_exits": {
+      "before": 2,
+      "after": 0
+    },
+    "posthoc_defensive_passes": 8,
+    "isolated_mutation_failures": {
+      "case": 6,
+      "bundle": 9,
+      "scalar": 9
+    },
+    "full_original_reversion_failures": 27,
+    "mutation_survivors": [],
+    "inconclusive_mutants": [],
+    "all_three_canonical_artifacts_equal": true,
+    "body_counts": {
+      "REF-PASS": 38,
+      "REF-FAIL": 27,
+      "CAP": 28
+    }
+  },
+  "lint": {
+    "baseline_findings": 106,
+    "candidate_findings": 106,
+    "new_helper_findings": 0,
+    "inherited_capture_E501": 1,
+    "comparison": "Same filenames, config, version; rule/message/source context",
+    "main_repository_lint": "Not run; outside this scratch-only scope"
+  },
+  "privacy": {
+    "passed": true,
+    "files_scanned": 1629,
+    "bytes_scanned": 343894752,
+    "findings": [],
+    "security_findings": [],
+    "static_sources": [
+      "provision.py",
+      "test_typed_identity.py",
+      "run_selected.py",
+      "plan_jobs.py",
+      "artifact_proof.py",
+      "test_defensive_identity.py",
+      "plan_proofs.py",
+      "env_probe.py",
+      "scan_proof.py",
+      "verify_runs.py",
+      "finalize.py",
+      "plan_quality.py",
+      "fetch_lint.py",
+      "plan_final.py",
+      "candidate/frozen_case.py"
+    ],
+    "positive_control": {
+      "synthetic_only": true,
+      "recursive_gzip_tar_detected": true
+    },
+    "synthetic_structured_field_detected": true,
+    "synthetic_credential_pattern_detected": true,
+    "synthetic_unsafe_call_detected": true,
+    "bounds": {
+      "per_file_bytes": 100000000,
+      "aggregate_bytes": 2000000000,
+      "file_count": 10000,
+      "recursive_scanner_depth": 8
+    },
+    "archives_in_this_closure": 0,
+    "limits": [
+      "Explicit owned task closure only; no private-store reads.",
+      "Local paths and hostnames remain; no private identity matching.",
+      "Pattern/field/static scanning is not universal privacy approval.",
+      "Administrative scanner bounds are not numerical protocol caps.",
+      "Original large archives are pinned, not inflated or rescanned."
+    ]
+  },
+  "protection": {
+    "before": "protection-before/result.json",
+    "after": "protection-after/result.json",
+    "immutable_files_verified_each_time": 930,
+    "copied_inputs_verified_each_time": 87,
+    "git_stage_encoding": "git ls-files --stage -z raw bytes"
+  },
+  "evidence": {
+    "raw_runs": "runs/",
+    "verification": "verification.json",
+    "source_diff": "source-final.diff",
+    "jobs": "jobs/",
+    "preserved_failed_verdict": "preserved/rejected-verdict.json",
+    "privacy_inputs": "privacy-inputs.json"
+  },
+  "limitations": [
+    "Self-verification only; fresh independent review remains required and pending.",
+    "One owner-approved predicate repair; no automatic repair after failed re-review.",
+    "Only three static local cases; no general arbitrary-authority service or OS attestation.",
+    "No new numerical worker, fitter, AD, FIT-REAL observation, protocol freeze or A2 closure.",
+    "Candidate 1 unknown calculations and observations remain absent.",
+    "106 unchanged archived checker/test lint findings and inherited earlier capture E501 remain.",
+    "Main repository lint/full numerical suites were not run; repository was not edited.",
+    "Privacy is bounded explicit-closure pattern/field/static scanning, not universal clearance.",
+    "Raw local paths/hostnames remain; no private identity matching or messaging-store reads.",
+    "Positive golden file is pretty JSON; equality is complete canonical bytes and every body.",
+    "One preserved proof-helper formatting-assumption failure and one read-only XML diagnostic assertion failure are disclosed; no failed attempt was removed.",
+    "No commit, push, release, phase closure or independent approval is claimed."
+  ]
+}

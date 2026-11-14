@@ -1,0 +1,4037 @@
+{
+  "passed": true,
+  "role": "author implementation and self-verification",
+  "independent_approval": false,
+  "independent_review_pending": true,
+  "case_id": "CAP-after-qualifier-f64-GL",
+  "repository_writes": false,
+  "implementation_authorized": false,
+  "a2_acceptance_passed": false,
+  "total_numerical_certified": false,
+  "worker_fitter_ad_execution": false,
+  "protocol_frozen": false,
+  "phase_closed": false,
+  "commit_push": false,
+  "checkpoint": "after_candidate_index_0_commit_before_candidate_index_1",
+  "checkpoint_role": "declared cooperative STATIC/HYPOTHETICAL primitive_cap fault, not an OS kill or measured cap exhaustion",
+  "outcome": {
+    "status": "indeterminate",
+    "selected_id": null,
+    "reasons": [
+      "primitive_cap"
+    ],
+    "required_slots": 22,
+    "complete_slots": 13,
+    "unknown_slots": 9,
+    "json_records": 26,
+    "raw_logs": 2,
+    "process_exit": "hypothetical normal confirmed 0"
+  },
+  "tdd": {
+    "red": "runs/red-01",
+    "red_child_exit": 1,
+    "red_cause": "ValueError: wrong fixed authority",
+    "first_green": "runs/green-01",
+    "final_green": "runs/controls-complete",
+    "boundary_red": "runs/boundary-red",
+    "boundary_red_limit": "Four flag controls already refused by schema; their RED was diagnostic-message mismatch, not missing refusal. The two nonzero counter controls were missing semantic refusals.",
+    "defensive_controls": "posthoc/mutation evidence, not TDD"
+  },
+  "regressions": {
+    "prior_selections": 59,
+    "unchanged_original_trace_routing": 26,
+    "unchanged_nonqualifier_semantics": 31,
+    "unchanged_derivation_equality": 2,
+    "positive_bodies": 38,
+    "negative_bodies": 27,
+    "both_canonical_traces_equal": true
+  },
+  "final_new_selection": {
+    "collected": 66,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "identities": [
+      {
+        "classname": "test_cap_after",
+        "name": "test_after_qualifier_preserves_known_and_unknown_with_closed_bytes",
+        "time": "0.131"
+      },
+      {
+        "classname": "test_cap_after",
+        "name": "test_static_boundary_is_immutable_after_resigning[implementation_authorized]",
+        "time": "0.085"
+      },
+      {
+        "classname": "test_cap_after",
+        "name": "test_static_boundary_is_immutable_after_resigning[a2_acceptance_passed]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_cap_after",
+        "name": "test_static_boundary_is_immutable_after_resigning[arithmetic_verified]",
+        "time": "0.080"
+      },
+      {
+        "classname": "test_cap_after",
+        "name": "test_static_boundary_is_immutable_after_resigning[total_numerical_certified]",
+        "time": "0.085"
+      },
+      {
+        "classname": "test_cap_after",
+        "name": "test_static_boundary_is_immutable_after_resigning[primitive_count]",
+        "time": "0.078"
+      },
+      {
+        "classname": "test_cap_after",
+        "name": "test_static_boundary_is_immutable_after_resigning[max_normalized_bits]",
+        "time": "0.079"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[selected-known]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[no-qualifier]",
+        "time": "0.085"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[minimum-unknown]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[ineligible]",
+        "time": "0.085"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[rejected]",
+        "time": "0.085"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[qualifying]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[missing-assessment]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[missing-preinventory]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[qualifies]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[assessment-reason]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[assessment-occurrence]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[missing-slot]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[missing-index]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-reason]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-mode]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-occurrence]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-exact]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-raw]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-binding]",
+        "time": "0.100"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[slot-status]",
+        "time": "0.088"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-reason]",
+        "time": "0.090"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-mode]",
+        "time": "0.088"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-occurrence]",
+        "time": "0.088"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-shape]",
+        "time": "0.089"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-completed]",
+        "time": "0.088"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-artifact]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-complete]",
+        "time": "0.088"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[index-none]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[unknown-array]",
+        "time": "0.082"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[unknown-host]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[known-disappears]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[known-null]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[known-shape]",
+        "time": "0.089"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[known-corruption]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_unknown_and_known_refusals[supplied-copy]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-B]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-analytic_input_gradient]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_route_identity[fresh-X]",
+        "time": "0.082"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_route_identity[fresh-0]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_route_identity[colliding-X]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_route_identity[colliding-0]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_process_lifecycle[exit]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_process_lifecycle[unconfirmed]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_process_lifecycle[kill]",
+        "time": "0.086"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_process_lifecycle[phase]",
+        "time": "0.089"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_process_lifecycle[order]",
+        "time": "0.087"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+        "time": "0.083"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+        "time": "0.085"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+        "time": "0.082"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+        "time": "0.082"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+        "time": "0.084"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+        "time": "0.105"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+        "time": "0.092"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[inline-index-unknown]",
+        "time": "0.092"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_real_charge_omission_with_recomputed_summaries[inline-input-unknown]",
+        "time": "0.092"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_frozen_authority_cannot_be_redefined[case]",
+        "time": "0.042"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_frozen_authority_cannot_be_redefined[checkpoint]",
+        "time": "0.042"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_frozen_authority_cannot_be_redefined[witness]",
+        "time": "0.042"
+      },
+      {
+        "classname": "test_controls",
+        "name": "test_frozen_authority_cannot_be_redefined[expected]",
+        "time": "0.045"
+      }
+    ],
+    "raw": {
+      "bytes": 7506,
+      "sha256": "004bb40d3cdf5c90b8c17484e0baf3fa1367db8da4a282840c17194b0389c89a"
+    }
+  },
+  "checker": {
+    "bytes": 35284,
+    "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+  },
+  "exact_math": {
+    "slots": {
+      "S-X-w": [
+        "1",
+        "-1/2",
+        "-1/8"
+      ],
+      "S-X-g": [
+        "1",
+        "1/2",
+        "3/8"
+      ],
+      "S-X-v": [
+        "1",
+        "0",
+        "0"
+      ],
+      "S-X-D": [
+        "2",
+        "1",
+        "3/4"
+      ],
+      "S-0-g_hat": [
+        "1",
+        "1/2",
+        "3/8"
+      ],
+      "S-0-residual": [
+        "0",
+        "0",
+        "0"
+      ],
+      "S-0-signed_fitted_weights": [
+        "1",
+        "-1/2",
+        "-1/8"
+      ],
+      "S-0-L_hat": [
+        "2",
+        "0",
+        "0",
+        "-1",
+        "2",
+        "0",
+        "-1/4",
+        "-1",
+        "2"
+      ],
+      "S-0-D_hat": [
+        "2",
+        "1",
+        "3/4"
+      ],
+      "S-0-error": [
+        "0",
+        "0",
+        "0"
+      ],
+      "S-0-B": [
+        "0",
+        "0",
+        "0"
+      ],
+      "S-0-epsilon": [
+        "0"
+      ],
+      "S-0-analytic_input_gradient": [
+        "15/8",
+        "5/6",
+        "1"
+      ]
+    },
+    "slot_count": 13,
+    "tau": "0",
+    "epsilon": "0",
+    "bound": [
+      "0",
+      "0",
+      "0"
+    ],
+    "qualifies": true,
+    "unavailable_candidate_arithmetic_performed": false,
+    "unknown_slots": 9,
+    "method": "Fraction from decoded IEEE values; recursive GL coefficients"
+  },
+  "physical_bytes": {
+    "terms": {
+      "input-bundle.json": 7525,
+      "INITIAL_INDEX": 7490,
+      "records/launch.json": 851,
+      "records/request.json": 3732,
+      "records/candidate-0.json": 1343,
+      "records/candidate-1.json": 1306,
+      "records/binding-host-X.json": 2807,
+      "arrays/S-X-w.json": 441,
+      "arrays/S-X-g.json": 439,
+      "arrays/S-X-v.json": 439,
+      "arrays/S-X-D.json": 439,
+      "records/binding-host-0.json": 4093,
+      "arrays/S-0-g_hat.json": 459,
+      "arrays/S-0-residual.json": 465,
+      "arrays/S-0-signed_fitted_weights.json": 493,
+      "arrays/S-0-L_hat.json": 596,
+      "arrays/S-0-D_hat.json": 459,
+      "arrays/S-0-error.json": 459,
+      "arrays/S-0-B.json": 451,
+      "arrays/S-0-epsilon.json": 418,
+      "arrays/S-0-analytic_input_gradient.json": 495,
+      "result.json": 9906,
+      "logs/stdout.bin": 45,
+      "logs/stderr.bin": 45,
+      "records/process.json": 1144,
+      "records/output-control.json": 276,
+      "failure-index.json": 8805,
+      "records/export.json": 561,
+      "run-manifest.json": 3406
+    },
+    "final_live_bytes": 51898,
+    "peak_live_bytes": 55421,
+    "cumulative_written_bytes": 59388,
+    "index_transaction_bytes": 18276,
+    "temporary_bytes_charged": 8805,
+    "old_index_bytes_charged": 7490
+  },
+  "parse_maxima": {
+    "max_parse_nodes": 1004,
+    "max_parse_depth": 9
+  },
+  "mutations": {
+    "mutants": [
+      {
+        "mutant": "exhaustive-result",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "unknown-assessment",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "unknown-payload",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "unknown-index",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "supplied-copy",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "exact-values",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "binding-route",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "lifecycle",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "byte-ledger",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>",
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "authority",
+        "outcome": "killed",
+        "actual_child_exit": 1,
+        "failure_messages": [
+          "Failed: DID NOT RAISE <class 'ValueError'>"
+        ]
+      },
+      {
+        "mutant": "inventory-defense",
+        "outcome": "survived",
+        "actual_child_exit": 0,
+        "failure_messages": []
+      }
+    ],
+    "counts": {
+      "killed": 10,
+      "survived": 1
+    },
+    "initial_inventory_defense_attempt": "inconclusive: schema-invalid empty returned list caused regex failure; preserved; final corrected structural control survived because the independent unavailable-binding guard still refuses it"
+  },
+  "additional_charge_mutant_failures": 9,
+  "lint": {
+    "baseline_findings": 108,
+    "candidate_findings": 106,
+    "introduced_rule_context": [],
+    "removed_rule_context": [
+      [
+        "a2_trace.py",
+        "E501",
+        "assessment['slots'] = [copy.deepcopy(records['arrays/' + s['slot_id'] + '.json'])"
+      ],
+      [
+        "a2_trace.py",
+        "E501",
+        "need(records['records/candidate-' + str(i) + '.json'] == request['candidates'][i],"
+      ]
+    ],
+    "all_authored_helpers_exit": 0,
+    "repository_lint_exit": 0,
+    "inherited_capture_helper_exit": 1,
+    "baseline_and_candidate_ruff_child_exits": [
+      1,
+      1
+    ],
+    "limitation": "Inherited archived checker/tests remain lint-failing; repository-source snapshot lint is a separate command."
+  },
+  "privacy_scan_passed": true,
+  "protected_files_verified_before_after": 901,
+  "git_head": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+  "git_stage_sha256": "929fab19d907eeecd4c68b819858a5c8e159cf70677a7f5c672e1053b9e940f9",
+  "runs": {
+    "baseline-positive": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_trace",
+            "name": "test_one_trace_has_independently_closed_ledger",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[logs/stdout.bin]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[run-manifest.json]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[INITIAL_INDEX]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[failure-index.json]",
+            "time": "0.023"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[unknown]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[wrong-winner]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[exit-unconfirmed]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[descriptor-shape]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[mode]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[alpha]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[slot-shape]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-X-D]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-D_hat]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-1-analytic_input_gradient]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-B]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inconsistent_conditional_phase_is_rejected_after_resigning",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_digest_valid_publication_before_its_binding_is_rejected",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[result]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[assessment]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-X]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-0]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-1]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-X]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-0]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-1]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_equality",
+            "name": "test_positive_entire_canonical_trace_and_every_body_are_unchanged",
+            "time": "0.017"
+          }
+        ],
+        "raw": {
+          "bytes": 3729,
+          "sha256": "cc45d95427eabe01ab7a863ed0aa0275b45d47863ae22e63103e60fd235cbf94"
+        }
+      },
+      "checker": {
+        "bytes": 31334,
+        "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+      },
+      "source_hashes_rechecked": true
+    },
+    "baseline-negative": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_completed_nonqualifier_has_all_exact_slots_and_closed_ledger",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_missing_bound_payload_is_a_semantic_refusal_after_resigning",
+            "time": "0.010"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[missing-assessment]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-qualifies]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-assessment-status]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-result-status]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-selected-id]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-unconfirmed]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-nonzero]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[index-inventory]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[preinventory]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[descriptor-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[slot-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[mode]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[alpha]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-X]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-0]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-X-D]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-D_hat]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-analytic_input_gradient]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_all_false_qualification_fields_cannot_redefine_bound",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[phase]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[logs/stdout.bin]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[run-manifest.json]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[failure-index.json]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_derivation",
+            "name": "test_nonqualifier_authority_is_mechanical_frozen_slice",
+            "time": "0.039"
+          }
+        ],
+        "raw": {
+          "bytes": 3723,
+          "sha256": "eab8cf4f67b677db553aa551da22a339945d706d6094c501afbb1b86fc6fb86a"
+        }
+      },
+      "checker": {
+        "bytes": 31334,
+        "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+      },
+      "source_hashes_rechecked": true
+    },
+    "red-01": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_cap_after",
+            "name": "test_after_qualifier_preserves_known_and_unknown_with_closed_bytes",
+            "time": "0.008"
+          }
+        ],
+        "raw": {
+          "bytes": 1127,
+          "sha256": "2c01f7c5934c768eee95436ab4eb2a299b986420c63ee65607391e206cc013a6"
+        }
+      },
+      "checker": {
+        "bytes": 31334,
+        "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+      },
+      "source_hashes_rechecked": true
+    },
+    "green-01": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_cap_after",
+            "name": "test_after_qualifier_preserves_known_and_unknown_with_closed_bytes",
+            "time": "0.094"
+          }
+        ],
+        "raw": {
+          "bytes": 377,
+          "sha256": "2a4687898c4d113be7cadaa829dfcbbb8f6ffe8bd84a265df0f4be0e252637f8"
+        }
+      },
+      "checker": {
+        "bytes": 34743,
+        "sha256": "4da148ff4ac649b3c8f9ae5d1ac3731b05a3599dd64b0cbe3457a5b5ed6efaa8"
+      },
+      "source_hashes_rechecked": true
+    },
+    "regression-01-positive": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_trace",
+            "name": "test_one_trace_has_independently_closed_ledger",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[logs/stdout.bin]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[run-manifest.json]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[INITIAL_INDEX]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[failure-index.json]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[unknown]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[wrong-winner]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[exit-unconfirmed]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[descriptor-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[mode]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[alpha]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[slot-shape]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-X-D]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-D_hat]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-1-analytic_input_gradient]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-B]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inconsistent_conditional_phase_is_rejected_after_resigning",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_digest_valid_publication_before_its_binding_is_rejected",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[result]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[assessment]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-X]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-0]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-1]",
+            "time": "0.023"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-X]",
+            "time": "0.025"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-0]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-1]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_equality",
+            "name": "test_positive_entire_canonical_trace_and_every_body_are_unchanged",
+            "time": "0.017"
+          }
+        ],
+        "raw": {
+          "bytes": 3729,
+          "sha256": "ad2fb8752f2228c1a5c3b7e0546817d6536d60d19aa5040fe05f763c862e8915"
+        }
+      },
+      "checker": {
+        "bytes": 34743,
+        "sha256": "4da148ff4ac649b3c8f9ae5d1ac3731b05a3599dd64b0cbe3457a5b5ed6efaa8"
+      },
+      "source_hashes_rechecked": true
+    },
+    "regression-01-negative": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 32,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_completed_nonqualifier_has_all_exact_slots_and_closed_ledger",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_missing_bound_payload_is_a_semantic_refusal_after_resigning",
+            "time": "0.010"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[missing-assessment]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-qualifies]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-assessment-status]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-result-status]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-selected-id]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-unconfirmed]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-nonzero]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[index-inventory]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[preinventory]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[descriptor-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[slot-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[mode]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[alpha]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-X]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-0]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-X-D]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-D_hat]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-analytic_input_gradient]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_all_false_qualification_fields_cannot_redefine_bound",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[phase]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[logs/stdout.bin]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[run-manifest.json]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[failure-index.json]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_derivation",
+            "name": "test_nonqualifier_authority_is_mechanical_frozen_slice",
+            "time": "0.036"
+          }
+        ],
+        "raw": {
+          "bytes": 8419,
+          "sha256": "30b1d974c766706a9e0d9237e7f6c2ca1b0e092cda4e0df40f79ac92763d98e9"
+        }
+      },
+      "checker": {
+        "bytes": 34743,
+        "sha256": "4da148ff4ac649b3c8f9ae5d1ac3731b05a3599dd64b0cbe3457a5b5ed6efaa8"
+      },
+      "source_hashes_rechecked": true
+    },
+    "boundary-red": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 6,
+        "failures": 6,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[implementation_authorized]",
+            "time": "0.115"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[a2_acceptance_passed]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[arithmetic_verified]",
+            "time": "0.080"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[total_numerical_certified]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[primitive_count]",
+            "time": "0.097"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[max_normalized_bits]",
+            "time": "0.091"
+          }
+        ],
+        "raw": {
+          "bytes": 14456,
+          "sha256": "ec330c0a5d920c0d0fe91ee05a12d3a9d12580bcc4a09d36f2c0c40a548647c0"
+        }
+      },
+      "checker": {
+        "bytes": 34873,
+        "sha256": "3af1b3b2ad11d7d692c746f049b445404b26bac32e406d11ba1c4dc17428a26a"
+      },
+      "source_hashes_rechecked": true
+    },
+    "controls-01": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 62,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_cap_after",
+            "name": "test_after_qualifier_preserves_known_and_unknown_with_closed_bytes",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[implementation_authorized]",
+            "time": "0.080"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[a2_acceptance_passed]",
+            "time": "0.079"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[arithmetic_verified]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[total_numerical_certified]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[primitive_count]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[max_normalized_bits]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[selected-known]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[no-qualifier]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[minimum-unknown]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[ineligible]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[rejected]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifying]",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-assessment]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifies]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[assessment-reason]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[assessment-occurrence]",
+            "time": "0.093"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-slot]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-index]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-reason]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-mode]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-occurrence]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-exact]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-raw]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-binding]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-reason]",
+            "time": "0.109"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-mode]",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-occurrence]",
+            "time": "0.097"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-shape]",
+            "time": "0.095"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-completed]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-artifact]",
+            "time": "0.099"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-complete]",
+            "time": "0.097"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-none]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-array]",
+            "time": "0.100"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-host]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-disappears]",
+            "time": "0.091"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-null]",
+            "time": "0.098"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-shape]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-corruption]",
+            "time": "0.095"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[supplied-copy]",
+            "time": "0.105"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-B]",
+            "time": "0.099"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-analytic_input_gradient]",
+            "time": "0.098"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-X]",
+            "time": "0.100"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-0]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-X]",
+            "time": "0.095"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-0]",
+            "time": "0.099"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[exit]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[unconfirmed]",
+            "time": "0.095"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[kill]",
+            "time": "0.095"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[phase]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[order]",
+            "time": "0.095"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+            "time": "0.097"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+            "time": "0.097"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+            "time": "0.093"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[case]",
+            "time": "0.068"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[checkpoint]",
+            "time": "0.048"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[witness]",
+            "time": "0.049"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[expected]",
+            "time": "0.049"
+          }
+        ],
+        "raw": {
+          "bytes": 7027,
+          "sha256": "ce45bc5989e5048cbe8d3a1459fc592386b852325360ad1ec944a7d159d69c80"
+        }
+      },
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "regression-02-positive": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_trace",
+            "name": "test_one_trace_has_independently_closed_ledger",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[logs/stdout.bin]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[run-manifest.json]",
+            "time": "0.027"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[INITIAL_INDEX]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[failure-index.json]",
+            "time": "0.022"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[unknown]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[wrong-winner]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[exit-unconfirmed]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[descriptor-shape]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[mode]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[alpha]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[slot-shape]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-X-D]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-D_hat]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-1-analytic_input_gradient]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-B]",
+            "time": "0.018"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inconsistent_conditional_phase_is_rejected_after_resigning",
+            "time": "0.025"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_digest_valid_publication_before_its_binding_is_rejected",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[result]",
+            "time": "0.028"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[assessment]",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-X]",
+            "time": "0.026"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-0]",
+            "time": "0.025"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-1]",
+            "time": "0.024"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-X]",
+            "time": "0.023"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-0]",
+            "time": "0.023"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-1]",
+            "time": "0.023"
+          },
+          {
+            "classname": "test_equality",
+            "name": "test_positive_entire_canonical_trace_and_every_body_are_unchanged",
+            "time": "0.019"
+          }
+        ],
+        "raw": {
+          "bytes": 3729,
+          "sha256": "353b7e95946941ba098cafba3310fa9c3e141a37b61d41c0d4b1b7f08830d5c5"
+        }
+      },
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "regression-02-negative": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_completed_nonqualifier_has_all_exact_slots_and_closed_ledger",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_missing_bound_payload_is_a_semantic_refusal_after_resigning",
+            "time": "0.010"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[missing-assessment]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-qualifies]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-assessment-status]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-result-status]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-selected-id]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-unconfirmed]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-nonzero]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[index-inventory]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[preinventory]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[descriptor-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[slot-shape]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[mode]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[alpha]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-0]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-X-D]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-D_hat]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-analytic_input_gradient]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_all_false_qualification_fields_cannot_redefine_bound",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[phase]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[logs/stdout.bin]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[run-manifest.json]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[failure-index.json]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_derivation",
+            "name": "test_nonqualifier_authority_is_mechanical_frozen_slice",
+            "time": "0.035"
+          }
+        ],
+        "raw": {
+          "bytes": 3723,
+          "sha256": "f94815434d467520469c1d65a1a7ea94b0da50fc7b29e8dbb64cc6293758a61a"
+        }
+      },
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "physical-replay": {
+      "actual_child_exit": 0,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "read-guard-control": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "missing-authority.json": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "missing-record-schemas.json": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "missing-protocol.json": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "missing-trace.json": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "negative-equality": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_old_equality",
+            "name": "test_nonqualifier_all_bytes_remain_unchanged",
+            "time": "0.015"
+          }
+        ],
+        "raw": {
+          "bytes": 358,
+          "sha256": "344053c131a9ebbddaf5781d9501a4423e175ac24e77d509b761b8b8de5952b7"
+        }
+      },
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "lint-baseline": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 31334,
+        "sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a"
+      },
+      "source_hashes_rechecked": true
+    },
+    "lint-candidate": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35234,
+        "sha256": "d14bb5876bcd8741f5e61a079f7f962213469881c5e87bc8d095d484b6d9f9db"
+      },
+      "source_hashes_rechecked": true
+    },
+    "lint-new": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "controls-final": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 64,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_cap_after",
+            "name": "test_after_qualifier_preserves_known_and_unknown_with_closed_bytes",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[implementation_authorized]",
+            "time": "0.078"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[a2_acceptance_passed]",
+            "time": "0.079"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[arithmetic_verified]",
+            "time": "0.081"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[total_numerical_certified]",
+            "time": "0.077"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[primitive_count]",
+            "time": "0.079"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[max_normalized_bits]",
+            "time": "0.080"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[selected-known]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[no-qualifier]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[minimum-unknown]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[ineligible]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[rejected]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifying]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-assessment]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-preinventory]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifies]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[assessment-reason]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[assessment-occurrence]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-slot]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-index]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-reason]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-mode]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-occurrence]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-exact]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-raw]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-binding]",
+            "time": "0.100"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-status]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-reason]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-mode]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-occurrence]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-shape]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-completed]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-artifact]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-complete]",
+            "time": "0.091"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-none]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-array]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-host]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-disappears]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-null]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-shape]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-corruption]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[supplied-copy]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-B]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-analytic_input_gradient]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-X]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-0]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-X]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-0]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[exit]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[unconfirmed]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[kill]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[phase]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[order]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+            "time": "0.107"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+            "time": "0.093"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[case]",
+            "time": "0.044"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[checkpoint]",
+            "time": "0.046"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[witness]",
+            "time": "0.044"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[expected]",
+            "time": "0.044"
+          }
+        ],
+        "raw": {
+          "bytes": 7242,
+          "sha256": "98f49c32946eb5d3d3218373369561ee50df4bdf1de6117fb01f5cd4b999f40c"
+        }
+      },
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "regression-final-positive": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_trace",
+            "name": "test_one_trace_has_independently_closed_ledger",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[logs/stdout.bin]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[run-manifest.json]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[INITIAL_INDEX]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_omitted_charge_with_recomputed_totals_is_rejected[failure-index.json]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[unknown]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[wrong-winner]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_invalid_success_is_rejected_after_outer_hashes_are_rebuilt[exit-unconfirmed]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[descriptor-shape]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[mode]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[alpha]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inner_binding_fault_is_rejected_with_valid_outer_hashes[slot-shape]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-X-D]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-D_hat]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-1-analytic_input_gradient]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_false_exact_payload_is_rejected_even_after_descriptor_rebinding[S-0-B]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_inconsistent_conditional_phase_is_rejected_after_resigning",
+            "time": "0.019"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_digest_valid_publication_before_its_binding_is_rejected",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[result]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_trace",
+            "name": "test_fixed_success_cannot_carry_a_failure_reason[assessment]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-X]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-0]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[duplicate-1]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-X]",
+            "time": "0.020"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-0]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_a2_routing",
+            "name": "test_existing_binding_route_matches_resigned_binding_id[fresh-1]",
+            "time": "0.021"
+          },
+          {
+            "classname": "test_equality",
+            "name": "test_positive_entire_canonical_trace_and_every_body_are_unchanged",
+            "time": "0.017"
+          }
+        ],
+        "raw": {
+          "bytes": 3729,
+          "sha256": "b40eb0114f438a6bfb522d8a30bd677c1395befeb74b4b81c308cbbc6c9f005e"
+        }
+      },
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "regression-final-negative": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_completed_nonqualifier_has_all_exact_slots_and_closed_ledger",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_a2_nonqualifier",
+            "name": "test_missing_bound_payload_is_a_semantic_refusal_after_resigning",
+            "time": "0.010"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[unknown]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[missing-assessment]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-qualifies]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-assessment-status]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-result-status]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[forged-selected-id]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-unconfirmed]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_completion_refusals[exit-nonzero]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[index-inventory]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[preinventory]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[descriptor-shape]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[slot-shape]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[mode]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_inventory_and_binding_refusals[alpha]",
+            "time": "0.014"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[fresh-0]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-X]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_binding_route[colliding-0]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-X-D]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-D_hat]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-analytic_input_gradient]",
+            "time": "0.016"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_false_exact_payload_with_rebuilt_descriptor[S-0-B]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_all_false_qualification_fields_cannot_redefine_bound",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[phase]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_lifecycle_refusals[publication]",
+            "time": "0.015"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[logs/stdout.bin]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[run-manifest.json]",
+            "time": "0.012"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[INITIAL_INDEX]",
+            "time": "0.017"
+          },
+          {
+            "classname": "test_semantics",
+            "name": "test_missing_actual_charge_recomputed_totals[failure-index.json]",
+            "time": "0.013"
+          },
+          {
+            "classname": "test_derivation",
+            "name": "test_nonqualifier_authority_is_mechanical_frozen_slice",
+            "time": "0.035"
+          }
+        ],
+        "raw": {
+          "bytes": 3723,
+          "sha256": "426be0689abf8ea2c387cb59acdb9e68720b0d6c34ba9b17db2dce0376bf5dc0"
+        }
+      },
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "physical-replay-final": {
+      "actual_child_exit": 0,
+      "junit": null,
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "negative-equality-final": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_old_equality",
+            "name": "test_nonqualifier_all_bytes_remain_unchanged",
+            "time": "0.014"
+          }
+        ],
+        "raw": {
+          "bytes": 358,
+          "sha256": "bfd75d96015904bb6c1dab280f408381544b808b597fb352c5efdbbf30a49ffb"
+        }
+      },
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "lint-candidate-final": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "lint-new-final": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "controls-complete": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 66,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_cap_after",
+            "name": "test_after_qualifier_preserves_known_and_unknown_with_closed_bytes",
+            "time": "0.131"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[implementation_authorized]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[a2_acceptance_passed]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[arithmetic_verified]",
+            "time": "0.080"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[total_numerical_certified]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[primitive_count]",
+            "time": "0.078"
+          },
+          {
+            "classname": "test_cap_after",
+            "name": "test_static_boundary_is_immutable_after_resigning[max_normalized_bits]",
+            "time": "0.079"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[selected-known]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[no-qualifier]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[minimum-unknown]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[ineligible]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[rejected]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifying]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-assessment]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-preinventory]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifies]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[assessment-reason]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[assessment-occurrence]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-slot]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[missing-index]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-reason]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-mode]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-occurrence]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-exact]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-raw]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-binding]",
+            "time": "0.100"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-status]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-reason]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-mode]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-occurrence]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-shape]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-completed]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-artifact]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-complete]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-none]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-array]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-host]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-disappears]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-null]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-shape]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[known-corruption]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[supplied-copy]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-B]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-analytic_input_gradient]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-X]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-0]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-X]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-0]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[exit]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[unconfirmed]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[kill]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[phase]",
+            "time": "0.089"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[order]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+            "time": "0.105"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-index-unknown]",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-input-unknown]",
+            "time": "0.092"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[case]",
+            "time": "0.042"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[checkpoint]",
+            "time": "0.042"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[witness]",
+            "time": "0.042"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[expected]",
+            "time": "0.045"
+          }
+        ],
+        "raw": {
+          "bytes": 7506,
+          "sha256": "004bb40d3cdf5c90b8c17484e0baf3fa1367db8da4a282840c17194b0389c89a"
+        }
+      },
+      "checker": {
+        "bytes": 35284,
+        "sha256": "819fbbafd5b42e9f1bc0c5be320e56146876ff7047a71073def9b9141fba92fa"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-byte-ledger-complete": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 9,
+        "failures": 9,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+            "time": "0.094"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+            "time": "0.083"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-index-unknown]",
+            "time": "0.082"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-input-unknown]",
+            "time": "0.084"
+          }
+        ],
+        "raw": {
+          "bytes": 24830,
+          "sha256": "e1c651a48b0b9fea4ee05cd28fe9b63e24ed05bac56bda0e8dbf54447ad5fb0e"
+        }
+      },
+      "checker": {
+        "bytes": 35263,
+        "sha256": "9d2903daffefb58f352131195e5c4866fd7f23814043350f75fa13a8cf1d4d10"
+      },
+      "source_hashes_rechecked": true
+    },
+    "lint-all-authored": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "lint-all-authored-clean": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "lint-authored-pass": {
+      "actual_child_exit": 0,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "lint-repository": {
+      "actual_child_exit": 0,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "lint-inherited-capture": {
+      "actual_child_exit": 1,
+      "junit": null,
+      "checker": null,
+      "source_hashes_rechecked": true
+    },
+    "mutant-exhaustive-result": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[selected-known]",
+            "time": "0.117"
+          }
+        ],
+        "raw": {
+          "bytes": 5935,
+          "sha256": "3149e90485ad31ecf3a405a8bc6daff8a0d56231001cdd9625ef4577c5e71092"
+        }
+      },
+      "checker": {
+        "bytes": 35212,
+        "sha256": "2f483d67d5384030df8b37c724d95e6fe1d6514acdc16546b50afd60341d4286"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-exhaustive-result-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[selected-known]",
+            "time": "0.090"
+          }
+        ],
+        "raw": {
+          "bytes": 6373,
+          "sha256": "4a4ead960e9f150daeb9715081635111db30f6d793eaed0fc4baa42417b8bb8b"
+        }
+      },
+      "checker": {
+        "bytes": 35212,
+        "sha256": "2f483d67d5384030df8b37c724d95e6fe1d6514acdc16546b50afd60341d4286"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-unknown-assessment": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifies]",
+            "time": "0.099"
+          }
+        ],
+        "raw": {
+          "bytes": 5921,
+          "sha256": "8c104c778f82eb9e87a25247081e7505f13239211f70c53dcd7f8a0174d6118e"
+        }
+      },
+      "checker": {
+        "bytes": 35155,
+        "sha256": "da28c3e506971a1543f0a24707aae1a666411daf3805f3b799b8fa7ce72aae59"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-unknown-assessment-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[qualifies]",
+            "time": "0.090"
+          }
+        ],
+        "raw": {
+          "bytes": 6359,
+          "sha256": "7e79297416df7e140d5d54d9ce47901b764ebe0541f2baa5c75a9557e317efeb"
+        }
+      },
+      "checker": {
+        "bytes": 35155,
+        "sha256": "da28c3e506971a1543f0a24707aae1a666411daf3805f3b799b8fa7ce72aae59"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-unknown-payload": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-exact]",
+            "time": "0.093"
+          }
+        ],
+        "raw": {
+          "bytes": 5921,
+          "sha256": "a1e313684a870ec35997200f77dddcbb259f122d13d1337c42c35b7ad3b1ae5c"
+        }
+      },
+      "checker": {
+        "bytes": 35273,
+        "sha256": "5fdb2a5107c0beb73e23c8e2c6bd4183367af827caef8bb0ece91f02d0183813"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-unknown-payload-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[slot-exact]",
+            "time": "0.090"
+          }
+        ],
+        "raw": {
+          "bytes": 6359,
+          "sha256": "b72f48a96e362590e213304163de7b5f31aee07223743b5899905507ac69b8e9"
+        }
+      },
+      "checker": {
+        "bytes": 35273,
+        "sha256": "5fdb2a5107c0beb73e23c8e2c6bd4183367af827caef8bb0ece91f02d0183813"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-unknown-index": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-completed]",
+            "time": "0.089"
+          }
+        ],
+        "raw": {
+          "bytes": 5933,
+          "sha256": "4422c0fab6fc79a7900faf1ecf63ccb8bcb23949692b6c7b7173bd5e84b9b75f"
+        }
+      },
+      "checker": {
+        "bytes": 35230,
+        "sha256": "fdf9610461d75a3ec634c2328bc6aedf252046e1cfaccc5fe8e02b4a45b10649"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-unknown-index-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[index-completed]",
+            "time": "0.092"
+          }
+        ],
+        "raw": {
+          "bytes": 6371,
+          "sha256": "8ee8ed78538a0d0835b59e0acc87f5ea1cb3b3bb54009dfa987062b3477e117f"
+        }
+      },
+      "checker": {
+        "bytes": 35230,
+        "sha256": "fdf9610461d75a3ec634c2328bc6aedf252046e1cfaccc5fe8e02b4a45b10649"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-supplied-copy": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[supplied-copy]",
+            "time": "0.098"
+          }
+        ],
+        "raw": {
+          "bytes": 5928,
+          "sha256": "11f99d6439b7623cf6beff7322d15eef880194915d856cebc05b5925325de859"
+        }
+      },
+      "checker": {
+        "bytes": 35252,
+        "sha256": "6d96476a121a0bcf9e441cc4ede9046df2b4137ff492c9eb9b1fbccba29f174d"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-supplied-copy-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[supplied-copy]",
+            "time": "0.091"
+          }
+        ],
+        "raw": {
+          "bytes": 6366,
+          "sha256": "dcb190d52c4962f96bd5b9476c7c5411a46bffdba3614f8d64a489bff80cfbe1"
+        }
+      },
+      "checker": {
+        "bytes": 35252,
+        "sha256": "6d96476a121a0bcf9e441cc4ede9046df2b4137ff492c9eb9b1fbccba29f174d"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-exact-values": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-B]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-analytic_input_gradient]",
+            "time": "0.087"
+          }
+        ],
+        "raw": {
+          "bytes": 3994,
+          "sha256": "6dffd43ee160c30d93ba03d39b8ce966b8ae729a1c2eebf33418e828a646ca9a"
+        }
+      },
+      "checker": {
+        "bytes": 35247,
+        "sha256": "5302477fe1fb94a2e305bcf87dbf28bfffc4197c3588f72a79fd2efd85df731c"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-exact-values-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-B]",
+            "time": "0.091"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_false_known_math_after_descriptor_and_outer_resigning[S-0-analytic_input_gradient]",
+            "time": "0.090"
+          }
+        ],
+        "raw": {
+          "bytes": 4006,
+          "sha256": "4c40d14d3b49818c54d5c238befdaf70d93d003403e47e613b1a5d5dc3bfa06d"
+        }
+      },
+      "checker": {
+        "bytes": 35247,
+        "sha256": "5302477fe1fb94a2e305bcf87dbf28bfffc4197c3588f72a79fd2efd85df731c"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-binding-route": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 4,
+        "failures": 4,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-X]",
+            "time": "0.093"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-0]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-X]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-0]",
+            "time": "0.090"
+          }
+        ],
+        "raw": {
+          "bytes": 6947,
+          "sha256": "a13dfb7f8036de15aff0c0a336c7de66055f4137df15a7ac881f3f3f6be5498a"
+        }
+      },
+      "checker": {
+        "bytes": 35247,
+        "sha256": "2991a72fb0c11f8ca4d197d02692a8c6cd49b9fa199719c485519b97e68dcd66"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-binding-route-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 4,
+        "failures": 4,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-X]",
+            "time": "0.091"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[fresh-0]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-X]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_route_identity[colliding-0]",
+            "time": "0.088"
+          }
+        ],
+        "raw": {
+          "bytes": 6971,
+          "sha256": "a605748818e8dd9a6dc4437ec3fd7fbea35ed7f2d6e717d8fb416c81fa201bbf"
+        }
+      },
+      "checker": {
+        "bytes": 35247,
+        "sha256": "2991a72fb0c11f8ca4d197d02692a8c6cd49b9fa199719c485519b97e68dcd66"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-lifecycle": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[order]",
+            "time": "0.094"
+          }
+        ],
+        "raw": {
+          "bytes": 2394,
+          "sha256": "7497f2f330160b7b620e30fae4ca3958bed9231eda76a85866ddb906c2cda83f"
+        }
+      },
+      "checker": {
+        "bytes": 35282,
+        "sha256": "bc542a3b136d26d536d5e9ae5eb8757061ca6950ad9ddca4d995200f872a67ae"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-lifecycle-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_process_lifecycle[order]",
+            "time": "0.094"
+          }
+        ],
+        "raw": {
+          "bytes": 2486,
+          "sha256": "824ab0ed2467ae903af4de5fcb09848920053867d40c2431a76ae565ca9a46d9"
+        }
+      },
+      "checker": {
+        "bytes": 35282,
+        "sha256": "bc542a3b136d26d536d5e9ae5eb8757061ca6950ad9ddca4d995200f872a67ae"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-byte-ledger": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 7,
+        "failures": 7,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+            "time": "0.091"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+            "time": "0.088"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+            "time": "0.086"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+            "time": "0.096"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+            "time": "0.085"
+          }
+        ],
+        "raw": {
+          "bytes": 15859,
+          "sha256": "751a25c749c8387d312504acdd027ade1b4f6089461a01ffe5c37a36f7b64696"
+        }
+      },
+      "checker": {
+        "bytes": 35263,
+        "sha256": "9d2903daffefb58f352131195e5c4866fd7f23814043350f75fa13a8cf1d4d10"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-byte-ledger-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 7,
+        "failures": 7,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stdout.bin]",
+            "time": "0.090"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[logs/stderr.bin]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[run-manifest.json]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[INITIAL_INDEX]",
+            "time": "0.087"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[failure-index.json]",
+            "time": "0.084"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[records/candidate-1.json]",
+            "time": "0.085"
+          },
+          {
+            "classname": "test_controls",
+            "name": "test_real_charge_omission_with_recomputed_summaries[inline-unknown]",
+            "time": "0.082"
+          }
+        ],
+        "raw": {
+          "bytes": 15901,
+          "sha256": "b63d8eb5c5bbe1ce60557111b2edb9d8c3d084c54f61f77ea5e795439643919f"
+        }
+      },
+      "checker": {
+        "bytes": 35263,
+        "sha256": "9d2903daffefb58f352131195e5c4866fd7f23814043350f75fa13a8cf1d4d10"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-authority": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[expected]",
+            "time": "0.009"
+          }
+        ],
+        "raw": {
+          "bytes": 1352,
+          "sha256": "8f5055007460922ea1c56898ee414819ea32e1ab9777589b9f4b20317e319d4c"
+        }
+      },
+      "checker": {
+        "bytes": 35281,
+        "sha256": "bed098be250419cc5fdc20f4e4c2110fd35b8d9a8044a51ba3c0f51adaa8b31c"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-authority-final": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_frozen_authority_cannot_be_redefined[expected]",
+            "time": "0.009"
+          }
+        ],
+        "raw": {
+          "bytes": 1352,
+          "sha256": "1d76a8a942a6a9eb40dcce2d1f21f34f0bfa43ba0c45816188cbe57405eb4f10"
+        }
+      },
+      "checker": {
+        "bytes": 35281,
+        "sha256": "bed098be250419cc5fdc20f4e4c2110fd35b8d9a8044a51ba3c0f51adaa8b31c"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-inventory-defense": {
+      "actual_child_exit": 1,
+      "junit": {
+        "collected": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-host]",
+            "time": "0.089"
+          }
+        ],
+        "raw": {
+          "bytes": 7440,
+          "sha256": "c2253f1490be3d1d413cdb0def7e44ccf2bca31c4727806d2f44117f3c04176a"
+        }
+      },
+      "checker": {
+        "bytes": 35235,
+        "sha256": "d57f929110c2567dad8e9039453b8e7121e064b31221400494d8420a25071015"
+      },
+      "source_hashes_rechecked": true
+    },
+    "mutant-inventory-defense-final": {
+      "actual_child_exit": 0,
+      "junit": {
+        "collected": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "identities": [
+          {
+            "classname": "test_controls",
+            "name": "test_unknown_and_known_refusals[unknown-host]",
+            "time": "0.091"
+          }
+        ],
+        "raw": {
+          "bytes": 355,
+          "sha256": "424e450b04a42e96ec444a01445f56a6554cb97f5db9f65501f50f1ff967d5d8"
+        }
+      },
+      "checker": {
+        "bytes": 35235,
+        "sha256": "d57f929110c2567dad8e9039453b8e7121e064b31221400494d8420a25071015"
+      },
+      "source_hashes_rechecked": true
+    }
+  },
+  "blockers": [],
+  "limitations": [
+    "Fresh independent review is pending; no approval or closure claimed.",
+    "One named finite static schedule only; not runtime, peakRAM, primitive or bit-counter measurement, security enforcement, or packet admission.",
+    "Eight FIT-REAL admission blockers remain open; criteria/caps unchanged.",
+    "Inherited archived checker/test Ruff findings remain (108 baseline, 106 candidate); no introduced rule/context findings. The inherited capture helper has one E501. Copied protected repository-source lint is reported separately; it is not a live unbounded repository scan.",
+    "Ten meaningful guard mutants killed; one inventory-guard mutant survived because a separate unavailable-binding guard still rejects it. Its initial schema-masked attempt is inconclusive and preserved.",
+    "The initial nonqualifier regression failed only its expected diagnostic message; preserved before adding an earlier assessment-count guard.",
+    "Initial kill-control spelling exercised schema only; corrected to schema-valid kill and rerun through the completion guard.",
+    "Portable Python read auditing is not OS attestation or a hostile filesystem sandbox.",
+    "Privacy scan is bounded; raw hostnames/local paths remain in evidence."
+  ],
+  "paths": {
+    "trace": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-author-20261113/runs/controls-complete/artifacts/trace.json",
+    "physical_report": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-author-20261113/runs/physical-replay-final/artifacts/independent-report.json",
+    "authority_derivation": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-author-20261113/authority-derivation.json",
+    "source_diff": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-author-20261113/source.diff",
+    "proof": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-author-20261113",
+    "index": "/home/davianc/.hermes/cache/scratch/hpfracc-cap-after-author-20261113/evidence-index.json"
+  }
+}

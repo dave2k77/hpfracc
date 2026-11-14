@@ -1,0 +1,27 @@
+{
+  "status": "Owner-approved archive verification/copy passed; independent review not yet complete",
+  "actual_terminal_exit": 0,
+  "process_record_kind": "Normalized observation of the completed terminal tool call, not a fabricated raw platform receipt",
+  "verified_author_entries": 775,
+  "regular_archive_members": 776,
+  "explicit_copied_members": 32,
+  "copied_input_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-approved-review-copy-20261113/copied",
+  "archive": "review-copy-resumption-evidence.tar.gz",
+  "archive_sha256": "d1c7ca5b403d281c9bdd87d1b01da50082e7f8c1722cb755f9995166569059c5",
+  "archive_members_verified": 3,
+  "files": {
+    "verify_copy.py": {
+      "bytes": 3581,
+      "sha256": "ce3a78a5555979cb8183f3ae331ba308fba22085fc947a6d801520a22125dc28"
+    },
+    "archive-verification.json": {
+      "bytes": 5170,
+      "sha256": "4e8b536abf920af3dcff135560982a3504028fe5557e4bc7d4dde59bb04e9eda"
+    },
+    "author-index.json": {
+      "bytes": 128929,
+      "sha256": "eb341ebe9f912a3e0684cf074489c36dd849b3dd0049af014fa6a9ccbe3c9f23"
+    }
+  },
+  "blocked_historical_invocation_executed": false
+}

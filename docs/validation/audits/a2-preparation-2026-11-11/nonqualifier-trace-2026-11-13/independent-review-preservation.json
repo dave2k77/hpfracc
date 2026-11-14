@@ -1,0 +1,15 @@
+{
+  "archive": "independent-review-evidence.tar.gz",
+  "bytes": 1896986,
+  "sha256": "0c177d6ed2da42dcff4d8f1a0935df246994dba2e8f325f1f6e280ee62b335cd",
+  "members_verified": 330,
+  "review_indexed_files_verified": 329,
+  "review_index_sha256": "8e6149dabc0e5925969d634a4f8a4ebb2f50eedf9107491797ad0d463ae479e9",
+  "verdict_sha256": "dba4d0464a1b295ee0459d513474441c6295a14382102643fe8d7c28cd268fb3",
+  "parent_readback": "All indexed files, raw selected-test XML/receipts and fresh exact/physical/33-control replay verified.",
+  "reviewer_proof_privacy_findings": 0,
+  "review_completed": true,
+  "passed": true,
+  "delegation_completion_transport_error": "HTTP 400 after proof/verdict creation; saved evidence independently read back, not discarded or relabeled as a numerical failure.",
+  "scope": "One frozen static increment only; no A2 closure, numerical implementation or delivery approval"
+}

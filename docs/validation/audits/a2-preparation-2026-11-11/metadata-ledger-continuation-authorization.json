@@ -1,0 +1,27 @@
+{
+  "authorization_id": "a2-metadata-ledger-continuation-2026-11-12",
+  "owner_message_verbatim": "okay, let's pick up from where we left off.",
+  "interpreted_scope": "Resume the pending bounded ledger-completion and metadata-only budget-revision cycle described in the immediately preceding report; not numerical implementation or protocol freeze.",
+  "additional_bounded_cycles": 1,
+  "required_order": [
+    "Preserve previous failed accounting and independent assessment without changing their outcomes.",
+    "Close the finite conditional metadata graph, descriptor relationships, per-record node/depth accounting, index transaction and separate whole-request live/cumulative byte ledger using labelled static or constrained symbolic proofs.",
+    "Apply only justified metadata byte/node changes, preserving all cases, checks and scientific/numerical requirements.",
+    "Verify and obtain fresh independent review; stop and report a precise blocker if the bounded attempt cannot establish sufficient accounting."
+  ],
+  "protected_requirements": [
+    "Every scientific input, raw descriptor, case ID, candidate configuration, comparison/check inventory and numerical tolerance",
+    "Finite mathematics, reference domain, FD steps, differentiation semantics and exhaustive-assessment policy",
+    "Nonmetadata resource limits including 16 MiB live/cumulative evidence, operation/bit limits and watchdog",
+    "Core code, public APIs, defaults, dependencies and precision behavior",
+    "Original failure records and archived evidence, complete Git index and numerical input identities"
+  ],
+  "symbolic_proof_limits": "A hypothetical/symbolic metadata proof establishes only its explicitly constrained linkage and length bounds. It is not actual fitter/worker/process evidence, a universal real-fit resource guarantee or a scientific acceptance result.",
+  "protocol_freeze_authorized": false,
+  "numerical_implementation_authorized": false,
+  "representation_redesign_authorized": false,
+  "per_state_solver_scope_decided": false,
+  "scope_deferrals_authorized": false,
+  "phase_b_authorized": false,
+  "a2_acceptance_passed": false
+}

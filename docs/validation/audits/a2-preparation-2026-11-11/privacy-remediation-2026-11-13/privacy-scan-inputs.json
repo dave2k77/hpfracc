@@ -1,0 +1,385 @@
+{
+  "scope": "Explicit candidate evidence closure before independent review; no unrelated scratch/profile data",
+  "files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 111968,
+      "sha256": "43293d25ba59de3bd11b78f0d3c864a705dae10e3aca29aedb14de6f221a57a3"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 30095,
+      "sha256": "ef8f0707c5432d63d325b83e017fdfc8ce25710466148ae666991dba07344801"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/comparison-policies.json": {
+      "bytes": 15346,
+      "sha256": "b40bf84e1d80307fed190c0beb8f4d2fce7883b8d50a7da37d6adf07010bbcbf"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-contract-reviews-failed-preservation.json": {
+      "bytes": 21187,
+      "sha256": "580e0a93facbc2cbbb92e1998cdb1f877c54458921ae61a4485190ce1c33a357"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-contract-reviews-failed.tar.gz": {
+      "bytes": 1030955,
+      "sha256": "d44c2b69c29f2e88862d5380c188f1855798131a1b34ddaf4736d4ac34a81616"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-draft-planning-evidence.tar.gz": {
+      "bytes": 149236,
+      "sha256": "e8f102e3c1f8cdf7ccbb7663c627287f7b13b3a8dde627df47dd92e1540afec1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/corrected-draft-planning-preservation.json": {
+      "bytes": 12060,
+      "sha256": "47cca590011256c61c343ac434062cc802fd054f3b4261362afa6b710f9e5c15"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/final-independent-review-preservation.json": {
+      "bytes": 11835,
+      "sha256": "b7f5179c012fee910839a9e553d83880a50ed95a97cea943b61354fd7235509b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/final-independent-review.json": {
+      "bytes": 6152,
+      "sha256": "be2b12396554750de96b53a17aebbc96864ce61c61d48f001c8c49d42d4e692c"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/final-independent-review.tar.gz": {
+      "bytes": 594919,
+      "sha256": "93d4607d07392a7061fd14cb12ec76ca2a26cba430729a8c45c5204f3983a5a7"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/final-preparation-correction-evidence.tar.gz": {
+      "bytes": 373165,
+      "sha256": "e7ab3984798fdcc194a2d5dc2374909141379edcf5ede6cb8ccb41b64ee3780f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/final-preparation-correction-preservation.json": {
+      "bytes": 13415,
+      "sha256": "1939f6f9ad6f9f7fb46814a9d2821c1d58943428b2ee685a6a6a5bc7c043197b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/fixtures.json": {
+      "bytes": 8083480,
+      "sha256": "7c50cf5a7ff86a1875f3324d413cc3f11fe6c63f4e1acd7633bf89f564b951e5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/initial-contract-reviews-failed.tar.gz": {
+      "bytes": 589774,
+      "sha256": "3b6b397ce0c92efe726360623e3860f8e5c5c8850be11dca0fe129864c3225fb"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/initial-contract-reviews-preservation.json": {
+      "bytes": 11942,
+      "sha256": "6f5bc48c981c9f39bbdf3bf453e475ca612564911f306ed0294985e121d72b07"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-assessment-preservation.json": {
+      "bytes": 9025,
+      "sha256": "ec242237ca82c7bc76aa99ad604a3ee29eb1c2f27f21a6f3bc26cbc5485eaadc"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-assessment-proofs.tar.gz": {
+      "bytes": 117856,
+      "sha256": "8294ce0e7a7f52ba838e157a48c261dda9a992ba2a325a6adb5d1cc03f19b571"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-assessment.json": {
+      "bytes": 13179,
+      "sha256": "723c7f9ae853c29ad42938b4e9c612e6932df4c09e49672a74abc1df4e8ac6d0"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-blocked-evidence.tar.gz": {
+      "bytes": 320255,
+      "sha256": "453a6dba8e71bae266efe44b7365c7fe7f2a9019d47d0cefde220e1177ea87a7"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-blocked-preservation.json": {
+      "bytes": 2690,
+      "sha256": "b37dc8584d7d5c2327a3de63a774cf879d05da541084bf8785835f71e7e0b5c6"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-blocked.md": {
+      "bytes": 4393,
+      "sha256": "1b3429b3146506cea7232d626b303da730c63c66d9b474b31da1916835530c6c"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-attempt-outcome.json": {
+      "bytes": 1179,
+      "sha256": "996d24c0165d7022aad7d5ecd3d8e1c547f47a0f0823a1c9c9ec41ecff7ac313"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-budget-revision-authorization.json": {
+      "bytes": 2122,
+      "sha256": "d66da10ff39012c6ce5d3357ce7279d728045371e983a4e0efc2bc673211dacb"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-advisory-evidence.tar.gz": {
+      "bytes": 567658,
+      "sha256": "6dc971501724142996ca155d7f4bb836a904280d85852f8b701010cb172ed1a3"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-advisory-methodology.md": {
+      "bytes": 10892,
+      "sha256": "8e251efc32ae4145fb47ae407bd35cdb3a02d1dbb64514098864864121b51dd8"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-advisory-preservation.json": {
+      "bytes": 40542,
+      "sha256": "7a5cb796a29bf6ab3cea775326420b2cde8b64a8780c3d28b1e2a9173fd1701a"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-author-evidence.tar.gz": {
+      "bytes": 805909,
+      "sha256": "bdfe85992d26b39b3a010c9da63af02b2177f75346afade45d435bfd12804551"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-author-methodology.md": {
+      "bytes": 12720,
+      "sha256": "5c2510622fbb6b176ceab584fc7103ce93492c2315fb78b1d7de20666a2bf70f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-author-outcome.json": {
+      "bytes": 16813,
+      "sha256": "da2eb2d7a1ea6305c9fcac8cf1190254c6a27ec10806178e60d957258399e088"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-author-preservation.json": {
+      "bytes": 41911,
+      "sha256": "e8e76bc70f716d41a1506d5668ff32db08da024c8479424f00da3722768033bb"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-continuation-authorization.json": {
+      "bytes": 2145,
+      "sha256": "6b8076e0b458c3e586a6ddac56f2b4492bb4e44a2d148330c43a7915773cc894"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-continuation-outcome.json": {
+      "bytes": 1894,
+      "sha256": "6005998eb6d7173da74889af4e7d7d62b12da11e2fd26176366f40db212dbc70"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-independent-assessment-evidence.tar.gz": {
+      "bytes": 225415,
+      "sha256": "d1e51229bf7af177ffe8b6c79d036dea9d98a411d7b0e947ea0b0b9ba0c95566"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-independent-assessment-preservation.json": {
+      "bytes": 26608,
+      "sha256": "02c21f32eb727787f51c42e9744c091e7a4d1dbb707b0585bf46349817323199"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-independent-assessment.json": {
+      "bytes": 14041,
+      "sha256": "0491f645d40f5b28c12f3b5ba58d8eb4c3af46ddd6833c3fb317336258c463a1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-independent-assessment.md": {
+      "bytes": 10403,
+      "sha256": "b0fd77c86268bf9a529127dc963ca9709ea1d58786685a8fb755ad3beadc1532"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-parent-closure-evidence.tar.gz": {
+      "bytes": 472533,
+      "sha256": "bb1a66c71ce08cb774d294b544253d460dcbc2eda87ac38b000757dfb3b3edd0"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-parent-closure-preservation.json": {
+      "bytes": 13251,
+      "sha256": "99e10a8af5c08eb07973a33cd31b9e4ca675d14115a4f68f0212e46bb1481360"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/packet-manifest.json": {
+      "bytes": 3984,
+      "sha256": "2d572491100e76897bc4c298f1a75387110e6942a027da9eeae14b06aadec481"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/packet-notes.md": {
+      "bytes": 12569,
+      "sha256": "725622f3a90ce0f3569987149e0f742238c2e655196efe76146d616649d98469"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/post-review-status-delta.json": {
+      "bytes": 2966,
+      "sha256": "e10825680956bc020d59c9e09b70ed80f498f0e83eb6bdf189a6ab528cfad816"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/README.md": {
+      "bytes": 5712,
+      "sha256": "3f219476dfe3143d1feba68ff0846ebfd6750b2ed7f2e02021ba384046df77bd"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/authorization.json": {
+      "bytes": 3563,
+      "sha256": "b6a3093f473a1d24fc5b7d2b3ba7fa949c2e6f537fc0dfe2ce43a6fc50f27b0a"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/baseline-inputs.json": {
+      "bytes": 33251,
+      "sha256": "bb6feabb8db1fd466417d8487728aa3739c1306952a793b5229f0c395740a166"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/build-plan.json": {
+      "bytes": 1081,
+      "sha256": "8470c974f99f8b1835b4a866718815b6b2cc7fe96e9c47f8f0eed868c416acc5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/build-receipt.json": {
+      "bytes": 197,
+      "sha256": "a8ce4575508f91459d4919e5767ce6bf2e294efa85865f40b8279af731ada6c1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/build-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/build-stdout.raw": {
+      "bytes": 49,
+      "sha256": "9864c3f05da78242c1c50339f10c46caab0f965450c074c4657a979645d0a649"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/mutation-summary.json": {
+      "bytes": 2562,
+      "sha256": "fa07ee1d25d8512c785338c2cb7d86a5b16e45a06d0595d0c99f978d9d8c6680"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/packaging-mutation-runs-index.json": {
+      "bytes": 12676,
+      "sha256": "f88bc4a3258bccec7a9b3645f5c777f22ecb76c61ecbcd2300427340e6602615"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/packaging-mutation-runs.tar.gz": {
+      "bytes": 30791,
+      "sha256": "3113179a594b56450e0381edf0717bb0237f6acc187821e787b93af63f4ef51b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/packaging-test-runs-index.json": {
+      "bytes": 8573,
+      "sha256": "36dd8a23468f65639f9c5e0af6c6acc28ef4d9aed277d738fff436d9a140a42f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/packaging-test-runs.tar.gz": {
+      "bytes": 15020,
+      "sha256": "67dd189a853c8ef54766ac014a698c39975365c274eab684696b3a8298247b23"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/parent-member-verification.json": {
+      "bytes": 494,
+      "sha256": "c6959d65dd8d5a678cc7176feea0fe27f3fa0bf337c74b0ad735cc26b1407bc1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-remediation-status.tar.gz": {
+      "bytes": 51869,
+      "sha256": "361fd50662ca488ca9714ff0fdcb861dca8cfb298bf4daca86c774cb19591f06"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/0-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/0-stdout.raw": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/1-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/1-stdout.raw": {
+      "bytes": 99,
+      "sha256": "8bd0461206055478a09daa350330eb2634fe8232b8990154bcbea2d305ee069e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/2-stderr.raw": {
+      "bytes": 2593,
+      "sha256": "e84668018951651a508c01c6e21b0234e9eea85d199917e5d6cc5685f0a8c4f9"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/2-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/3-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/3-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/4-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/4-stdout.raw": {
+      "bytes": 66,
+      "sha256": "2f8b2416a7d6abfe0bde6cfaceb2b5ecb81fa372851c6b73e185431b7cf9d45e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/docs.xml": {
+      "bytes": 3662,
+      "sha256": "91dcf9f1047377a7ff48a66c979422cb7731e54836570809ba3b180ed3bc36c5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/plan.json": {
+      "bytes": 1226,
+      "sha256": "bd0716cd3fb2671995eb849303258c68df8404fcb202a0657d3765085a24c713"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/pre-review-qa/receipts.json": {
+      "bytes": 1543,
+      "sha256": "5c9f6c3269f0a91c1da5ddd9903d043bad7ffea7f85f3fc275ef315e8f4fade4"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/privacy-scan-tools.tar.gz": {
+      "bytes": 1838,
+      "sha256": "2f170da2519d0f837db47d45bf99bbb794c2025d476028e94ce2e08bd65a8ccc"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/sanitize_evidence.py": {
+      "bytes": 8546,
+      "sha256": "aa3de608d72f6d273dcfb47b0ca7fa576e1d55c5026ddc2bcf4313ffd5f9f0e8"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/sanitized-bundle/inventory.json": {
+      "bytes": 156268,
+      "sha256": "2164616b90e50bb961c3e45a9e1e15d6fc1b242a0c5c97ec53c258b32ea3e525"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/sanitized-bundle/single-trace-independent-review-failed-evidence.sanitized.tar.gz": {
+      "bytes": 2067590,
+      "sha256": "26b0c4b4ccf59e415c9631471e01713ab8b27feda9351b077f831c557b981ff2"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/test_sanitize_evidence.py": {
+      "bytes": 9645,
+      "sha256": "b756af5690117936b7453f6b3022588b427205c5ce227bee062c50878913ca5e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/protocol.json": {
+      "bytes": 33936,
+      "sha256": "4622bd8740f592656a0cdba9ede5d8a6d44476413ae47a4fa576ab4c62b1ac9c"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/record-schemas.json": {
+      "bytes": 95133,
+      "sha256": "352939c1ff381276a22173f39d8ab02b370be4456740df96fa90c467dca4c706"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/schema-control-contract.md": {
+      "bytes": 21012,
+      "sha256": "516d46e749ff1a8fe37fb171f50e0eebe9b14c93cbba185f879e1f5e5e5278a1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/schema-control-fixtures.json": {
+      "bytes": 1907286,
+      "sha256": "696b6b22d4d5e9b18c29ce9c6eb0eac4534404860c4221aae0344faea5a25e60"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-authorization.json": {
+      "bytes": 1950,
+      "sha256": "1b681942d245ba3b6c5e1a2bbf56fc8981af6cc83ec20bbbe28345092ea27097"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-failed-review-preservation.json": {
+      "bytes": 1509,
+      "sha256": "ddc61529f14b7ee531300e25317af82741fdd2c080795c5550eae202c0561b5a"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-failed.json": {
+      "bytes": 9718,
+      "sha256": "2c52c108aa98c89cdb882e4194c75898fc4d3f7f4bd474dc5cc1a7b04fc4055a"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-failed.md": {
+      "bytes": 6572,
+      "sha256": "0b7a7555be4956e4f8f0c8dcc42164d302e8efb68ebd24012a039471988c1d99"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-passed-evidence.tar.gz": {
+      "bytes": 1668295,
+      "sha256": "ae9a5e24fc2194e77f67b7ce258f0862b2a6d8f21fc6e5d974d0ab5331b95494"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-passed.json": {
+      "bytes": 13731,
+      "sha256": "443ef0528876130b3db9146c494a829bc0a2ced28184681dad21938d3b9bd60b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-passed.md": {
+      "bytes": 7288,
+      "sha256": "466cb8510a28f247d965a5bb6e0ee229a876f05f92485549bf0f59c914c611a8"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-outcome.json": {
+      "bytes": 6020,
+      "sha256": "d2374b65209332e8e74cce39000b8eaa42698a0d6302fd54624102d5eefb9b59"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-parent-closure-evidence.tar.gz": {
+      "bytes": 395626,
+      "sha256": "b2369eadc57fc441dc43bc86d12532832f197eec0e38bfd6371946d13f9bda44"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-parent-closure-preservation.json": {
+      "bytes": 552,
+      "sha256": "48ad18e8fba007daccd958bf1dd825850a5bd6a6b9b1d33338b70d8339ae6950"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-passed-review-preservation.json": {
+      "bytes": 2048,
+      "sha256": "f626c8fde76c9646ffbbcfaa142d5b4aed8d50b87fab22de9335423ca3bc64b1"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-privacy-hold.json": {
+      "bytes": 5114,
+      "sha256": "28681473b8a6f8a86c3dd54656b2c5f0b48dca96a853f30c6b2feadecc91458b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-privacy-status-delta.json": {
+      "bytes": 1497,
+      "sha256": "4d2418e05ac700a0f58bc14119dda291fc3a155e3771a16a24ca2ea63012065b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-rejected-author-evidence.tar.gz": {
+      "bytes": 874548,
+      "sha256": "964918f2c187a16aa09e8dce0616005ceaf37d7baf772a00406f9ebba13377f4"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-routing-correction-evidence.tar.gz": {
+      "bytes": 752266,
+      "sha256": "eceb099c67ed756e1b063d4a7dfcc73db99ad48fc7670d8376aa8ad9f2850e32"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-routing-correction-plan.json": {
+      "bytes": 2385,
+      "sha256": "1df505bb695fafbf545d6456f0793b43dbfcc360f313a4b071bff7bee321f716"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-routing-correction-preservation.json": {
+      "bytes": 4810,
+      "sha256": "609d022a37b470c2dcc42f33a0eedecd9dc96da0e7e9175207d3a236c67d6792"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-routing-correction-report.json": {
+      "bytes": 11638,
+      "sha256": "76ed7f458bce3a8f7617909db87ee1ae5c691f0ecb26f1244d4517abbe9afd4b"
+    }
+  }
+}

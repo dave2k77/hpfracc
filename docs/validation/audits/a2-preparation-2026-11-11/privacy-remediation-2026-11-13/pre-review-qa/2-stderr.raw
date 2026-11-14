@@ -1,0 +1,40 @@
+
+[31m │  ⚠  Warning from the Material for MkDocs team[0m
+[31m │[0m
+[31m │[0m  MkDocs 2.0, the underlying framework of Material for MkDocs,
+[31m │[0m  will introduce backward-incompatible changes, including:
+[31m │[0m
+[31m │  × [0mAll plugins will stop working – the plugin system has been removed
+[31m │  × [0mAll theme overrides will break – the theming system has been rewritten
+[31m │  × [0mNo migration path exists – existing projects cannot be upgraded
+[31m │  × [0mClosed contribution model – community members can't report bugs
+[31m │  × [0mCurrently unlicensed – unsuitable for production use
+[31m │[0m
+[31m │[0m  Our full analysis:
+[31m │[0m
+[31m │[0m  [4mhttps://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/[0m
+[0m
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /home/davianc/.hermes/cache/scratch/hpfracc-privacy-qa-rj__lwx5/site
+INFO    -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
+  - developer/a2-compression-budget-protocol.md
+  - validation/audits/a1-defect-design-2026-11-11/README.md
+  - validation/audits/a1-trajectory-defect-2026-11-11/README.md
+  - validation/audits/a1-trajectory-defect-2026-11-11/arithmetic-contract.md
+  - validation/audits/a1-trajectory-defect-2026-11-11/panel-basis.md
+  - validation/audits/a2-preparation-2026-11-11/metadata-budget-accounting-blocked.md
+  - validation/audits/a2-preparation-2026-11-11/metadata-ledger-advisory-methodology.md
+  - validation/audits/a2-preparation-2026-11-11/metadata-ledger-author-methodology.md
+  - validation/audits/a2-preparation-2026-11-11/metadata-ledger-independent-assessment.md
+  - validation/audits/a2-preparation-2026-11-11/packet-notes.md
+  - validation/audits/a2-preparation-2026-11-11/schema-control-contract.md
+  - validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-failed.md
+  - validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-passed.md
+  - validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/README.md
+  - validation/audits/api001-metadata-export-2026-11-11/README.md
+  - validation/audits/fft-order-gradients-2026-11-10/README.md
+  - validation/audits/gpu-normalization-2026-11-10/README.md
+  - validation/audits/num004-direct-precision-2026-11-10/README.md
+  - validation/audits/num005-stable-precision-2026-11-10/README.md
+  - validation/audits/scientific-acceptance-2026-11-10/README.md
+INFO    -  Documentation built in 0.41 seconds

@@ -1,0 +1,102 @@
+[
+  {
+    "mutant": "original-identity",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "dd1ecbb195e99958bc89df8128b11115e43b6080b610495464635502df656825",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "omission-identity",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "fb5b8bbbee1e299f415f618c6663835ac908ac3e4ebe4f572244ae330b604130",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "retained-members",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 4,
+    "errors": 0,
+    "xml_sha256": "8e0d241466222f8e8ab512345dd5a22933502fd90199283b6d3f5894ea7777cb",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "safe-member-path",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 4,
+    "errors": 0,
+    "xml_sha256": "fe4fbb720f86b7f50c9cde5948de207c4caf59d76124d68549ab7d7e7f5d64d4",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "bundle-allowlist",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "5a92fa45fee529eb882ed7774be3d603b5cb2d0fd33461d7065e986f5f488b21",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "inventory-pin",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "465c73b03c0203546f9aaef570a3d77b49d372504dcc396fa27caba57f5a95d1",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "output-symlink",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "5145ede53d4c9ce45cd6f3c5114e573f1ede0ac0cabb4847e0ca5c85af4e5a0d",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "no-overwrite",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "b8f89b96a16afbb95fb9a23dc66ebbfc739b967b059aff25b7caa3e4e3f14d4e",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "partition",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "e8e447a4e1ded4b8799198ea5a878d4cd4ab8501c25fe61eaaabb06ba1c4de5d",
+    "input_pins_unchanged": true,
+    "killed": true
+  },
+  {
+    "mutant": "historical-boundary",
+    "actual_exit": 1,
+    "tests": 23,
+    "failures": 1,
+    "errors": 0,
+    "xml_sha256": "2b16f2ad37bf5f2f5bacf61aa7481a160c24c07f88ee4daa96b8f3a2e4eaa911",
+    "input_pins_unchanged": true,
+    "killed": true
+  }
+]

@@ -1,0 +1,263 @@
+{
+  "accounting_complete": false,
+  "actual_replay_exits": {
+    "advisory-copy/lower-replay": 0,
+    "author-copy/mutants-replay": 1,
+    "author-copy/semantic-replay": 1,
+    "author-copy/structural-green-replay": 0,
+    "author-copy/structural-red-replay": 1,
+    "independent-negatives": 1,
+    "parse-coverage-and-raw": 0,
+    "verify-inputs": 0
+  },
+  "advisory_adjudication": {
+    "approval_of_author": false,
+    "author_schedule": {
+      "adjudication": "Schedule-specific draft expression. Every-array rewrites are not textually mandated. This is neither actual overflow of a valid export nor intrinsic 16 MiB impossibility.",
+      "array_commits": 372,
+      "cumulative_lower_bytes": 136772468,
+      "index_generations": 374
+    },
+    "batching_defensible": true,
+    "conditions": [
+      "Immutable atomic batch publication and no overwrite/upgrading partials",
+      "Preserve mandatory qualifier checkpoint; no silent completed-file loss",
+      "Final supervisor authentication of every retained file, including partial/kill windows; stale checkpoint never means completion",
+      "Charge each index generation, old+new coexistence, failure roots, process/export and manifest; reserve final report before each batch"
+    ],
+    "historic_stronger_index_lower_bytes": [
+      614748,
+      617184
+    ],
+    "independent_index_lower_bytes": [
+      614416,
+      616852
+    ],
+    "index_scope": "Copied advisory derivation replayed byte-for-byte. Intentionally smaller-than-valid skeletons lower-bound mandatory inventory and old/new coexistence for eight float32 tau1 cases. Independently weaker historical corroboration, not replacement and not valid exports.",
+    "node_scope": "Author chosen result has 51560 nodes; advisory all-inventory placement has 41598..46044 completed-base lower nodes. Per-record, not sum across files. Placement-specific, not proof every schema-permitted placement overflows.",
+    "schedule": "I0 INITIAL before arithmetic; Iq required candidate-0 qualifier checkpoint for the fault-control path; If FINAL after process confirmation or a truthful incomplete/kill outcome. Other bounded checkpoints only where needed, with every generation charged.",
+    "text_handles": [
+      "docs/developer/a2-compression-budget-protocol.md:376-394",
+      "docs/validation/audits/a2-preparation-2026-11-11/schema-control-contract.md:188-229",
+      "docs/validation/audits/a2-preparation-2026-11-11/packet-notes.md:136-175"
+    ],
+    "whole_evidence_scope": "Conservative rational-length envelope can exceed 16 MiB (one 289-value array upper 4741073, six Lhat/two copies upper 56892876). Upper > cap does not establish actual overflow, attainable simultaneous maxima, or impossibility. A chosen finite schedule/design is not full sufficient accounting."
+  },
+  "approval_flags": {
+    "a2_acceptance": false,
+    "implementation_authorized": false,
+    "phase_a_closed": false,
+    "protocol_freeze": false,
+    "scientific_acceptance": false
+  },
+  "assessment_id": "a2-resumed-ledger-independent-assessment-20261112-c4f26a91",
+  "blockers": [
+    {
+      "classification": "author symbolic model / semantic proof",
+      "detail": "131 unclosed conditions: 42 same-mode alpha/dt/input identities (20/20/2), 18 perturbed-alpha configuration linkages, 69 inferred passes (37 comparisons/32 binding checks), normal-exit confirmation and conditional safe output. Different symbols are unproved equalities, not measured mismatches.",
+      "evidence": [
+        "author-copy/semantic-replay/process.json",
+        "coverage-and-raw-record-proof.json"
+      ],
+      "id": "METHOD-SEMANTICS"
+    },
+    {
+      "classification": "author gate / accounting predicate",
+      "detail": "All four author uncharged-byte controls survive. Original controls alter summary bounds only and therefore demonstrate no independent total/equation check, not that the pristine formula omitted those terms. The reviewer additionally removed the actual affine stdout coefficient, recomputed bounds and retained the component name: audit still accepted.",
+      "evidence": [
+        "author-copy/mutants-results.json",
+        "independent-semantic-negative-proof.json"
+      ],
+      "id": "METHOD-LEDGER"
+    },
+    {
+      "classification": "author semantic linkage",
+      "detail": "Unsupported admitted D shape [18] -> [17] is accepted by audit. A separate existing-operand [17,3] -> [17] comparison-reference substitution also retains pass. Normative true-shape/no-broadcast requirements are present, not missing schema scope.",
+      "evidence": [
+        "author-copy/mutants-results.json",
+        "independent-semantic-negative-proof.json"
+      ],
+      "id": "METHOD-SHAPE"
+    },
+    {
+      "classification": "author coverage / success semantics",
+      "detail": "All generated results are indeterminate with unknown assessments; 512 winner labels are not qualified selected/noqualifier outcomes. A deliberately invalid selected result with all assessments unknown and normal exit unconfirmed is accepted by the local structural interpreter/audit. Complete valid exports demonstrated: 0.",
+      "evidence": [
+        "a2_review_coverage.py",
+        "independent-semantic-negative-proof.json",
+        "author-copy/a2_model.py"
+      ],
+      "id": "METHOD-COMPLETION"
+    },
+    {
+      "classification": "unclosed whole-ledger sufficiency; pre-existing index admission obstruction",
+      "detail": "No complete justified LIVE and cumulative inequality with semantic branches, constrained payload lengths, bounded context/reasons/logs/temp/manifests, reservation schedule and refusal proof. Unchanged 512 KiB index transaction still has a mandatory-cardinality lower obstruction; raising it alone would not close other gates.",
+      "evidence": [
+        "advisory-copy/index-lower-proof.json",
+        "coverage-and-raw-record-proof.json",
+        "author-copy/a2_model.py"
+      ],
+      "id": "RESOURCE-UNFINISHED"
+    }
+  ],
+  "budget_applied": false,
+  "budget_proposed": null,
+  "cap_revision_justified": false,
+  "caps_unchanged": {
+    "cumulative_evidence_bytes": 16777216,
+    "failure_index_transaction_bytes": 524288,
+    "json_nodes_per_record": 32768,
+    "live_evidence_bytes": 16777216
+  },
+  "coverage": {
+    "distinct_cases": 560,
+    "limitations": "Parsed and cross-checked recorded coverage, not a replay of all 1392 models. Winner labels are not qualified outcomes. Source unconditionally constructs indeterminate result/unknown assessments.",
+    "per_fit_case_profiles": 27,
+    "profiles": 1392,
+    "profiles_by_group": {
+      "EXACT-GRID": 204,
+      "FIT-REAL": 864,
+      "REF-CAPS": 28,
+      "REF-CORE": 16,
+      "REF-EDGES": 148,
+      "REF-RANK": 100,
+      "REF-SIGNAL": 16,
+      "SCHEMA-CONTROLS": 16
+    },
+    "structural_successes": 1392,
+    "supplementary_fault_profiles": 352,
+    "winner_pair_profiles": 512,
+    "zero_open_semantics": 356
+  },
+  "inferred_pass_adjudication": "Not justified: complete operands or present observations do not establish the named shape/finite/tolerance/byte-identity predicates. Symbolic conditional pass is permissible only when those explicit predicates constrain the branch; here source lines 365 and 373 infer it from presence. Winner labels do not supply those constraints. The 69 are unproved statuses, not 69 observed numerical failures.",
+  "inventories": {
+    "arrays": 840,
+    "candidate_specs": 160,
+    "cases": 560,
+    "exact_required_comparison_names": 4480,
+    "fit_binding_checks": 1056,
+    "future_fit_specs_unobserved": 12,
+    "future_full_observations_unobserved": 64,
+    "groups": {
+      "EXACT-GRID": 204,
+      "FIT-REAL": 32,
+      "REF-CAPS": 28,
+      "REF-CORE": 16,
+      "REF-EDGES": 148,
+      "REF-RANK": 100,
+      "REF-SIGNAL": 16,
+      "SCHEMA-CONTROLS": 16
+    },
+    "identity_controls": 4,
+    "max_slots": 954,
+    "parser_controls": 10,
+    "quantity_slots": 24336,
+    "shortcut_controls": 6,
+    "working_comparisons": 1312
+  },
+  "method_lesson": "Before bulk profile enumeration, close one end-to-end conditional semantic tracer through comparison/binding predicates, truthful completion, and a recomputed whole-ledger equation; require arithmetic omissions and invalid-success negatives to fail. Necessary presence GREEN is not completion.",
+  "necessity_limits": "The reproduced blockers are method/gate defects with normative predicates already present. No new scope/schema redesign or physical fitter/AD execution necessity is established by this bounded assessment; this is not a global proof that no other obstacle exists. Actual future scientific gates remain unobserved.",
+  "numerical_execution_necessity_for_conditional_metadata_established": false,
+  "overall_passed": false,
+  "protected_pins": {
+    "all_frozen_files_reverified": [
+      {
+        "base": "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc",
+        "verified_files": 162
+      },
+      {
+        "base": "/home/davianc/.hermes/cache/scratch/a2_ledger_proof_20261112_d72ac91b",
+        "verified_files": 210
+      },
+      {
+        "base": "/home/davianc/.hermes/cache/scratch/a2_obligation_TomeBgNo",
+        "verified_files": 218
+      }
+    ],
+    "all_protected_bytes_unchanged": true,
+    "git_index_sha256": "ea8e0d3fe34c45f80d07b5775e8be56399dc7d66202d9b00733158aa8f6e58eb",
+    "head": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+    "index_entries_sha256": "f2afa6dbd380447b188058081d85f531eb00ab9a0c2afe3f6c1f7a0314881cdd",
+    "manifest": {
+      "bytes": 123701,
+      "sha256": "329b3305c6d6096bb780ea01a5afff60f45c1f318e123026093083b9c8cdf005"
+    },
+    "numerical_source_pins": 125,
+    "packet_files": 9,
+    "status_docs": "Two parent-owned status docs excluded from protected-byte equality; no reviewer writes."
+  },
+  "raw_proof": {
+    "bytes": 9931,
+    "path": "raw-proof.json",
+    "sha256": "b3e9255a806917d16ecf0c2b705b0437250f9e5971ada2e0296786dc949ac5d6"
+  },
+  "remaining_decision": "Parent may close this bounded attempt as stopped/failed on this evidence. Any further proof work needs a separately authorized finite acceptance target and stop rule; no automatic new cycle, repair, cap choice, implementation, freeze, commit or push is recommended.",
+  "representative": {
+    "links": 1389,
+    "max_depth": 9,
+    "max_record_nodes": 51560,
+    "node_max_records": [
+      "result.json"
+    ],
+    "records": 505,
+    "standalone_payload_terms": 372
+  },
+  "reviewed_input_manifest": {
+    "bytes": 123701,
+    "path": "/home/davianc/.hermes/cache/scratch/a2-ledger-continuation-20261112/ledger-assessment-inputs.json",
+    "sha256": "329b3305c6d6096bb780ea01a5afff60f45c1f318e123026093083b9c8cdf005"
+  },
+  "scope": "Fresh independent read-only adjudication, not a writer/repair cycle or a rerun of scientific tests. Parent owns closure/status.",
+  "scope_or_schema_redesign_necessity_established": false,
+  "semantic_categories": {
+    "actual-perturbed-alpha-equals-configuration-alpha": 18,
+    "emitted-evidence-has-valid-hypothetical-safe-owned-schedule": 1,
+    "pass-conditioned-on-declared-numerical-or-identity-predicate": 69,
+    "positive-normal-completion-has-confirmed-exit-or-constrained-observation": 1,
+    "same-mode-actual-alpha-identity": 20,
+    "same-mode-actual-dt-identity": 20,
+    "same-mode-actual-input-identity": 2
+  },
+  "stop_basis": "Authorized one bounded attempt failed the controlling semantic gate; captured later author commands are finalization/index preservation only and controlling model/obligation bytes match final sources. No post-stop repair authorization exists. Captures are not a global process-history proof.",
+  "stop_correct": true,
+  "structural_red_green_adjudication": "Reproduced 4 failures/4 tests/exit1 -> 4 passes/4 tests/exit0. Necessary graph/presence seams only. symbolic_constraints_closed is a guard-count comparison, not semantic closure. Partial semantic checker reports zero on 356 coverage rows; these are not 356 complete valid exports.",
+  "verdict": "FAILED_LEDGER_PROOF_CONFIRMED_STOP_CORRECT_NO_CAP_REVISION",
+  "verified_archives": {
+    "advisory": {
+      "archive": "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-advisory-evidence.tar.gz",
+      "bytes": 567658,
+      "members_verified_against_frozen_child_files": 218,
+      "sha256": "6dc971501724142996ca155d7f4bb836a904280d85852f8b701010cb172ed1a3"
+    },
+    "author": {
+      "archive": "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/metadata-ledger-author-evidence.tar.gz",
+      "bytes": 805909,
+      "members_verified_against_frozen_child_files": 210,
+      "sha256": "bdfe85992d26b39b3a010c9da63af02b2177f75346afade45d435bfd12804551"
+    }
+  },
+  "verified_evidence_indices": {
+    "a2_ledger_proof_20261112_d72ac91b": {
+      "all_files": 210,
+      "exact_membership_verified": true,
+      "index": {
+        "bytes": 28419,
+        "sha256": "73f58082a53adfa30c0b15a4637b01e635d0077919adf0123446ccb4efd6211a"
+      },
+      "indexed_bytes": 13364848,
+      "indexed_files": 180
+    },
+    "a2_obligation_TomeBgNo": {
+      "all_files": 218,
+      "exact_membership_verified": true,
+      "index": {
+        "bytes": 33956,
+        "sha256": "1413bd3c4a24e17e9831f23e20dbec2361f7048f472800cc0726583766ab7f64"
+      },
+      "indexed_bytes": 6830424,
+      "indexed_files": 201
+    }
+  },
+  "why_keep_caps_unchanged": "The bounded authorization conditions revision on sufficient completed accounting, which failed. No sufficient replacement values follow. This is NOT proof current caps permit all required positive cases: the known 512 KiB admission obstruction remains. It does NOT establish a need to change 16 MiB or numerical limits; changing only index/node caps cannot repair semantic omissions.",
+  "writes": "Only this new unique scratch directory; no repository/index/old-proof/profile/skill/config/auth writes."
+}

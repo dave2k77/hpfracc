@@ -1,0 +1,64 @@
+{
+  "changed_files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "before": {
+        "bytes": 125847,
+        "sha256": "191bbe03f7d2efe92ee51833091080241a7f144dfc635167f893a7531b571201"
+      },
+      "after": {
+        "bytes": 126963,
+        "sha256": "69772d1f6d86db906b53ac367137e996e8a89e360d2b4bc366459f7a1a73e169"
+      },
+      "scope": "Approval/progress only"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "before": {
+        "bytes": 39593,
+        "sha256": "104eb8fb1e6854519654df47f31e2cee1b5e60f934b01285d9eb593b6fb57dd3"
+      },
+      "after": {
+        "bytes": 40412,
+        "sha256": "4ba2408d6f1d862ba861f08819717081dd002db54c636bbd86b543605e518e35"
+      },
+      "scope": "Approval/progress only"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "before": {
+        "bytes": 8052,
+        "sha256": "52b10a264cdc8e25112e2c28441324a246e5b78750fdbd4e2327f57e6d77998b"
+      },
+      "after": {
+        "bytes": 8325,
+        "sha256": "2512ec5e41d52c7c99d9968a8cfa9051998355fb95244fe4a0a27db817e8c2ac"
+      },
+      "scope": "Approval/progress only"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/README.md": {
+      "before": {
+        "bytes": 4200,
+        "sha256": "0d330d24807d97cb002752b1ab839adf30fa42a7d4991cfc43e689ea4f85922e"
+      },
+      "after": {
+        "bytes": 5885,
+        "sha256": "7d98323756119e22b722c14cff7650a81488b510ef35597a5b92108e241f0523"
+      },
+      "scope": "Approval/progress only"
+    }
+  },
+  "protected_files_unchanged": 945,
+  "baseline_immutable_files_unchanged": 930,
+  "reviewed_candidate_source_unchanged": true,
+  "head_and_git_stage_unchanged": true,
+  "actual_qa_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23,
+  "built_status_text_verified": true,
+  "main_repository_lint_passed": true,
+  "archived_lint_limitations_unchanged": true,
+  "full_numerical_suites_rerun": false,
+  "commit_or_push_performed": false
+}

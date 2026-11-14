@@ -1,0 +1,48 @@
+{
+  "status": "Approved publication-only delta; post-update checks passed",
+  "changes": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "before_sha256": "43293d25ba59de3bd11b78f0d3c864a705dae10e3aca29aedb14de6f221a57a3",
+      "after_sha256": "d4f1bed5882c1ef14b888cdfdcc9b574ece02283e8b76121950f86f46c63c0c9",
+      "scope": "Publication/progress wording only"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "before_sha256": "ef8f0707c5432d63d325b83e017fdfc8ce25710466148ae666991dba07344801",
+      "after_sha256": "17d8d6929dcf49fa517c33caa031103647908c0e869e27d6f53d5be1127005f4",
+      "scope": "Publication/progress wording only"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/README.md": {
+      "before_sha256": "3f219476dfe3143d1feba68ff0846ebfd6750b2ed7f2e02021ba384046df77bd",
+      "after_sha256": "ba19c262fded6df58fdc53be2e43769cc66b2bf34fc5214421e51a4827969add",
+      "scope": "Publication/progress wording only"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/single-trace-outcome.json": {
+      "before_sha256": "d2374b65209332e8e74cce39000b8eaa42698a0d6302fd54624102d5eefb9b59",
+      "after_sha256": "f10922963257e330ab246a83d5996a4e051fce54cffb11441a4a1c1433d45cf6",
+      "scope": "Publication/progress wording only"
+    }
+  },
+  "changed_existing_outcome_keys": [
+    "latest_status_delta_record",
+    "next_boundary",
+    "status"
+  ],
+  "unchanged_protected_files": 221,
+  "head_and_git_stage_unchanged": true,
+  "private_original_hash_permissions_and_absence_verified": true,
+  "qa_actual_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "fresh_test_counts": {
+    "packaging": 23,
+    "docs": 23
+  },
+  "numerical_tests_rerun": false,
+  "commit_or_push_performed": false,
+  "final_qa_location": "parent-closure-evidence.tar.gz::final-qa/"
+}

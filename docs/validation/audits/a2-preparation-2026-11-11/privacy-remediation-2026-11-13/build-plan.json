@@ -1,0 +1,22 @@
+{
+  "command": [
+    "uv",
+    "run",
+    "--frozen",
+    "--no-sync",
+    "python",
+    "-B",
+    "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/sanitize_evidence.py",
+    "build",
+    "--original",
+    "/home/davianc/.local/share/hpfracc/private-audits/a2-single-trace-20261112/single-trace-independent-review-failed-evidence.tar.gz",
+    "--hold",
+    "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/single-trace-privacy-hold.json",
+    "--hold-sha256",
+    "28681473b8a6f8a86c3dd54656b2c5f0b48dca96a853f30c6b2feadecc91458b",
+    "--output",
+    "/home/davianc/Documents/biomedical_engineering/fractional_models/hpfracc/docs/validation/audits/a2-preparation-2026-11-11/privacy-remediation-2026-11-13/sanitized-bundle"
+  ],
+  "helper_sha256": "aa3de608d72f6d273dcfb47b0ca7fa576e1d55c5026ddc2bcf4313ffd5f9f0e8",
+  "hold_sha256": "28681473b8a6f8a86c3dd54656b2c5f0b48dca96a853f30c6b2feadecc91458b"
+}

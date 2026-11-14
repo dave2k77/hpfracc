@@ -1,0 +1,29 @@
+{
+  "a2_acceptance_passed": false,
+  "accounting_gap": "372 conditional artifact/link obligations and the whole-request ledger remain unclosed; no replacement cap justified",
+  "arithmetic_verified": false,
+  "budget_revision_completed": false,
+  "current_failure_index_bytes": 524288,
+  "current_json_nodes": 32768,
+  "further_work_requires_owner_decision": true,
+  "git_index_unchanged": true,
+  "implementation_authorized": false,
+  "independent_assessment_sha256": "723c7f9ae853c29ad42938b4e9c612e6932df4c09e49672a74abc1df4e8ac6d0",
+  "necessary_byte_condition": "8 failures, exit1; no GREEN",
+  "new_budget_applied": false,
+  "numerical_inputs_unchanged": 125,
+  "packet_files_unchanged": 9,
+  "protected_files_unchanged": 18,
+  "protocol_freeze_authorized": false,
+  "scope": "One owner-authorized metadata-budget accounting attempt and independent assessment; BLOCKED before profile edits",
+  "total_numerical_certified": false,
+  "verification": {
+    "assessment_archive_members": 58,
+    "assessment_indexed_files": 56,
+    "attempt_archive_members": 65,
+    "attempt_indexed_files": 64,
+    "docs_tests_passed": 23,
+    "ruff_exit": 0,
+    "strict_docs_exit": 0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "archive": "reviewed-status-before-close.tar.gz",
+  "bytes": 54268,
+  "sha256": "17b0b3cef5ec4d5c492f29568039e6ba0f923c5d6ba348014b6c19cf008c0443",
+  "members_verified": 3,
+  "files": {
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 33710,
+      "sha256": "d5028902a38b3beb5b0c7fc9bb7d9e9b01c53d42f1941ec20c9739fab8ccb57a"
+    },
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 116929,
+      "sha256": "aa0e16f703e1f25cf314834f012a48dadca6df8a253d14070c9baa2e8a957197"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/README.md": {
+      "bytes": 6280,
+      "sha256": "23af10acce0448a534e589d4f634d0fda6225ee3ef86a8810e06029e7c9b54a4"
+    }
+  }
+}

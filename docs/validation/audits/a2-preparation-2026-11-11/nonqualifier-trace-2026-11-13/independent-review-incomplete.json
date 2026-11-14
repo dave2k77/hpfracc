@@ -1,0 +1,58 @@
+{
+  "passed": false,
+  "status": "incomplete_execution_approval_required",
+  "security_concerns": [],
+  "logic_errors": [],
+  "blocking_reason": "A new terminal execution approval gate stopped author-index member verification and explicit scratch copying. The action was not launched. This incomplete review supplies no source, semantic, arithmetic, ledger, or publication approval.",
+  "limitations": [
+    "Review stopped at a new execution approval gate; the blocked action was not launched or retried by another mechanism.",
+    "Only initial manifest, protected-file, Git identity, archive digest, regular-member/name checks and author-index digest checks completed. The 775 individual author entries were not independently verified.",
+    "No focused tests, independent adversarial controls, exact arithmetic reconstruction, byte-state replay, authority authentication, source-diff review, selected-artifact equality check or lint reproduction executed.",
+    "Candidate recursive archive bodies were not privacy-reviewed. A bounded pattern scan of this incomplete reviewer proof is not publication clearance or matching against private identities.",
+    "The author and parent numerical, test, ledger and privacy claims remain unverified by this review. No numerical certification, operational security assessment, protocol freeze, phase closure, commit, push or remote delivery is implied."
+  ],
+  "exact_reviewed_manifest": {
+    "repository_relative_path": "docs/validation/audits/a2-preparation-2026-11-11/nonqualifier-trace-2026-11-13/review-inputs.json",
+    "sha256": "e0f5c757763d00159a2ca85ffe4a890f05674341d6e264755aea1508cba69654",
+    "candidate_and_status_entries_verified_at_start": 45,
+    "baseline_manifest_sha256": "b5fc00addbf9f6f4a96328f8c7498dc39cd551acf250f94dcaffbeee9a077926",
+    "immutable_baseline_entries_verified_at_start": 234,
+    "baseline_mutable_status_exceptions": [
+      "docs/developer/phase-a-completion.md",
+      "docs/developer/bug-resolution-tracker.md"
+    ],
+    "git_head": "a3951bde6a633f22ee2c1e006ea78c62421f599b",
+    "git_stage_sha256": "929fab19d907eeecd4c68b819858a5c8e159cf70677a7f5c672e1053b9e940f9",
+    "git_stage_encoding": "git ls-files --stage -z raw bytes"
+  },
+  "completed_initial_checks": {
+    "actual_terminal_exit": 0,
+    "protected_file_mismatches": [],
+    "archive_sha256": "8bb7abf9283211a3bc86634a12ac5ec20ba4c27070c4592770cc95619110e45a",
+    "archive_unique_regular_safe_named_members": 776,
+    "author_index_sha256": "eb341ebe9f912a3e0684cf074489c36dd849b3dd0049af014fa6a9ccbe3c9f23",
+    "all_member_body_hashes_verified": false
+  },
+  "source_and_evidence_scope": {
+    "case": "REF-FAIL-f64-GL",
+    "witness": "nonqualify-REF-FAIL-f64-GL",
+    "control_case": "REF-PASS-f64-GL; regression-only",
+    "review_role": "Independent bounded review; not author/parent self-verification",
+    "allowed_reads": "Explicit task closure only; no quarantined private archives, credentials, messaging receipts or unrelated scratch.",
+    "writes": "Reviewer-owned scratch evidence only; no repository writes or repairs.",
+    "material_read": [
+      "Workspace and repository AGENTS.md",
+      "Candidate authorization.json, execution-resumption-approval.json and README.md",
+      "Candidate review-inputs.json and baseline-inputs.json",
+      "45 pinned candidate/status files and 234 immutable baseline files, read for byte/hash checks",
+      "Canonical author archive for digest, member metadata and evidence-index.json only"
+    ],
+    "not_executed": "Archived preparation, assembly, capture and revision scripts; production numerical code; all pytest, challenge, exact-math and ledger checks.",
+    "prior_blocked_run": "Remains unlaunched historically; no retroactive execution claim.",
+    "new_blocked_run": "blocked-attempt.json records a different, newly approval-gated command; tool exit -1 is not a child exit."
+  },
+  "required_resumption": "Obtain approval for the newly blocked verification/copy operation before completing this independent review. Preserve this incomplete verdict as a separate checkpoint; do not repair candidate code.",
+  "verdict_path": "/home/davianc/.hermes/cache/scratch/hpfracc-independent-68h0kfe3/verdict.json",
+  "evidence_index_path": "/home/davianc/.hermes/cache/scratch/hpfracc-independent-68h0kfe3/evidence-index.json",
+  "evidence_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-independent-68h0kfe3"
+}

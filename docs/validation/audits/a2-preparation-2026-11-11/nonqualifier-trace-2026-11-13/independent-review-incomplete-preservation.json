@@ -1,0 +1,16 @@
+{
+  "status": "Incomplete independent review preserved; no code/evidence approval",
+  "archive": "independent-review-incomplete.tar.gz",
+  "archive_sha256": "531204f12d1ca0c2bcb27c6862c87a8b93af21332953aa69724eea2929129f02",
+  "archive_members_verified": 13,
+  "review_index_sha256": "32235ced49bb6b4752f677ea66a14f2eece486bad8190be9e43bdddb6ebb9d87",
+  "review_indexed_files_verified": 12,
+  "review_indexed_bytes_verified": 201566,
+  "reviewed_manifest_unchanged": true,
+  "reviewed_file_count": 45,
+  "blocked_operation_launched": false,
+  "blocked_operation_retried_or_rerouted": false,
+  "independent_source_findings": [],
+  "source_review_completed": false,
+  "review_requires_execution_approval": true
+}

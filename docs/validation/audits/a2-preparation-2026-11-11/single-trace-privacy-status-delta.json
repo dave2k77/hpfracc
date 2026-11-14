@@ -1,0 +1,32 @@
+{
+  "status": "PUBLICATION HOLD verified; not a sanitized-derivative approval",
+  "delta": {
+    "docs/developer/phase-a-completion.md": {
+      "before_privacy_hold_sha256": "a1f1b39a219e8c8a40c8c4c12733894680bd99c9d390de0ba2d2b52cce67cf10",
+      "after_privacy_hold_sha256": "ef8f0707c5432d63d325b83e017fdfc8ce25710466148ae666991dba07344801",
+      "change": "Publication hold and VAL-014; source/finite proof conclusions unchanged"
+    },
+    "docs/developer/bug-resolution-tracker.md": {
+      "before_privacy_hold_sha256": "0e14290f805da39458a81e03a8aab80f57b7a9e5fe0647833b90a97a83c71d43",
+      "after_privacy_hold_sha256": "43293d25ba59de3bd11b78f0d3c864a705dae10e3aca29aedb14de6f221a57a3",
+      "change": "Publication hold and VAL-014; source/finite proof conclusions unchanged"
+    },
+    "single-trace-outcome.json": {
+      "before_sha256": "99fca63460c2a34a1df9bdd98a302bf9ca81182003f097195945c4a57da0b7f0",
+      "after_sha256": "d2374b65209332e8e74cce39000b8eaa42698a0d6302fd54624102d5eefb9b59",
+      "old_bytes_preserved": "single-trace-parent-closure-evidence.tar.gz::single-trace-outcome.json"
+    }
+  },
+  "qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23,
+  "protected_root_union_files_unchanged": 170,
+  "private_original_byte_hash_and_permissions_verified": true,
+  "raw_qa_directory": "/home/davianc/.hermes/cache/scratch/a2-single-trace-20261112/privacy-hold-qa",
+  "further_correction_started": false,
+  "commit_or_push_performed": false
+}

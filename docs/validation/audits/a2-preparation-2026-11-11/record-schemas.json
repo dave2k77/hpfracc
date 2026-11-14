@@ -1,0 +1,3731 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hpfracc:a2:preparation:records:v1",
+  "title": "Proposed closed A2 record structures; semantic predicate is mandatory",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/bounded_failure"
+    },
+    {
+      "$ref": "#/$defs/candidate_spec"
+    },
+    {
+      "$ref": "#/$defs/request"
+    },
+    {
+      "$ref": "#/$defs/candidate"
+    },
+    {
+      "$ref": "#/$defs/observation"
+    },
+    {
+      "$ref": "#/$defs/comparison"
+    },
+    {
+      "$ref": "#/$defs/process"
+    },
+    {
+      "$ref": "#/$defs/result"
+    },
+    {
+      "$ref": "#/$defs/failure_index"
+    },
+    {
+      "$ref": "#/$defs/input_bundle"
+    },
+    {
+      "$ref": "#/$defs/binding_check"
+    },
+    {
+      "$ref": "#/$defs/slot"
+    },
+    {
+      "$ref": "#/$defs/launch_receipt"
+    },
+    {
+      "$ref": "#/$defs/producer_binding"
+    },
+    {
+      "$ref": "#/$defs/supervisor_export"
+    },
+    {
+      "$ref": "#/$defs/run_manifest"
+    },
+    {
+      "$ref": "#/$defs/output_control"
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+      "maxLength": 64
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "rat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "num",
+        "den"
+      ],
+      "properties": {
+        "num": {
+          "type": "string",
+          "pattern": "^(0|-?[1-9a-f][0-9a-f]*)$",
+          "maxLength": 8193
+        },
+        "den": {
+          "type": "string",
+          "pattern": "^[1-9a-f][0-9a-f]*$",
+          "maxLength": 8192
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repo_path",
+        "sha256"
+      ],
+      "properties": {
+        "repo_path": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      }
+    },
+    "raw_array": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dtype",
+        "shape",
+        "byte_order",
+        "layout",
+        "nbytes",
+        "raw_hex",
+        "sha256"
+      ],
+      "properties": {
+        "dtype": {
+          "enum": [
+            "float32",
+            "float64",
+            "complex64",
+            "complex128"
+          ]
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "byte_order": {
+          "enum": [
+            "little",
+            "big"
+          ]
+        },
+        "layout": {
+          "enum": [
+            "C"
+          ]
+        },
+        "nbytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "raw_hex": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{2})*$",
+          "maxLength": 8192
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      }
+    },
+    "exact_array": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "values"
+      ],
+      "properties": {
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/rat"
+          },
+          "minItems": 0,
+          "maxItems": 289
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "n",
+        "pole_count",
+        "kernel",
+        "method",
+        "exact_head",
+        "alpha",
+        "dt",
+        "t_max",
+        "grid",
+        "lower_terminal",
+        "prehistory"
+      ],
+      "properties": {
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "pole_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "kernel": {
+          "enum": [
+            "gl_prefix",
+            "l1",
+            "gl"
+          ]
+        },
+        "method": {
+          "enum": [
+            "scaled_tail",
+            "legacy"
+          ]
+        },
+        "exact_head": {
+          "type": "boolean"
+        },
+        "alpha": {
+          "$ref": "#/$defs/rat"
+        },
+        "dt": {
+          "$ref": "#/$defs/rat"
+        },
+        "t_max": {
+          "$ref": "#/$defs/rat"
+        },
+        "grid": {
+          "enum": [
+            "uniform",
+            "nonuniform"
+          ]
+        },
+        "lower_terminal": {
+          "$ref": "#/$defs/rat"
+        },
+        "prehistory": {
+          "enum": [
+            "zero",
+            "nonzero"
+          ]
+        }
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "entrypoint",
+        "source",
+        "lock_sha256",
+        "policy_id",
+        "iterations",
+        "rate_grid",
+        "backend",
+        "working_dtype",
+        "x64",
+        "jax_version",
+        "device_class",
+        "mode"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "synthetic_control",
+            "actual_fitter"
+          ]
+        },
+        "entrypoint": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "lock_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 400
+        },
+        "rate_grid": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "backend": {
+          "enum": [
+            "host",
+            "cpu",
+            "cuda",
+            "unobserved"
+          ]
+        },
+        "working_dtype": {
+          "enum": [
+            "float32",
+            "float64"
+          ]
+        },
+        "x64": {
+          "type": "boolean"
+        },
+        "jax_version": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "device_class": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "mode": {
+          "enum": [
+            "synthetic",
+            "eager",
+            "jit",
+            "unobserved"
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "stable_id",
+        "configuration",
+        "producer",
+        "rhos",
+        "coefficients",
+        "artifact_status",
+        "reasons"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "candidate"
+          ]
+        },
+        "stable_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "configuration": {
+          "$ref": "#/$defs/configuration"
+        },
+        "producer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/producer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rhos": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/raw_array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coefficients": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/raw_array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "artifact_status": {
+          "enum": [
+            "provided",
+            "missing",
+            "corrupt",
+            "not_evaluated"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "request_id",
+        "case_id",
+        "policy_id",
+        "packet_manifest_sha256",
+        "operator",
+        "alpha",
+        "dt",
+        "lower_terminal",
+        "prehistory",
+        "grid",
+        "input",
+        "tau",
+        "candidates",
+        "caps"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "request"
+          ]
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "packet_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "operator": {
+          "enum": [
+            "GL",
+            "RL",
+            "Caputo"
+          ]
+        },
+        "alpha": {
+          "$ref": "#/$defs/rat"
+        },
+        "dt": {
+          "$ref": "#/$defs/rat"
+        },
+        "lower_terminal": {
+          "$ref": "#/$defs/rat"
+        },
+        "prehistory": {
+          "enum": [
+            "zero",
+            "nonzero"
+          ]
+        },
+        "grid": {
+          "enum": [
+            "uniform",
+            "nonuniform"
+          ]
+        },
+        "input": {
+          "$ref": "#/$defs/raw_array"
+        },
+        "tau": {
+          "$ref": "#/$defs/rat"
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/supplied_candidate"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "caps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidates",
+            "poles",
+            "rational_primitives",
+            "normalized_bits",
+            "evidence_bytes",
+            "wall_seconds",
+            "input_bundle_bytes",
+            "failure_index_bytes",
+            "raw_array_bytes",
+            "tau_bits",
+            "json_depth",
+            "json_nodes",
+            "string_ascii_bytes",
+            "id_ascii_bytes",
+            "inventory_candidates",
+            "source_entries",
+            "slots_per_request",
+            "stdout_bytes",
+            "stderr_bytes"
+          ],
+          "properties": {
+            "candidates": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "poles": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "rational_primitives": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "normalized_bits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "evidence_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16777216
+            },
+            "wall_seconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "input_bundle_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 262144
+            },
+            "failure_index_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 524288
+            },
+            "raw_array_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "tau_bits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "json_depth": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "json_nodes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "string_ascii_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "id_ascii_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "inventory_candidates": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "source_entries": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "slots_per_request": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "stdout_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "stderr_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            }
+          }
+        }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "case_id",
+        "candidate_id",
+        "mode",
+        "branch",
+        "quantity",
+        "status",
+        "reason",
+        "raw_array",
+        "exact_array",
+        "producer_binding_sha256",
+        "candidate_index",
+        "reasons",
+        "record_type"
+      ],
+      "properties": {
+        "slot_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "enum": [
+            "shared",
+            "synthetic",
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "quantity": {
+          "enum": [
+            "w",
+            "g",
+            "v",
+            "D",
+            "g_hat",
+            "residual",
+            "signed_fitted_weights",
+            "L_hat",
+            "D_hat",
+            "error",
+            "B",
+            "epsilon",
+            "analytic_input_gradient",
+            "rhos",
+            "coefficients",
+            "input",
+            "alpha",
+            "dt",
+            "h",
+            "direction",
+            "output",
+            "full_output",
+            "objective",
+            "input_AD",
+            "order_AD",
+            "directional_AD",
+            "input_FD",
+            "order_FD",
+            "zero_pattern"
+          ]
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unknown",
+            "not_evaluated",
+            "not_applicable"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "none",
+            "invalid_type",
+            "invalid_tau",
+            "duplicate_id",
+            "duplicate_content",
+            "empty_candidates",
+            "unsupported_reference",
+            "input_envelope_exceeded",
+            "configuration_mismatch",
+            "malformed_fit",
+            "nonfinite_fit",
+            "negative_coefficient",
+            "invalid_rho",
+            "missing_raw_artifact",
+            "corrupt_raw_artifact",
+            "missing_producer_binding",
+            "corrupt_producer_binding",
+            "primitive_cap",
+            "normalized_bit_cap",
+            "evidence_cap",
+            "watchdog",
+            "not_evaluated",
+            "incomplete_evidence",
+            "shape_mismatch",
+            "comparison_failed",
+            "nonsmooth_unresolved",
+            "gate_contradiction",
+            "process_failed",
+            "unselected_candidate",
+            "stage_not_used",
+            "unused_quantity",
+            "singleton_fd_adjacency",
+            "timing_unavailable",
+            "timing_out_of_envelope",
+            "unsafe_output_target",
+            "reservation_exceeded",
+            "exit_unconfirmed"
+          ]
+        },
+        "raw_array": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/raw_array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exact_array": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/exact_array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "producer_binding_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "$ref": "#/$defs/reasons"
+        },
+        "record_type": {
+          "enum": [
+            "slot"
+          ]
+        }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "status",
+        "reasons",
+        "qualifies",
+        "slots",
+        "candidate_index"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "status": {
+          "enum": [
+            "known_qualifying",
+            "known_rejected_by_bound",
+            "known_ineligible",
+            "unknown"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "qualifies": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "observation_id",
+        "case_id",
+        "candidate_id",
+        "policy_id",
+        "producer",
+        "configuration",
+        "mode",
+        "branch",
+        "input_bundle_sha256",
+        "base_observation_id",
+        "slots",
+        "status",
+        "reasons",
+        "candidate_index",
+        "run_id",
+        "process_id",
+        "invocation_id",
+        "launch_receipt_sha256",
+        "producer_binding_sha256"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "observation"
+          ]
+        },
+        "observation_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "producer": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/producer"
+                },
+                {
+                  "$ref": "#/$defs/full_producer"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "configuration": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/configuration"
+            },
+            {
+              "$ref": "#/$defs/full_configuration"
+            }
+          ]
+        },
+        "mode": {
+          "enum": [
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "input_bundle_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "base_observation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "unknown",
+            "not_evaluated",
+            "not_applicable"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "run_id": {
+          "$ref": "#/$defs/id"
+        },
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "invocation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "launch_receipt_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "producer_binding_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "comparison_id",
+        "case_id",
+        "candidate_id",
+        "policy_id",
+        "a_slot_id",
+        "reference_slot_id",
+        "status",
+        "reasons",
+        "candidate_index"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "comparison"
+          ]
+        },
+        "comparison_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "a_slot_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reference_slot_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "unknown",
+            "not_evaluated",
+            "not_applicable"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "process": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "run_id",
+        "command",
+        "exit_code",
+        "termination",
+        "elapsed_monotonic_ns",
+        "watchdog_triggered",
+        "stdout_sha256",
+        "stderr_sha256",
+        "stdout_truncated",
+        "stderr_truncated",
+        "process_id",
+        "case_id",
+        "request_id",
+        "input_bundle_sha256",
+        "launch_receipt_sha256",
+        "exit_confirmed",
+        "barrier",
+        "phases"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "process"
+          ]
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[ -~]*$",
+            "maxLength": 256
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -255,
+              "maximum": 255
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "termination": {
+          "enum": [
+            "normal",
+            "terminate",
+            "kill",
+            "not_launched"
+          ]
+        },
+        "elapsed_monotonic_ns": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "watchdog_triggered": {
+          "type": "boolean"
+        },
+        "stdout_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stderr_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stdout_truncated": {
+          "type": "boolean"
+        },
+        "stderr_truncated": {
+          "type": "boolean"
+        },
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "case_id": {
+          "$ref": "#/$defs/id"
+        },
+        "request_id": {
+          "$ref": "#/$defs/id"
+        },
+        "input_bundle_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "launch_receipt_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exit_confirmed": {
+          "type": "boolean"
+        },
+        "barrier": {
+          "enum": [
+            "held",
+            "released",
+            "not_used",
+            "not_launched"
+          ]
+        },
+        "phases": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "preflight",
+            "watchdog",
+            "grace",
+            "kill_to_exit"
+          ],
+          "properties": {
+            "preflight": {
+              "$ref": "#/$defs/phase_timing"
+            },
+            "watchdog": {
+              "$ref": "#/$defs/phase_timing"
+            },
+            "grace": {
+              "$ref": "#/$defs/phase_timing"
+            },
+            "kill_to_exit": {
+              "$ref": "#/$defs/phase_timing"
+            }
+          }
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "case_id",
+        "request_id",
+        "input_bundle_sha256",
+        "packet_manifest_sha256",
+        "status",
+        "selected_id",
+        "reasons",
+        "assessments",
+        "shared_slots",
+        "primitive_count",
+        "max_normalized_bits",
+        "evidence_bytes",
+        "arithmetic_verified",
+        "total_numerical_certified",
+        "a2_acceptance_passed",
+        "implementation_authorized"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "result"
+          ]
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "input_bundle_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "packet_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "status": {
+          "enum": [
+            "invalid_request",
+            "indeterminate",
+            "selected",
+            "no_supplied_candidate_meets_bound"
+          ]
+        },
+        "selected_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "assessments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/assessment"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "shared_slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        },
+        "primitive_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "max_normalized_bits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32768
+        },
+        "evidence_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "arithmetic_verified": {
+          "enum": [
+            false
+          ]
+        },
+        "total_numerical_certified": {
+          "enum": [
+            false
+          ]
+        },
+        "a2_acceptance_passed": {
+          "enum": [
+            false
+          ]
+        },
+        "implementation_authorized": {
+          "enum": [
+            false
+          ]
+        }
+      }
+    },
+    "failure_index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "request_id",
+        "input_bundle_sha256",
+        "candidate_ids",
+        "slots",
+        "status",
+        "reasons",
+        "process",
+        "candidate_occurrences",
+        "comparisons",
+        "binding_checks",
+        "bytes_accounting"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "failure_index"
+          ]
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "input_bundle_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+            "maxLength": 64
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/index_slot"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        },
+        "status": {
+          "enum": [
+            "not_evaluated",
+            "indeterminate",
+            "invalid_request",
+            "complete"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "process": {
+          "$ref": "#/$defs/process"
+        },
+        "candidate_occurrences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/candidate_occurrence"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "comparisons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/comparison"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        },
+        "binding_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/binding_check"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        },
+        "bytes_accounting": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "live_bytes",
+            "cumulative_written_bytes",
+            "reserved_final_transaction_bytes"
+          ],
+          "properties": {
+            "live_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16777216
+            },
+            "cumulative_written_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16777216
+            },
+            "reserved_final_transaction_bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 524288
+            }
+          }
+        }
+      }
+    },
+    "input_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "request",
+        "sources",
+        "required_slots",
+        "raw_request_utf8_hex",
+        "raw_request_sha256",
+        "candidate_ids",
+        "candidate_occurrences",
+        "required_comparisons",
+        "required_binding_checks"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "input_bundle"
+          ]
+        },
+        "request": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/request"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1,
+          "maxItems": 125
+        },
+        "required_slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inventory_entry"
+          },
+          "minItems": 1,
+          "maxItems": 2048
+        },
+        "raw_request_utf8_hex": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{2})*$",
+          "maxLength": 524288
+        },
+        "raw_request_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "candidate_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "candidate_occurrences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/candidate_occurrence"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "required_comparisons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/comparison_inventory"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        },
+        "required_binding_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/binding_inventory"
+          },
+          "minItems": 0,
+          "maxItems": 2048
+        }
+      }
+    },
+    "inventory_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "candidate_id",
+        "mode",
+        "branch",
+        "quantity",
+        "candidate_index"
+      ],
+      "properties": {
+        "slot_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "enum": [
+            "shared",
+            "synthetic",
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "quantity": {
+          "enum": [
+            "w",
+            "g",
+            "v",
+            "D",
+            "g_hat",
+            "residual",
+            "signed_fitted_weights",
+            "L_hat",
+            "D_hat",
+            "error",
+            "B",
+            "epsilon",
+            "analytic_input_gradient",
+            "rhos",
+            "coefficients",
+            "input",
+            "alpha",
+            "dt",
+            "h",
+            "direction",
+            "output",
+            "full_output",
+            "objective",
+            "input_AD",
+            "order_AD",
+            "directional_AD",
+            "input_FD",
+            "order_FD",
+            "zero_pattern"
+          ]
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "binding_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "case_id",
+        "candidate_id",
+        "mode",
+        "branch",
+        "reference_branch",
+        "observation_id",
+        "reference_observation_id",
+        "comparison",
+        "status",
+        "reasons",
+        "candidate_index",
+        "check_id"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "binding_check"
+          ]
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "mode": {
+          "enum": [
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "reference_branch": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "observation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reference_observation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "comparison": {
+          "enum": [
+            "actual_rhos_and_coefficients_raw_identity_to_same_mode_base",
+            "actual_returned_fit_source_configuration_and_actual_alpha_dt_binding",
+            "actual_rhos_coefficients_input_alpha_dt_identity_to_same_mode_base"
+          ]
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "unknown",
+            "not_evaluated",
+            "not_applicable"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "invalid_type",
+              "invalid_tau",
+              "duplicate_id",
+              "duplicate_content",
+              "empty_candidates",
+              "unsupported_reference",
+              "input_envelope_exceeded",
+              "configuration_mismatch",
+              "malformed_fit",
+              "nonfinite_fit",
+              "negative_coefficient",
+              "invalid_rho",
+              "missing_raw_artifact",
+              "corrupt_raw_artifact",
+              "missing_producer_binding",
+              "corrupt_producer_binding",
+              "primitive_cap",
+              "normalized_bit_cap",
+              "evidence_cap",
+              "watchdog",
+              "not_evaluated",
+              "incomplete_evidence",
+              "shape_mismatch",
+              "comparison_failed",
+              "nonsmooth_unresolved",
+              "gate_contradiction",
+              "process_failed",
+              "unselected_candidate",
+              "stage_not_used",
+              "unused_quantity",
+              "singleton_fd_adjacency",
+              "timing_unavailable",
+              "timing_out_of_envelope",
+              "unsafe_output_target",
+              "reservation_exceeded",
+              "exit_unconfirmed"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "check_id": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "index_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^arrays/[A-Za-z0-9][A-Za-z0-9._-]{0,63}\\.json$",
+          "maxLength": 76
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      }
+    },
+    "index_slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "candidate_id",
+        "mode",
+        "branch",
+        "quantity",
+        "status",
+        "reason",
+        "expected_shape",
+        "completed_shape",
+        "artifact",
+        "candidate_index",
+        "reasons"
+      ],
+      "properties": {
+        "slot_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "enum": [
+            "shared",
+            "synthetic",
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "maxLength": 64
+        },
+        "quantity": {
+          "enum": [
+            "w",
+            "g",
+            "v",
+            "D",
+            "g_hat",
+            "residual",
+            "signed_fitted_weights",
+            "L_hat",
+            "D_hat",
+            "error",
+            "B",
+            "epsilon",
+            "analytic_input_gradient",
+            "rhos",
+            "coefficients",
+            "input",
+            "alpha",
+            "dt",
+            "h",
+            "direction",
+            "output",
+            "full_output",
+            "objective",
+            "input_AD",
+            "order_AD",
+            "directional_AD",
+            "input_FD",
+            "order_FD",
+            "zero_pattern"
+          ]
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unknown",
+            "not_evaluated",
+            "not_applicable"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "none",
+            "invalid_type",
+            "invalid_tau",
+            "duplicate_id",
+            "duplicate_content",
+            "empty_candidates",
+            "unsupported_reference",
+            "input_envelope_exceeded",
+            "configuration_mismatch",
+            "malformed_fit",
+            "nonfinite_fit",
+            "negative_coefficient",
+            "invalid_rho",
+            "missing_raw_artifact",
+            "corrupt_raw_artifact",
+            "missing_producer_binding",
+            "corrupt_producer_binding",
+            "primitive_cap",
+            "normalized_bit_cap",
+            "evidence_cap",
+            "watchdog",
+            "not_evaluated",
+            "incomplete_evidence",
+            "shape_mismatch",
+            "comparison_failed",
+            "nonsmooth_unresolved",
+            "gate_contradiction",
+            "process_failed",
+            "unselected_candidate",
+            "stage_not_used",
+            "unused_quantity",
+            "singleton_fd_adjacency",
+            "timing_unavailable",
+            "timing_out_of_envelope",
+            "unsafe_output_target",
+            "reservation_exceeded",
+            "exit_unconfirmed"
+          ]
+        },
+        "expected_shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "completed_shape": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1024
+              },
+              "minItems": 0,
+              "maxItems": 2
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "artifact": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/index_artifact"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "$ref": "#/$defs/reasons"
+        }
+      }
+    },
+    "reason": {
+      "enum": [
+        "none",
+        "invalid_type",
+        "invalid_tau",
+        "duplicate_id",
+        "duplicate_content",
+        "empty_candidates",
+        "unsupported_reference",
+        "input_envelope_exceeded",
+        "configuration_mismatch",
+        "malformed_fit",
+        "nonfinite_fit",
+        "negative_coefficient",
+        "invalid_rho",
+        "missing_raw_artifact",
+        "corrupt_raw_artifact",
+        "missing_producer_binding",
+        "corrupt_producer_binding",
+        "primitive_cap",
+        "normalized_bit_cap",
+        "evidence_cap",
+        "watchdog",
+        "not_evaluated",
+        "incomplete_evidence",
+        "shape_mismatch",
+        "comparison_failed",
+        "nonsmooth_unresolved",
+        "gate_contradiction",
+        "process_failed",
+        "unselected_candidate",
+        "stage_not_used",
+        "unused_quantity",
+        "singleton_fd_adjacency",
+        "timing_unavailable",
+        "timing_out_of_envelope",
+        "unsafe_output_target",
+        "reservation_exceeded",
+        "exit_unconfirmed"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reason"
+      },
+      "minItems": 1,
+      "maxItems": 32
+    },
+    "full_configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "history",
+        "operator",
+        "kernel",
+        "n",
+        "alpha",
+        "dt",
+        "grid",
+        "lower_terminal",
+        "prehistory"
+      ],
+      "properties": {
+        "history": {
+          "enum": [
+            "full"
+          ]
+        },
+        "operator": {
+          "enum": [
+            "GL",
+            "RL"
+          ]
+        },
+        "kernel": {
+          "enum": [
+            "gl_signed"
+          ]
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "alpha": {
+          "$ref": "#/$defs/rat"
+        },
+        "dt": {
+          "$ref": "#/$defs/rat"
+        },
+        "grid": {
+          "enum": [
+            "uniform"
+          ]
+        },
+        "lower_terminal": {
+          "$ref": "#/$defs/rat"
+        },
+        "prehistory": {
+          "enum": [
+            "zero"
+          ]
+        }
+      }
+    },
+    "full_producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "entrypoint",
+        "source",
+        "lock_sha256",
+        "policy_id",
+        "backend",
+        "working_dtype",
+        "x64",
+        "jax_version",
+        "device_class",
+        "mode"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "actual_full_history"
+          ]
+        },
+        "entrypoint": {
+          "enum": [
+            "hpfracc.ops.fractional.grunwald_letnikov",
+            "hpfracc.ops.fractional.riemann_liouville"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "lock_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "policy_id": {
+          "$ref": "#/$defs/id"
+        },
+        "backend": {
+          "enum": [
+            "cpu",
+            "cuda"
+          ]
+        },
+        "working_dtype": {
+          "enum": [
+            "float32",
+            "float64"
+          ]
+        },
+        "x64": {
+          "type": "boolean"
+        },
+        "jax_version": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "device_class": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "mode": {
+          "enum": [
+            "eager",
+            "jit"
+          ]
+        }
+      }
+    },
+    "host_configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "history",
+        "operator",
+        "n",
+        "alpha",
+        "dt",
+        "grid",
+        "lower_terminal",
+        "prehistory"
+      ],
+      "properties": {
+        "history": {
+          "enum": [
+            "host_exact"
+          ]
+        },
+        "operator": {
+          "enum": [
+            "GL",
+            "RL"
+          ]
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 17
+        },
+        "alpha": {
+          "$ref": "#/$defs/rat"
+        },
+        "dt": {
+          "$ref": "#/$defs/rat"
+        },
+        "grid": {
+          "enum": [
+            "uniform"
+          ]
+        },
+        "lower_terminal": {
+          "$ref": "#/$defs/rat"
+        },
+        "prehistory": {
+          "enum": [
+            "zero"
+          ]
+        }
+      }
+    },
+    "host_producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "entrypoint",
+        "source",
+        "policy_id",
+        "backend",
+        "mode"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "host_exact"
+          ]
+        },
+        "entrypoint": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "policy_id": {
+          "$ref": "#/$defs/id"
+        },
+        "backend": {
+          "enum": [
+            "host"
+          ]
+        },
+        "mode": {
+          "enum": [
+            "shared",
+            "synthetic",
+            "eager",
+            "jit"
+          ]
+        }
+      }
+    },
+    "producer_call_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entrypoint",
+        "source",
+        "lock_sha256",
+        "alpha_ref",
+        "n",
+        "n_poles",
+        "t_max",
+        "kernel",
+        "method",
+        "expected_dtype",
+        "x64"
+      ],
+      "properties": {
+        "entrypoint": {
+          "type": "string",
+          "pattern": "^[ -~]*$",
+          "maxLength": 256
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "lock_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "alpha_ref": {
+          "enum": [
+            "request/alpha"
+          ]
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "n_poles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "t_max": {
+          "$ref": "#/$defs/rat"
+        },
+        "kernel": {
+          "enum": [
+            "gl"
+          ]
+        },
+        "method": {
+          "enum": [
+            "scaled_tail"
+          ]
+        },
+        "expected_dtype": {
+          "enum": [
+            "float32",
+            "float64"
+          ]
+        },
+        "x64": {
+          "type": "boolean"
+        }
+      }
+    },
+    "candidate_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "stable_id",
+        "configuration",
+        "producer_call",
+        "rhos",
+        "coefficients",
+        "artifact_status",
+        "reasons"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "candidate_spec"
+          ]
+        },
+        "stable_id": {
+          "$ref": "#/$defs/id"
+        },
+        "configuration": {
+          "$ref": "#/$defs/configuration"
+        },
+        "producer_call": {
+          "$ref": "#/$defs/producer_call_spec"
+        },
+        "rhos": {
+          "enum": [
+            null
+          ]
+        },
+        "coefficients": {
+          "enum": [
+            null
+          ]
+        },
+        "artifact_status": {
+          "enum": [
+            "not_evaluated"
+          ]
+        },
+        "reasons": {
+          "$ref": "#/$defs/reasons"
+        }
+      }
+    },
+    "supplied_candidate": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/candidate"
+        },
+        {
+          "$ref": "#/$defs/candidate_spec"
+        }
+      ]
+    },
+    "raw_descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dtype",
+        "shape",
+        "byte_order",
+        "layout",
+        "nbytes",
+        "sha256"
+      ],
+      "properties": {
+        "dtype": {
+          "enum": [
+            "float32",
+            "float64",
+            "complex64",
+            "complex128"
+          ]
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "byte_order": {
+          "enum": [
+            "little",
+            "big"
+          ]
+        },
+        "layout": {
+          "enum": [
+            "C"
+          ]
+        },
+        "nbytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      }
+    },
+    "exact_descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "values_count",
+        "payload_sha256"
+      ],
+      "properties": {
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "values_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 289
+        },
+        "payload_sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      }
+    },
+    "payload_descriptor": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/raw_descriptor"
+        },
+        {
+          "$ref": "#/$defs/exact_descriptor"
+        }
+      ]
+    },
+    "named_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "quantity",
+        "descriptor"
+      ],
+      "properties": {
+        "slot_id": {
+          "$ref": "#/$defs/id"
+        },
+        "quantity": {
+          "enum": [
+            "w",
+            "g",
+            "v",
+            "D",
+            "g_hat",
+            "residual",
+            "signed_fitted_weights",
+            "L_hat",
+            "D_hat",
+            "error",
+            "B",
+            "epsilon",
+            "analytic_input_gradient",
+            "rhos",
+            "coefficients",
+            "input",
+            "alpha",
+            "dt",
+            "h",
+            "direction",
+            "output",
+            "full_output",
+            "objective",
+            "input_AD",
+            "order_AD",
+            "directional_AD",
+            "input_FD",
+            "order_FD",
+            "zero_pattern"
+          ]
+        },
+        "descriptor": {
+          "$ref": "#/$defs/payload_descriptor"
+        }
+      }
+    },
+    "phase_timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "start_ns",
+        "end_ns",
+        "elapsed_ns",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable",
+            "not_applicable",
+            "not_evaluated"
+          ]
+        },
+        "start_ns": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_ns": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "elapsed_ns": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      }
+    },
+    "launch_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "run_id",
+        "process_id",
+        "case_id",
+        "request_id",
+        "input_bundle_sha256",
+        "command",
+        "pid",
+        "launch_monotonic_ns",
+        "status",
+        "barrier",
+        "sources"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "launch_receipt"
+          ]
+        },
+        "run_id": {
+          "$ref": "#/$defs/id"
+        },
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "case_id": {
+          "$ref": "#/$defs/id"
+        },
+        "request_id": {
+          "$ref": "#/$defs/id"
+        },
+        "input_bundle_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[ -~]*$",
+            "maxLength": 256
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "pid": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "launch_monotonic_ns": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "launched",
+            "not_launched"
+          ]
+        },
+        "barrier": {
+          "enum": [
+            "held",
+            "not_used"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1,
+          "maxItems": 125
+        }
+      }
+    },
+    "producer_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "binding_id",
+        "run_id",
+        "process_id",
+        "invocation_id",
+        "observation_id",
+        "case_id",
+        "request_id",
+        "candidate_id",
+        "candidate_index",
+        "input_bundle_sha256",
+        "packet_manifest_sha256",
+        "launch_receipt_sha256",
+        "policy_id",
+        "mode",
+        "branch",
+        "configuration",
+        "producer",
+        "sources",
+        "input",
+        "alpha",
+        "dt",
+        "h",
+        "direction",
+        "returned"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "producer_binding"
+          ]
+        },
+        "binding_id": {
+          "$ref": "#/$defs/id"
+        },
+        "run_id": {
+          "$ref": "#/$defs/id"
+        },
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "invocation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "observation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "case_id": {
+          "$ref": "#/$defs/id"
+        },
+        "request_id": {
+          "$ref": "#/$defs/id"
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input_bundle_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "packet_manifest_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "launch_receipt_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "policy_id": {
+          "$ref": "#/$defs/id"
+        },
+        "mode": {
+          "enum": [
+            "shared",
+            "synthetic",
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "$ref": "#/$defs/id"
+        },
+        "configuration": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/configuration"
+            },
+            {
+              "$ref": "#/$defs/full_configuration"
+            },
+            {
+              "$ref": "#/$defs/host_configuration"
+            }
+          ]
+        },
+        "producer": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/producer"
+            },
+            {
+              "$ref": "#/$defs/full_producer"
+            },
+            {
+              "$ref": "#/$defs/host_producer"
+            }
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1,
+          "maxItems": 125
+        },
+        "input": {
+          "$ref": "#/$defs/raw_descriptor"
+        },
+        "alpha": {
+          "$ref": "#/$defs/raw_descriptor"
+        },
+        "dt": {
+          "$ref": "#/$defs/raw_descriptor"
+        },
+        "h": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/raw_descriptor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/raw_descriptor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "returned": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/named_payload"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      }
+    },
+    "supervisor_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "run_id",
+        "process_id",
+        "case_id",
+        "input_bundle_sha256",
+        "process_sha256",
+        "failure_index_sha256",
+        "failure_index_bytes",
+        "index_write",
+        "status",
+        "reasons"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "supervisor_export"
+          ]
+        },
+        "run_id": {
+          "$ref": "#/$defs/id"
+        },
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "case_id": {
+          "$ref": "#/$defs/id"
+        },
+        "input_bundle_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "process_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "failure_index_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "failure_index_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 524288
+        },
+        "index_write": {
+          "$ref": "#/$defs/phase_timing"
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "indeterminate"
+          ]
+        },
+        "reasons": {
+          "$ref": "#/$defs/reasons"
+        }
+      }
+    },
+    "candidate_occurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_index",
+        "candidate_id"
+      ],
+      "properties": {
+        "candidate_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 31
+        },
+        "candidate_id": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "comparison_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "comparison_id",
+        "candidate_id",
+        "candidate_index",
+        "policy_id",
+        "a_slot_id",
+        "reference_slot_id"
+      ],
+      "properties": {
+        "comparison_id": {
+          "$ref": "#/$defs/id"
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 31
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policy_id": {
+          "$ref": "#/$defs/id"
+        },
+        "a_slot_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reference_slot_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "binding_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "check_id",
+        "candidate_id",
+        "candidate_index",
+        "mode",
+        "branch",
+        "reference_branch",
+        "comparison"
+      ],
+      "properties": {
+        "check_id": {
+          "$ref": "#/$defs/id"
+        },
+        "candidate_id": {
+          "$ref": "#/$defs/id"
+        },
+        "candidate_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 31
+        },
+        "mode": {
+          "enum": [
+            "eager",
+            "jit"
+          ]
+        },
+        "branch": {
+          "$ref": "#/$defs/id"
+        },
+        "reference_branch": {
+          "$ref": "#/$defs/id"
+        },
+        "comparison": {
+          "enum": [
+            "actual_rhos_and_coefficients_raw_identity_to_same_mode_base",
+            "actual_returned_fit_source_configuration_and_actual_alpha_dt_binding",
+            "actual_rhos_coefficients_input_alpha_dt_identity_to_same_mode_base"
+          ]
+        }
+      }
+    },
+    "run_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "run_id",
+        "case_id",
+        "files",
+        "self_hash_excluded"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "run_manifest"
+          ]
+        },
+        "run_id": {
+          "$ref": "#/$defs/id"
+        },
+        "case_id": {
+          "$ref": "#/$defs/id"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "bytes",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^[ -~]*$",
+                "maxLength": 96
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16777216
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha"
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "self_hash_excluded": {
+          "enum": [
+            true
+          ]
+        }
+      }
+    },
+    "output_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "request_id",
+        "root_token",
+        "status",
+        "fresh_private_root",
+        "subdirs_private",
+        "nofollow_verified",
+        "regular_owned_single_link",
+        "containment_verified",
+        "reasons"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "output_control"
+          ]
+        },
+        "request_id": {
+          "$ref": "#/$defs/id"
+        },
+        "root_token": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "enum": [
+            "safe",
+            "unsafe",
+            "unavailable"
+          ]
+        },
+        "fresh_private_root": {
+          "type": "boolean"
+        },
+        "subdirs_private": {
+          "type": "boolean"
+        },
+        "nofollow_verified": {
+          "type": "boolean"
+        },
+        "regular_owned_single_link": {
+          "type": "boolean"
+        },
+        "containment_verified": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "$ref": "#/$defs/reasons"
+        }
+      }
+    },
+    "bounded_failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "request_id",
+        "received_bytes",
+        "retained_prefix_hex",
+        "retained_prefix_sha256",
+        "status",
+        "reasons",
+        "worker_launched",
+        "implementation_authorized",
+        "a2_acceptance_passed",
+        "arithmetic_verified",
+        "total_numerical_certified"
+      ],
+      "properties": {
+        "record_type": {
+          "enum": [
+            "bounded_failure"
+          ]
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "received_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retained_prefix_hex": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{2})*$",
+          "maxLength": 512
+        },
+        "retained_prefix_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "status": {
+          "enum": [
+            "indeterminate"
+          ]
+        },
+        "reasons": {
+          "$ref": "#/$defs/reasons"
+        },
+        "worker_launched": {
+          "enum": [
+            false
+          ]
+        },
+        "implementation_authorized": {
+          "enum": [
+            false
+          ]
+        },
+        "a2_acceptance_passed": {
+          "enum": [
+            false
+          ]
+        },
+        "arithmetic_verified": {
+          "enum": [
+            false
+          ]
+        },
+        "total_numerical_certified": {
+          "enum": [
+            false
+          ]
+        }
+      }
+    }
+  },
+  "x-canonical-parse-predicate": [
+    "Before decoding: UTF-8 ASCII JSON only; per-record byte length <=16777216 and cumulative evidence <=16777216, with tighter input_bundle<=262144 and failure_index<=524288 bounds. Depth <=16, nodes <=32768 per record, strings <=256 ASCII bytes except raw_hex <=8192 and rational fields <=8193/8192; IDs <=64; bounded decoder must count before allocation. No comments/BOM/trailing data. raw_request_utf8_hex is a bounded escape exception (<=524288 hex characters), but the WHOLE serialized input bundle must still fit 262144 bytes including that copy; do not duplicate raw bytes unnecessarily.",
+    "Reject duplicate object keys using object_pairs_hook or equivalent; reject NaN/Infinity/-Infinity via parse_constant; every JSON numeric token must use integer lexical form (no decimal point/exponent). For integer fields require type(value) is int, not bool/float; for boolean fields require type(value) is bool. In particular JSON 1.0 and true are not integer 1, and 0/1 are not booleans. Schema integer checks alone are insufficient.",
+    "Only declared keys allowed, ALL keys required, no implicit default. Exact enums require type as well as value: certification flags are genuine false bool, not 0. Preserve malformed request bytes for negative fixtures rather than coercing them.",
+    "Rationals use lowercase hex, no 0x/plus/leading zeros/-0; den>0; gcd(abs(num),den)==1; zero ONLY num=0,den=1. Validate lengths BEFORE int conversion, normalized bits <=32768; request tau <=256 bits each, tau>=0. Negative/noncanonical tau is invalid_request; oversized canonical tau is unsupported_reference.",
+    "Raw arrays: nbytes == len(raw_hex)//2 == product(shape)*itemsize (float32=4, float64=8, complex64=8, complex128=16; complex input is structurally decodable but unsupported by this reference), scalar [] has one item; rank/shape validated before allocation, C order, explicit byte order, SHA256 over decoded raw bytes. Finite check follows artifact authentication. Signed zero bytes remain identity data. Exact arrays have product(shape) values, each canonical rational. N by N analytic matrix may have 289 values.",
+    "Evidence IDs unique per case+record kind; candidate IDs need not be unique in bounded INVALID raw input. Candidate occurrences retain supplied-order candidate_index including duplicate IDs, no coercion. Exact post-mutation slot/comparison/binding inventory required. Typed disposition table and schema-control-contract.md are mandatory: known-ineligible slots not_applicable with actual ineligibility reasons, never not_evaluated; unknown/not_evaluated null payloads/binding; complete exactly one payload/binding; partial proper prefix with explicit index remainder. reason equals reasons[0], preserve every observable reason.",
+    "Producer binding has the exact closed payload/digest recipe in x-binding-digest-recipe and schema-control-contract.md; enforce launch/run/process/invocation/case/request/input/source/config/mode/branch and actual returned payload descriptor crosslinks. Candidate-free full observations use full_configuration/full_producer and null candidate ID/index, source fractional.py, never fit attribution. Hashes establish consistency, not execution authentication.",
+    "Recompute shared exact identities, every fitted kernel/output/residual/B/analytic gradient, qualification, completeness and rank from authenticated bytes; compare all required empirical operands using named policies. Checksums alone and synthetic expected fields are not semantic proof or worker results.",
+    "If result status selected, all assessments known, selected ID minimum eligible qualifier; no_supplied requires all known and none qualify. Any unknown or missing required slot makes result indeterminate under EXHAUSTIVE policy. known_ineligible remains completed only for authenticated, fully characterized invalidity; no numerical arrays need be invented. Retain all observable reason codes.",
+    "External manifests exclude themselves. Input bundle precedes launch receipt, raw payload descriptors precede producer binding, then slot wrappers and observations, final process, final index, later supervisor export and external run manifest. Never require own digest or own write duration. No binding hashes a wrapper containing its own binding hash.",
+    "Apply field-type failure at its ownership boundary: request/global metadata errors invalidate request; authenticated candidate-local errors are known-ineligible. Structurally valid out-of-tiny-domain values are unsupported_reference, not malformed. Parsed request may be null when raw input cannot form a canonical request record; bounded raw request bytes plus explicit ID/slot inventory preserve the error without coercing invalid fields. Request JSON duplicate keys/nonfinite number tokens are global syntax failures; nonfinite IEEE bytes inside authenticated arrays are candidate-local numeric failures.",
+    "Working quantity shapes: input/v/D/D_hat/error/B/analytic_input_gradient/output/full_output/input_AD/direction = input shape; w/g/g_hat/residual/signed_fitted_weights = [N]; L_hat = [N,N]; rhos/coefficients/zero_pattern = [P]; epsilon/alpha/dt/h/objective/order_AD/directional_AD/input_FD/order_FD = []. zero_pattern is an exact 0/1 rational vector derived from returned coefficients, not an untyped JSON boolean/float coercion. Full-output comparison has candidate_id=null. Nonselected preinventoried working branches and singleton FD adjacency are explicitly not_applicable, never missing.",
+    "Comparison records must exactly bind a_slot_id and reference_slot_id as enumerated in fixtures; singleton FD adjacency is an explicit not_applicable comparison with null operand IDs. It is not a missing row. Exact full D is independent of candidate, hence candidate_id may be null.",
+    "Each future actual-fit base/perturbation additionally has a preinventoried fit identity check in fixtures. Input perturbations require same-mode fit raw identity; order perturbations require source/config binding to actual strong perturbed alpha and recomputed dt**(-alpha), not equality to base coefficients. Preserve all check outcomes, including nonselected not_applicable entries.",
+    "AD uses a distinct ad-base observation as explicitly inventoried. Retain its actual auxiliary rhos/coefficients/output together with joint input/order cotangents from the same forward composition. Exact base-reference cache reuse is permitted only after authenticated SAME-mode raw input/fit/alpha/dt equality; no cross-mode borrowing. Binding_check records are complete for every predeclared fit identity check, including unknown/not_evaluated/not_applicable outcomes.",
+    "Source repo_path is a bounded relative POSIX path, with no empty, dot or dot-dot component, absolute prefix, drive prefix or backslash; resolve only under repository root. Synthetic producer source denotes the preparation-contract specification, not the production fitter or a claimed JAX execution. Actual-fitter producer source is the pinned _soe.py bytes. Every received raw input or candidate error is preserved as bounded raw data, never a coercion of unknown bytes.",
+    "failure_index.slots uses compact index_slot references to immutable record_type=slot artifacts routed by x-artifact-routing and accepted by schema root. Preserve true bounded unsupported expected shapes (including [18] and [18,18]); no arithmetic support extension. Complete/partial artifacts retain actual shapes; unavailable/inapplicable have null artifact/completed shape. Prepersist and budget ALL comparison and fit-binding dispositions and candidate occurrences too. Safe fresh-root/no-follow ownership, immutable array versus atomic index replacement, cumulative/live byte accounting, phase timing and acyclic later index-write export are mandatory per schema-control-contract.md. Reservation failure is bounded indeterminate before numerical work, never omission.",
+    "All JSON output artifacts must match both root oneOf and x-artifact-routing; raw logs and owned temporary files are explicitly routed exceptions. STATIC/HYPOTHETICAL witness containers are not observed run artifacts. Full timing/ownership/binding relationships and disposition table are mandatory, not waived by false acceptance flags."
+  ],
+  "x-artifact-routing": {
+    "records/preflight-failure.json": "#/$defs/bounded_failure",
+    "input-bundle.json": "#/$defs/input_bundle",
+    "failure-index.json": "#/$defs/failure_index",
+    "result.json": "#/$defs/result",
+    "records/process.json": "#/$defs/process",
+    "records/launch.json": "#/$defs/launch_receipt",
+    "records/export.json": "#/$defs/supervisor_export",
+    "records/output-control.json": "#/$defs/output_control",
+    "run-manifest.json": "#/$defs/run_manifest",
+    "arrays/{slot_id}.json": "#/$defs/slot",
+    "records/observation-{observation_id}.json": "#/$defs/observation",
+    "records/binding-{binding_id}.json": "#/$defs/producer_binding",
+    "records/comparison-{comparison_id}.json": "#/$defs/comparison",
+    "records/check-{check_id}.json": "#/$defs/binding_check",
+    "records/candidate-{candidate_index}.json": "#/$defs/supplied_candidate",
+    "records/request.json": "#/$defs/request",
+    "logs/stdout.bin": "bounded raw bytes <=16384",
+    "logs/stderr.bin": "bounded raw bytes <=16384",
+    "tmp/{id}.part": "charged owned uncommitted bounded bytes; never a successful final artifact"
+  },
+  "x-disposition-table": {
+    "slot_complete": {
+      "status": "complete",
+      "payloads": 1,
+      "binding": "required",
+      "reasons": [
+        "none"
+      ]
+    },
+    "slot_partial": {
+      "status": "partial",
+      "payloads": 1,
+      "binding": "required",
+      "reasons": "non-none unavailable reason; proper prefix only"
+    },
+    "slot_pending": {
+      "status": [
+        "unknown",
+        "not_evaluated"
+      ],
+      "payloads": 0,
+      "binding": null,
+      "reasons": "non-none unavailable reason or not_evaluated"
+    },
+    "slot_inapplicable": {
+      "status": "not_applicable",
+      "payloads": 0,
+      "binding": null,
+      "reasons": [
+        "configuration_mismatch",
+        "malformed_fit",
+        "invalid_type",
+        "nonfinite_fit",
+        "negative_coefficient",
+        "invalid_rho",
+        "unselected_candidate",
+        "stage_not_used",
+        "unused_quantity",
+        "singleton_fd_adjacency"
+      ]
+    },
+    "check_pass": {
+      "status": "pass",
+      "reasons": [
+        "none"
+      ]
+    },
+    "check_fail": {
+      "status": "fail",
+      "reasons": "non-none mismatch reason"
+    },
+    "check_pending": {
+      "status": [
+        "unknown",
+        "not_evaluated"
+      ],
+      "reasons": "non-none unavailable/not_evaluated reason"
+    },
+    "check_inapplicable": {
+      "status": "not_applicable",
+      "reasons": "same causal inapplicability reasons as slots"
+    }
+  },
+  "x-binding-digest-recipe": "sha256(json.dumps(entire producer_binding payload,sort_keys=True,separators=(comma,colon),ensure_ascii=True,allow_nan=False).encode(UTF-8)); no newline, no own digest. returned raw descriptors hash raw bytes; exact descriptors hash canonical exact_array only, never slot wrapper. Mandatory crosslinks and acyclic order in schema-control-contract.md."
+}

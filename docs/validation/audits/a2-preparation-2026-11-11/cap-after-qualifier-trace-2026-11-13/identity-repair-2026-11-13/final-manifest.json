@@ -1,0 +1,128 @@
+{
+  "scope": "Final scoped correction/increment; no wider A2 or delivery approval",
+  "files": {
+    "docs/developer/bug-resolution-tracker.md": {
+      "bytes": 126963,
+      "sha256": "69772d1f6d86db906b53ac367137e996e8a89e360d2b4bc366459f7a1a73e169"
+    },
+    "docs/developer/phase-a-completion.md": {
+      "bytes": 40412,
+      "sha256": "4ba2408d6f1d862ba861f08819717081dd002db54c636bbd86b543605e518e35"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/README.md": {
+      "bytes": 8325,
+      "sha256": "2512ec5e41d52c7c99d9968a8cfa9051998355fb95244fe4a0a27db817e8c2ac"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/README.md": {
+      "bytes": 5885,
+      "sha256": "7d98323756119e22b722c14cff7650a81488b510ef35597a5b92108e241f0523"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/authorization.json": {
+      "bytes": 2429,
+      "sha256": "d05eb594a5a4364a4e8162a6aa3c56442f985c50357236df2a7d7d5bf41c4b08"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/baseline-inputs.json": {
+      "bytes": 188778,
+      "sha256": "34ee701377462259082d89c17908609d56259843de1c64b4624e55f2a02da139"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/correction-evidence.tar.gz": {
+      "bytes": 16049143,
+      "sha256": "ab1f816abb7546dad387e3d39fc1de686aa31deb49abf64abe007bf7bd6a1e01"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/correction-preservation.json": {
+      "bytes": 6517,
+      "sha256": "d46b49f629b2fb1b23c2c4066819691a92d4fe242e953241328a5cb22d60421e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/correction-result.json": {
+      "bytes": 6119,
+      "sha256": "e945d4c84d5ba92c47b8f50c869236aa85e4d2fe08a1ff22416e79008194ea21"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/final-privacy.json": {
+      "bytes": 1920169,
+      "sha256": "1a33fc41493d4a3df6e1dd71b1ff8004cbd7557609000ac9d391300ca3aeafbb"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/final-status-delta.json": {
+      "bytes": 2082,
+      "sha256": "1a980504c83718f777032d524b34ac88ec850e799e9c7f82b899e077ebdde795"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/independent-review-evidence.tar.gz": {
+      "bytes": 21970845,
+      "sha256": "6dd89401cb256c82189c9cb3c5a2e19186cff29f04bbe5061b370be500e24ed3"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/independent-review-preservation.json": {
+      "bytes": 687,
+      "sha256": "af8a8ed3a68576b3b7e9cc8792ca5983e884619ebefce65e728ed6abeb021d58"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/independent-review-verdict.json": {
+      "bytes": 15869,
+      "sha256": "6421eb4acd01f82775a0f8d85c3746c30a9613bd169c20d818c4e73d5dacbb5b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/outcome.json": {
+      "bytes": 9195,
+      "sha256": "b4c06d807e7a6bf312a1cc15411ad836f5cc031528d3cbc800fc8cbfb6b2c1cf"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/parent-closure-evidence.tar.gz": {
+      "bytes": 553450,
+      "sha256": "0487a1e4fb66adc1a974d0245740f8d079f4ea6d2638bdb5d31372fbf6b3f73b"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/parent-closure-preservation.json": {
+      "bytes": 7183,
+      "sha256": "4038d8f61293dda0083f4f5e9e81fc3e8916e56a75e6ff76e571a9109bb1556f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/parent-replay-evidence.tar.gz": {
+      "bytes": 1424629,
+      "sha256": "7ceca807c2fd35cc6199a7d3227e78007dcf03e03fd677390b53fa2e259f7126"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/parent-replay.json": {
+      "bytes": 36971,
+      "sha256": "eba35128f84b6244951a3867f41f97db0ad1c16532bbb6299728417457ef13df"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-repair-status.json": {
+      "bytes": 696,
+      "sha256": "1ae7182f33462f544f0727f780122280ecf21962be62db8b2a51381126cc199e"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-repair-status.tar.gz": {
+      "bytes": 58754,
+      "sha256": "ae8240773346a1c8c7b0c51e80b3a720222317ad8dbc9a3cdb5ebf37241922fd"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-review-privacy.json": {
+      "bytes": 4762,
+      "sha256": "9c910c87d69f0671d2ab96304ad74760cc4ce67ce53e0c4d0e9cc3c4736bc9f5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-review-qa-evidence.tar.gz": {
+      "bytes": 4647,
+      "sha256": "10c71d711e2b8b3aebf664c5696a4121323cb7fbabeb52bcfaf8427c2455771f"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/pre-review-qa.json": {
+      "bytes": 1997,
+      "sha256": "4727405ff6df0309685d1b5ce1c26a94aaace8b26a6557de8701460cb422c623"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/preflight-evidence.tar.gz": {
+      "bytes": 9126,
+      "sha256": "1f713ea47d29c118374dcd15552d6c985d68eeea2211f2079b16708bcf77019c"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/preflight-preservation.json": {
+      "bytes": 2432,
+      "sha256": "a6a7326be81352a6e43e021d1dae768c885ee8c352d4d4aebcc034ed11ebd309"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/preflight.json": {
+      "bytes": 15915,
+      "sha256": "2695d007241c10cf3c60594dae0fb534bd2f34cbd1b3107c6a12f4110aa732b5"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/review-inputs.json": {
+      "bytes": 5757,
+      "sha256": "0b9ed4a3269ea00f1c9c5f674f60c0c9494cfacfebd36a873a502aaaf1037293"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/reviewed-status-before-close.json": {
+      "bytes": 975,
+      "sha256": "f992b3893464e9be7de8b3770ed9001bb33fb25c6592cb20d109148d6f61c292"
+    },
+    "docs/validation/audits/a2-preparation-2026-11-11/cap-after-qualifier-trace-2026-11-13/identity-repair-2026-11-13/reviewed-status-before-close.tar.gz": {
+      "bytes": 60975,
+      "sha256": "29012a3dc698f1ad81a9d3baf52746e262a71191bd417d29b442b9f25c46b217"
+    }
+  },
+  "file_count": 30,
+  "self_excluded": "final-manifest.json",
+  "readback_excluded": "completion-readback.json"
+}

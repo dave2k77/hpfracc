@@ -1,0 +1,97 @@
+{
+  "status": "Initial repository QA and parent available-slot reference captured",
+  "archive": "parent-preflight-evidence.tar.gz",
+  "bytes": 71841,
+  "sha256": "72bb1399c05aaa4f6c393e615f5b430afad7a3f9641f906127b7cee00489d181",
+  "members_verified": 19,
+  "files": {
+    "preflight.py": {
+      "bytes": 7513,
+      "sha256": "37592861cfdfeeb0a5555892a2eb1e2ba82d1dc0611e6280d84fb65e51bc5ab6"
+    },
+    "parent_reference.py": {
+      "bytes": 5890,
+      "sha256": "acbad9f6f400ece9c08ccdd79c08ff07c3c0690317eaa9f5e43d51e025e48fbd"
+    },
+    "baseline_capture.py": {
+      "bytes": 4331,
+      "sha256": "8dd46f545445f92b5d01139bb113cb5f9f25877febc65b5d3b7cf5eeeca01194"
+    },
+    "copied-inputs.json": {
+      "bytes": 5771,
+      "sha256": "bfafc4f6047531e03b7e248082a34cead139b30da9057df744aa296245d81fdf"
+    },
+    "selected-case.json": {
+      "bytes": 5867,
+      "sha256": "f28baf65b2e51f4ece514ec2f84566d2fd6f03cccc312743ba08d16ecf5b500e"
+    },
+    "selected-witness.json": {
+      "bytes": 101617,
+      "sha256": "fc8476f061e7b44d31b69f4fe718498d1b11ca3c2f6d479e9d4cbdadafc2dec4"
+    },
+    "baseline-qa/plan.json": {
+      "bytes": 1073,
+      "sha256": "4d76d794e3592c5f8f5d1289eca788e8e8a33af2fa93067e805decc5a07418c9"
+    },
+    "baseline-qa/receipts.json": {
+      "bytes": 1333,
+      "sha256": "42333b65f83e43979f31dd76a318989fc2f99324725db783309289b5f3783747"
+    },
+    "baseline-qa/docs.xml": {
+      "bytes": 3662,
+      "sha256": "dc3d0a6004ecdabf78f23102b2aa4dd064da5298d27ba58700d756219702f7e5"
+    },
+    "prior-status/phase-a-completion.md": {
+      "bytes": 35256,
+      "sha256": "10701fd50891908f896692f548ad5546679e3795da4c831f9da1c85a8533c6a3"
+    },
+    "prior-status/bug-resolution-tracker.md": {
+      "bytes": 118637,
+      "sha256": "9038ae9c9809622323097b67dcc2e8d633893de658eb6a29d3e21153195679db"
+    },
+    "baseline-qa/0-stdout.raw": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "baseline-qa/0-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "baseline-qa/1-stdout.raw": {
+      "bytes": 99,
+      "sha256": "fa6ce27648ded722e217b6cb12d505cc9622bb6ec235ac127b77f4cb02ad113a"
+    },
+    "baseline-qa/1-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "baseline-qa/2-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "baseline-qa/2-stderr.raw": {
+      "bytes": 2785,
+      "sha256": "8bb95db6ee99852f1d7412a483a2980f0be4d43699f92bb515ceaa54cfc71474"
+    },
+    "baseline-qa/3-stdout.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "baseline-qa/3-stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "qa_actual_exits": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "docs_tests_passed": 23,
+  "baseline_files_unchanged": 903,
+  "parent_reference_actual_terminal_exit": 0,
+  "parent_reference_receipt_kind": "Normalized observation of prior terminal execution, not raw OS attestation",
+  "independent_review_completed": false,
+  "scope": "Metadata/source/available exact arithmetic only; new conditional ledger pending"
+}

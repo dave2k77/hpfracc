@@ -1,0 +1,116 @@
+{
+  "finding_id": "FIXED-TRACE-ARTIFACT-PRIVACY-01",
+  "status": "PUBLICATION HOLD; original affected archive safely quarantined unchanged",
+  "observed_at_utc": "2026-11-12T17:17:28.495730+00:00",
+  "symptom": "Eight copied native Telegram receipt JSON members in the initial rejected-review archive contain personal delivery identifiers; those files are outside the fixed trace input closure.",
+  "impact": "Repository packaging privacy requirement failed. No commit/push occurred; no identifiers were printed by this investigation. Source/finite static proof passes are distinct from packaging approval.",
+  "original_repository_path": "docs/validation/audits/a2-preparation-2026-11-11/single-trace-independent-review-failed-evidence.tar.gz",
+  "private_original_path": "/home/davianc/.local/share/hpfracc/private-audits/a2-single-trace-20261112/single-trace-independent-review-failed-evidence.tar.gz",
+  "original_bytes": 2068887,
+  "original_sha256": "264cfcc67365499f19705b4aef5c2ba0163e5bc0e3cb23d53ae263ff590a02c2",
+  "private_directory_mode": "0o700",
+  "private_file_mode": "0o600",
+  "original_bytes_preserved": true,
+  "affected_repo_file_removed": true,
+  "structured_json_identifier_scan": {
+    "single-trace-rejected-author-evidence.tar.gz": [],
+    "single-trace-independent-review-failed-evidence.tar.gz": [
+      {
+        "path": "historical-replay/green-06/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "historical-replay/green-07/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "historical-replay/red-06/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "historical-replay/red-07/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "replay-green-06/before/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "replay-green-07/before/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "replay-red-06/before/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      },
+      {
+        "path": "replay-red-07/before/telegram-vertical-progress.json",
+        "bytes": 182,
+        "sha256": "99c7a40fc030c3ab3ff948ed6a9e197d91e22f4253d0247daa26160c70bbbed2",
+        "identifier_field_names_only": [
+          "chat_id",
+          "message_id"
+        ],
+        "values_disclosed": false
+      }
+    ],
+    "single-trace-routing-correction-evidence.tar.gz": [],
+    "single-trace-independent-review-passed-evidence.tar.gz": [],
+    "single-trace-parent-closure-evidence.tar.gz": []
+  },
+  "scan_limits": "Structured JSON fields in the five current trace archives, not a universal secret scanner; no identifier values are included.",
+  "historical_archive_hash_claims": "Historical checks refer to the unchanged original bytes now at the private location; the old repository path is intentionally unavailable. No sanitized derivative or replacement is silently substituted.",
+  "fixed_trace_source_review_passed": true,
+  "publication_ready": false,
+  "remaining_correction_cycles": 0,
+  "further_remediation_started": false,
+  "next_step_requires_owner_decision": "Prepare an explicitly sanitized public derivative and a separate privacy/integrity review; do not change numerical/source/contract criteria or relabel original evidence.",
+  "caps_changed": false,
+  "numerical_core_changed": false,
+  "a2_acceptance_passed": false,
+  "implementation_authorized": false,
+  "protocol_freeze_authorized": false,
+  "commit_or_push_performed": false
+}

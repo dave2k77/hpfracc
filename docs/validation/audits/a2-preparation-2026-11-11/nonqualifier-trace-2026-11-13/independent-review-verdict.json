@@ -1,0 +1,84 @@
+{
+  "review_completed": true,
+  "passed": true,
+  "security_concerns": [],
+  "logic_errors": [],
+  "limitations": [
+    "Only REF-FAIL-f64-GL / nonqualify-REF-FAIL-f64-GL is the additional STATIC/HYPOTHETICAL case; REF-PASS-f64-GL is regression-only.",
+    "No production worker, fitter, selector, JAX/AD or FIT-REAL execution occurred. Process/timing/ownership/counter fields and the all-ones packet digest are hypothetical; harness exits concern tests only.",
+    "Exact arithmetic and physical byte replay establish this frozen finite trace and chosen write schedule, not whole-packet admission, operation budgets, scheduling/watchdog behavior, true peak RAM or numerical certification. The eight FIT-REAL admission blockers remain open.",
+    "Archived checker/original tests retain 108 inherited Ruff findings (baseline 109), plus one inherited capture-helper E501. Ten new helpers/tests are clean; no checker findings were added. Repository lint is a separate gate.",
+    "Two reviewer-only lint count/context assertion failures were preserved. Reproducing the archived colocated input/cwd layout resolved the counting discrepancy without changing candidate source, tests or criteria.",
+    "Privacy review is limited to explicitly pinned candidate/proof closures, recursive regular archive streams and documented credential/identifier patterns; no private identity matching or universal publication/security clearance is claimed.",
+    "Python read auditing is not an OS sandbox. Trusted owner-controlled local inputs were assumed; no hostile-filesystem service or operational validator is certified.",
+    "Archived process records were bound to copied sources and raw XML/streams; this is not historical OS/process attestation. New local executions are identified separately. Defensive controls are posthoc/mutation evidence, not TDD.",
+    "No repository source, packet, schema, cap, index or HEAD changes; no commit, push, freeze, phase closure or external delivery. Parent status-only follow-up remains separate."
+  ],
+  "evidence_directory": "/home/davianc/.hermes/cache/scratch/hpfracc-independent-resumed-8aWg6Z2V",
+  "verdict_path": "/home/davianc/.hermes/cache/scratch/hpfracc-independent-resumed-8aWg6Z2V/verdict.json",
+  "evidence_index_path": "/home/davianc/.hermes/cache/scratch/hpfracc-independent-resumed-8aWg6Z2V/evidence-index.json",
+  "scope": "Fresh independent bounded source/evidence/privacy review of one approved static no-qualifier extension; no candidate repairs.",
+  "reviewed_identities": {
+    "review_manifest_sha256": "e0f5c757763d00159a2ca85ffe4a890f05674341d6e264755aea1508cba69654",
+    "resumption_manifest_sha256": "d1e2810f0a95d15b6d4e5e92654848d133d6431927f2f7ed2eb6a1dcc06f1b0f",
+    "author_archive_sha256": "8bb7abf9283211a3bc86634a12ac5ec20ba4c27070c4592770cc95619110e45a",
+    "author_index_sha256": "eb341ebe9f912a3e0684cf074489c36dd849b3dd0049af014fa6a9ccbe3c9f23",
+    "checker_sha256": "8b7049e3e5ee25f7266f0228cb72efc0726d55eb98d2a1699e3bab3263ef1c2a",
+    "baseline_checker_sha256": "4b28a7dfc4587dd6d6bfb63cdb5ea5362b0f5cf5ab3c1c9d31fe211465dfbd4e",
+    "authority_sha256": "9f973fc6b4de16098cb1fe7001678a1eafdf845ad4b1f3da0109055d357b271d",
+    "trace_sha256": "31439bb705bf64c99b96cdcb6ab80e367677c6f0aaee5b082156fdc820491a6e"
+  },
+  "verified": {
+    "archive_index_entries": 775,
+    "regular_archive_members": 776,
+    "candidate_pins": 45,
+    "resumption_pins": 6,
+    "immutable_repository_files": 234,
+    "new_local_selected_pytest": {
+      "nonqualifier": 31,
+      "unchanged_regressions": 26,
+      "full_positive_equality": 1,
+      "authority_derivation": 1,
+      "total": 59,
+      "actual_child_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    "independent_posthoc_controls_rejected": 33,
+    "archived_checker_mutants_rejected": 5,
+    "archived_run_bindings": 36,
+    "portable_replay_actual_child_exit": 0,
+    "missing_input_controls_rejected": 4,
+    "read_guard_control_rejected": 1,
+    "exact_slots": 13,
+    "epsilon": "1/8",
+    "tau": "3/16",
+    "bounds": [
+      "0",
+      "1/4",
+      "1/4"
+    ],
+    "qualifies": false,
+    "selected_status": "no_supplied_candidate_meets_bound",
+    "selected_id": null,
+    "ledger": {
+      "final_live_bytes": 40245,
+      "peak_live_bytes": 41328,
+      "cumulative_written_bytes": 45148,
+      "index_transaction_bytes": 13098,
+      "old_index_bytes_charged": 4903,
+      "temporary_bytes_charged": 6258
+    },
+    "json_records": 25,
+    "static_logs": 2,
+    "max_parse_nodes": 720,
+    "max_parse_depth": 9,
+    "positive_complete_canonical_trace_equal": true,
+    "positive_emitted_bodies_equal": 38
+  },
+  "source_review": "Minimal authority/case/inventory/qualification/check-order delta inspected. Frozen input authentication, route identities, canonical record types, exact payloads, completion, lifecycle and byte-accounting guards exercised. No blocking source/evidence counterexample found.",
+  "boundary_note": "Initial recovery file-search returned unrelated scratch path names; no contents at those unrelated paths were read or copied. No private archives, credentials, messaging receipts or identity sources were accessed.",
+  "prior_approval_pause": "Historical blocked attempts remain unlaunched. This fresh named-script verification/copy ran with actual exit0; no safety configuration changes or new gate bypass occurred."
+}
